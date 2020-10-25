@@ -1,4 +1,9 @@
-# Dolphin - A GameCube and Wii Emulator
+# Dolphin MMJR [2020/2021- REVAMP]
+[Updating MMJR old code using dolphin-emu as a base]
+
+[Visit their links below to support their work and see the original dolphin builds]
+
+[Dolphin MMJR - A performance focused variant of Dolphin]
 
 [Homepage](https://dolphin-emu.org/) | [Project Site](https://github.com/dolphin-emu/dolphin) | [Buildbot](https://dolphin.ci) | [Forums](https://forums.dolphin-emu.org/) | [Wiki](https://wiki.dolphin-emu.org/) | [Issue Tracker](https://bugs.dolphin-emu.org/projects/emulator/issues) | [Coding Style](https://github.com/dolphin-emu/dolphin/blob/master/Contributing.md) | [Transifex Page](https://www.transifex.com/projects/p/dolphin-emu/)
 
@@ -9,20 +14,6 @@ of the GNU General Public License, version 2 or later (GPLv2+).
 Please read the [FAQ](https://dolphin-emu.org/docs/faq/) before using Dolphin.
 
 ## System Requirements
-
-### Desktop
-
-* OS
-    * Windows (7 SP1 or higher).
-    * Linux.
-    * macOS (10.12 Sierra or higher).
-    * Unix-like systems other than Linux are not officially supported but might work.
-* Processor
-    * A CPU with SSE2 support.
-    * A modern CPU (3 GHz and Dual Core, not older than 2008) is highly recommended.
-* Graphics
-    * A reasonably modern graphics card (Direct3D 11.1 / OpenGL 3.3).
-    * A graphics card that supports Direct3D 11.1 / OpenGL 4.4 is recommended.
 
 ### Android
 
@@ -36,74 +27,6 @@ Please read the [FAQ](https://dolphin-emu.org/docs/faq/) before using Dolphin.
 
 Dolphin can only be installed on devices that satisfy the above requirements. Attempting to install on an unsupported device will fail and display an error message.
 
-## Building for Windows
-
-Use the solution file `Source/dolphin-emu.sln` to build Dolphin on Windows.
-Visual Studio 2019 16.3 or later is a hard requirement. Other compilers might be
-able to build Dolphin on Windows but have not been tested and are not
-recommended to be used. Git and Windows 10 SDK must be installed when building.
-
-Make sure to pull submodules before building:
-```sh
-git submodule update --init
-```
-
-The "Release" solution configuration includes performance optimizations for the best user experience but complicates debugging Dolphin.
-The "Debug" solution configuration is significantly slower, more verbose and less permissive but makes debugging Dolphin easier.
-
-An installer can be created by using the `Installer.nsi` script in the
-Installer directory. This will require the Nullsoft Scriptable Install System
-(NSIS) to be installed. Creating an installer is not necessary to run Dolphin
-since the Binary directory contains a working Dolphin distribution.
-
-## Building for Linux and macOS
-
-Dolphin requires [CMake](https://cmake.org/) for systems other than Windows. Many libraries are
-bundled with Dolphin and used if they're not installed on your system. CMake
-will inform you if a bundled library is used or if you need to install any
-missing packages yourself.
-
-### macOS Build Steps:
-
-1. `mkdir build`
-2. `cd build`
-3. `cmake ..`
-4. `make`
-
-An application bundle will be created in `./Binaries`.
-
-### Linux Global Build Steps:
-
-To install to your system.
-
-1. `mkdir build`
-2. `cd build`
-3. `cmake ..`
-4. `make`
-5. `sudo make install`
-
-### Linux Local Build Steps:
-
-Useful for development as root access is not required.
-
-1. `mkdir Build`
-2. `cd Build`
-3. `cmake .. -DLINUX_LOCAL_DEV=true`
-4. `make`
-5. `ln -s ../../Data/Sys Binaries/`
-
-### Linux Portable Build Steps:
-
-Can be stored on external storage and used on different Linux systems.
-Or useful for having multiple distinct Dolphin setups for testing/development/TAS.
-
-1. `mkdir Build`
-2. `cd Build`
-3. `cmake .. -DLINUX_LOCAL_DEV=true`
-4. `make`
-5. `cp -r ../Data/Sys/ Binaries/`
-6. `touch Binaries/portable.txt`
-
 ## Building for Android
 
 These instructions assume familiarity with Android development. If you do not have an
@@ -114,19 +37,6 @@ If using Android Studio, import the Gradle project located in `./Source/Android`
 Android apps are compiled using a build system called Gradle. Dolphin's native component,
 however, is compiled using CMake. The Gradle script will attempt to run a CMake build
 automatically while building the Java code.
-
-## Uninstalling
-
-When Dolphin has been installed with the NSIS installer, you can uninstall
-Dolphin like any other Windows application.
-
-Linux users can run `cat install_manifest.txt | xargs -d '\n' rm` as root from the build directory
-to uninstall Dolphin from their system.
-
-macOS users can simply delete Dolphin.app to uninstall it.
-
-Additionally, you'll want to remove the global user directory (see below to
-see where it's stored) if you don't plan to reinstall Dolphin.
 
 ## Command Line Usage
 
@@ -181,46 +91,6 @@ These folders are installed read-only and should not be changed:
 * `Themes`: icon themes for GUI
 * `Resources`: icons that are theme-agnostic
 * `Wii`: default Wii NAND contents
-
-## Packaging and udev
-
-The Data folder contains a udev rule file for the official GameCube controller
-adapter and the Mayflash DolphinBar. Package maintainers can use that file in their packages for Dolphin.
-Users compiling Dolphin on Linux can also just copy the file to their udev
-rules folder.
-
-## User Folder Structure
-
-A number of user writeable directories are created for caching purposes or for
-allowing the user to edit their contents. On macOS and Linux these folders are
-stored in `~/Library/Application Support/Dolphin/` and `~/.dolphin-emu`
-respectively, but can be overwritten by setting the environment variable
-`DOLPHIN_EMU_USERPATH`. On Windows the user directory is stored in the `My Documents`
-folder by default, but there are various way to override this behavior:
-
-* Creating a file called `portable.txt` next to the Dolphin executable will
-  store the user directory in a local directory called "User" next to the
-  Dolphin executable.
-* If the registry string value `LocalUserConfig` exists in
-  `HKEY_CURRENT_USER/Software/Dolphin Emulator` and has the value **1**,
-  Dolphin will always start in portable mode.
-* If the registry string value `UserConfigPath` exists in
-  `HKEY_CURRENT_USER/Software/Dolphin Emulator`, the user folders will be
-  stored in the directory given by that string. The other two methods will be
-  prioritized over this setting.
-
-List of user folders:
-
-* `Cache`: used to cache the ISO list
-* `Config`: configuration files
-* `Dump`: anything dumped from Dolphin
-* `GameConfig`: additional settings to be applied per-game
-* `GC`: memory cards and system BIOS
-* `Load`: custom textures
-* `Logs`: logs, if enabled
-* `ScreenShots`: screenshots taken via Dolphin
-* `StateSaves`: save states
-* `Wii`: Wii NAND contents
 
 ## Custom Textures
 
