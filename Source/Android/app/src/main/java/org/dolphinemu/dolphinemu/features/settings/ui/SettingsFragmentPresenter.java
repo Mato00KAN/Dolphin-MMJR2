@@ -425,6 +425,10 @@ public final class SettingsFragmentPresenter
     }
     sl.add(new SingleChoiceSetting(IntSetting.MAIN_CPU_CORE, R.string.cpu_core, 0, emuCoresEntries,
             emuCoresValues));
+    sl.add(new CheckBoxSetting(BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE, R.string.skip_on_skip_idle,
+            R.string.skip_on_skip_idle_description));
+    sl.add(new CheckBoxSetting(BooleanSetting.MAIN_JIT_FOLLOW_BRANCH, R.string.jit_follow_branch,
+      R.string.jit_follow_branch_description));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_OVERCLOCK_ENABLE, R.string.overclock_enable,
             R.string.overclock_enable_description));
     sl.add(new PercentSliderSetting(FloatSetting.MAIN_OVERCLOCK, R.string.overclock_title,
