@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties");
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 30
 
@@ -23,22 +27,22 @@ android {
 
     defaultConfig {
         // TODO If this is ever modified, change application_id in strings.xml
-        applicationId "org.dolphinemu.dolphinemu"
+        applicationId "org.dolphinemu.mmjr"
         minSdkVersion 21
         targetSdkVersion 29
 
-        versionCode(getBuildVersionCode())
+        versionCode 12925
 
-        versionName "${getVersion()}"
+        versionName "12925 - bankaimaster999"
     }
 
     signingConfigs {
         release {
-            if (project.hasProperty('keystore')) {
-                storeFile file(project.property('keystore'))
-                storePassword project.property('storepass')
-                keyAlias project.property('keyalias')
-                keyPassword project.property('keypass')
+            if ( keystorePropertiesFile.exists() ) {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
             }
         }
     }
@@ -72,7 +76,7 @@ android {
             cmake {
                 arguments "-DANDROID_STL=c++_static", "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
                 // , "-DENABLE_GENERIC=ON"
-                abiFilters "arm64-v8a", "x86_64" //, "armeabi-v7a", "x86"
+                abiFilters "arm64-v8a" //, "x86_64", "armeabi-v7a", "x86"
             }
         }
     }
@@ -113,7 +117,7 @@ def getVersion() {
         logger.error('Cannot find git, defaulting to dummy version number')
     }
 
-    return versionNumber
+    return versionNumber;
 }
 
 

@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Title of the app -->
-    <string name="app_name">Dolphin Emulator</string>
+    <string name="app_name">Dolphin |MMJR|</string>
     <string name="host">app</string>
     <string name="scheme">dolphinemu</string>
 
@@ -279,7 +279,7 @@
     <!-- Log Configuration -->
     <string name="log_submenu">Log</string>
     <string name="enable_logging">Enable Logging</string>
-    <string name="enable_logging_description">Log messages from enabled log types to dolphin-emu/Logs/. Will decrease performance.</string>
+    <string name="enable_logging_description">Log messages from enabled log types to dolphin-mmjr/Logs/. Will decrease performance.</string>
     <string name="log_verbosity">Verbosity</string>
     <string name="log_enable_all">Enable all Log Types</string>
     <string name="log_enable_all_confirmation">Are you sure you want to enable all log types?</string>
