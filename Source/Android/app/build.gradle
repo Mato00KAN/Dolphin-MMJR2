@@ -33,7 +33,7 @@ android {
 
         versionCode 12925
 
-        versionName "12925 - bankaimaster999"
+        versionName "12925"
     }
 
     signingConfigs {
