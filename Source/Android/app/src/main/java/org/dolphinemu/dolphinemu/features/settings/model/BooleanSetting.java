@@ -199,6 +199,15 @@ public enum BooleanSetting implements AbstractBooleanSetting
   private static final Set<BooleanSetting> NOT_RUNTIME_EDITABLE =
           new HashSet<>(Arrays.asList(NOT_RUNTIME_EDITABLE_ARRAY));
 
+  private static final BooleanSetting[] RUNTIME_EDITABLE_ARRAY = new BooleanSetting[]{
+          MAIN_SYNC_ON_SKIP_IDLE,
+          MAIN_JIT_FOLLOW_BRANCH,
+          MAIN_OVERCLOCK_ENABLE
+  };
+
+  private static final Set<BooleanSetting> RUNTIME_EDITABLE =
+    new HashSet<>(Arrays.asList(RUNTIME_EDITABLE_ARRAY));
+
   private final String mFile;
   private final String mSection;
   private final String mKey;
@@ -231,6 +240,12 @@ public enum BooleanSetting implements AbstractBooleanSetting
     {
       if (setting == this)
         return false;
+    }
+
+    for (BooleanSetting setting : RUNTIME_EDITABLE)
+    {
+      if (setting == this)
+        return true;
     }
 
     return NativeConfig.isSettingSaveable(mFile, mSection, mKey);

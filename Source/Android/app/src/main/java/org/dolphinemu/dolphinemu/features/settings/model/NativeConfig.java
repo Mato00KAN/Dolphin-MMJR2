@@ -14,6 +14,12 @@ public class NativeConfig
 
   public static native void save(int layer);
 
+  /**
+   * MMJR: Native methods to apply settings directly to Core
+   */
+  public static native int[] getEditableSettings();
+  public static native void setEditableSettings(int[] settings);
+
   public static native boolean isOverridden(String file, String section, String key);
 
   public static native boolean deleteKey(int layer, String file, String section, String key);

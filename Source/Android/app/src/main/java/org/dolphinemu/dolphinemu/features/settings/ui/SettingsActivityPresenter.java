@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import org.dolphinemu.dolphinemu.R;
+import org.dolphinemu.dolphinemu.NativeLibrary;
+import org.dolphinemu.dolphinemu.features.settings.model.NativeConfig;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
+import org.dolphinemu.dolphinemu.features.settings.model.BooleanSetting;
+import org.dolphinemu.dolphinemu.features.settings.model.FloatSetting;
 import org.dolphinemu.dolphinemu.utils.AfterDirectoryInitializationRunner;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.Log;
@@ -120,6 +124,49 @@ public final class SettingsActivityPresenter
     {
       Log.debug("[SettingsActivity] Settings activity stopping. Saving settings to INI...");
       mSettings.saveSettings(mView, context);
+
+      // MMJR: load settings to Core immediately only if emulation is running
+      if (NativeLibrary.IsRunning())
+      {
+        updateRunningSettings();
+      }
+    }
+  }
+
+  public void updateRunningSettings()
+  {
+    try (Settings settings = new Settings())
+    {
+      // initialize current saved settings
+      int[] mRunningSettings = NativeConfig.getEditableSettings();
+      int mRunningSettingsLength = mRunningSettings.length;  //little optimization
+
+      // get settings from the running activity
+      settings.loadSettings(null);
+      int[] newSettings = new int[mRunningSettingsLength];
+      int i = 0;
+      newSettings[i++] = BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE.getBoolean(settings) ? 1 : 0;
+      newSettings[i++] = BooleanSetting.MAIN_JIT_FOLLOW_BRANCH.getBoolean(settings) ? 1 : 0;
+      newSettings[i++] = BooleanSetting.MAIN_OVERCLOCK_ENABLE.getBoolean(settings) ? 1 : 0;
+      newSettings[i] = (int)(FloatSetting.MAIN_OVERCLOCK.getFloat(settings)*100);
+
+      // set settings to core only if they have been changed
+      boolean isChanged = false;
+      for (i = 0; !isChanged && i < mRunningSettingsLength; i++)
+      {
+        if (newSettings[i] != mRunningSettings[i])
+        {
+          isChanged = true;
+        }
+      }
+      if (isChanged)
+      {
+        NativeConfig.setEditableSettings(newSettings);
+        mView.showToastMessage("applied settings");
+      }
+    } catch (Exception e) {
+      mView.showToastMessage("Something went wrong applying settings to Core");
+      Log.error("Something went wrong applying settings to Core");
     }
   }
 
