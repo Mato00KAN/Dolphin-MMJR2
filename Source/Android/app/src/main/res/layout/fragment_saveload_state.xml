@@ -1,46 +1,57 @@
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/grid_state_slots"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="@integer/loadsave_state_columns"
-            android:rowCount="@integer/loadsave_state_rows"
-            android:layout_gravity="center"
-            android:background="#af000000">
+    android:id="@+id/grid_state_slots"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="#AF000000"
+    android:columnCount="@integer/loadsave_state_columns"
+    android:rowCount="@integer/loadsave_state_rows">
 
     <Button
         android:id="@+id/loadsave_state_button_1"
+        style="@style/OverlayInGameMenuOption"
         android:layout_width="128dp"
         android:layout_height="96dp"
-        style="@style/OverlayInGameMenuOption"/>
+        android:backgroundTint="#000000"
+        android:textColor="#E91E63" />
 
     <Button
         android:id="@+id/loadsave_state_button_2"
+        style="@style/OverlayInGameMenuOption"
         android:layout_width="128dp"
         android:layout_height="96dp"
-        style="@style/OverlayInGameMenuOption"/>
+        android:backgroundTint="#AF000000"
+        android:textColor="#E91E63" />
 
     <Button
         android:id="@+id/loadsave_state_button_3"
+        style="@style/OverlayInGameMenuOption"
         android:layout_width="128dp"
         android:layout_height="96dp"
-        style="@style/OverlayInGameMenuOption"/>
+        android:backgroundTint="#AF000000"
+        android:textColor="#E91E63" />
 
     <Button
         android:id="@+id/loadsave_state_button_4"
+        style="@style/OverlayInGameMenuOption"
         android:layout_width="128dp"
         android:layout_height="96dp"
-        style="@style/OverlayInGameMenuOption"/>
+        android:backgroundTint="#AF000000"
+        android:textColor="#E91E63" />
 
     <Button
         android:id="@+id/loadsave_state_button_5"
+        style="@style/OverlayInGameMenuOption"
         android:layout_width="128dp"
         android:layout_height="96dp"
-        style="@style/OverlayInGameMenuOption"/>
+        android:backgroundTint="#AF000000"
+        android:textColor="#E91E63" />
 
     <Button
         android:id="@+id/loadsave_state_button_6"
+        style="@style/OverlayInGameMenuOption"
         android:layout_width="128dp"
         android:layout_height="96dp"
-        style="@style/OverlayInGameMenuOption"/>
+        android:textColor="#E91E63" />
 
 </GridLayout>

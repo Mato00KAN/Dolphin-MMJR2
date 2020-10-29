@@ -12,12 +12,12 @@
         android:id="@+id/text_game_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="The Legend of Zelda: The Wind Waker"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        tools:text="The Legend of Zelda: The Wind Waker" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -109,13 +109,16 @@
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#FFFFFF"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        android:background="#FFFFFF" />
 
     <Button
         android:id="@+id/menu_exit"
+        style="@style/InGameMenuOption"
+        android:background="#DA00FF"
+        android:backgroundTint="#9C27B0"
         android:text="@string/emulation_exit"
-        style="@style/InGameMenuOption"/>
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

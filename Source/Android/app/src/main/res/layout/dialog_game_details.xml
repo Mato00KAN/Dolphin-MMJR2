@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#000000"
     android:transitionName="card_game">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#000000"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:paddingBottom="24dp">
@@ -20,9 +22,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:ellipsize="end"
-            tools:text="Rhythm Heaven Fever"
+            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Rhythm Heaven Fever" />
 
         <TextView
             android:id="@+id/text_description"
@@ -30,28 +33,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            tools:text="Zany rhythm action!"
+            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_game_title" />
+            app:layout_constraintTop_toBottomOf="@id/text_game_title"
+            tools:text="Zany rhythm action!" />
 
         <ImageView
             android:id="@+id/banner"
-            android:layout_width="144dp"
-            android:layout_height="48dp"
+            android:layout_width="225dp"
+            android:layout_height="79dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            tools:src="@drawable/no_banner"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_description" />
+            app:layout_constraintTop_toBottomOf="@id/text_description"
+            tools:src="@drawable/no_banner" />
 
         <View
             android:id="@+id/divider_1"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="#1F000000"
             android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/banner" />
 
         <TextView
@@ -61,6 +64,7 @@
             android:layout_marginTop="24dp"
             android:gravity="start"
             android:text="@string/game_details_country"
+            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_1" />
 
@@ -71,6 +75,7 @@
             android:layout_marginTop="24dp"
             android:gravity="start"
             android:text="@string/game_details_company"
+            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_country" />
 
@@ -81,6 +86,7 @@
             android:layout_marginTop="24dp"
             android:gravity="start"
             android:text="@string/game_details_game_id"
+            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_company" />
 
@@ -91,6 +97,7 @@
             android:layout_marginTop="24dp"
             android:gravity="start"
             android:text="@string/game_details_revision"
+            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_game_id" />
 
@@ -107,10 +114,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            tools:text="United States"
-            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_country"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_country" />
+            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            tools:text="United States" />
 
         <TextView
             android:id="@+id/text_company"
@@ -118,10 +126,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            tools:text="Nintendo"
-            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_company"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_company" />
+            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            tools:text="Nintendo" />
 
         <TextView
             android:id="@+id/text_game_id"
@@ -129,10 +138,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            tools:text="SOME01"
-            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_game_id"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_game_id" />
+            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            tools:text="SOME01" />
 
         <TextView
             android:id="@+id/text_revision"
@@ -140,19 +150,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            tools:text="0"
-            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_revision"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_revision" />
+            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            tools:text="0" />
 
         <View
             android:id="@+id/divider_2"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="#1F000000"
             android:layout_marginTop="32dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_revision" />
 
         <TextView
@@ -162,6 +173,7 @@
             android:layout_marginTop="24dp"
             android:gravity="start"
             android:text="@string/game_details_file_format"
+            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_2" />
 
@@ -172,6 +184,7 @@
             android:layout_marginTop="24dp"
             android:gravity="start"
             android:text="@string/game_details_compression"
+            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_file_format" />
 
@@ -182,6 +195,7 @@
             android:layout_marginTop="24dp"
             android:gravity="start"
             android:text="@string/game_details_block_size"
+            android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_compression" />
 
@@ -191,10 +205,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            tools:text="ISO (4.38 GiB)"
-            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_file_format"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_file_format" />
+            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            tools:text="ISO (4.38 GiB)" />
 
         <TextView
             android:id="@+id/text_compression"
@@ -202,10 +217,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            tools:text="No Compression"
-            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_compression"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_compression" />
+            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            tools:text="No Compression" />
 
         <TextView
             android:id="@+id/text_block_size"
@@ -213,10 +229,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            tools:text="0 B"
-            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_block_size"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_block_size" />
+            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            tools:text="0 B" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

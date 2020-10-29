@@ -225,6 +225,8 @@ public final class SettingsFragmentPresenter
     sl.add(new SubmenuSetting(R.string.advanced_submenu, MenuTag.CONFIG_ADVANCED));
     sl.add(new SubmenuSetting(R.string.log_submenu, MenuTag.CONFIG_LOG));
     sl.add(new SubmenuSetting(R.string.debug_submenu, MenuTag.DEBUG));
+    sl.add(new HeaderSetting(R.string.gametdb_thanks,0));
+    sl.add(new HeaderSetting(R.string.dev_thanks,0));
   }
 
   private void addGeneralSettings(ArrayList<SettingsItem> sl)

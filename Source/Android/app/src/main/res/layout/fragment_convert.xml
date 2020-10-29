@@ -1,53 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="#000000">
 
     <TextView
         android:id="@+id/label_format"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/convert_format"
-        app:layout_constraintTop_toTopOf="@id/spinner_format"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/spinner_format"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/spinner_format" />
 
     <TextView
         android:id="@+id/label_block_size"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/convert_block_size"
-        app:layout_constraintTop_toTopOf="@id/spinner_block_size"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/spinner_block_size"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/spinner_block_size" />
 
     <TextView
         android:id="@+id/label_compression"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/convert_compression"
-        app:layout_constraintTop_toTopOf="@id/spinner_compression"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/spinner_compression"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/spinner_compression" />
 
     <TextView
         android:id="@+id/label_compression_level"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/convert_compression_level"
-        app:layout_constraintTop_toTopOf="@id/spinner_compression_level"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/spinner_compression_level"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/spinner_compression_level" />
 
     <TextView
         android:id="@+id/label_remove_junk_data"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/convert_remove_junk_data"
-        app:layout_constraintTop_toTopOf="@id/checkbox_remove_junk_data"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/checkbox_remove_junk_data"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/checkbox_remove_junk_data" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/label_barrier"
@@ -62,8 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@id/label_barrier"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/label_barrier"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
@@ -73,8 +79,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:gravity="end"
-        app:layout_constraintStart_toEndOf="@id/label_barrier"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/label_barrier"
         app:layout_constraintTop_toBottomOf="@id/spinner_format" />
 
     <Spinner
@@ -84,8 +90,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:gravity="end"
-        app:layout_constraintStart_toEndOf="@id/label_barrier"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/label_barrier"
         app:layout_constraintTop_toBottomOf="@id/spinner_block_size" />
 
     <Spinner
@@ -95,8 +101,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:gravity="end"
-        app:layout_constraintStart_toEndOf="@id/label_barrier"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/label_barrier"
         app:layout_constraintTop_toBottomOf="@id/spinner_compression" />
 
     <CheckBox
@@ -104,20 +110,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:buttonTint="@color/dolphin_blue"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/label_remove_junk_data"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spinner_compression_level" />
 
     <Button
         android:id="@+id/button_convert"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/dolphin_blue"
         android:text="@string/convert_convert"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkbox_remove_junk_data" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
