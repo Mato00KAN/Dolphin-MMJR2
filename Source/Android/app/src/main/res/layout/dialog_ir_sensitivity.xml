@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#000000"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -14,12 +15,13 @@
             android:id="@+id/seekbar_width"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/text_ir_yaw"
-            android:layout_marginBottom="@dimen/spacing_medlarge"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"/>
+            android:layout_marginRight="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_medlarge"
+            android:backgroundTint="#673AB7" />
 
         <TextView
             android:id="@+id/text_ir_yaw"
@@ -27,9 +29,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/spacing_medlarge"
             android:layout_marginTop="@dimen/spacing_medlarge"
-            tools:text="75"/>
+            android:layout_marginBottom="@dimen/spacing_medlarge"
+            android:textColor="#FFFFFF"
+            tools:text="75" />
 
         <TextView
             android:id="@+id/text_ir_yaw_units"
@@ -37,7 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/text_ir_yaw"
             android:layout_toEndOf="@+id/text_ir_yaw"
-            tools:text="%"/>
+            android:textColor="#FFFFFF"
+            tools:text="%" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -49,12 +53,13 @@
             android:id="@+id/seekbar_pitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/text_ir_pitch"
-            android:layout_marginBottom="@dimen/spacing_medlarge"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"/>
+            android:layout_marginRight="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_medlarge"
+            android:backgroundTint="#673AB7" />
 
         <TextView
             android:id="@+id/text_ir_pitch"
@@ -62,9 +67,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/spacing_medlarge"
             android:layout_marginTop="@dimen/spacing_medlarge"
-            tools:text="75"/>
+            android:layout_marginBottom="@dimen/spacing_medlarge"
+            android:textColor="#FFFFFF"
+            tools:text="75" />
 
         <TextView
             android:id="@+id/text_ir_pitch_units"
@@ -72,7 +78,8 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/text_ir_pitch"
             android:layout_toEndOf="@+id/text_ir_pitch"
-            tools:text="%"/>
+            android:textColor="#FFFFFF"
+            tools:text="%" />
 
     </RelativeLayout>
 
@@ -85,12 +92,13 @@
             android:id="@+id/seekbar_vertical_offset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/text_ir_vertical_offset"
-            android:layout_marginBottom="@dimen/spacing_medlarge"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"/>
+            android:layout_marginRight="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_medlarge"
+            android:backgroundTint="#673AB7" />
 
         <TextView
             android:id="@+id/text_ir_vertical_offset"
@@ -98,9 +106,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/spacing_medlarge"
             android:layout_marginTop="@dimen/spacing_medlarge"
-            tools:text="75"/>
+            android:layout_marginBottom="@dimen/spacing_medlarge"
+            android:textColor="#FFFFFF"
+            tools:text="75" />
 
         <TextView
             android:id="@+id/text_ir_vertical_offset_units"
@@ -108,7 +117,8 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/text_ir_vertical_offset"
             android:layout_toEndOf="@+id/text_ir_vertical_offset"
-            tools:text="%"/>
+            android:textColor="#FFFFFF"
+            tools:text="%" />
 
     </RelativeLayout>
 

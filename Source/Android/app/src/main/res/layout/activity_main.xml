@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#000000">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -13,17 +14,18 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_main"
-            android:background="?colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="?colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"/>
+            app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs_platforms"
             style="@style/Widget.Design.TabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:tabBackground="?colorPrimary"
             app:tabGravity="fill"
             app:tabMode="fixed"
@@ -42,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:backgroundTint="@color/dolphin_blue"
         android:src="@drawable/ic_add"
         app:borderWidth="0dp"
         app:layout_anchor="@+id/pager_platforms"
