@@ -127,9 +127,9 @@
     <string name="dual_core_description">Split workload to two CPU cores instead of one. Increases speed.</string>
     <string name="speed_limit">Speed Limit (0% = Unlimited)</string>
     <string name="skip_on_skip_idle">Sync GPU on Skip Idle Hack</string>
-    <string name="skip_on_skip_idle_description">Sync the emulated CPU with the GPU when skipping idle cycles. Disabling this is mostly safe, but might cause weird bugs or crash since CPU and GPU are not always synchronized.</string>
+    <string name="skip_on_skip_idle_description">Sync the emulated CPU with the GPU when skipping idle cycles. Disabling this is mostly safe, but might cause weird bugs or crash since CPU and GPU are not always synchronized. To avoid audio crackling, be sure to disable Audio Stretching.</string>
     <string name="jit_follow_branch">JIT Follow Branch</string>
-    <string name="jit_follow_branch_description">Let the emulated CPU follow branch instructions unconditionally. Disabling this is mostly safe, but might cause weird bugs or crash.</string>
+    <string name="jit_follow_branch_description">Let the emulated CPU follow certain branch instructions. Disabling this is mostly safe, but might cause weird bugs or crash.</string>
     <string name="overclock_warning">WARNING: Changing this from the default (100%) WILL break games and cause glitches. Please do not report bugs that occur with a non-default clock.</string>
     <string name="gamecube_submenu">GameCube</string>
     <string name="system_language">System Language</string>
