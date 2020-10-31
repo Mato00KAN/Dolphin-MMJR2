@@ -52,6 +52,7 @@ android {
         // Signed by release key, allowing for upload to Play Store.
         release {
             signingConfig signingConfigs.release
+            zipAlignEnabled true
         }
 
         // Signed by debug key disallowing distribution on Play Store.
