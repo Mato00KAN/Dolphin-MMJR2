@@ -152,9 +152,8 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     if (!aspectRatioAvailable || mSurfacePosition == null)
       return;
 
-    // Check if there's any point in running the pointer code
     if (!NativeLibrary.IsEmulatingWii())
-      return;
+        return;
 
     int doubleTapButton = IntSetting.MAIN_DOUBLE_TAP_BUTTON.getIntGlobal();
 
