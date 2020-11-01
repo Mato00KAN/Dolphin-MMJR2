@@ -23,7 +23,7 @@ public class PlatformPagerAdapter extends FragmentPagerAdapter
           {
                   R.drawable.ic_gamecube,
                   R.drawable.ic_wii,
-                  R.drawable.ic_folder
+                  
           };
 
   public PlatformPagerAdapter(FragmentManager fm, Context context)
@@ -42,7 +42,7 @@ public class PlatformPagerAdapter extends FragmentPagerAdapter
   @Override
   public int getCount()
   {
-    return TAB_ICONS.length;
+    return 2;
   }
 
   @Override

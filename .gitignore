@@ -38,3 +38,4 @@ CMakeLists.txt.user
 /.idea/
 # Ignore Visual Studio Code's working dir
 /.vscode/
+Source/Android/app/release/output-metadata.json

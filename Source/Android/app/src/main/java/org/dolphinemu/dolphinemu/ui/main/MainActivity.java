@@ -15,7 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import com.google.android.material.tabs.TabLayout;
 
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
@@ -41,7 +41,7 @@ public final class MainActivity extends AppCompatActivity implements MainView
 {
   private ViewPager mViewPager;
   private Toolbar mToolbar;
-
+  private TabLayout mTabLayout;
   private FloatingActionButton mFab;
   private static boolean sShouldRescanLibrary = true;
 
@@ -131,7 +131,7 @@ public final class MainActivity extends AppCompatActivity implements MainView
   {
     mToolbar = findViewById(R.id.toolbar_main);
     mViewPager = findViewById(R.id.pager_platforms);
-
+    mTabLayout = findViewById(R.id.tabs_platforms);
     mFab = findViewById(R.id.button_add_directory);
   }
 
@@ -287,7 +287,25 @@ public final class MainActivity extends AppCompatActivity implements MainView
             getSupportFragmentManager(), this);
     mViewPager.setAdapter(platformPagerAdapter);
     mViewPager.setOffscreenPageLimit(platformPagerAdapter.getCount());
+    mTabLayout.setupWithViewPager(mViewPager);
+    mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager)
+    {
+      @Override
+      public void onTabSelected(@NonNull TabLayout.Tab tab)
+      {
+        super.onTabSelected(tab);
 
+        try (Settings settings = new Settings())
+        {
+          settings.loadSettings(null);
+
+          IntSetting.MAIN_LAST_PLATFORM_TAB.setInt(settings, tab.getPosition());
+
+          // Context is set to null to avoid toasts
+          settings.saveSettings(null, null);
+        }
+      }
+    });
 
     mViewPager.setCurrentItem(IntSetting.MAIN_LAST_PLATFORM_TAB.getIntGlobal());
 
