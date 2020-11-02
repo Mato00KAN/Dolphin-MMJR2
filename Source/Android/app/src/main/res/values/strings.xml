@@ -193,7 +193,7 @@
     <string name="reset_paths_confirmation">Are you sure you want to reset Paths to default settings?</string>
 
     <!-- Graphics Settings -->
-    <string name="graphics_general">General</string>
+    <string name="graphics_general">Graphics</string>
     <string name="graphics_enhancements_and_hacks">Enhancements &amp; Hacks</string>
 
     <!-- Video Preference Fragment -->
@@ -322,7 +322,7 @@
 
     <!-- Game Grid Screen-->
     <string name="add_directory_title">Add Folder to Library</string>
-    <string name="grid_menu_config">Config</string>
+    <string name="grid_menu_config">Settings</string>
     <string name="grid_menu_graphics_settings">Graphics Settings</string>
     <string name="grid_menu_gcpad_settings">GameCube Input</string>
     <string name="grid_menu_wiimote_settings">Wii Input</string>

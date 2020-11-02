@@ -217,6 +217,7 @@ public final class SettingsFragmentPresenter
   private void addConfigSettings(ArrayList<SettingsItem> sl)
   {
     sl.add(new SubmenuSetting(R.string.general_submenu, MenuTag.CONFIG_GENERAL));
+    sl.add(new SubmenuSetting(R.string.graphics_general, MenuTag.GRAPHICS));
     sl.add(new SubmenuSetting(R.string.interface_submenu, MenuTag.CONFIG_INTERFACE));
     sl.add(new SubmenuSetting(R.string.audio_submenu, MenuTag.CONFIG_AUDIO));
     sl.add(new SubmenuSetting(R.string.paths_submenu, MenuTag.CONFIG_PATHS));
