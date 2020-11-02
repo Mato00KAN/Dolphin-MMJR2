@@ -17,16 +17,19 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
+
             app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs_platforms"
             style="@style/Widget.Design.TabLayout"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
             app:tabBackground="?colorPrimary"
             app:tabGravity="fill"
+            app:tabIndicatorColor="#FF0000"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/MyCustomTextAppearance" />
 
@@ -36,6 +39,8 @@
         android:id="@+id/pager_platforms"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -9,10 +9,16 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/grid_menu_refresh"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menu_settings_graphics"
-        android:title="@string/grid_menu_graphics_settings"
         android:icon="@drawable/ic_settings_graphics"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/grid_menu_graphics_settings"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_settings_gcpad"
@@ -24,12 +30,6 @@
         android:id="@+id/menu_settings_wiimote"
         android:title="@string/grid_menu_wiimote_settings"
         android:icon="@drawable/ic_settings_wiimote"
-        app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/menu_refresh"
-        android:title="@string/grid_menu_refresh"
-        android:icon="@drawable/ic_refresh"
         app:showAsAction="ifRoom"/>
 
     <item
