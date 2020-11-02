@@ -223,7 +223,6 @@ public final class SettingsFragmentPresenter
     sl.add(new SubmenuSetting(R.string.paths_submenu, MenuTag.CONFIG_PATHS));
     sl.add(new SubmenuSetting(R.string.gamecube_submenu, MenuTag.CONFIG_GAME_CUBE));
     sl.add(new SubmenuSetting(R.string.wii_submenu, MenuTag.CONFIG_WII));
-    sl.add(new SubmenuSetting(R.string.advanced_submenu, MenuTag.CONFIG_ADVANCED));
     sl.add(new SubmenuSetting(R.string.log_submenu, MenuTag.CONFIG_LOG));
     sl.add(new SubmenuSetting(R.string.debug_submenu, MenuTag.DEBUG));
     sl.add(new HeaderSetting(R.string.gametdb_thanks,0));
@@ -242,6 +241,8 @@ public final class SettingsFragmentPresenter
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_ANALYTICS_ENABLED, R.string.analytics, 0));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_ENABLE_SAVESTATES, R.string.enable_save_states,
             R.string.enable_save_states_description));
+    sl.add(new HeaderSetting(R.string.advanced_submenu2, 0));
+    sl.add(new SubmenuSetting(R.string.advanced_submenu, MenuTag.CONFIG_ADVANCED));
   }
 
   private void addInterfaceSettings(ArrayList<SettingsItem> sl)

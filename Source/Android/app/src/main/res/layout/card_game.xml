@@ -9,7 +9,7 @@
     android:transitionName="card_game"
     android:focusable="true"
     android:clickable="true"
-    app:cardCornerRadius="5dp"
+    app:cardCornerRadius="3dp"
     android:padding="0dp"
     android:layout_marginTop="10dp"
     android:foreground="?android:attr/selectableItemBackground">
