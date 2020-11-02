@@ -611,6 +611,8 @@ public final class SettingsFragmentPresenter
             R.string.efb_copy_method, R.string.efb_copy_method_description));
     sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_DEFER_EFB_COPIES, R.string.defer_efb_copies,
             R.string.defer_efb_copies_description));
+    sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_EFB_DEFER_INVALIDATION, R.string.defer_efb_invalidation,
+            R.string.defer_efb_invalidation_description));
 
     sl.add(new HeaderSetting(R.string.texture_cache, 0));
     sl.add(new SingleChoiceSetting(IntSetting.GFX_SAFE_TEXTURE_CACHE_COLOR_SAMPLES,

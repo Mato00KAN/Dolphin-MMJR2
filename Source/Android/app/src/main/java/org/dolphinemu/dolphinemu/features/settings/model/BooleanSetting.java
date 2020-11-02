@@ -155,6 +155,8 @@ public enum BooleanSetting implements AbstractBooleanSetting
 
   GFX_HACK_EFB_ACCESS_ENABLE(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "EFBAccessEnable",
           true),
+  GFX_HACK_EFB_DEFER_INVALIDATION(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "EFBAccessDeferInvalidation",
+    false),
   GFX_HACK_SKIP_EFB_COPY_TO_RAM(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS,
           "EFBToTextureEnable", true),
   GFX_HACK_SKIP_XFB_COPY_TO_RAM(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS,
