@@ -62,6 +62,9 @@ public class GamePropertiesDialog extends DialogFragment
             GameDetailsDialog.newInstance(path).show(requireActivity()
                     .getSupportFragmentManager(), "game_details"));
 
+    itemsBuilder.add(R.string.properties_core_settings, (dialog, i) ->
+      SettingsActivity.launch(getContext(), MenuTag.CONFIG, gameId, revision));
+
     if (shouldAllowConversion)
     {
       itemsBuilder.add(R.string.properties_convert, (dialog, i) ->
@@ -78,11 +81,6 @@ public class GamePropertiesDialog extends DialogFragment
       }
     });
 
-    itemsBuilder.add(R.string.properties_core_settings, (dialog, i) ->
-            SettingsActivity.launch(getContext(), MenuTag.CONFIG, gameId, revision));
-
-    itemsBuilder.add(R.string.properties_gfx_settings, (dialog, i) ->
-            SettingsActivity.launch(getContext(), MenuTag.GRAPHICS, gameId, revision));
 
     itemsBuilder.add(R.string.properties_gc_controller, (dialog, i) ->
             SettingsActivity.launch(getContext(), MenuTag.GCPAD_TYPE, gameId, revision));

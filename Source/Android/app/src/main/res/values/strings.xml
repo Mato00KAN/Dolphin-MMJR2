@@ -276,6 +276,7 @@
 
     <!-- Advanced Settings -->
     <string name="advanced_submenu">Advanced</string>
+    <string name="advanced_submenu2">Advanced Settings</string>
     <string name="cpu_core">CPU Core</string>
     <string name="overclock_enable">Override Emulated CPU Clock Speed</string>
     <string name="overclock_enable_description">Higher values can make variable-framerate games run at a higher framerate, requiring a powerful device. Lower values make games run at a lower framerate, increasing emulation speed, but reducing the emulated console\'s performance.</string>
@@ -334,7 +335,7 @@
     <string name="properties_details">Details</string>
     <string name="properties_convert">Convert File</string>
     <string name="properties_set_default_iso">Set as Default ISO</string>
-    <string name="properties_core_settings">Core Settings</string>
+    <string name="properties_core_settings">Custom Settings</string>
     <string name="properties_gfx_settings">GFX Settings</string>
     <string name="properties_gc_controller">GameCube Controller Settings</string>
     <string name="properties_wii_controller">Wii Controller Settings</string>
