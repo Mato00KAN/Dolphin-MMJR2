@@ -9,6 +9,10 @@
     <color name="dolphin_background">#fafafa</color>
     <color name="divider">#1f000000</color>
 
+    <color name="gradient_start">#E8E64A0C</color>
+    <color name="gradient_center">#EC3877</color>
+    <color name="gradient_end">#E91E63</color>
+
     <color name="dolphin_accent_wii">#9e9e9e</color>
     <color name="dolphin_accent_wiiware">#2979ff</color>
     <color name="dolphin_accent_gamecube">#651fff</color>
