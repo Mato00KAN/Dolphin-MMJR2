@@ -497,10 +497,11 @@ void Renderer::DrawDebugText()
   if (g_ActiveConfig.bShowFPS)
   {
     // Position in the top-right corner of the screen.
-    ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x - (10.0f * m_backbuffer_scale),
-                                   10.0f * m_backbuffer_scale),
-                            ImGuiCond_Always, ImVec2(1.0f, 0.0f));
-    ImGui::SetNextWindowSize(ImVec2(100.0f * m_backbuffer_scale, 30.0f * m_backbuffer_scale));
+    ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x - (20.0f * m_backbuffer_scale),
+                                   5.0f * m_backbuffer_scale),
+                            ImGuiCond_Always, ImVec2(9.5f, 0.0f));
+    ImGui::SetNextWindowSize(ImVec2(83.0f * m_backbuffer_scale, 25.5f * m_backbuffer_scale));
+    ImGui::SetNextWindowBgAlpha(0.5f);
 
     if (ImGui::Begin("FPS", nullptr,
                      ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoInputs |
@@ -508,7 +509,7 @@ void Renderer::DrawDebugText()
                          ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoNav |
                          ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing))
     {
-      ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "FPS: %.2f", m_fps_counter.GetFPS());
+      ImGui::TextColored(ImVec4(255.0f, 0.0f, 255.0f, 1.0f), "FPS: %.2f", m_fps_counter.GetFPS());
     }
     ImGui::End();
   }
