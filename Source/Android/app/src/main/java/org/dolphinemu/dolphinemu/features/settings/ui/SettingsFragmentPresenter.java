@@ -126,6 +126,7 @@ public final class SettingsFragmentPresenter
 
       case CONFIG_GENERAL:
         addGeneralSettings(sl);
+        addAdvancedSettings(sl);
         break;
 
       case CONFIG_INTERFACE:
@@ -241,8 +242,6 @@ public final class SettingsFragmentPresenter
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_ANALYTICS_ENABLED, R.string.analytics, 0));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_ENABLE_SAVESTATES, R.string.enable_save_states,
             R.string.enable_save_states_description));
-    sl.add(new HeaderSetting(R.string.advanced_submenu2, 0));
-    sl.add(new SubmenuSetting(R.string.advanced_submenu, MenuTag.CONFIG_ADVANCED));
   }
 
   private void addInterfaceSettings(ArrayList<SettingsItem> sl)
@@ -425,6 +424,7 @@ public final class SettingsFragmentPresenter
       emuCoresEntries = R.array.emuCoresEntriesGeneric;
       emuCoresValues = R.array.emuCoresValuesGeneric;
     }
+    sl.add(new HeaderSetting(R.string.advanced_submenu2, 0));
     sl.add(new SingleChoiceSetting(IntSetting.MAIN_CPU_CORE, R.string.cpu_core, 0, emuCoresEntries,
             emuCoresValues));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE, R.string.skip_on_skip_idle,

@@ -23,7 +23,7 @@
         android:layout_weight="1"
         android:cropToPadding="false"
         android:scaleType="fitXY"
-        tools:src="@drawable/placeholder_screenshot" />
+        tools:src="@drawable/no_banner" />
 
     <TextView
             android:id="@+id/text_game_title"

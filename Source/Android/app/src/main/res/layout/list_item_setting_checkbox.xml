@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#000000"
+    android:background="@color/dolphin_background"
     android:clickable="true"
     android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:minHeight="72dp">
 
     <TextView
@@ -19,7 +20,6 @@
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_toStartOf="@+id/checkbox"
-        android:textColor="#FFFFFF"
         android:textSize="16sp"
         tools:text="@string/overclock_enable" />
 
@@ -35,7 +35,6 @@
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_large"
         android:layout_toStartOf="@+id/checkbox"
-        android:textColor="#FFFFFF"
         tools:text="@string/overclock_enable_description" />
 
     <CheckBox
@@ -45,7 +44,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/spacing_large"
-        android:buttonTint="#9C27B0"
+        android:buttonTint="@color/dolphin_purple"
         android:clickable="false"
         android:focusable="false" />
 

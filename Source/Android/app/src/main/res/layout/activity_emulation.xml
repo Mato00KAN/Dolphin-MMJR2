@@ -3,15 +3,14 @@
     android:id="@+id/frame_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@color/dolphin_background"
     android:keepScreenOn="true">
 
     <FrameLayout
         android:id="@+id/frame_emulation_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000"
-        android:backgroundTint="#000000" />
+        android:background="@color/dolphin_background" />
 
     <org.dolphinemu.dolphinemu.ui.NVidiaShieldWorkaroundView
         android:layout_width="match_parent"
