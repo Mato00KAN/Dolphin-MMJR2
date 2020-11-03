@@ -5,11 +5,10 @@
         <gradient
             android:angle="45"
             android:type="linear"
-            android:startColor="#E8E64A0C"
+            android:startColor="@color/gradient_start"
             android:centerX="40%"
-            android:centerColor="#EC3877"
-            android:endColor="@color/dolphin_fucsia" />
-        <corners android:radius="3dp" />
+            android:centerColor="@color/gradient_center"
+            android:endColor="@color/gradient_end" />
     </shape>
 </item>
 </selector>
