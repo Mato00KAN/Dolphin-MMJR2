@@ -1,4 +1,4 @@
-# Dolphin MMJR [2020/2021- REVAMP]
+# Dolphin MMJR [2020/2021- REVAMP] 
 [Updating MMJR old code using dolphin-emu as a base]
 
 [Visit their links below to support their work and see the original dolphin builds]
