@@ -409,7 +409,7 @@ public final class EmulationActivity extends AppCompatActivity
   private void updateOrientation()
   {
     setRequestedOrientation(mPreferences.getInt("emulationActivityOrientation",
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE));
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE));
   }
 
   private boolean closeSubmenu()
@@ -902,7 +902,7 @@ public final class EmulationActivity extends AppCompatActivity
   {
     final int[] orientationValues = getResources().getIntArray(R.array.orientationValues);
     int initialChoice = mPreferences.getInt("emulationActivityOrientation",
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
     int initialIndex = -1;
     for (int i = 0; i < orientationValues.length; i++)
     {

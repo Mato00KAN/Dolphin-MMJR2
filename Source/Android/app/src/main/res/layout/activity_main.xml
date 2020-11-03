@@ -4,7 +4,7 @@
     android:id="@+id/coordinator_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="@color/dolphin_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -29,7 +29,7 @@
             android:paddingRight="1dp"
             app:tabBackground="?colorPrimary"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#FF0000"
+            app:tabIndicatorColor="@color/dolphin_fucsia"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/MyCustomTextAppearance" />
 

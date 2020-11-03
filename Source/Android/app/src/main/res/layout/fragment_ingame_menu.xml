@@ -112,10 +112,10 @@
     <Button
         android:id="@+id/menu_exit"
         style="@style/InGameMenuOption"
-        android:layout_width="220dp"
+        android:layout_width="210dp"
         android:layout_gravity="center"
-        android:background="#7C0091"
-        android:backgroundTint="#7C0091"
+        android:background="@drawable/menu_exit"
+        android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/emulation_exit"
         android:textAlignment="center"
         android:textColor="#FFFFFF"

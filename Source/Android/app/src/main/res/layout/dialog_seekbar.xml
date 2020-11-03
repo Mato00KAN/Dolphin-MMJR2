@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#000000"
+    android:background="@color/dolphin_background"
     android:orientation="vertical">
 
     <SeekBar
@@ -16,7 +16,7 @@
         android:layout_marginLeft="@dimen/spacing_large"
         android:layout_marginRight="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_medlarge"
-        android:backgroundTint="#673AB7" />
+        android:backgroundTint="@color/dolphin_purple" />
 
     <TextView
         android:id="@+id/text_value"
@@ -26,7 +26,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_medlarge"
         android:layout_marginBottom="@dimen/spacing_medlarge"
-        android:textColor="#FFFFFF"
         tools:text="75" />
 
     <TextView
@@ -35,7 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/text_value"
         android:layout_toEndOf="@+id/text_value"
-        android:textColor="#FFFFFF"
         tools:text="%" />
 
 </RelativeLayout>

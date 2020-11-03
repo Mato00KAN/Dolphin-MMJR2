@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="@color/dolphin_background">
 
     <TextView
         android:id="@+id/label_format"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/convert_format"
-        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/spinner_format"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/spinner_format" />
@@ -20,7 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/convert_block_size"
-        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/spinner_block_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/spinner_block_size" />
@@ -30,7 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/convert_compression"
-        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/spinner_compression"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/spinner_compression" />
@@ -40,7 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/convert_compression_level"
-        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/spinner_compression_level"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/spinner_compression_level" />
@@ -50,7 +46,6 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/convert_remove_junk_data"
-        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/checkbox_remove_junk_data"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/checkbox_remove_junk_data" />
@@ -124,7 +119,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/dolphin_blue"
         android:text="@string/convert_convert"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/button_text_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

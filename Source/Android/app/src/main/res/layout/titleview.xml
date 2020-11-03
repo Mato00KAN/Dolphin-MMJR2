@@ -3,5 +3,5 @@
     android:id="@+id/browse_title_group"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#000000"
+    android:background="@color/dolphin_background"
     android:padding="16dp" />
