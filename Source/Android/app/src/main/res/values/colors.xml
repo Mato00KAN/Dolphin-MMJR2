@@ -2,14 +2,14 @@
 <resources>
 
     <color name="dolphin_blue">#711fff</color>
-    <color name="dolphin_blue_dark">#621fff</color>
+    <color name="dolphin_blue_dark">#4C1BBF</color>
     <color name="dolphin_purple">#711fff</color>
     <color name="dolphin_fucsia">#e91e63</color>
 
     <color name="dolphin_background">#fafafa</color>
     <color name="divider">#1f000000</color>
 
-    <color name="gradient_start">#E8E64A0C</color>
+    <color name="gradient_start">#E64A0C</color>
     <color name="gradient_center">#EC3877</color>
     <color name="gradient_end">#E91E63</color>
 
