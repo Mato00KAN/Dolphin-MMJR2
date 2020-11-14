@@ -155,7 +155,7 @@ public final class TvMainActivity extends FragmentActivity implements MainView
   @Override
   public void setVersionString(String version)
   {
-    mBrowseFragment.setTitle("version# "+version);
+    mBrowseFragment.setTitle("revamp version# "+version);
   }
 
   @Override

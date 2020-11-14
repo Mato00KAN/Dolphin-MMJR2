@@ -734,9 +734,7 @@ Renderer::Renderer(std::unique_ptr<GLContext> main_gl_context, float backbuffer_
   g_Config.VerifyValidity();
   UpdateActiveConfig();
 
-  OSD::AddMessage(fmt::format("Video Info: {}, {}, {}", g_ogl_config.gl_vendor,
-                              g_ogl_config.gl_renderer, g_ogl_config.gl_version),
-                  5000);
+    OSD::AddMessage(StringFromFormat("OpenGL = Resolution Scale: %.2f", g_ActiveConfig.iEFBScale*0.01), 5000);
 
   if (!g_ogl_config.bSupportsGLBufferStorage && !g_ogl_config.bSupportsGLPinnedMemory)
   {
