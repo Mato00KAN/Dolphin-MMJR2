@@ -150,7 +150,7 @@ public final class MainActivity extends AppCompatActivity implements MainView
   @Override
   public void setVersionString(String version)
   {
-    mToolbar.setSubtitle("version# "+version);
+    mToolbar.setSubtitle("revamp version# "+version);
   }
 
   @Override
