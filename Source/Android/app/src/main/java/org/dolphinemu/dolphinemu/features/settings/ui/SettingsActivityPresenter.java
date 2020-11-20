@@ -162,7 +162,7 @@ public final class SettingsActivityPresenter
       if (isChanged)
       {
         NativeConfig.setEditableSettings(newSettings);
-        mView.showToastMessage("applied settings");
+        mView.showToastMessage("MMJR: new settings are active");
       }
     } catch (Exception e) {
       mView.showToastMessage("Something went wrong applying settings to Core");
