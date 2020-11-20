@@ -17,7 +17,6 @@ import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.features.settings.model.BooleanSetting;
-import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 
 public final class MenuFragment extends Fragment implements View.OnClickListener
 {
@@ -181,7 +180,6 @@ public final class MenuFragment extends Fragment implements View.OnClickListener
     mPauseEmulation.setVisibility(paused ? View.GONE : View.VISIBLE);
   }
 
-  @SuppressWarnings("WrongConstant")
   @Override
   public void onClick(View button)
   {

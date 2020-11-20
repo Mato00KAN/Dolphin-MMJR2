@@ -8,8 +8,6 @@
 
 namespace IDCache
 {
-static constexpr jint JNI_VERSION = JNI_VERSION_1_6;
-
 JNIEnv* GetEnvForThread();
 
 jclass GetNativeLibraryClass();
@@ -17,6 +15,7 @@ jmethodID GetDisplayAlertMsg();
 jmethodID GetDoRumble();
 jmethodID GetUpdateTouchPointer();
 jmethodID GetOnTitleChanged();
+jmethodID GetFinishEmulationActivity();
 
 jclass GetAnalyticsClass();
 jmethodID GetSendAnalyticsReport();

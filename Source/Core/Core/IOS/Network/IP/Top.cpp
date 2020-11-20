@@ -145,10 +145,18 @@ static s32 MapWiiSockOptNameToNative(u32 optname)
     return SO_REUSEADDR;
   case 0x80:
     return SO_LINGER;
+  case 0x100:
+    return SO_OOBINLINE;
   case 0x1001:
     return SO_SNDBUF;
   case 0x1002:
     return SO_RCVBUF;
+  case 0x1003:
+    return SO_SNDLOWAT;
+  case 0x1004:
+    return SO_RCVLOWAT;
+  case 0x1008:
+    return SO_TYPE;
   case 0x1009:
     return SO_ERROR;
   }
@@ -223,8 +231,10 @@ static std::optional<DefaultInterface> GetSystemDefaultInterface()
     sockaddr_in addr{};
     socklen_t length = sizeof(addr);
     addr.sin_family = AF_INET;
-    // The address is irrelevant -- no packet is actually sent. This just needs to be a public IP.
+    // The address and port are irrelevant -- no packet is actually sent. These just need to be set
+    // to a valid IP and port.
     addr.sin_addr.s_addr = inet_addr(8, 8, 8, 8);
+    addr.sin_port = htons(53);
     if (connect(sock, reinterpret_cast<const sockaddr*>(&addr), sizeof(addr)) == -1)
       return {};
     if (getsockname(sock, reinterpret_cast<sockaddr*>(&addr), &length) == -1)
@@ -404,13 +414,19 @@ IPCCommandResult NetIPTop::HandleDoSockRequest(const IOCtlRequest& request)
 
 IPCCommandResult NetIPTop::HandleShutdownRequest(const IOCtlRequest& request)
 {
-  request.Log(GetDeviceName(), Common::Log::IOS_WC24);
+  if (request.buffer_in == 0 || request.buffer_in_size < 8)
+  {
+    ERROR_LOG(IOS_NET, "IOCTL_SO_SHUTDOWN = EINVAL, BufferIn: (%08x, %i)", request.buffer_in,
+              request.buffer_in_size);
+    return GetDefaultReply(-SO_EINVAL);
+  }
 
-  u32 fd = Memory::Read_U32(request.buffer_in);
-  u32 how = Memory::Read_U32(request.buffer_in + 4);
-  int ret = shutdown(WiiSockMan::GetInstance().GetHostSocket(fd), how);
-
-  return GetDefaultReply(WiiSockMan::GetNetErrorCode(ret, "SO_SHUTDOWN", false));
+  const u32 fd = Memory::Read_U32(request.buffer_in);
+  const u32 how = Memory::Read_U32(request.buffer_in + 4);
+  WiiSockMan& sm = WiiSockMan::GetInstance();
+  const s32 return_value = sm.ShutdownSocket(fd, how);
+  INFO_LOG(IOS_NET, "IOCTL_SO_SHUTDOWN(fd=%d, how=%d) = %d", fd, how, return_value);
+  return GetDefaultReply(return_value);
 }
 
 IPCCommandResult NetIPTop::HandleListenRequest(const IOCtlRequest& request)

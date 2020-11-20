@@ -1,6 +1,7 @@
 package org.dolphinemu.dolphinemu.fragments;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Surface;
@@ -93,6 +94,18 @@ public final class EmulationFragment extends Fragment implements SurfaceHolder.C
       doneButton.setOnClickListener(v -> stopConfiguringControls());
     }
 
+    if (mInputOverlay != null)
+    {
+      contents.post(() ->
+      {
+        int overlayX = mInputOverlay.getLeft();
+        int overlayY = mInputOverlay.getTop();
+        mInputOverlay.setSurfacePosition(new Rect(
+                surfaceView.getLeft() - overlayX, surfaceView.getTop() - overlayY,
+                surfaceView.getRight() - overlayX, surfaceView.getBottom() - overlayY));
+      });
+    }
+
     // The new Surface created here will get passed to the native code via onSurfaceChanged.
 
     return contents;
@@ -124,22 +137,27 @@ public final class EmulationFragment extends Fragment implements SurfaceHolder.C
   {
     BooleanSetting.MAIN_SHOW_INPUT_OVERLAY
             .setBoolean(settings, !BooleanSetting.MAIN_SHOW_INPUT_OVERLAY.getBoolean(settings));
-    mInputOverlay.refreshControls();
+
+    if (mInputOverlay != null)
+      mInputOverlay.refreshControls();
   }
 
   public void initInputPointer()
   {
-    mInputOverlay.initTouchPointer();
+    if (mInputOverlay != null)
+      mInputOverlay.initTouchPointer();
   }
 
   public void refreshInputOverlay()
   {
-    mInputOverlay.refreshControls();
+    if (mInputOverlay != null)
+      mInputOverlay.refreshControls();
   }
 
   public void resetInputOverlay()
   {
-    mInputOverlay.resetButtonPlacement();
+    if (mInputOverlay != null)
+      mInputOverlay.resetButtonPlacement();
   }
 
   @Override
@@ -169,19 +187,25 @@ public final class EmulationFragment extends Fragment implements SurfaceHolder.C
 
   public void startConfiguringControls()
   {
-    getView().findViewById(R.id.done_control_config).setVisibility(View.VISIBLE);
-    mInputOverlay.setIsInEditMode(true);
+    if (mInputOverlay != null)
+    {
+      requireView().findViewById(R.id.done_control_config).setVisibility(View.VISIBLE);
+      mInputOverlay.setIsInEditMode(true);
+    }
   }
 
   public void stopConfiguringControls()
   {
-    getView().findViewById(R.id.done_control_config).setVisibility(View.GONE);
-    mInputOverlay.setIsInEditMode(false);
+    if (mInputOverlay != null)
+    {
+      requireView().findViewById(R.id.done_control_config).setVisibility(View.GONE);
+      mInputOverlay.setIsInEditMode(false);
+    }
   }
 
   public boolean isConfiguringControls()
   {
-    return mInputOverlay.isInEditMode();
+    return mInputOverlay != null && mInputOverlay.isInEditMode();
   }
 
   private static class EmulationState
@@ -308,16 +332,6 @@ public final class EmulationFragment extends Fragment implements SurfaceHolder.C
       {
         mSurface = null;
         Log.debug("[EmulationFragment] Surface destroyed.");
-
-        if (state != State.STOPPED && !NativeLibrary.IsShowingAlertMessage())
-        {
-          // In order to avoid dereferencing nullptr, we must not destroy the surface while booting
-          // the core, so wait here if necessary. An easy (but not 100% consistent) way to reach
-          // this method while the core is booting is by having landscape orientation lock enabled
-          // and starting emulation while the phone is in portrait mode, leading to the activity
-          // being recreated very soon after NativeLibrary.Run has been called.
-          NativeLibrary.WaitUntilDoneBooting();
-        }
 
         NativeLibrary.SurfaceDestroyed();
       }

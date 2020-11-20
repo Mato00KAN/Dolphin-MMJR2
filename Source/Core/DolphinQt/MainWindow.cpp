@@ -399,7 +399,7 @@ void MainWindow::CreateComponents()
   m_watch_widget = new WatchWidget(this);
   m_breakpoint_widget = new BreakpointWidget(this);
   m_code_widget = new CodeWidget(this);
-  m_cheats_manager = new CheatsManager(this);
+  m_cheats_manager = new CheatsManager(m_game_list->GetGameListModel(), this);
 
   const auto request_watch = [this](QString name, u32 addr) {
     m_watch_widget->AddWatch(name, addr);
@@ -951,7 +951,7 @@ void MainWindow::StartGame(const std::vector<std::string>& paths,
 
 void MainWindow::StartGame(std::unique_ptr<BootParameters>&& parameters)
 {
-  if (std::holds_alternative<BootParameters::Disc>(parameters->parameters))
+  if (parameters && std::holds_alternative<BootParameters::Disc>(parameters->parameters))
   {
     if (std::get<BootParameters::Disc>(parameters->parameters).volume->IsNKit())
     {
@@ -1276,8 +1276,9 @@ void MainWindow::BootWiiSystemMenu()
 
 void MainWindow::NetPlayInit()
 {
-  m_netplay_setup_dialog = new NetPlaySetupDialog(this);
-  m_netplay_dialog = new NetPlayDialog;
+  const auto& game_list_model = m_game_list->GetGameListModel();
+  m_netplay_setup_dialog = new NetPlaySetupDialog(game_list_model, this);
+  m_netplay_dialog = new NetPlayDialog(game_list_model);
 #ifdef USE_DISCORD_PRESENCE
   m_netplay_discord = new DiscordHandler(this);
 #endif
