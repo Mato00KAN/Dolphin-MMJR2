@@ -330,6 +330,7 @@
     <string name="grid_menu_install_wad">Install WAD</string>
     <string name="wad_install_success">Successfully installed this title to the NAND.</string>
     <string name="wad_install_failure">Failed to install this title to the NAND.</string>
+    <string name="toggle_view">Toggle View</string>
 
     <!-- Game Properties Screen -->
     <string name="properties_details">Details</string>
