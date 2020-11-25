@@ -543,7 +543,7 @@ Renderer::Renderer(std::unique_ptr<GLContext> main_gl_context, float backbuffer_
       g_ogl_config.bSupportsAEP = GLExtensions::Supports("GL_ANDROID_extension_pack_es31a");
       g_Config.backend_info.bSupportsBindingLayout = true;
       g_ogl_config.bSupportsImageLoadStore = true;
-      g_Config.backend_info.bSupportsGeometryShaders = g_ogl_config.bSupportsAEP;
+      g_Config.backend_info.bSupportsGeometryShaders = false; //g_ogl_config.bSupportsAEP;
       g_Config.backend_info.bSupportsComputeShaders = true;
       g_Config.backend_info.bSupportsGSInstancing =
           g_Config.backend_info.bSupportsGeometryShaders && g_ogl_config.SupportedESPointSize > 0;
@@ -568,7 +568,7 @@ Renderer::Renderer(std::unique_ptr<GLContext> main_gl_context, float backbuffer_
       g_ogl_config.bSupportsAEP = GLExtensions::Supports("GL_ANDROID_extension_pack_es31a");
       g_Config.backend_info.bSupportsBindingLayout = true;
       g_ogl_config.bSupportsImageLoadStore = true;
-      g_Config.backend_info.bSupportsGeometryShaders = true;
+      g_Config.backend_info.bSupportsGeometryShaders = false; //true;
       g_Config.backend_info.bSupportsComputeShaders = true;
       g_Config.backend_info.bSupportsGSInstancing = g_ogl_config.SupportedESPointSize > 0;
       g_Config.backend_info.bSupportsPaletteConversion = true;
