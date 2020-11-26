@@ -153,8 +153,8 @@ static void DoState(PointerWrap& p)
   {
     const std::string message =
         version_created_by.empty() ?
-            "This savestate was created using an incompatible version of Dolphin" :
-            "This savestate was created using the incompatible version " + version_created_by;
+            "Incompatible Save State used" :
+            "Incompatible Save State used " + version_created_by;
     Core::DisplayMessage(message, OSD::Duration::NORMAL);
     p.SetMode(PointerWrap::MODE_MEASURE);
     return;
@@ -457,7 +457,7 @@ bool ReadHeader(const std::string& filename, StateHeader& header)
   File::IOFile f(filename, "rb");
   if (!f)
   {
-    Core::DisplayMessage("State not found", 2000);
+    Core::DisplayMessage("State not found", 1);
     return false;
   }
 
