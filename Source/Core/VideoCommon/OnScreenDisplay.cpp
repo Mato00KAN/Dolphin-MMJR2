@@ -21,8 +21,8 @@
 
 namespace OSD
 {
-constexpr float LEFT_MARGIN = 10.0f;    // Pixels to the left of OSD messages.
-constexpr float TOP_MARGIN = 10.0f;     // Pixels above the first OSD message.
+constexpr float LEFT_MARGIN = 270.0f;    // Pixels to the left of OSD messages.
+constexpr float TOP_MARGIN = 5.0f;     // Pixels above the first OSD message.
 constexpr float WINDOW_PADDING = 4.0f;  // Pixels between subsequent OSD messages.
 
 static std::atomic<int> s_obscured_pixels_left = 0;
