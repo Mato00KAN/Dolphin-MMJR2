@@ -496,7 +496,7 @@ void Renderer::DrawDebugText()
 
   if (g_ActiveConfig.bShowFPS)
   {
-    // Position in the top-right corner of the screen.
+    // Position in the top-left corner of the screen.
     ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x - (20.0f * m_backbuffer_scale),
                                    5.0f * m_backbuffer_scale),
                             ImGuiCond_Always, ImVec2(9.5f, 0.0f));
