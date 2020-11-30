@@ -161,6 +161,18 @@ void VideoConfig::Refresh()
 
   bPerfQueriesEnable = Config::Get(Config::GFX_PERF_QUERIES_ENABLE);
 
+  // MMJR: alpha pass hack
+  if (!backend_info.bSupportsDualSourceBlend)
+  {
+    bAlphaPassShadowHack = SConfig::GetInstance().m_AlphaPassShadowHack;
+  }
+
+  // MMJR: logic ops hack
+  if (!backend_info.bSupportsLogicOp && !backend_info.bSupportsFramebufferFetch)
+  {
+    bLogicOpsDrawHack = SConfig::GetInstance().m_LogicOpsDrawHack;
+  }
+
   VerifyValidity();
 }
 

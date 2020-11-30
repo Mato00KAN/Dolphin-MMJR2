@@ -488,6 +488,20 @@ void VertexManagerBase::Flush()
     // Update the pipeline, or compile one if needed.
     UpdatePipelineConfig();
     UpdatePipelineObject();
+    
+    // MMJR: logic ops draw hack
+    if (m_current_pipeline_config.blending_state.logicopenable && num_indices == 6 &&
+        g_ActiveConfig.bLogicOpsDrawHack)
+    {
+      BlendMode::LogicOp logicmode = m_current_pipeline_config.blending_state.logicmode;
+      if (!(logicmode == BlendMode::LogicOp::CLEAR || logicmode == BlendMode::LogicOp::COPY ||
+            logicmode == BlendMode::LogicOp::COPY_INVERTED || logicmode == BlendMode::LogicOp::SET))
+      {
+        OnDraw();
+        return;
+      }
+    }
+
     if (m_current_pipeline_object)
     {
       g_renderer->SetPipeline(m_current_pipeline_object);

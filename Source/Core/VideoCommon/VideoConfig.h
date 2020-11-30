@@ -119,6 +119,9 @@ struct VideoConfig final
   bool bBBoxEnable;
   bool bForceProgressive;
 
+  bool bAlphaPassShadowHack;  // MMJR: alpha pass hack
+  bool bLogicOpsDrawHack;     // MMJR: logic ops hack
+
   bool bEFBEmulateFormatChanges;
   bool bSkipEFBCopyToRam;
   bool bSkipXFBCopyToRam;
