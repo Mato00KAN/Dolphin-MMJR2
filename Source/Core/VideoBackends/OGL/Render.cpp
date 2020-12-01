@@ -734,8 +734,6 @@ Renderer::Renderer(std::unique_ptr<GLContext> main_gl_context, float backbuffer_
   g_Config.VerifyValidity();
   UpdateActiveConfig();
 
-    OSD::AddMessage(StringFromFormat("OpenGL = Resolution Scale: %.2f", g_ActiveConfig.iEFBScale*0.01), 5000);
-
   if (!g_ogl_config.bSupportsGLBufferStorage && !g_ogl_config.bSupportsGLPinnedMemory)
   {
     OSD::AddMessage(fmt::format("Your OpenGL driver does not support {}_buffer_storage.",

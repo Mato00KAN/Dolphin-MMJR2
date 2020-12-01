@@ -117,6 +117,18 @@ bool Renderer::Initialize()
   if (!m_post_processor->Initialize(m_backbuffer_format))
     return false;
 
+#ifdef ANDROID
+  OSD::AddMessage(StringFromFormat("[%s] Resolution Scale: %.2f", []{
+      switch(g_ActiveConfig.backend_info.api_type) {
+        case APIType::OpenGL:
+          return "OpenGL";
+        case APIType::Vulkan:
+          return "Vulkan";
+        default:
+          return "?";
+      }}(), g_ActiveConfig.iEFBScale * 0.01), OSD::Duration::NORMAL);
+#endif
+
   return true;
 }
 

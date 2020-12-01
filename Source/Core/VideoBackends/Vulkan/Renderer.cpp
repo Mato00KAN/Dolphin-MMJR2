@@ -71,7 +71,6 @@ bool Renderer::Initialize()
     PanicAlert("Failed to initialize bounding box.");
     return false;
   }
-    OSD::AddMessage(StringFromFormat("Vulkan = Resolution Scale: %.2f", g_ActiveConfig.iEFBScale*0.01), 5000);
 
   // Various initialization routines will have executed commands on the command buffer.
   // Execute what we have done before beginning the first frame.
