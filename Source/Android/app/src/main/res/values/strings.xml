@@ -165,7 +165,7 @@
     <string name="gametdb_thanks">Special thanks to Weihuoya, The Dolphin Team and GameTDB.com for getting this emulator to where it is today!</string>
     <string name="dev_thanks">Also, congratulations to @bankaimaster999 and @sspacelynx for Dolphin-|MMJR| development!</string>
 
-        <!-- Interface Preference Fragment -->
+    <!-- Interface Preference Fragment -->
     <string name="interface_submenu">Interface</string>
     <string name="panic_handlers">Use Panic Handlers</string>
     <string name="panic_handlers_description">Show a message box when a potentially serious error has occurred. Disabling this may avoid annoying and non-fatal messages, but it may result in major crashes having no explanation at all.</string>
@@ -447,5 +447,14 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="disc_number">Disc %1$d</string>
     <string name="disabled_gc_overlay_notice">GameCube Controller 1 is set to \"None\"</string>
     <string name="ignore_warning_alert_messages">Ignore for this session</string>
+
+    <!-- Updater Window -->
+    <string name="updater_message">UPDATER</string>
+    <string name="updater_select">UPDATE</string>
+    <string name="New_update_button">New Version</string>
+    <string name="last_update_button">Previous Version</string>
+    <string name="temp_previous">Revamp version# 12925</string>
+    <string name="temp_new">Revamp version# 13117</string>
+
 
 </resources>

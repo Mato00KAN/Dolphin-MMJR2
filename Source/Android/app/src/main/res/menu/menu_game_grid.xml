@@ -41,6 +41,11 @@
     <item
         android:id="@+id/menu_install_wad"
         android:title="@string/grid_menu_install_wad"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/updater_dialog"
+        android:title="@string/updater_message"
         app:showAsAction="never"/>
 
 </menu>

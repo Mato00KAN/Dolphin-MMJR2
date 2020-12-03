@@ -19,6 +19,7 @@ import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.adapters.GameRowPresenter;
 import org.dolphinemu.dolphinemu.adapters.SettingsRowPresenter;
+import org.dolphinemu.dolphinemu.dialogs.UpdaterDialog;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
 import org.dolphinemu.dolphinemu.features.settings.ui.SettingsActivity;
 import org.dolphinemu.dolphinemu.model.GameFile;
@@ -184,6 +185,14 @@ public final class TvMainActivity extends FragmentActivity implements MainView
     intent.addCategory(Intent.CATEGORY_OPENABLE);
     intent.setType("*/*");
     startActivityForResult(intent, MainPresenter.REQUEST_WAD_FILE);
+  }
+
+  @Override
+  public void launchUpdaterDialog()
+  {
+    FragmentManager fm = getSupportFragmentManager();
+    UpdaterDialog updaterDialog = UpdaterDialog.newInstance();
+    updaterDialog.show(fm, "fragment_updater");
   }
 
   @Override

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,6 +33,7 @@ import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
 import org.dolphinemu.dolphinemu.utils.PermissionsHandler;
 import org.dolphinemu.dolphinemu.utils.StartupHandler;
+import org.dolphinemu.dolphinemu.dialogs.UpdaterDialog;
 
 /**
  * The main Activity of the Lollipop style UI. Manages several PlatformGamesFragments, which
@@ -181,6 +183,13 @@ public final class MainActivity extends AppCompatActivity implements MainView
     startActivityForResult(intent, MainPresenter.REQUEST_WAD_FILE);
   }
 
+  @Override
+  public void launchUpdaterDialog()
+  {
+    FragmentManager fm = getSupportFragmentManager();
+    UpdaterDialog updaterDialog = UpdaterDialog.newInstance();
+    updaterDialog.show(fm, "fragment_updater");
+  }
   /**
    * @param requestCode An int describing whether the Activity that is returning did so successfully.
    * @param resultCode  An int describing what Activity is giving us this callback.

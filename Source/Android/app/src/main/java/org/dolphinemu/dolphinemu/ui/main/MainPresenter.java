@@ -102,6 +102,10 @@ public final class MainPresenter
       case R.id.menu_install_wad:
         new AfterDirectoryInitializationRunner().run(context, true, mView::launchInstallWAD);
         return true;
+
+      case R.id.updater_dialog:
+        mView.launchUpdaterDialog();
+        return true;
     }
 
     return false;

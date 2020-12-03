@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#000000">
+
+    <ImageView
+        android:id="@+id/Update_banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="1dp"
+        android:contentDescription="@string/updater_message"
+        android:scaleType="fitCenter"
+        android:src="@drawable/banner_tv" />
+
+
+    <View
+        android:id="@+id/dummy_view"
+        android:layout_width="1px"
+        android:layout_height="1px"
+        android:layout_below="@id/Update_banner"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/updater_title"
+        style="@android:style/TextAppearance.Material.Headline"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dummy_view"
+        android:layout_marginTop="-1dp"
+        android:layout_centerHorizontal="true"
+        android:ellipsize="end"
+        android:text="@string/updater_message"
+        android:textColor="@color/gradient_end" />
+
+    <View
+        android:id="@+id/divider_1"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/updater_title"
+        android:layout_marginTop="10dp"
+        android:background="@color/dolphin_blue" />
+
+    <!--  -->
+
+    <TextView
+        android:id="@+id/New_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_1"
+        style="@android:style/TextAppearance.Material.Subhead"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_toStartOf="@id/dummy_view"
+        android:backgroundTint="#9C27B0"
+        android:text="@string/temp_new"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/button_new_update"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="197dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_1"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@id/dummy_view"
+        android:background="@drawable/menu_exit"
+        android:onClick="DownloadNew_Click"
+        android:stateListAnimator="@null"
+        android:text="@string/New_update_button"
+        android:textAllCaps="false" />
+
+    <Space
+        android:id="@+id/space1"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/button_new_update"
+        android:layout_marginTop="3dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="400dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/space1"
+        android:layout_marginTop="-4dp"
+        android:layout_marginBottom="1dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/menu_exit" />
+
+    <Space
+        android:id="@+id/space2"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/progressBar"/>
+
+    <!--  -->
+
+    <View
+        android:id="@+id/divider_2"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/space2"
+        android:layout_marginTop="0dp"
+        android:background="@color/dolphin_blue_dark" />
+
+    <Space
+        android:id="@+id/space3"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/divider_2"/>
+
+    <TextView
+        android:id="@+id/previous_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_2"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="10dp"
+        style="@android:style/TextAppearance.Material.Subhead"
+        android:textStyle="bold"
+        android:layout_toStartOf="@id/dummy_view"
+        android:backgroundTint="#9C27B0"
+        android:text="@string/temp_previous"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/button_last_update"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/space3"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@id/dummy_view"
+        android:backgroundTint="@color/dolphin_blue"
+        android:onClick="DownloadOld_Click"
+        android:stateListAnimator="@null"
+        android:text="@string/last_update_button"
+        android:textAllCaps="false" />
+
+    <Space
+        android:id="@+id/space4"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/button_last_update" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="400dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/space4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-4dp"
+        android:layout_marginBottom="1dp"
+        android:background="@color/dolphin_blue" />
+
+    <Space
+        android:id="@+id/space5"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/progressBar2" />
+
+</RelativeLayout>

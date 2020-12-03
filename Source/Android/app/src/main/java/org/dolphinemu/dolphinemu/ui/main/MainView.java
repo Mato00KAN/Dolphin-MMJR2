@@ -25,6 +25,8 @@ public interface MainView
 
   void launchInstallWAD();
 
+  void launchUpdaterDialog();
+
   /**
    * To be called when the game file cache is updated.
    */
