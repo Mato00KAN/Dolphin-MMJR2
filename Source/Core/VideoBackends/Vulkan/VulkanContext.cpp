@@ -306,8 +306,8 @@ void VulkanContext::PopulateBackendInfoFeatures(VideoConfig* config, VkPhysicalD
   config->backend_info.MaxTextureSize = properties.limits.maxImageDimension2D;
   config->backend_info.bUsesLowerLeftOrigin = false;
   config->backend_info.bSupportsDualSourceBlend = (features.dualSrcBlend == VK_TRUE);
-  config->backend_info.bSupportsGeometryShaders = (features.geometryShader == VK_TRUE);
-  config->backend_info.bSupportsGSInstancing = (features.geometryShader == VK_TRUE);
+  config->backend_info.bSupportsGeometryShaders = false;
+  config->backend_info.bSupportsGSInstancing = false;
   config->backend_info.bSupportsBBox = config->backend_info.bSupportsFragmentStoresAndAtomics =
       (features.fragmentStoresAndAtomics == VK_TRUE);
   config->backend_info.bSupportsSSAA = (features.sampleRateShading == VK_TRUE);
@@ -317,8 +317,8 @@ void VulkanContext::PopulateBackendInfoFeatures(VideoConfig* config, VkPhysicalD
   // Seems this is needed for gl_Layer.
   if (!features.shaderTessellationAndGeometryPointSize)
   {
-    config->backend_info.bSupportsGeometryShaders = VK_FALSE;
-    config->backend_info.bSupportsGSInstancing = VK_FALSE;
+    config->backend_info.bSupportsGeometryShaders = false;
+    config->backend_info.bSupportsGSInstancing = false;
   }
 
   // Depth clamping implies shaderClipDistance and depthClamp

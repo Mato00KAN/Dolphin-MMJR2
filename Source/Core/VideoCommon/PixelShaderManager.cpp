@@ -197,8 +197,11 @@ void PixelShaderManager::SetConstants()
 void PixelShaderManager::SetTevColor(int index, int component, s32 value)
 {
   auto& c = constants.colors[index];
-  c[component] = value;
-  dirty = true;
+  if(c[component] != value)
+  {
+    c[component] = value;
+    dirty = true;
+  }
 
   PRIM_LOG("tev color{}: {} {} {} {}", index, c[0], c[1], c[2], c[3]);
 }
@@ -206,8 +209,11 @@ void PixelShaderManager::SetTevColor(int index, int component, s32 value)
 void PixelShaderManager::SetTevKonstColor(int index, int component, s32 value)
 {
   auto& c = constants.kcolors[index];
-  c[component] = value;
-  dirty = true;
+  if(c[component] != value)
+  {
+    c[component] = value;
+    dirty = true;
+  }
 
   // Konst for ubershaders. We build the whole array on cpu so the gpu can do a single indirect
   // access.

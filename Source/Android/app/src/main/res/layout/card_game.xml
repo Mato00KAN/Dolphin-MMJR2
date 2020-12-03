@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginHorizontal="0dp"
+    android:layout_height="170dp"
+    android:layout_margin="3dp"
     android:transitionName="card_game"
     android:focusable="true"
     android:clickable="true"
@@ -23,6 +23,7 @@
         android:layout_weight="1"
         android:cropToPadding="false"
         android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         tools:src="@drawable/no_banner" />
 
     <TextView
