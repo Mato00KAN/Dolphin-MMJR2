@@ -449,12 +449,11 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="ignore_warning_alert_messages">Ignore for this session</string>
 
     <!-- Updater Window -->
-    <string name="updater_message">UPDATER</string>
-    <string name="updater_select">UPDATE</string>
-    <string name="New_update_button">New Version</string>
-    <string name="last_update_button">Previous Version</string>
-    <string name="temp_previous">Revamp version# 12925</string>
-    <string name="temp_new">Revamp version# 13117</string>
+    <string name="updater_message">MMJR Updater</string>
+    <string name="updater_title">Updater</string>
+    <string name="download">Download</string>
+    <string name="temp_previous">Version# 12925</string>
+    <string name="temp_new">Version# 13117</string>
 
 
 </resources>
