@@ -8,7 +8,6 @@
 #include <limits>
 #include <string>
 #include <tuple>
-#include <VideoCommon/OnScreenDisplay.h>
 
 #include "Common/Assert.h"
 #include "Common/CommonTypes.h"
