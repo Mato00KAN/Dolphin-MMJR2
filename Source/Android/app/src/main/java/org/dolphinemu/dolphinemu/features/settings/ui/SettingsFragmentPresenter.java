@@ -173,6 +173,10 @@ public final class SettingsFragmentPresenter
         addHackSettings(sl);
         break;
 
+      case CUSTOM_TEXTURES:
+        addCustomTexturesSettings(sl);
+        break;
+
       case CONFIG_LOG:
         addLogConfigurationSettings(sl);
         break;
@@ -529,6 +533,7 @@ public final class SettingsFragmentPresenter
     sl.add(new StringSingleChoiceSetting(StringSetting.GFX_ENHANCE_POST_SHADER,
             R.string.post_processing_shader, 0, shaderListEntries, shaderListValues));
 
+    sl.add(new SubmenuSetting(R.string.custom_textures_submenu, MenuTag.CUSTOM_TEXTURES));
     sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_COPY_EFB_SCALED, R.string.scaled_efb_copy,
             R.string.scaled_efb_copy_description));
     sl.add(new CheckBoxSetting(BooleanSetting.GFX_ENABLE_PIXEL_LIGHTING,
@@ -561,6 +566,14 @@ public final class SettingsFragmentPresenter
     {
       sl.add(new SubmenuSetting(R.string.stereoscopy_submenu, MenuTag.STEREOSCOPY));
     }
+  }
+
+  private void addCustomTexturesSettings(ArrayList<SettingsItem> sl)
+  {
+    sl.add(new CheckBoxSetting(BooleanSetting.GFX_HIRES_TEXTURES,
+      R.string.hires_textures, 0));
+    sl.add(new CheckBoxSetting(BooleanSetting.GFX_CACHE_HIRES_TEXTURES,
+      R.string.cache_hires_textures, R.string.cache_hires_textures_description));
   }
 
   private String[] getShaderList(String subDir)

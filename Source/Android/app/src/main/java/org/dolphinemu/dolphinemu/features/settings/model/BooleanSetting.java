@@ -131,6 +131,8 @@ public enum BooleanSetting implements AbstractBooleanSetting
 
   GFX_WIDESCREEN_HACK(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "wideScreenHack", false),
   GFX_SHOW_FPS(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "ShowFPS", false),
+  GFX_HIRES_TEXTURES(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "HiresTextures", false),
+  GFX_CACHE_HIRES_TEXTURES(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "CacheHiresTextures", false),
   GFX_ENABLE_GPU_TEXTURE_DECODING(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS,
           "EnableGPUTextureDecoding", false),
   GFX_ENABLE_PIXEL_LIGHTING(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS,

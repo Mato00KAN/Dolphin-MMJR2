@@ -211,6 +211,10 @@
     <string name="post_processing_shader_description">Apply a post-processing effect after finishing a frame</string>
     <string name="postprocessing_shader">Post Processing Shader</string>
     <string name="postprocessing_shader_description">Apply a post-processing effect after finishing a frame.</string>
+    <string name="custom_textures_submenu">Custom Textures</string>
+    <string name="hires_textures">Load Custom Textures</string>
+    <string name="cache_hires_textures">Prefetch Custom Textures</string>
+    <string name="cache_hires_textures_description">Preload custom textures into RAM.</string>
     <string name="scaled_efb_copy">Scaled EFB Copy</string>
     <string name="scaled_efb_copy_description">Greatly increases quality of textures generated using render to texture effects. Raising the internal resolution will improve the effect of this setting. Slightly decreases performance and possibly causes issues (although unlikely).</string>
     <string name="per_pixel_lighting">Per-Pixel Lighting</string>
