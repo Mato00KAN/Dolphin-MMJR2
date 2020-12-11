@@ -128,33 +128,32 @@ public final class SettingsActivityPresenter
       // MMJR: load settings to Core immediately only if emulation is running
       if (NativeLibrary.IsRunning())
       {
-        updateRunningSettings();
+        applySettingsToCore();
       }
     }
   }
 
-  public void updateRunningSettings()
+  public void applySettingsToCore()
   {
-    try (Settings settings = new Settings())
+    try
     {
       // initialize current saved settings
-      int[] mRunningSettings = NativeConfig.getEditableSettings();
-      int mRunningSettingsLength = mRunningSettings.length;  //little optimization
+      int[] currentSettings = NativeConfig.getEditableSettings();
+      int currentSettingsLength = currentSettings.length;  //little optimization
 
       // get settings from the running activity
-      settings.loadSettings(null);
-      int[] newSettings = new int[mRunningSettingsLength];
+      int[] newSettings = new int[currentSettingsLength];
       int i = 0;
-      newSettings[i++] = BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE.getBoolean(settings) ? 1 : 0;
-      newSettings[i++] = BooleanSetting.MAIN_JIT_FOLLOW_BRANCH.getBoolean(settings) ? 1 : 0;
-      newSettings[i++] = BooleanSetting.MAIN_OVERCLOCK_ENABLE.getBoolean(settings) ? 1 : 0;
-      newSettings[i] = (int)(FloatSetting.MAIN_OVERCLOCK.getFloat(settings)*100);
+      newSettings[i++] = BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE.getBoolean(mSettings) ? 1 : 0;
+      newSettings[i++] = BooleanSetting.MAIN_JIT_FOLLOW_BRANCH.getBoolean(mSettings) ? 1 : 0;
+      newSettings[i++] = BooleanSetting.MAIN_OVERCLOCK_ENABLE.getBoolean(mSettings) ? 1 : 0;
+      newSettings[i] = (int) (FloatSetting.MAIN_OVERCLOCK.getFloat(mSettings) * 100);
 
       // set settings to core only if they have been changed
       boolean isChanged = false;
-      for (i = 0; !isChanged && i < mRunningSettingsLength; i++)
+      for (i = 0; !isChanged && i < currentSettingsLength; i++)
       {
-        if (newSettings[i] != mRunningSettings[i])
+        if (newSettings[i] != currentSettings[i])
         {
           isChanged = true;
         }
@@ -162,7 +161,6 @@ public final class SettingsActivityPresenter
       if (isChanged)
       {
         NativeConfig.setEditableSettings(newSettings);
-        mView.showToastMessage("MMJR: new settings are active");
       }
     } catch (Exception e) {
       mView.showToastMessage("Something went wrong applying settings to Core");

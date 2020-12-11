@@ -130,7 +130,7 @@ JNIEXPORT void JNICALL Java_org_dolphinemu_dolphinemu_features_settings_model_Na
 
 // MMJR: Native methods to apply settings directly to Core
 JNIEXPORT jintArray JNICALL Java_org_dolphinemu_dolphinemu_features_settings_model_NativeConfig_getEditableSettings(
-        JNIEnv* env, jobject obj)
+        JNIEnv* env, jclass)
 {
     int i = 0, settings[4];
 
@@ -145,7 +145,7 @@ JNIEXPORT jintArray JNICALL Java_org_dolphinemu_dolphinemu_features_settings_mod
 }
 
 JNIEXPORT void JNICALL Java_org_dolphinemu_dolphinemu_features_settings_model_NativeConfig_setEditableSettings(
-        JNIEnv* env, jobject obj, jintArray array)
+        JNIEnv* env, jclass, jintArray array)
 {
     int i = 0;
     jint* settings = env->GetIntArrayElements(array, nullptr);
