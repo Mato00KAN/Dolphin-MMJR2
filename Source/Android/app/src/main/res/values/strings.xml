@@ -459,5 +459,15 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="temp_previous">Version# 12925</string>
     <string name="temp_new">Version# 13117</string>
 
+    <!-- Cheat Window -->
+    <string name="enable_cheats">Enable Cheats</string>
+    <string name="cheat_code">Cheat Codes</string>
+    <string name="toast_save_code_ok">Code Saved!</string>
+    <string name="save">Save</string>
+    <string name="load">Load</string>
+    <string name="toast_save_code_no">Save Failed!</string>
+    <string name="toggle_list">Toggle List</string>
+    <string name="enable_cheats_description">Put AR &amp; Gecko Codes in game setting file.</string>
+
 
 </resources>

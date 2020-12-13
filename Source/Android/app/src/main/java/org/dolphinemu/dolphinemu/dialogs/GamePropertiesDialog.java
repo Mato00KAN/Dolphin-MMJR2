@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment;
 
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.ConvertActivity;
+import org.dolphinemu.dolphinemu.activities.EditorActivity;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 import org.dolphinemu.dolphinemu.features.settings.model.StringSetting;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
@@ -62,8 +63,11 @@ public class GamePropertiesDialog extends DialogFragment
             GameDetailsDialog.newInstance(path).show(requireActivity()
                     .getSupportFragmentManager(), "game_details"));
 
-    itemsBuilder.add(R.string.properties_core_settings, (dialog, i) ->
+        itemsBuilder.add(R.string.properties_core_settings, (dialog, i) ->
       SettingsActivity.launch(getContext(), MenuTag.CONFIG, gameId, revision));
+
+    itemsBuilder.add(R.string.cheat_code, (dialog, i) ->
+      EditorActivity.launch(getContext(), path));
 
     if (shouldAllowConversion)
     {

@@ -630,4 +630,6 @@ public final class NativeLibrary
   }
 
   public static native float GetGameAspectRatio();
+
+  public static native String DecryptARCode(String codes);
 }
