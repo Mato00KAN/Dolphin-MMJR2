@@ -517,6 +517,7 @@ public final class SettingsFragmentPresenter
     sl.add(new SingleChoiceSetting(IntSetting.GFX_EFB_SCALE, R.string.internal_resolution,
             R.string.internal_resolution_description, R.array.internalResolutionEntries,
             R.array.internalResolutionValues));
+    sl.add(new SubmenuSetting(R.string.custom_textures_submenu, MenuTag.CUSTOM_TEXTURES));
     sl.add(new SingleChoiceSetting(IntSetting.GFX_MSAA, R.string.FSAA, R.string.FSAA_description,
             R.array.FSAAEntries, R.array.FSAAValues));
     sl.add(new SingleChoiceSetting(IntSetting.GFX_ENHANCE_MAX_ANISOTROPY,
@@ -533,8 +534,7 @@ public final class SettingsFragmentPresenter
     sl.add(new StringSingleChoiceSetting(StringSetting.GFX_ENHANCE_POST_SHADER,
             R.string.post_processing_shader, 0, shaderListEntries, shaderListValues));
 
-    sl.add(new SubmenuSetting(R.string.custom_textures_submenu, MenuTag.CUSTOM_TEXTURES));
-    sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_COPY_EFB_SCALED, R.string.scaled_efb_copy,
+        sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_COPY_EFB_SCALED, R.string.scaled_efb_copy,
             R.string.scaled_efb_copy_description));
     sl.add(new CheckBoxSetting(BooleanSetting.GFX_ENABLE_PIXEL_LIGHTING,
             R.string.per_pixel_lighting, R.string.per_pixel_lighting_description));
