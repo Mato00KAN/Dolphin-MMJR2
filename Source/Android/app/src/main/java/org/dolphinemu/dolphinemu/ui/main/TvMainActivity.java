@@ -188,7 +188,7 @@ public final class TvMainActivity extends FragmentActivity implements MainView
   }
 
   @Override
-  public void launchUpdaterDialog()
+  public void openUpdaterDialog()
   {
     FragmentManager fm = getSupportFragmentManager();
     UpdaterDialog updaterDialog = UpdaterDialog.newInstance();

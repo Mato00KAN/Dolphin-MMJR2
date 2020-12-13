@@ -184,7 +184,7 @@ public final class MainActivity extends AppCompatActivity implements MainView
   }
 
   @Override
-  public void launchUpdaterDialog()
+  public void openUpdaterDialog()
   {
     FragmentManager fm = getSupportFragmentManager();
     UpdaterDialog updaterDialog = UpdaterDialog.newInstance();

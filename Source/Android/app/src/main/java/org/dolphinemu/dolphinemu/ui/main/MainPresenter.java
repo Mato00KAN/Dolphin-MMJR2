@@ -104,7 +104,7 @@ public final class MainPresenter
         return true;
 
       case R.id.updater_dialog:
-        mView.launchUpdaterDialog();
+        mView.openUpdaterDialog();
         return true;
     }
 
