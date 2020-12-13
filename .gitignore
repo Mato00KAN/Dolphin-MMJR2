@@ -39,4 +39,3 @@ CMakeLists.txt.user
 # Ignore Visual Studio Code's working dir
 /.vscode/
 Source/Android/app/release/output-metadata.json
-Source/Android/gradle/wrapper/gradle-wrapper.properties

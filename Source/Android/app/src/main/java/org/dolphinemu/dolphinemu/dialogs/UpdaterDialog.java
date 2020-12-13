@@ -25,7 +25,7 @@ public final class UpdaterDialog extends DialogFragment
     AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(),
             R.style.DolphinDialogBase);
     ViewGroup contents = (ViewGroup) getActivity().getLayoutInflater()
-            .inflate(R.layout.dialog_updater_main, null);
+            .inflate(R.layout.dialog_updater, null);
 
     builder.setView(contents);
     return builder.create();

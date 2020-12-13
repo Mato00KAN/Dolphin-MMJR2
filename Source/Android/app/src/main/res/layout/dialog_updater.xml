@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/dolphin_background"
-    android:transitionName="card_game">
+    android:transitionName="card_game"
+    style="@style/DolphinDialogBase">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -74,7 +75,7 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/main_gradient"
+            android:background="@drawable/button_gradient"
             android:foreground="?android:attr/selectableItemBackground"
             android:stateListAnimator="@null"
             android:text="@string/download"
@@ -121,7 +122,7 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/dolphin_purple"
+            android:background="@drawable/button_purple"
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/download"
             android:textColor="#fafafa"
@@ -136,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_marginTop="14dp"
-            android:progressDrawable="@drawable/progressbar"
+            android:progressDrawable="@drawable/progressbar_purple"
             app:layout_constraintTop_toBottomOf="@id/button_older_update"
             tools:progress="55" />
 

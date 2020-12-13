@@ -114,7 +114,7 @@
         style="@style/InGameMenuOption"
         android:layout_width="210dp"
         android:layout_gravity="center"
-        android:background="@drawable/menu_exit"
+        android:background="@drawable/button_ingame_menu_exit"
         android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/emulation_exit"
         android:textAlignment="center"

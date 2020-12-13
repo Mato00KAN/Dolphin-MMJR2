@@ -12,8 +12,6 @@ add_library(core
   ConfigManager.h
   Core.cpp
   Core.h
-  Gecko2AR.cpp
-  Gecko2AR.h
   CoreTiming.cpp
   CoreTiming.h
   DSPEmulator.cpp
