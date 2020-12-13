@@ -101,7 +101,7 @@
             android:theme="@style/DolphinBase" />
 
         <activity
-            android:name=".activities.EditorActivity"
+            android:name=".activities.CheatEditorActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"

@@ -53,7 +53,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class EditorActivity extends AppCompatActivity
+public class CheatEditorActivity extends AppCompatActivity
 {
   private static class CheatEntry
   {
@@ -166,9 +166,9 @@ public class EditorActivity extends AppCompatActivity
   {
     private int mSelection;
     private String mContent;
-    private WeakReference<EditorActivity> mActivity;
+    private WeakReference<CheatEditorActivity> mActivity;
 
-    public DownloaderTask(EditorActivity editor)
+    public DownloaderTask(CheatEditorActivity editor)
     {
       mActivity = new WeakReference<>(editor);
     }
@@ -407,7 +407,7 @@ public class EditorActivity extends AppCompatActivity
 
   public static void launch(Context context, String gamePath)
   {
-    Intent settings = new Intent(context, EditorActivity.class);
+    Intent settings = new Intent(context, CheatEditorActivity.class);
     settings.putExtra(ARG_GAME_PATH, gamePath);
     context.startActivity(settings);
   }
