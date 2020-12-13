@@ -187,7 +187,7 @@ public class CheatEditorActivity extends AppCompatActivity
       OkHttpClient downloader = new OkHttpClient();
       Response response = null;
       Request request = new Request.Builder()
-        .url("https://www.geckocodes.org/txt.php?txt=" + gametdbId[0])
+        .url("https://codes.rc24.xyz/txt.php?txt=" + gametdbId[0])
         .addHeader("Cookie", "challenge=BitMitigate.com")
         .build();
 
