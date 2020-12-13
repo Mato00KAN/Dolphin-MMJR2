@@ -20,6 +20,7 @@ public enum MenuTag
   HACKS("hacks"),
   DEBUG("debug"),
   ENHANCEMENTS("enhancements"),
+  CUSTOM_TEXTURES("custom_textures"),
   STEREOSCOPY("stereoscopy"),
   GCPAD_1("gcpad", 0),
   GCPAD_2("gcpad", 1),
