@@ -25,7 +25,7 @@
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/updater_message" />
+            android:contentDescription="@string/grid_menu_open_updater" />
 
         <TextView
             android:id="@+id/title"
@@ -41,59 +41,79 @@
             android:textColor="@color/dolphin_fucsia"
             app:layout_constraintTop_toBottomOf="@id/banner" />
 
+        <TextView
+            android:id="@+id/text_installed_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:text="@string/installed_version"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
         <View
             android:id="@+id/divider_1"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:background="@color/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/text_installed_version" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="latest_version, older_version" />
+            app:constraint_referenced_ids="text_latest_version, text_older_version" />
 
         <TextView
-            android:id="@+id/latest_version"
+            android:id="@+id/text_latest_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="30dp"
             android:gravity="start"
-            android:text="@string/temp_new"
+            android:text="@string/version_description"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_1" />
 
-        <Button
-            android:id="@+id/button_latest_update"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/download_latest"
+            android:layout_width="160dp"
+            android:layout_height="48dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/button_gradient"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:stateListAnimator="@null"
-            android:text="@string/download"
-            android:textColor="#fafafa"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintTop_toBottomOf="@id/divider_1"
-            app:layout_constraintStart_toEndOf="@id/barrier" />
+            app:layout_constraintStart_toEndOf="@id/barrier" >
+            <Button
+                android:id="@+id/button_latest_version"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="160dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_gradient"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:stateListAnimator="@null"
+                android:text="@string/button_download"
+                android:textColor="#fafafa"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/progressbar_latest_version"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="14dp"
-            android:progressDrawable="@drawable/progressbar_gradient"
-            app:layout_constraintTop_toBottomOf="@id/button_latest_update"
-            tools:progress="65" />
+            <ProgressBar
+                android:id="@+id/progressbar_latest_version"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:max="100"
+                android:progress="0"
+                android:visibility="invisible"
+                android:progressDrawable="@drawable/progressbar_gradient"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:progress="65" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/divider_2"
@@ -103,43 +123,52 @@
             android:background="@color/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progressbar_latest_version" />
+            app:layout_constraintTop_toBottomOf="@id/download_latest" />
 
         <TextView
-            android:id="@+id/older_version"
+            android:id="@+id/text_older_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="30dp"
             android:gravity="start"
-            android:text="@string/temp_previous"
+            android:text="@string/version_description"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider_2" />
 
-        <Button
-            android:id="@+id/button_older_update"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/download_older"
+            android:layout_width="160dp"
+            android:layout_height="48dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/button_purple"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/download"
-            android:textColor="#fafafa"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintTop_toBottomOf="@id/divider_2"
-            app:layout_constraintStart_toEndOf="@+id/barrier" />
+            app:layout_constraintStart_toEndOf="@+id/barrier" >
+            <Button
+                android:id="@+id/button_older_version"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="160dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_purple"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:stateListAnimator="@null"
+                android:text="@string/button_download"
+                android:textColor="#fafafa"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/progressbar_older_version"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="14dp"
-            android:progressDrawable="@drawable/progressbar_purple"
-            app:layout_constraintTop_toBottomOf="@id/button_older_update"
-            tools:progress="55" />
+            <ProgressBar
+                android:id="@+id/progressbar_older_version"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:max="100"
+                android:progress="0"
+                android:visibility="invisible"
+                android:progressDrawable="@drawable/progressbar_purple"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:progress="65" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/divider_3"
@@ -149,7 +178,7 @@
             android:background="@color/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progressbar_older_version" />
+            app:layout_constraintTop_toBottomOf="@id/download_older" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
