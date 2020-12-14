@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -87,6 +88,10 @@ public final class MainPresenter
         mView.launchSettingsActivity(MenuTag.WIIMOTE);
         return true;
 
+      case R.id.menu_controllers:
+        mView.launchSettingsActivity(MenuTag.CONTROLLERS);
+        return true;
+
       case R.id.menu_refresh:
         GameFileCacheService.startRescan(context);
         return true;
@@ -101,6 +106,10 @@ public final class MainPresenter
 
       case R.id.menu_install_wad:
         new AfterDirectoryInitializationRunner().run(context, true, mView::launchInstallWAD);
+        return true;
+
+      case R.id.menu_changelog:
+        mView.openChangelogDialog();
         return true;
 
       case R.id.updater_dialog:

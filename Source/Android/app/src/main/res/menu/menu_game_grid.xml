@@ -22,15 +22,22 @@
 
     <item
         android:id="@+id/menu_settings_gcpad"
-        android:title="@string/grid_menu_gcpad_settings"
         android:icon="@drawable/ic_settings_gcpad"
+        android:title="@string/grid_menu_gcpad_settings"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_controllers"
+        android:title="@string/controls_heading"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_settings_wiimote"
-        android:title="@string/grid_menu_wiimote_settings"
         android:icon="@drawable/ic_settings_wiimote"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/grid_menu_wiimote_settings"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_open_file"
@@ -44,8 +51,13 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/menu_changelog"
+        android:title="@string/changelog_menu"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/updater_dialog"
         android:title="@string/updater_message"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 </menu>

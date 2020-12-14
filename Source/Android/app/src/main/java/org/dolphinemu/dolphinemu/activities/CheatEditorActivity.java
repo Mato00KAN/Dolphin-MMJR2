@@ -481,7 +481,7 @@ public class CheatEditorActivity extends AppCompatActivity
   public boolean onCreateOptionsMenu(Menu menu)
   {
     MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.menu_editor, menu);
+    inflater.inflate(R.menu.menu_cheateditor, menu);
     return true;
   }
 
@@ -509,6 +509,7 @@ public class CheatEditorActivity extends AppCompatActivity
       mListView.setVisibility(View.VISIBLE);
       mEditor.setVisibility(View.INVISIBLE);
       loadCheatList();
+      Toast.makeText(this, getString(R.string.enable_cheats_description), Toast.LENGTH_LONG).show();
     }
     else
     {

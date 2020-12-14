@@ -14,6 +14,7 @@ public enum MenuTag
   CONFIG_ADVANCED("config_advanced"),
   CONFIG_LOG("config_log"),
   WIIMOTE("wiimote"),
+  CONTROLLERS("controllers"),
   WIIMOTE_EXTENSION("wiimote_extension"),
   GCPAD_TYPE("gc_pad_type"),
   GRAPHICS("graphics"),

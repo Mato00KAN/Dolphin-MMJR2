@@ -21,6 +21,7 @@ import com.google.android.material.tabs.TabLayout;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.adapters.PlatformPagerAdapter;
+import org.dolphinemu.dolphinemu.dialogs.ChangelogDialog;
 import org.dolphinemu.dolphinemu.features.settings.model.IntSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
@@ -190,6 +191,15 @@ public final class MainActivity extends AppCompatActivity implements MainView
     UpdaterDialog updaterDialog = UpdaterDialog.newInstance();
     updaterDialog.show(fm, "fragment_updater");
   }
+
+  @Override
+  public void openChangelogDialog()
+  {
+    FragmentManager fmc = getSupportFragmentManager();
+    ChangelogDialog changelogDialog = ChangelogDialog.newInstance();
+    changelogDialog.show(fmc, "fragment_changelog");
+  }
+
   /**
    * @param requestCode An int describing whether the Activity that is returning did so successfully.
    * @param resultCode  An int describing what Activity is giving us this callback.

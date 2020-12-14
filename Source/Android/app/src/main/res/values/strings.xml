@@ -451,6 +451,9 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="disc_number">Disc %1$d</string>
     <string name="disabled_gc_overlay_notice">GameCube Controller 1 is set to \"None\"</string>
     <string name="ignore_warning_alert_messages">Ignore for this session</string>
+    <string name="controls_heading">Controllers</string>
+
+
 
     <!-- Updater Window -->
     <string name="updater_message">MMJR Updater</string>
@@ -469,6 +472,38 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="toast_save_code_no">Save Failed!</string>
     <string name="toggle_list">Cheat Editor</string>
     <string name="enable_cheats_description">Put AR &amp; Gecko Codes in game setting file.</string>
+
+    <!-- Changelog Window -->
+    <string name="changelog_Title">|MMJR| Changelog</string>
+    <string name="changelog_menu">Changelog</string>
+    <string name="changelog_title_latest">[Latest]</string>
+    <string name="changelog_latest_version">|MMJR| revamp# 13117</string>
+    <string name="changelog_latest">
+[1.0.0] - 2017-06-20
+\n\n [Added]
+\n\n- New visual identity by [@tylerfortune8](https://github.com/tylerfortune8).
+\n\n- Version navigation.
+\n\n- Links to latest released version in previous versions.
+\n\n- "Why keep a changelog?" section.
+\n\n- "Who needs a changelog?" section.
+\n\n- "How do I make a changelog?" section.
+\n\n- "Frequently Asked Questions" section.
+\n\n- New "Guiding Principles" sub-section to "How do I make a changelog?".
+\n\n- Merge "Why can’t people just use a git log diff?" with "Commit log diffs"
+\n\n [Removed]
+\n\n- Section about "changelog" vs "CHANGELOG".
+\n\n
+    </string>
+    <string name="changelog_title_previous">[Previous]</string>
+    <string name="changelog_previous_version">|MMJR| revamp# 12925</string>
+    <string name="changelog_previous">
+[0.3.0] - 2015-12-03
+\n\n [Added]
+\n\n- RU translation from [@aishek](https://github.com/aishek).
+\n\n- pt-BR translation from [@tallesl](https://github.com/tallesl).
+\n\n- es-ES translation from [@ZeliosAriex](https://github.com/ZeliosAriex).
+\n\n
+    </string>
 
 
 </resources>
