@@ -30,6 +30,7 @@
     <item
         android:id="@+id/menu_controllers"
         android:title="@string/controls_heading"
+        android:icon="@drawable/ic_settings_gcpad"
         app:showAsAction="ifRoom"/>
 
     <item
