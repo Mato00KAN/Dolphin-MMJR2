@@ -16,7 +16,8 @@ import org.dolphinemu.dolphinemu.BuildConfig;
 
 public class UpdaterUtils
 {
-  private static CustomCallback mCallback;
+  private static LoadCallback mLoadCallback;
+  private static DownloadCallback mDownloadCallback;
   private static final String mURL = "https://api.npoint.io/c43ee26a63ee41e7c3e5";
 
   private static JSONObject jsonData;
@@ -45,7 +46,7 @@ public class UpdaterUtils
         @Override
         public void onErrorResponse(VolleyError error)
         {
-          mCallback.onLoadError();
+          mLoadCallback.onLoadError();
         }
       });
     queue.add(jsonRequest);
@@ -60,23 +61,29 @@ public class UpdaterUtils
       mOlderVersion = jsonData.getJSONObject("build").getInt("older");
       mUrlLatest = jsonData.getJSONObject("url").getString("latest");
       mUrlOlder = jsonData.getJSONObject("url").getString("older");
-      mCallback.onLoad();
+      mLoadCallback.onLoad();
     }
     catch (JSONException e)
     {
-      mCallback.onLoadError();
+      mLoadCallback.onLoadError();
     }
   }
 
   public static void download(String url)
   {
-    mCallback.onDownloadStart();
-    mCallback.onDownloadProgress(50);
+    DownloadUtils download = new DownloadUtils(url);
+    download.setCallbackListener(mDownloadCallback);
+    download.start();
   }
 
-  public static void setCallbackListener(CustomCallback listener)
+  public static void setOnLoadListener(LoadCallback listener)
   {
-    mCallback = listener;
+    mLoadCallback = listener;
+  }
+
+  public static void setOnDownloadListener(DownloadCallback listener)
+  {
+    mDownloadCallback = listener;
   }
 
   public static int getBuildVersion()

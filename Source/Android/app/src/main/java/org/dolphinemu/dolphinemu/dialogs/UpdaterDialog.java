@@ -17,10 +17,12 @@ import androidx.fragment.app.DialogFragment;
 import java.lang.ref.WeakReference;
 
 import org.dolphinemu.dolphinemu.R;
-import org.dolphinemu.dolphinemu.utils.CustomCallback;
+import org.dolphinemu.dolphinemu.utils.DownloadCallback;
+import org.dolphinemu.dolphinemu.utils.LoadCallback;
+import org.dolphinemu.dolphinemu.utils.Log;
 import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
 
-public final class UpdaterDialog extends DialogFragment implements View.OnClickListener, CustomCallback
+public final class UpdaterDialog extends DialogFragment implements View.OnClickListener, LoadCallback, DownloadCallback
 {
   private ViewGroup mViewGroup;
   private WeakReference<Button> mActiveButton = new WeakReference<>(null);
@@ -50,7 +52,8 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     mLoading = new WeakReference<>(mViewGroup.findViewById(R.id.updater_loading));
 
     UpdaterUtils.init(getContext());
-    UpdaterUtils.setCallbackListener(this);
+    UpdaterUtils.setOnLoadListener(this);
+    UpdaterUtils.setOnDownloadListener(this);
 
     builder.setView(mViewGroup);
     return builder.create();
@@ -128,7 +131,6 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     mActiveButton = new WeakReference<>((Button) view);
     String url = null;
 
-
     if (viewId == R.id.button_latest_version)
     {
       mActivePb = new WeakReference<>(mViewGroup.findViewById(R.id.progressbar_latest_version));
@@ -159,18 +161,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   @Override
   public void onDownloadProgress(int progress)
   {
-    //mActivePb.get().setProgress(progress);
-    ValueAnimator animator = ValueAnimator.ofInt(0, mActivePb.get().getMax());
-    animator.setDuration(3000);
-    animator.addUpdateListener(animation -> mActivePb.get().setProgress((Integer)animation.getAnimatedValue()));
-    animator.addListener(new AnimatorListenerAdapter() {
-      @Override
-      public void onAnimationEnd(Animator animation) {
-        super.onAnimationEnd(animation);
-        onDownloadComplete();
-      }
-    });
-    animator.start();
+    mActivePb.get().setProgress(progress);
   }
 
   @Override
