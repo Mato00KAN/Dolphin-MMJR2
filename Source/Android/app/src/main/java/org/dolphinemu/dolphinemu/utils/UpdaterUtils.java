@@ -1,6 +1,8 @@
 package org.dolphinemu.dolphinemu.utils;
 
 import android.content.Context;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.android.volley.Request;
@@ -9,6 +11,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.dolphinemu.dolphinemu.BuildConfig;
 
 public class UpdaterUtils
 {
@@ -58,7 +62,7 @@ public class UpdaterUtils
       mUrlOlder = jsonData.getJSONObject("url").getString("older");
       mCallback.onLoad();
     }
-    catch (Exception e)
+    catch (JSONException e)
     {
       mCallback.onLoadError();
     }
@@ -73,6 +77,18 @@ public class UpdaterUtils
   public static void setCallbackListener(CustomCallback listener)
   {
     mCallback = listener;
+  }
+
+  public static int getBuildVersion()
+  {
+    try
+    {
+      return BuildConfig.VERSION_CODE;
+    }
+    catch (Exception e)
+    {
+      return -1;
+    }
   }
 
   public static int getLatestVersion()

@@ -17,7 +17,6 @@ import androidx.fragment.app.DialogFragment;
 import java.lang.ref.WeakReference;
 
 import org.dolphinemu.dolphinemu.R;
-import org.dolphinemu.dolphinemu.BuildConfig;
 import org.dolphinemu.dolphinemu.utils.CustomCallback;
 import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
 
@@ -29,6 +28,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   private WeakReference<ProgressBar> mActivePb = new WeakReference<>(null);
   private WeakReference<View> mActiveCheck = new WeakReference<>(null);
   private WeakReference<ProgressBar> mLoading = new WeakReference<>(null);
+  private final int mBuildVersion = UpdaterUtils.getBuildVersion();
 
   public static UpdaterDialog newInstance()
   {
@@ -42,10 +42,10 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(),
             R.style.DolphinDialogBase);
     mViewGroup = (ViewGroup) getActivity().getLayoutInflater()
-      .inflate(R.layout.dialog_updater, null);
+            .inflate(R.layout.dialog_updater, null);
 
     TextView textInstalled = mViewGroup.findViewById(R.id.text_installed_version);
-    textInstalled.setText(getString(R.string.installed_version, BuildConfig.VERSION_CODE));
+    textInstalled.setText(getString(R.string.installed_version, mBuildVersion));
 
     mLoading = new WeakReference<>(mViewGroup.findViewById(R.id.updater_loading));
 
@@ -56,33 +56,42 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     return builder.create();
   }
 
-  @Override
-  public void onClick(View view) {
-    int viewId = view.getId();
-    mActiveButton = new WeakReference<>((Button) view);
-    String url = null;
-
-
-    if (viewId == R.id.button_latest_version)
+  private void setUpdaterMessage()
+  {
+    TextView updaterMessage = mViewGroup.findViewById(R.id.text_updater_message);
+    if (mBuildVersion == UpdaterUtils.getLatestVersion())
     {
-      mActivePb = new WeakReference<>(mViewGroup.findViewById(R.id.progressbar_latest_version));
-      mInactiveButton = new WeakReference<>(mViewGroup.findViewById(R.id.button_older_version));
-      mActiveCheck = new WeakReference<>(mViewGroup.findViewById(R.id.check_latest_version));
-      url = UpdaterUtils.getUrlLatest();
+      mActiveButton = new WeakReference<>(mViewGroup.findViewById(R.id.button_latest_version));
+      updaterMessage.setText(R.string.updater_uptodate);
+      updaterMessage.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
     }
-    else if (viewId == R.id.button_older_version)
-    {
-      mActivePb = new WeakReference<>(mViewGroup.findViewById(R.id.progressbar_older_version));
-      mInactiveButton = new WeakReference<>(mViewGroup.findViewById(R.id.button_latest_version));
-      mActiveCheck = new WeakReference<>(mViewGroup.findViewById(R.id.check_older_version));
-      url = UpdaterUtils.getUrlOlder();
-    }
-    mInactiveButton.get().setClickable(false);
-
-    if (url != null)
-      UpdaterUtils.download(url);
     else
-      onDownloadError();
+    {
+      updaterMessage.setText(R.string.updater_newavailable);
+      updaterMessage.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+      if (mBuildVersion == UpdaterUtils.getOlderVersion())
+      {
+        mActiveButton = new WeakReference<>(mViewGroup.findViewById(R.id.button_older_version));
+      }
+      else return;
+    }
+
+    disableActiveButton();
+  }
+
+  private void disableActiveButton()
+  {
+    mActiveButton.get().setText(null);
+    mActiveButton.get().setEnabled(false);
+    if (mActiveButton.get().getId() == R.id.button_latest_version)
+    {
+      mActiveCheck = new WeakReference<>(mViewGroup.findViewById(R.id.check_latest_version));
+    }
+    else if (mActiveButton.get().getId() == R.id.button_older_version)
+    {
+      mActiveCheck = new WeakReference<>(mViewGroup.findViewById(R.id.check_older_version));
+    }
+    mActiveCheck.get().setVisibility(View.VISIBLE);
   }
 
   @Override
@@ -98,6 +107,8 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     buttonLatest.setOnClickListener(this);
     buttonOlder.setOnClickListener(this);
 
+    setUpdaterMessage();
+
     View updaterUi = mViewGroup.findViewById(R.id.updater_ui);
     mLoading.get().setVisibility(View.INVISIBLE);
     updaterUi.setVisibility(View.VISIBLE);
@@ -109,6 +120,33 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     TextView textError = mViewGroup.findViewById(R.id.updater_error);
     mLoading.get().setVisibility(View.INVISIBLE);
     textError.setVisibility(View.VISIBLE);
+  }
+
+  @Override
+  public void onClick(View view) {
+    int viewId = view.getId();
+    mActiveButton = new WeakReference<>((Button) view);
+    String url = null;
+
+
+    if (viewId == R.id.button_latest_version)
+    {
+      mActivePb = new WeakReference<>(mViewGroup.findViewById(R.id.progressbar_latest_version));
+      mInactiveButton = new WeakReference<>(mViewGroup.findViewById(R.id.button_older_version));
+      url = UpdaterUtils.getUrlLatest();
+    }
+    else if (viewId == R.id.button_older_version)
+    {
+      mActivePb = new WeakReference<>(mViewGroup.findViewById(R.id.progressbar_older_version));
+      mInactiveButton = new WeakReference<>(mViewGroup.findViewById(R.id.button_latest_version));
+      url = UpdaterUtils.getUrlOlder();
+    }
+    mInactiveButton.get().setClickable(false);
+
+    if (url != null)
+      UpdaterUtils.download(url);
+    else
+      onDownloadError();
   }
 
   @Override
@@ -138,20 +176,18 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   @Override
   public void onDownloadComplete()
   {
-    mActiveButton.get().setText(null);
-    mActiveButton.get().setEnabled(false);
-    mActiveCheck.get().setVisibility(View.VISIBLE);
-    onDownloadEnd();
+    disableActiveButton();
+    onDownloadStop();
   }
 
   @Override
   public void onDownloadError()
   {
     mActiveButton.get().setText(R.string.button_error);
-    onDownloadEnd();
+    onDownloadStop();
   }
 
-  public void onDownloadEnd()
+  public void onDownloadStop()
   {
     mActivePb.get().setVisibility(View.INVISIBLE);
     mActiveButton.get().setVisibility(View.VISIBLE);

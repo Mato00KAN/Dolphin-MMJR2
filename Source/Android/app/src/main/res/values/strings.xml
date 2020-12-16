@@ -457,6 +457,8 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="grid_menu_open_updater">MMJR Updater</string>
     <string name="updater_title">Updater</string>
     <string name="updater_error">An error has occurred. Please check your internet connection.</string>
+    <string name="updater_uptodate">Up to date!</string>
+    <string name="updater_newavailable">Newer version available</string>
     <string name="button_label_latest">Latest</string>
     <string name="button_label_older">Previous</string>
     <string name="button_download_done">Done!</string>
