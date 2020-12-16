@@ -1,10 +1,6 @@
 package org.dolphinemu.dolphinemu.utils;
 
-public class DownloadUtil implements Runnable
+public class DownloadUtil
 {
-  // TODO: implement async download methods here (mainly getStringFromUrl will be implemented here)
-  @Override
-  public void run() {
-
-  }
+  // TODO: implement async download methods here
 }

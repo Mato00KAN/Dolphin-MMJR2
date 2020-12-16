@@ -453,14 +453,14 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="ignore_warning_alert_messages">Ignore for this session</string>
     <string name="controls_heading">Controllers</string>
 
-
-
     <!-- Updater Window -->
     <string name="grid_menu_open_updater">MMJR Updater</string>
     <string name="updater_title">Updater</string>
-    <string name="button_download">Download</string>
+    <string name="updater_error">An error has occurred. Please check your internet connection.</string>
+    <string name="button_label_latest">Latest</string>
+    <string name="button_label_older">Previous</string>
     <string name="button_download_done">Done!</string>
-    <string name="button_error">Not available</string>
+    <string name="button_error">Error</string>
     <string name="installed_version">Installed version: %1$d</string>
     <string name="version_description">Version# %1$d</string>
 
@@ -480,8 +480,5 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="changelog_Starter_Title2">=== CHANGELOG ===</string>
     <string name="changelog_menu">Changelog</string>
     <string name="changelog_logo">Changelog logo</string>
-
-
-
 
 </resources>

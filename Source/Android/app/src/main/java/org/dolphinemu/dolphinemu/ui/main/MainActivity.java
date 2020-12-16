@@ -55,11 +55,6 @@ public final class MainActivity extends AppCompatActivity implements MainView
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
-
-    // temporary stuff to make the updater work, this is real bad so gotta be removed fast
-    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-    StrictMode.setThreadPolicy(policy);
-
     setContentView(R.layout.activity_main);
 
     findViews();
