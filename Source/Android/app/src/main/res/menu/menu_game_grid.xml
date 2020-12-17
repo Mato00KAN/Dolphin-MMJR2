@@ -24,20 +24,14 @@
         android:id="@+id/menu_settings_gcpad"
         android:icon="@drawable/ic_settings_gcpad"
         android:title="@string/grid_menu_gcpad_settings"
-        android:visible="false"
+        android:visible="true"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/menu_controllers"
-        android:title="@string/controls_heading"
-        android:icon="@drawable/ic_settings_gcpad"
-        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_settings_wiimote"
         android:icon="@drawable/ic_settings_wiimote"
         android:title="@string/grid_menu_wiimote_settings"
-        android:visible="false"
+        android:visible="true"
         app:showAsAction="ifRoom" />
 
     <item

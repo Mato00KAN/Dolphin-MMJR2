@@ -349,6 +349,10 @@ public final class TvMainActivity extends FragmentActivity implements MainView
             R.drawable.ic_add_tv,
             R.string.add_directory_title));
 
+    rowItems.add(new TvSettingsItem(R.id.updater_dialog,
+      R.drawable.ic_cheat_load,
+      R.string.grid_menu_open_updater));
+
     rowItems.add(new TvSettingsItem(R.id.menu_refresh,
             R.drawable.ic_refresh_tv,
             R.string.grid_menu_refresh));

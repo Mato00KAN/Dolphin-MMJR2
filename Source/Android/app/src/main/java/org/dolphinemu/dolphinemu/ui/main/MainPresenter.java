@@ -88,10 +88,6 @@ public final class MainPresenter
         mView.launchSettingsActivity(MenuTag.WIIMOTE);
         return true;
 
-      case R.id.menu_controllers:
-        mView.launchSettingsActivity(MenuTag.CONTROLLERS);
-        return true;
-
       case R.id.menu_refresh:
         GameFileCacheService.startRescan(context);
         return true;
