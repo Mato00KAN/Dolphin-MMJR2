@@ -43,7 +43,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
             .inflate(R.layout.dialog_updater, null);
 
     TextView textInstalled = mViewGroup.findViewById(R.id.text_installed_version);
-    textInstalled.setText(getString(R.string.installed_version, mBuildVersion));
+    textInstalled.setText(getString(R.string.version_description, mBuildVersion, "Installed"));
 
     mLoading = new WeakReference<>(mViewGroup.findViewById(R.id.updater_loading));
 
@@ -98,8 +98,8 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   {
     TextView textLatest = mViewGroup.findViewById(R.id.text_latest_version);
     TextView textOlder = mViewGroup.findViewById(R.id.text_older_version);
-    textLatest.setText(getString(R.string.version_description, UpdaterUtils.getLatestVersion()));
-    textOlder.setText(getString(R.string.version_description, UpdaterUtils.getOlderVersion()));
+    textLatest.setText(getString(R.string.version_description, UpdaterUtils.getLatestVersion(), "Latest"));
+    textOlder.setText(getString(R.string.version_description, UpdaterUtils.getOlderVersion(), "Previous"));
 
     Button buttonLatest = mViewGroup.findViewById(R.id.button_latest_version);
     Button buttonOlder = mViewGroup.findViewById(R.id.button_older_version);
