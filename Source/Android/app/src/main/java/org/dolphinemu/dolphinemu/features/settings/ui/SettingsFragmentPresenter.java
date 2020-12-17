@@ -157,9 +157,6 @@ public final class SettingsFragmentPresenter
         addGraphicsSettings(sl);
         break;
 
-      case CONTROLLERS:
-        addControllerSettings(sl);
-        break;
 
       case GCPAD_TYPE:
         addGcPadSettings(sl);
@@ -493,13 +490,6 @@ public final class SettingsFragmentPresenter
               R.array.wiimoteTypeEntries, R.array.wiimoteTypeValues,
               MenuTag.getWiimoteMenuTag(i + 4)));
     }
-  }
-
-  private void addControllerSettings(ArrayList<SettingsItem> sl)
-  {
-    sl.add(new HeaderSetting(R.string.controls_heading, 0));
-    sl.add(new SubmenuSetting(R.string.grid_menu_gcpad_settings, MenuTag.GCPAD_TYPE));
-    sl.add(new SubmenuSetting(R.string.grid_menu_wiimote_settings, MenuTag.WIIMOTE));
   }
 
 

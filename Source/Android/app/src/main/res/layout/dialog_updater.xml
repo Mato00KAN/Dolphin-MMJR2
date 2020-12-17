@@ -79,6 +79,7 @@
             android:id="@+id/updater_ui"
             android:visibility="invisible"
             android:layout_width="match_parent"
+            android:paddingBottom="10dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/text_installed_version"
@@ -244,6 +245,18 @@
                 app:layout_constraintTop_toBottomOf="@id/download_older" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/changelog_load"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_gradient2"
+            android:gravity="center"
+            android:text="@string/changelog_menu"
+            app:layout_constraintTop_toBottomOf="@id/updater_ui"
+            android:textColor="#FFFFFF"
+            tools:layout_editor_absoluteX="142dp"
+            tools:layout_editor_absoluteY="442dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

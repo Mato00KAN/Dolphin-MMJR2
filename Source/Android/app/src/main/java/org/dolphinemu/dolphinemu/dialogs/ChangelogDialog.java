@@ -75,7 +75,7 @@ public final class ChangelogDialog extends DialogFragment {
 
       @Override
       public void onFailure(Call<List<ChangelogPost>> call, Throwable t) {
-        textViewResult.setText("[Failed to load Changelog]");
+        textViewResult.setText("[Failed to connect to Changelog]");
       }
     });
 
