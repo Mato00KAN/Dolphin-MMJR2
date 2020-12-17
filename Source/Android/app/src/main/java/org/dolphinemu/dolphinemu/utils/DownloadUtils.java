@@ -12,23 +12,83 @@ import android.os.Handler;
 
 public class DownloadUtils implements Runnable
 {
-  private Handler mHandler = null;
-  private File mDownloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+  private Handler mHandler;
   private DownloadCallback mCallback;
+  private File mDownloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
   private final String mUrl;
-  private File mFile = null;
+  private File mFile;
 
-  public DownloadUtils(Handler handler, String url)
+  /**
+   * Default contructor.
+   * <br><br>
+   * Call start() to start the download.
+   *
+   * @param handler Handler that will handle download status callbacks.
+   * @param callback Listener of download status callbacks.
+   * @param url The url of the file to download.
+   * @param path The path to download the file to.
+   */
+  public DownloadUtils(Handler handler, DownloadCallback callback, String url, File path)
   {
     mHandler = handler;
+    mCallback = callback;
+    mUrl = url;
+    mDownloadPath = path;
+  }
+
+  /**
+   * Alternative constructor, when no callbacks are needed (e.g. background task).
+   * <br><br>
+   * Call start() to start the download.
+   *
+   * @param url The url of the file to download.
+   * @param path The path to download the file to.
+   */
+  public DownloadUtils(String url, File path)
+  {
+    mUrl = url;
+    mDownloadPath = path;
+  }
+
+  /**
+   * Alternative constructor. getExternalStoragePublicDirectory() is deprecated so consider using
+   * the default constructor, getting the path from a context. The download path is the Downloads folder.
+   * <br><br>
+   * Call start() to start the download.
+   *
+   * @param handler Handler that will handle download status callbacks.
+   * @param callback The listener of download status callbacks.
+   * @param url The url of the file to download.
+   *
+   * @deprecated
+   */
+  public DownloadUtils(Handler handler, DownloadCallback callback, String url)
+  {
+    mHandler = handler;
+    mCallback = callback;
     mUrl = url;
   }
 
+  /**
+   * Alternative constructor, getExternalStoragePublicDirectory() is deprecated so consider using
+   * the default constructor, getting the path from a context. The download path is the Downloads folder.
+   * <br><br>
+   * Call start() to start the download.
+   *
+   * @param url The url of the file to download.
+   *
+   * @deprecated
+   */
   public DownloadUtils(String url)
   {
     mUrl = url;
   }
 
+  /**
+   * Starts the download on a new thread.
+   *
+   * @see DownloadUtils
+   */
   public void start()
   {
     Thread downloadThread = new Thread(this);
@@ -90,11 +150,31 @@ public class DownloadUtils implements Runnable
     }
   }
 
+  /**
+   * This setter is here for convenience as you should always use the constructor.
+   *
+   * @param handler Handler that will handle download status callbacks.
+   */
+  public void setHandler(Handler handler)
+  {
+    mHandler = handler;
+  }
+
+  /**
+   * This setter is here for convenience as you should always use the constructor.
+   *
+   * @param listener The listener of download status callbacks.
+   */
   public void setCallbackListener(DownloadCallback listener)
   {
     mCallback = listener;
   }
 
+  /**
+   * This setter is here for convenience as you should always use the constructor.
+   *
+   * @param path The path to download the file to.
+   */
   public void setDownloadPath(String path)
   {
     mDownloadPath = new File(path);

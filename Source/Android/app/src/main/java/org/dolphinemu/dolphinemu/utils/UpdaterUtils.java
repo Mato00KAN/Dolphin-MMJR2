@@ -18,22 +18,22 @@ import org.dolphinemu.dolphinemu.BuildConfig;
 
 public class UpdaterUtils
 {
-  private static LoadCallback mLoadCallback;
-  private static DownloadCallback mDownloadCallback;
-  private static final String mURL = "https://api.npoint.io/c43ee26a63ee41e7c3e5";
+  private static LoadCallback sLoadCallback;
+  private static DownloadCallback sDownloadCallback;
+  private static final String URL = "https://api.npoint.io/c43ee26a63ee41e7c3e5";
 
   private static JSONObject jsonData;
-  private static int mConfigVersion;
-  private static int mLatestVersion;
-  private static int mOlderVersion;
-  private static String mUrlLatest;
-  private static String mUrlOlder;
+  private static int sConfigVersion;
+  private static int sLatestVersion;
+  private static int sOlderVersion;
+  private static String sUrlLatest;
+  private static String sUrlOlder;
 
   public static void init(Context context)
   {
     RequestQueue queue = Volley.newRequestQueue(context);
 
-    JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, mURL, null,
+    JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
       new Response.Listener<JSONObject>()
       {
         @Override
@@ -48,7 +48,7 @@ public class UpdaterUtils
         @Override
         public void onErrorResponse(VolleyError error)
         {
-          mLoadCallback.onLoadError();
+          sLoadCallback.onLoadError();
         }
       });
     queue.add(jsonRequest);
@@ -58,34 +58,33 @@ public class UpdaterUtils
   {
     try
     {
-      mConfigVersion = jsonData.getInt("version");
-      mLatestVersion = jsonData.getJSONObject("build").getInt("latest");
-      mOlderVersion = jsonData.getJSONObject("build").getInt("older");
-      mUrlLatest = jsonData.getJSONObject("url").getString("latest");
-      mUrlOlder = jsonData.getJSONObject("url").getString("older");
-      mLoadCallback.onLoad();
+      sConfigVersion = jsonData.getInt("version");
+      sLatestVersion = jsonData.getJSONObject("build").getInt("latest");
+      sOlderVersion = jsonData.getJSONObject("build").getInt("older");
+      sUrlLatest = jsonData.getJSONObject("url").getString("latest");
+      sUrlOlder = jsonData.getJSONObject("url").getString("older");
+      sLoadCallback.onLoad();
     }
     catch (JSONException e)
     {
-      mLoadCallback.onLoadError();
+      sLoadCallback.onLoadError();
     }
   }
 
-  public static void download(String url)
+  public static void download(Context context, String url)
   {
-    DownloadUtils download = new DownloadUtils(new Handler(Looper.getMainLooper()), url);
-    download.setCallbackListener(mDownloadCallback);
+    DownloadUtils download = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback, url);
     download.start();
   }
 
   public static void setOnLoadListener(LoadCallback listener)
   {
-    mLoadCallback = listener;
+    sLoadCallback = listener;
   }
 
   public static void setOnDownloadListener(DownloadCallback listener)
   {
-    mDownloadCallback = listener;
+    sDownloadCallback = listener;
   }
 
   public static int getBuildVersion()
@@ -102,21 +101,21 @@ public class UpdaterUtils
 
   public static int getLatestVersion()
   {
-    return mLatestVersion;
+    return sLatestVersion;
   }
 
   public static int getOlderVersion()
   {
-    return mOlderVersion;
+    return sOlderVersion;
   }
 
   public static String getUrlLatest()
   {
-    return mUrlLatest;
+    return sUrlLatest;
   }
 
   public static String getUrlOlder()
   {
-    return mUrlOlder;
+    return sUrlOlder;
   }
 }

@@ -142,7 +142,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     mInactiveButton.get().setClickable(false);
 
     if (url != null)
-      UpdaterUtils.download(url);
+      UpdaterUtils.download(mViewGroup.getContext(), url);
     else
       onDownloadError();
   }
