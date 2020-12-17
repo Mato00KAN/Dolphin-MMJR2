@@ -1,6 +1,8 @@
 package org.dolphinemu.dolphinemu.utils;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +54,7 @@ public class UpdaterUtils
     queue.add(jsonRequest);
   }
 
-  public static void load()
+  private static void load()
   {
     try
     {
@@ -71,7 +73,7 @@ public class UpdaterUtils
 
   public static void download(String url)
   {
-    DownloadUtils download = new DownloadUtils(url);
+    DownloadUtils download = new DownloadUtils(new Handler(Looper.getMainLooper()), url);
     download.setCallbackListener(mDownloadCallback);
     download.start();
   }

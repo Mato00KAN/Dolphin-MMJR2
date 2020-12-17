@@ -459,12 +459,13 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="updater_error">An error has occurred. Please check your internet connection.</string>
     <string name="updater_uptodate">Up to date!</string>
     <string name="updater_newavailable">Newer version available</string>
-    <string name="button_label_latest">Latest</string>
-    <string name="button_label_older">Previous</string>
-    <string name="button_download_done">Done!</string>
+    <string name="button_download">Download</string>
     <string name="button_error">Error</string>
     <string name="installed_version">Installed version: %1$d</string>
-    <string name="version_description">Version# %1$d</string>
+    <string name="version_description">Version: %1$d</string>
+    <string name="latest_version_description">Latest version: %1$d</string>
+    <string name="older_version_description">Previous version: %1$d</string>
+    <string name="updater_changelog_button">View changelog</string>
 
     <!-- Cheat Window -->
     <string name="enable_cheats">Enable Cheats</string>

@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -19,7 +16,6 @@ import java.lang.ref.WeakReference;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.utils.DownloadCallback;
 import org.dolphinemu.dolphinemu.utils.LoadCallback;
-import org.dolphinemu.dolphinemu.utils.Log;
 import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
 
 public final class UpdaterDialog extends DialogFragment implements View.OnClickListener, LoadCallback, DownloadCallback
