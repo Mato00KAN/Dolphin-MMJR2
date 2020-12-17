@@ -1,6 +1,7 @@
 package org.dolphinemu.dolphinemu.utils;
 
 import android.content.Context;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -21,6 +22,7 @@ public class UpdaterUtils
   private static LoadCallback sLoadCallback;
   private static DownloadCallback sDownloadCallback;
   private static final String URL = "https://api.npoint.io/c43ee26a63ee41e7c3e5";
+  private static DownloadUtils sDownload;
 
   private static JSONObject jsonData;
   private static int sConfigVersion;
@@ -73,8 +75,14 @@ public class UpdaterUtils
 
   public static void download(Context context, String url)
   {
-    DownloadUtils download = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback, url);
-    download.start();
+    sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback, url,
+            context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
+    sDownload.start();
+  }
+
+  public static void cancelDownload()
+  {
+    sDownload.cancel();
   }
 
   public static void setOnLoadListener(LoadCallback listener)

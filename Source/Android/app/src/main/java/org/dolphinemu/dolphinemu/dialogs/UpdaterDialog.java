@@ -56,6 +56,12 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   }
 
   @Override
+  public void onDestroy() {
+    super.onDestroy();
+    UpdaterUtils.cancelDownload();
+  }
+
+  @Override
   public void onLoad()
   {
     TextView textLatest = mViewGroup.findViewById(R.id.text_latest_version);
@@ -183,7 +189,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     onDownloadStop();
   }
 
-  public void onDownloadStop()
+  private void onDownloadStop()
   {
     mIsDownloading = false;
     mActivePb.setVisibility(View.INVISIBLE);

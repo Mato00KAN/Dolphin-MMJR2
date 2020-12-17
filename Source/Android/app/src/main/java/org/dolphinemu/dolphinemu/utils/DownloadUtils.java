@@ -16,6 +16,7 @@ public class DownloadUtils implements Runnable
   private DownloadCallback mCallback;
   private File mDownloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
   private final String mUrl;
+  private HttpURLConnection mUrlConnection;
   private File mFile;
 
   /**
@@ -95,18 +96,30 @@ public class DownloadUtils implements Runnable
     downloadThread.start();
   }
 
+  /**
+   * Cancels the current downloads by disconnecting from the url.
+   *
+   * @see DownloadUtils
+   */
+  public void cancel()
+  {
+    if (mUrlConnection != null)
+      mUrlConnection.disconnect();
+  }
+
   @Override
   public void run()
   {
-    downloadFile(mUrl);
+    downloadFile();
   }
 
-  private void downloadFile(String sUrl)
+  private void downloadFile()
   {
     try {
-      URL url = new URL(sUrl);
+      URL url = new URL(mUrl);
 
       HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+      mUrlConnection = urlConnection;
       urlConnection.setRequestMethod("GET");
       urlConnection.connect();
       if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadStart()); }
@@ -116,9 +129,10 @@ public class DownloadUtils implements Runnable
       if (fieldContentDisp != null && fieldContentDisp.contains("filename=")) {
         filename = fieldContentDisp.substring(fieldContentDisp.indexOf("filename=") + 9);
       }
-      mFile = new File(mDownloadPath, filename);
+      File file = new File(mDownloadPath, filename);
+      mFile = file;
 
-      FileOutputStream fileOutput = new FileOutputStream(mFile);
+      FileOutputStream fileOutput = new FileOutputStream(file);
       InputStream inputStream = urlConnection.getInputStream();
 
       float totalSize = urlConnection.getContentLength();
@@ -134,20 +148,25 @@ public class DownloadUtils implements Runnable
         int progress = (int) (downloadedSize / totalSize * 100);
         if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadProgress(progress)); }
       }
+
       fileOutput.close();
       urlConnection.disconnect();
-
       if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadComplete()); }
     }
     catch (Exception e)
     {
-      e.printStackTrace();
       if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadError()); }
-      if (mFile != null)
-      {
-        mFile.delete();
-      }
+      deleteFile();
     }
+  }
+
+  /**
+   * Deletes the downloaded file.
+   */
+  private void deleteFile()
+  {
+    if (mFile != null)
+      mFile.delete();
   }
 
   /**
