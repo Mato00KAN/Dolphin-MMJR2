@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:text="@string/installed_version"
+            android:text="@string/version_description"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
             app:layout_constraintTop_toBottomOf="@id/title" />
@@ -60,7 +60,8 @@
             app:layout_constraintTop_toTopOf="@id/updater_ui"
             app:layout_constraintStart_toStartOf="@id/updater_ui"
             app:layout_constraintEnd_toEndOf="@id/updater_ui"
-            app:layout_constraintBottom_toBottomOf="@id/updater_ui" />
+            app:layout_constraintBottom_toBottomOf="@id/updater_ui"
+            tools:visibility="invisible" />
 
         <TextView
             android:id="@+id/updater_error"
@@ -72,8 +73,7 @@
             app:layout_constraintTop_toTopOf="@id/updater_ui"
             app:layout_constraintStart_toStartOf="@id/updater_ui"
             app:layout_constraintEnd_toEndOf="@id/updater_ui"
-            app:layout_constraintBottom_toBottomOf="@id/updater_ui"
-            tools:visibility="visible" />
+            app:layout_constraintBottom_toBottomOf="@id/updater_ui" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/updater_ui"
@@ -111,21 +111,21 @@
                 android:id="@+id/text_latest_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:gravity="start"
                 android:text="@string/version_description"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_1" />
+                app:layout_constraintTop_toBottomOf="@id/divider_1"
+                app:layout_constraintBottom_toTopOf="@id/divider_2"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/download_latest"
-                android:layout_width="160dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="@dimen/updater_button_width"
+                android:layout_height="@dimen/updater_button_height"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintTop_toBottomOf="@id/divider_1" >
+                app:layout_constraintTop_toBottomOf="@id/divider_1"
+                app:layout_constraintBottom_toTopOf="@id/divider_2" >
 
                 <Button
                     android:id="@+id/button_latest_version"
@@ -135,10 +135,9 @@
                     android:background="@drawable/button_gradient"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:stateListAnimator="@null"
-                    android:text="@string/button_label_latest"
+                    android:text="@string/button_download"
                     android:textColor="#fafafa"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:enabled="false"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ProgressBar
                     android:id="@+id/progressbar_latest_version"
@@ -149,8 +148,7 @@
                     android:progress="0"
                     android:visibility="invisible"
                     android:progressDrawable="@drawable/progressbar_gradient"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:progress="65" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <View
                     android:id="@+id/check_latest_version"
@@ -161,7 +159,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -169,31 +167,31 @@
                 android:id="@+id/divider_2"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="80dp"
                 android:background="@color/divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/download_latest" />
+                app:layout_constraintTop_toBottomOf="@id/divider_1" />
 
             <TextView
                 android:id="@+id/text_older_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:gravity="start"
                 android:text="@string/version_description"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_2" />
+                app:layout_constraintTop_toBottomOf="@id/divider_2"
+                app:layout_constraintBottom_toTopOf="@id/divider_3" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/download_older"
-                android:layout_width="160dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="@dimen/updater_button_width"
+                android:layout_height="@dimen/updater_button_height"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintTop_toBottomOf="@id/divider_2" >
+                app:layout_constraintTop_toBottomOf="@id/divider_2"
+                app:layout_constraintBottom_toTopOf="@id/divider_3" >
 
                 <Button
                     android:id="@+id/button_older_version"
@@ -203,10 +201,10 @@
                     android:background="@drawable/button_purple"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:stateListAnimator="@null"
-                    android:text="@string/button_label_older"
+                    android:text="@string/button_download"
                     android:textColor="#fafafa"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:text="" />
+                    tools:visibility="invisible" />
 
                 <ProgressBar
                     android:id="@+id/progressbar_older_version"
@@ -218,7 +216,8 @@
                     android:visibility="invisible"
                     android:progressDrawable="@drawable/progressbar_purple"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:progress="65" />
+                    tools:visibility="visible"
+                    tools:progress="55" />
 
                 <View
                     android:id="@+id/check_older_version"
@@ -229,20 +228,33 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:visibility="visible" />
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <View
                 android:id="@+id/divider_3"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="80dp"
                 android:background="@color/divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/download_older" />
+                app:layout_constraintTop_toBottomOf="@id/divider_2" />
+
+            <Button
+                android:id="@+id/changelog_load"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/updater_button_height"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/updater_changelog_button"
+                android:textColor="#fafafa"
+                android:background="@drawable/button_gradient_blue"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:stateListAnimator="@null"
+                app:layout_constraintTop_toBottomOf="@id/divider_3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

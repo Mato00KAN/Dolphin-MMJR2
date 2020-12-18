@@ -13,9 +13,15 @@
     <color name="gradient_center">#ec3877</color>
     <color name="gradient_end">#e91c63</color>
 
+
     <color name="gradient2_start">#262fe0</color>
     <color name="gradient2_center">#267ae0</color>
     <color name="gradient2_end">#26cde0</color>
+
+    <color name="gradient_blue_start">#2196f3</color>
+    <color name="gradient_blue_center">#1f75dd</color>
+    <color name="gradient_blue_end">#262fe0</color>
+
 
     <color name="dolphin_accent_wii">#9e9e9e</color>
     <color name="dolphin_accent_wiiware">#2979ff</color>
