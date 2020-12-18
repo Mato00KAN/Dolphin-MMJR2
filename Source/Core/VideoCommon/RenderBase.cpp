@@ -118,7 +118,7 @@ bool Renderer::Initialize()
     return false;
 
 #ifdef ANDROID
-  OSD::AddMessage(fmt::format("[{}] Resolution Scale: {}x", []{
+  OSD::AddMessage(fmt::format("[{}] Resolution Scale: {:.2f}x", []{
       switch(g_ActiveConfig.backend_info.api_type) {
         case APIType::OpenGL:
           return "OpenGL";
