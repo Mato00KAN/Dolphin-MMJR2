@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="4dp"
             android:text="@string/updater_title"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
@@ -80,7 +80,6 @@
             android:id="@+id/updater_ui"
             android:visibility="invisible"
             android:layout_width="match_parent"
-            android:paddingBottom="10dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/text_installed_version"
@@ -128,6 +127,17 @@
                 app:layout_constraintTop_toBottomOf="@id/divider_1"
                 app:layout_constraintBottom_toTopOf="@id/divider_2" >
 
+                <ProgressBar
+                    android:id="@+id/progressbar_latest_version"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/progressbar_gradient"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
                 <Button
                     android:id="@+id/button_latest_version"
                     style="@style/Widget.AppCompat.Button.Colored"
@@ -137,18 +147,7 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:stateListAnimator="@null"
                     android:text="@string/button_download"
-                    android:textColor="#fafafa"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/progressbar_latest_version"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:max="100"
-                    android:progress="0"
-                    android:visibility="invisible"
-                    android:progressDrawable="@drawable/progressbar_gradient"
+                    android:textColor="#ffffff"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <View
@@ -156,7 +155,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/ic_baseline_check"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -194,6 +193,17 @@
                 app:layout_constraintTop_toBottomOf="@id/divider_2"
                 app:layout_constraintBottom_toTopOf="@id/divider_3" >
 
+                <ProgressBar
+                    android:id="@+id/progressbar_older_version"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/progressbar_purple"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:progress="55" />
+
                 <Button
                     android:id="@+id/button_older_version"
                     style="@style/Widget.AppCompat.Button.Colored"
@@ -203,29 +213,17 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:stateListAnimator="@null"
                     android:text="@string/button_download"
-                    android:textColor="#fafafa"
+                    android:textColor="#ffffff"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:visibility="invisible" />
-
-                <ProgressBar
-                    android:id="@+id/progressbar_older_version"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:max="100"
-                    android:progress="0"
-                    android:visibility="invisible"
-                    android:progressDrawable="@drawable/progressbar_purple"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:visibility="visible"
-                    tools:progress="55" />
+                    tools:text="@string/button_cancel"
+                    tools:background="@android:color/transparent" />
 
                 <View
                     android:id="@+id/check_older_version"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/ic_baseline_check"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -243,19 +241,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider_2" />
-
-            <Button
-                android:id="@+id/changelog_load"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/updater_button_height"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="@string/updater_changelog_button"
-                android:textColor="#fafafa"
-                android:background="@drawable/button_gradient_blue"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:stateListAnimator="@null"
-                app:layout_constraintTop_toBottomOf="@id/divider_3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

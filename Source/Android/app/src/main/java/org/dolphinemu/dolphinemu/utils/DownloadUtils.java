@@ -18,6 +18,8 @@ public class DownloadUtils implements Runnable
   private final String mUrl;
   private HttpURLConnection mUrlConnection;
   private File mFile;
+  private boolean mIsRunning = false;
+  private boolean mIsStopIntentional = false;
 
   /**
    * Default contructor.
@@ -86,9 +88,7 @@ public class DownloadUtils implements Runnable
   }
 
   /**
-   * Starts the download on a new thread.
-   *
-   * @see DownloadUtils
+   * Start download on a new thread.
    */
   public void start()
   {
@@ -97,14 +97,22 @@ public class DownloadUtils implements Runnable
   }
 
   /**
-   * Cancels the current downloads by disconnecting from the url.
-   *
-   * @see DownloadUtils
+   * Cancel the current downloads by disconnecting from the url.
+   * Report cancelled status back to the listener if any.
    */
   public void cancel()
   {
+    mIsStopIntentional = true;
     if (mUrlConnection != null)
       mUrlConnection.disconnect();
+  }
+
+  /**
+   * Get download status.
+   */
+  public boolean isRunning()
+  {
+    return mIsRunning;
   }
 
   @Override
@@ -122,7 +130,8 @@ public class DownloadUtils implements Runnable
       mUrlConnection = urlConnection;
       urlConnection.setRequestMethod("GET");
       urlConnection.connect();
-      if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadStart()); }
+      mIsRunning = true;
+      if (mHandler != null) mHandler.post(() -> mCallback.onDownloadStart());
 
       String filename = "download.apk";
       String fieldContentDisp = urlConnection.getHeaderField("Content-Disposition");
@@ -146,22 +155,32 @@ public class DownloadUtils implements Runnable
         downloadedSize += bufferLength;
 
         int progress = (int) (downloadedSize / totalSize * 100);
-        if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadProgress(progress)); }
+        if (mHandler != null) mHandler.post(() -> mCallback.onDownloadProgress(progress));
       }
 
       fileOutput.close();
       urlConnection.disconnect();
-      if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadComplete()); }
+      mIsRunning = false;
+      if (mHandler != null) mHandler.post(() -> mCallback.onDownloadComplete());
     }
     catch (Exception e)
     {
-      if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadError()); }
+      mIsRunning = false;
+      if (mHandler != null)
+      {
+        if (mIsStopIntentional)
+        {
+          mHandler.post(() -> mCallback.onDownloadCancelled());
+          mIsStopIntentional = false;
+        }
+        else mHandler.post(() -> mCallback.onDownloadError());
+      }
       deleteFile();
     }
   }
 
   /**
-   * Deletes the downloaded file.
+   * Delete downloaded file.
    */
   private void deleteFile()
   {

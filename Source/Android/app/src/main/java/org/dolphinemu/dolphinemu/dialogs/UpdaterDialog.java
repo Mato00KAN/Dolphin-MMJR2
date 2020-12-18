@@ -56,7 +56,8 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   }
 
   @Override
-  public void onDestroy() {
+  public void onDestroy()
+  {
     super.onDestroy();
     UpdaterUtils.cancelDownload();
   }
@@ -131,27 +132,31 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
 
   @Override
   public void onClick(View view) {
-    int viewId = view.getId();
-    mActiveButton = (Button) view;
-    String url = null;
-
-    if (viewId == R.id.button_latest_version)
+    if (mIsDownloading)
     {
-      mActivePb = mViewGroup.findViewById(R.id.progressbar_latest_version);
-      mInactiveButton = mViewGroup.findViewById(R.id.button_older_version);
-      mInactiveButton.setClickable(false);
-      url = UpdaterUtils.getUrlLatest();
+      UpdaterUtils.cancelDownload();
+      onDownloadStop();
     }
-    else if (viewId == R.id.button_older_version)
+    else
     {
-      mActivePb = mViewGroup.findViewById(R.id.progressbar_older_version);
-      mInactiveButton = mViewGroup.findViewById(R.id.button_latest_version);
-      mInactiveButton.setClickable(false);
-      url = UpdaterUtils.getUrlOlder();
-    }
+      int viewId = view.getId();
+      mActiveButton = (Button) view;
+      String url = null;
 
-    if (!mIsDownloading)
-    {
+      if (viewId == R.id.button_latest_version)
+      {
+        mActivePb = mViewGroup.findViewById(R.id.progressbar_latest_version);
+        mInactiveButton = mViewGroup.findViewById(R.id.button_older_version);
+        url = UpdaterUtils.getUrlLatest();
+      }
+      else if (viewId == R.id.button_older_version)
+      {
+        mActivePb = mViewGroup.findViewById(R.id.progressbar_older_version);
+        mInactiveButton = mViewGroup.findViewById(R.id.button_latest_version);
+        url = UpdaterUtils.getUrlOlder();
+      }
+      mInactiveButton.setClickable(false);
+
       if (url != null)
       {
         mIsDownloading = true;
@@ -165,8 +170,9 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   @Override
   public void onDownloadStart()
   {
-    mActivePb.setVisibility(View.VISIBLE);
-    mActiveButton.setVisibility(View.INVISIBLE);
+    mActivePb.setProgress(0);
+    mActiveButton.setActivated(true);
+    mActiveButton.setText(R.string.button_cancel);
   }
 
   @Override
@@ -183,6 +189,13 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   }
 
   @Override
+  public void onDownloadCancelled()
+  {
+    mActiveButton.setText(R.string.button_download);
+    onDownloadStop();
+  }
+
+  @Override
   public void onDownloadError()
   {
     mActiveButton.setText(R.string.button_error);
@@ -192,8 +205,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   private void onDownloadStop()
   {
     mIsDownloading = false;
-    mActivePb.setVisibility(View.INVISIBLE);
-    mActiveButton.setVisibility(View.VISIBLE);
+    mActiveButton.setActivated(false);
     mInactiveButton.setClickable(true);
   }
 }

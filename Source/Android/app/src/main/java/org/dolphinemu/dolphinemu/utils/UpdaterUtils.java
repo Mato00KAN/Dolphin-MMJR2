@@ -82,7 +82,8 @@ public class UpdaterUtils
 
   public static void cancelDownload()
   {
-    sDownload.cancel();
+    if (sDownload != null)
+      sDownload.cancel();
   }
 
   public static void setOnLoadListener(LoadCallback listener)
