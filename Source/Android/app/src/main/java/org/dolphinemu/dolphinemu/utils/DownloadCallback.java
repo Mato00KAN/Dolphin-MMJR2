@@ -14,5 +14,8 @@ public interface DownloadCallback
   void onDownloadComplete();
 
   @Keep
+  default void onDownloadCancelled() {}
+
+  @Keep
   void onDownloadError();
 }

@@ -75,8 +75,8 @@ public class UpdaterUtils
 
   public static void download(Context context, String url)
   {
-    sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback, url);
-            //context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
+    sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback, url,
+            context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
     sDownload.start();
   }
 

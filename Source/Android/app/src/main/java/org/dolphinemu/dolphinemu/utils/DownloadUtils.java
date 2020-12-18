@@ -19,6 +19,7 @@ public class DownloadUtils implements Runnable
   private HttpURLConnection mUrlConnection;
   private File mFile;
   private boolean mIsRunning = false;
+  private boolean mIsStopIntentional = false;
 
   /**
    * Default contructor.
@@ -97,9 +98,11 @@ public class DownloadUtils implements Runnable
 
   /**
    * Cancel the current downloads by disconnecting from the url.
+   * Report cancelled status back to the listener if any.
    */
   public void cancel()
   {
+    mIsStopIntentional = true;
     if (mUrlConnection != null)
       mUrlConnection.disconnect();
   }
@@ -128,7 +131,7 @@ public class DownloadUtils implements Runnable
       urlConnection.setRequestMethod("GET");
       urlConnection.connect();
       mIsRunning = true;
-      if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadStart()); }
+      if (mHandler != null) mHandler.post(() -> mCallback.onDownloadStart());
 
       String filename = "download.apk";
       String fieldContentDisp = urlConnection.getHeaderField("Content-Disposition");
@@ -152,18 +155,26 @@ public class DownloadUtils implements Runnable
         downloadedSize += bufferLength;
 
         int progress = (int) (downloadedSize / totalSize * 100);
-        if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadProgress(progress)); }
+        if (mHandler != null) mHandler.post(() -> mCallback.onDownloadProgress(progress));
       }
 
       fileOutput.close();
       urlConnection.disconnect();
       mIsRunning = false;
-      if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadComplete()); }
+      if (mHandler != null) mHandler.post(() -> mCallback.onDownloadComplete());
     }
     catch (Exception e)
     {
       mIsRunning = false;
-      if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadError()); }
+      if (mHandler != null)
+      {
+        if (mIsStopIntentional)
+        {
+          mHandler.post(() -> mCallback.onDownloadCancelled());
+          mIsStopIntentional = false;
+        }
+        else mHandler.post(() -> mCallback.onDownloadError());
+      }
       deleteFile();
     }
   }
