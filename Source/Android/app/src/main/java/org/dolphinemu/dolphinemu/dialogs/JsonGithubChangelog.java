@@ -10,6 +10,6 @@ import retrofit2.http.GET;
 public interface JsonGithubChangelog {
 
 
-  @GET("Darwin-Rist/Releases/master/README.md")
+  @GET("Darwin-Rist/Releases/master/Changelog.md")
   Call<List<ChangelogPost>> getPost();
 }
