@@ -75,14 +75,15 @@ public class UpdaterUtils
 
   public static void download(Context context, String url)
   {
-    sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback, url,
-            context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
+    sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback, url);
+            //context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
     sDownload.start();
   }
 
   public static void cancelDownload()
   {
-    sDownload.cancel();
+    if (sDownload != null)
+      sDownload.cancel();
   }
 
   public static void setOnLoadListener(LoadCallback listener)

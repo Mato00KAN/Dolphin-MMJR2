@@ -18,6 +18,7 @@ public class DownloadUtils implements Runnable
   private final String mUrl;
   private HttpURLConnection mUrlConnection;
   private File mFile;
+  private boolean mIsRunning = false;
 
   /**
    * Default contructor.
@@ -86,9 +87,7 @@ public class DownloadUtils implements Runnable
   }
 
   /**
-   * Starts the download on a new thread.
-   *
-   * @see DownloadUtils
+   * Start download on a new thread.
    */
   public void start()
   {
@@ -97,14 +96,20 @@ public class DownloadUtils implements Runnable
   }
 
   /**
-   * Cancels the current downloads by disconnecting from the url.
-   *
-   * @see DownloadUtils
+   * Cancel the current downloads by disconnecting from the url.
    */
   public void cancel()
   {
     if (mUrlConnection != null)
       mUrlConnection.disconnect();
+  }
+
+  /**
+   * Get download status.
+   */
+  public boolean isRunning()
+  {
+    return mIsRunning;
   }
 
   @Override
@@ -122,6 +127,7 @@ public class DownloadUtils implements Runnable
       mUrlConnection = urlConnection;
       urlConnection.setRequestMethod("GET");
       urlConnection.connect();
+      mIsRunning = true;
       if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadStart()); }
 
       String filename = "download.apk";
@@ -151,17 +157,19 @@ public class DownloadUtils implements Runnable
 
       fileOutput.close();
       urlConnection.disconnect();
+      mIsRunning = false;
       if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadComplete()); }
     }
     catch (Exception e)
     {
+      mIsRunning = false;
       if (mHandler != null) { mHandler.post(() -> mCallback.onDownloadError()); }
       deleteFile();
     }
   }
 
   /**
-   * Deletes the downloaded file.
+   * Delete downloaded file.
    */
   private void deleteFile()
   {
