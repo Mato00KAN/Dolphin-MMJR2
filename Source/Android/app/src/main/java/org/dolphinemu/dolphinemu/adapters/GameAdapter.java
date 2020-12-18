@@ -75,15 +75,14 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
 
     holder.textGameTitle.setText(gameFile.getTitle());
 
+
+
     if (GameFileCacheService.findSecondDisc(gameFile) != null)
     {
       holder.textGameCaption
               .setText(context.getString(R.string.disc_number, gameFile.getDiscNumber() + 1));
     }
-    else
-    {
-      holder.textGameCaption.setText(gameFile.getCompany());
-    }
+
 
     holder.gameFile = gameFile;
   }

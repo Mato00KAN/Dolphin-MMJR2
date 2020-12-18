@@ -21,8 +21,9 @@
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:src="@drawable/banner_tv"
+            android:src="@drawable/changelog_logo"
             android:scaleType="fitCenter"
+            android:foregroundGravity="center_horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/grid_menu_open_updater" />
@@ -33,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:text="@string/updater_title"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
@@ -257,18 +258,6 @@
                 app:layout_constraintTop_toBottomOf="@id/divider_3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <Button
-            android:id="@+id/changelog_load"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/button_gradient2"
-            android:gravity="center"
-            android:text="@string/changelog_menu"
-            app:layout_constraintTop_toBottomOf="@id/updater_ui"
-            android:textColor="#FFFFFF"
-            tools:layout_editor_absoluteX="142dp"
-            tools:layout_editor_absoluteY="442dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

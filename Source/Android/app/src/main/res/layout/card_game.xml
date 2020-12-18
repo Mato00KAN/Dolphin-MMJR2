@@ -40,20 +40,42 @@
             android:visibility="gone"
             tools:text="The Legend of Zelda: The Wind Waker" />
 
-        <TextView
-            android:id="@+id/text_game_caption"
-            style="@android:style/TextAppearance.Material.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:ellipsize="end"
-            android:lines="1"
-            android:maxLines="1"
-            android:visibility="gone"
-            tools:text="Nintendo" />
+    <TextView
+        android:id="@+id/text_country"
+        style="@android:style/TextAppearance.Material.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="132dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="0dp"
+        android:background="#000000"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLines="1"
+        android:textColor="@drawable/button_gradient"
+        android:textStyle="bold"
+        tools:text="NTSC"/>
+
+
+
+
+    <TextView
+        android:id="@+id/text_game_caption"
+        style="@android:style/TextAppearance.Material.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="150dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="0dp"
+        android:background="#000000"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLines="1"
+        android:textColor="@drawable/button_gradient"
+        android:textStyle="bold"
+        tools:text="Nintendo" />
 
 
 </androidx.cardview.widget.CardView>
