@@ -34,7 +34,7 @@ public enum IntSetting implements AbstractIntSetting
   SYSCONF_SENSOR_BAR_SENSITIVITY(Settings.FILE_SYSCONF, "BT", "SENS", 0x03),
   SYSCONF_SPEAKER_VOLUME(Settings.FILE_SYSCONF, "BT", "SPKV", 0x58),
 
-  GFX_ASPECT_RATIO(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "AspectRatio", 0),
+  GFX_ASPECT_RATIO(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "AspectRatio", 3),
   GFX_SAFE_TEXTURE_CACHE_COLOR_SAMPLES(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS,
           "SafeTextureCacheColorSamples", 128),
   GFX_MSAA(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "MSAA", 1),
@@ -46,9 +46,9 @@ public enum IntSetting implements AbstractIntSetting
           0),
 
   GFX_STEREO_MODE(Settings.FILE_GFX, Settings.SECTION_STEREOSCOPY, "StereoMode", 0),
-  GFX_STEREO_DEPTH(Settings.FILE_GFX, Settings.SECTION_STEREOSCOPY, "StereoDepth", 20),
+  GFX_STEREO_DEPTH(Settings.FILE_GFX, Settings.SECTION_STEREOSCOPY, "StereoDepth", 0),
   GFX_STEREO_CONVERGENCE_PERCENTAGE(Settings.FILE_GFX, Settings.SECTION_STEREOSCOPY,
-          "StereoConvergencePercentage", 100),
+          "StereoConvergencePercentage", 0),
 
   LOGGER_VERBOSITY(Settings.FILE_LOGGER, Settings.SECTION_LOGGER_OPTIONS, "Verbosity", 1);
 
