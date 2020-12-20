@@ -40,7 +40,7 @@ public class DownloadUtils implements Runnable
   }
 
   /**
-   * Alternative constructor, when no callbacks are needed (e.g. background task).
+   * Alternate constructor, when no callbacks are needed (e.g. background task).
    * <br><br>
    * Call start() to start the download.
    *
@@ -54,7 +54,7 @@ public class DownloadUtils implements Runnable
   }
 
   /**
-   * Alternative constructor. getExternalStoragePublicDirectory() is deprecated so consider using
+   * Alternate constructor. getExternalStoragePublicDirectory() is deprecated so consider using
    * the default constructor, getting the path from a context. The download path is the Downloads folder.
    * <br><br>
    * Call start() to start the download.
@@ -73,7 +73,7 @@ public class DownloadUtils implements Runnable
   }
 
   /**
-   * Alternative constructor, getExternalStoragePublicDirectory() is deprecated so consider using
+   * Alternate constructor, getExternalStoragePublicDirectory() is deprecated so consider using
    * the default constructor, getting the path from a context. The download path is the Downloads folder.
    * <br><br>
    * Call start() to start the download.
@@ -161,7 +161,7 @@ public class DownloadUtils implements Runnable
       fileOutput.close();
       urlConnection.disconnect();
       mIsRunning = false;
-      if (mHandler != null) mHandler.post(() -> mCallback.onDownloadComplete());
+      if (mHandler != null) mHandler.post(() -> mCallback.onDownloadComplete(mFile));
     }
     catch (Exception e)
     {

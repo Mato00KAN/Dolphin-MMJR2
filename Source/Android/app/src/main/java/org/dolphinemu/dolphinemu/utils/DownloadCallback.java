@@ -1,5 +1,6 @@
 package org.dolphinemu.dolphinemu.utils;
 
+import java.io.File;
 import androidx.annotation.Keep;
 
 public interface DownloadCallback
@@ -11,7 +12,7 @@ public interface DownloadCallback
   default void onDownloadProgress(int progress) {}
 
   @Keep
-  void onDownloadComplete();
+  void onDownloadComplete(File file);
 
   @Keep
   default void onDownloadCancelled() {}
