@@ -6,6 +6,25 @@
             <corners android:radius="4dp" />
         </shape>
     </item>
+    <item android:state_enabled="false">
+        <layer-list>
+            <item>
+                <shape>
+                    <gradient
+                        android:angle="45"
+                        android:type="linear"
+                        android:startColor="@color/gradient_blue_start"
+                        android:centerX="50%"
+                        android:centerColor="@color/gradient_blue_center"
+                        android:endColor="@color/gradient_blue_end" />
+                    <corners android:radius="4dp" />
+                </shape>
+            </item>
+            <item android:drawable="@drawable/ic_baseline_check"
+                android:gravity="center">
+            </item>
+        </layer-list>
+    </item>
     <item>
         <shape>
             <gradient

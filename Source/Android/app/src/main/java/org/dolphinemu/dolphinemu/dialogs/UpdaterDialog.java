@@ -28,7 +28,6 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   private Button mActiveButton;
   private Button mInactiveButton;
   private ProgressBar mActivePb;
-  private View mActiveCheck;
   private ProgressBar mLoading;
   private final int mBuildVersion = UpdaterUtils.getBuildVersion();
   private boolean mIsDownloading = false;
@@ -124,15 +123,6 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   {
     mActiveButton.setText(null);
     mActiveButton.setEnabled(false);
-    if (mActiveButton.getId() == R.id.button_latest_version)
-    {
-      mActiveCheck = mViewGroup.findViewById(R.id.check_latest_version);
-    }
-    else if (mActiveButton.getId() == R.id.button_older_version)
-    {
-      mActiveCheck = mViewGroup.findViewById(R.id.check_older_version);
-    }
-    mActiveCheck.setVisibility(View.VISIBLE);
   }
 
   @Override
