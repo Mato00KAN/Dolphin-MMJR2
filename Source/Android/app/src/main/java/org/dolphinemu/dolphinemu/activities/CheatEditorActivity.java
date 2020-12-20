@@ -509,8 +509,7 @@ public class CheatEditorActivity extends AppCompatActivity
       mListView.setVisibility(View.VISIBLE);
       mEditor.setVisibility(View.INVISIBLE);
       loadCheatList();
-      Toast.makeText(this, getString(R.string.enable_cheats_description), Toast.LENGTH_LONG).show();
-    }
+     }
     else
     {
       mListView.setVisibility(View.INVISIBLE);
