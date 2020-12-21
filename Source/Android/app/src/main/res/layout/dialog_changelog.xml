@@ -18,7 +18,7 @@
             android:layout_height="100dp"
             android:scaleType="fitCenter"
             android:contentDescription="@string/changelog_logo"
-            app:srcCompat="@drawable/changelog_logo"
+            app:srcCompat="@drawable/banner_tv"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="126dp"
             tools:layout_editor_absoluteY="0dp" />
@@ -68,7 +68,6 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -21,7 +21,7 @@
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:src="@drawable/changelog_logo"
+            android:src="@drawable/banner_tv"
             android:scaleType="fitCenter"
             android:foregroundGravity="center_horizontal"
             app:layout_constraintStart_toStartOf="parent"
