@@ -64,6 +64,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   {
     super.onDestroy();
     UpdaterUtils.cancelDownload();
+    UpdaterUtils.cleanFolder(UpdaterUtils.getDownloadFolder(getContext()));
   }
 
   @Override
@@ -181,8 +182,8 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     mActiveButton.setText(R.string.button_install);
     onDownloadStop();
 
-    Uri fileUri = FileProvider.getUriForFile(this.getContext(),
-      this.getContext().getApplicationContext().getPackageName() + ".filesprovider",
+    Uri fileUri = FileProvider.getUriForFile(getContext(),
+      getContext().getApplicationContext().getPackageName() + ".filesprovider",
       downloadFile);
 
     Intent promptInstall = new Intent(Intent.ACTION_VIEW);

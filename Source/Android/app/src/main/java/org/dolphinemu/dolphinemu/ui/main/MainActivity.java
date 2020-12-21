@@ -3,7 +3,6 @@ package org.dolphinemu.dolphinemu.ui.main;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +22,7 @@ import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.adapters.PlatformPagerAdapter;
 import org.dolphinemu.dolphinemu.dialogs.ChangelogDialog;
+import org.dolphinemu.dolphinemu.dialogs.UpdaterDialog;
 import org.dolphinemu.dolphinemu.features.settings.model.IntSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
@@ -35,7 +35,7 @@ import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
 import org.dolphinemu.dolphinemu.utils.PermissionsHandler;
 import org.dolphinemu.dolphinemu.utils.StartupHandler;
-import org.dolphinemu.dolphinemu.dialogs.UpdaterDialog;
+import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
 
 /**
  * The main Activity of the Lollipop style UI. Manages several PlatformGamesFragments, which
@@ -75,6 +75,8 @@ public final class MainActivity extends AppCompatActivity implements MainView
       new AfterDirectoryInitializationRunner()
               .run(this, false, this::setPlatformTabsAndStartGameFileCacheService);
     }
+
+    UpdaterUtils.cleanFolder(UpdaterUtils.getDownloadFolder(this));
   }
 
   @Override
@@ -186,19 +188,19 @@ public final class MainActivity extends AppCompatActivity implements MainView
   }
 
   @Override
-  public void openUpdaterDialog()
-  {
-    FragmentManager fm = getSupportFragmentManager();
-    UpdaterDialog updaterDialog = UpdaterDialog.newInstance();
-    updaterDialog.show(fm, "fragment_updater");
-  }
-
-  @Override
   public void openChangelogDialog()
   {
     FragmentManager fmc = getSupportFragmentManager();
     ChangelogDialog changelogDialog = ChangelogDialog.newInstance();
     changelogDialog.show(fmc, "fragment_changelog");
+  }
+
+  @Override
+  public void openUpdaterDialog()
+  {
+    FragmentManager fm = getSupportFragmentManager();
+    UpdaterDialog updaterDialog = UpdaterDialog.newInstance();
+    updaterDialog.show(fm, "fragment_updater");
   }
 
   /**

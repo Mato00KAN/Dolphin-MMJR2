@@ -1,9 +1,13 @@
 package org.dolphinemu.dolphinemu.utils;
 
+import java.io.File;
+
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+
+import androidx.annotation.NonNull;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,8 +59,9 @@ public class UpdaterUtils
       });
     queue.add(jsonRequest);
 
+    cleanFolder(getDownloadFolder(context));
     sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback,
-      context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
+      getDownloadFolder(context));
   }
 
   private static void load()
@@ -86,6 +91,17 @@ public class UpdaterUtils
   {
     if (sDownload != null)
       sDownload.cancel();
+  }
+
+  public static void cleanFolder(@NonNull File folder)
+  {
+    for (File file : folder.listFiles())
+      file.delete();
+  }
+
+  public static File getDownloadFolder(Context context)
+  {
+    return context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
   }
 
   public static void setOnLoadListener(LoadCallback listener)
