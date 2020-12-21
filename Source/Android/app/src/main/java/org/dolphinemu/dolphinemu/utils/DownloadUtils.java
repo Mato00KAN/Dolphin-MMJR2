@@ -1,5 +1,7 @@
 package org.dolphinemu.dolphinemu.utils;
 
+import java.util.HashMap;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -7,84 +9,47 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.HttpURLConnection;
 
-import android.os.Environment;
 import android.os.Handler;
 
 public class DownloadUtils implements Runnable
 {
+  private final HashMap<String, File> mCache = new HashMap<>();
   private Handler mHandler;
   private DownloadCallback mCallback;
-  private File mDownloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-  private final String mUrl;
+  private File mDownloadPath;
+  private String mUrl;
   private HttpURLConnection mUrlConnection;
-  private File mFile;
   private boolean mIsRunning = false;
-  private boolean mIsStopIntentional = false;
+  private boolean mIsCancelled = false;
 
   /**
-   * Default contructor.
-   * <br><br>
-   * Call start() to start the download.
+   * Initialize the DownloadUtils object.
+   *
+   * @see DownloadUtils#setUrl(String)
+   * @see DownloadUtils#start()
    *
    * @param handler Handler that will handle download status callbacks.
    * @param callback Listener of download status callbacks.
-   * @param url The url of the file to download.
    * @param path The path to download the file to.
    */
-  public DownloadUtils(Handler handler, DownloadCallback callback, String url, File path)
+  public DownloadUtils(Handler handler, DownloadCallback callback, File path)
   {
     mHandler = handler;
     mCallback = callback;
-    mUrl = url;
     mDownloadPath = path;
   }
 
   /**
    * Alternate constructor, when no callbacks are needed (e.g. background task).
-   * <br><br>
-   * Call start() to start the download.
    *
-   * @param url The url of the file to download.
+   * @see DownloadUtils#setUrl(String)
+   * @see DownloadUtils#start()
+   *
    * @param path The path to download the file to.
    */
-  public DownloadUtils(String url, File path)
+  public DownloadUtils(File path)
   {
-    mUrl = url;
     mDownloadPath = path;
-  }
-
-  /**
-   * Alternate constructor. getExternalStoragePublicDirectory() is deprecated so consider using
-   * the default constructor, getting the path from a context. The download path is the Downloads folder.
-   * <br><br>
-   * Call start() to start the download.
-   *
-   * @param handler Handler that will handle download status callbacks.
-   * @param callback The listener of download status callbacks.
-   * @param url The url of the file to download.
-   *
-   * @deprecated
-   */
-  public DownloadUtils(Handler handler, DownloadCallback callback, String url)
-  {
-    mHandler = handler;
-    mCallback = callback;
-    mUrl = url;
-  }
-
-  /**
-   * Alternate constructor, getExternalStoragePublicDirectory() is deprecated so consider using
-   * the default constructor, getting the path from a context. The download path is the Downloads folder.
-   * <br><br>
-   * Call start() to start the download.
-   *
-   * @param url The url of the file to download.
-   *
-   * @deprecated
-   */
-  public DownloadUtils(String url)
-  {
-    mUrl = url;
   }
 
   /**
@@ -102,7 +67,7 @@ public class DownloadUtils implements Runnable
    */
   public void cancel()
   {
-    mIsStopIntentional = true;
+    mIsCancelled = true;
     if (mUrlConnection != null)
       mUrlConnection.disconnect();
   }
@@ -118,7 +83,13 @@ public class DownloadUtils implements Runnable
   @Override
   public void run()
   {
-    downloadFile();
+    if (!mCache.containsKey(mUrl))
+    {
+      downloadFile();
+    }
+    if (mHandler != null && !mIsCancelled)
+      mHandler.post(() -> mCallback.onDownloadComplete(mCache.get(mUrl)));
+    mIsCancelled = false;
   }
 
   private void downloadFile()
@@ -139,7 +110,7 @@ public class DownloadUtils implements Runnable
         filename = fieldContentDisp.substring(fieldContentDisp.indexOf("filename=") + 9);
       }
       File file = new File(mDownloadPath, filename);
-      mFile = file;
+      mCache.put(mUrl, file);
 
       FileOutputStream fileOutput = new FileOutputStream(file);
       InputStream inputStream = urlConnection.getInputStream();
@@ -148,7 +119,7 @@ public class DownloadUtils implements Runnable
       int downloadedSize = 0;
 
       byte[] buffer = new byte[1024];
-      int bufferLength = 0;
+      int bufferLength;
 
       while ((bufferLength = inputStream.read(buffer)) > 0) {
         fileOutput.write(buffer, 0, bufferLength);
@@ -161,17 +132,15 @@ public class DownloadUtils implements Runnable
       fileOutput.close();
       urlConnection.disconnect();
       mIsRunning = false;
-      if (mHandler != null) mHandler.post(() -> mCallback.onDownloadComplete(mFile));
     }
     catch (Exception e)
     {
       mIsRunning = false;
       if (mHandler != null)
       {
-        if (mIsStopIntentional)
+        if (mIsCancelled)
         {
           mHandler.post(() -> mCallback.onDownloadCancelled());
-          mIsStopIntentional = false;
         }
         else mHandler.post(() -> mCallback.onDownloadError());
       }
@@ -184,8 +153,18 @@ public class DownloadUtils implements Runnable
    */
   private void deleteFile()
   {
-    if (mFile != null)
-      mFile.delete();
+    mCache.get(mUrl).delete();
+    mCache.remove(mUrl);
+  }
+
+  /**
+   * Set the url of the file to download.
+   *
+   * @param url The url of the file to download.
+   */
+  public void setUrl(String url)
+  {
+    mUrl = url;
   }
 
   /**

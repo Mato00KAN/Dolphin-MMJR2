@@ -54,6 +54,9 @@ public class UpdaterUtils
         }
       });
     queue.add(jsonRequest);
+
+    sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback,
+      context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
   }
 
   private static void load()
@@ -73,10 +76,9 @@ public class UpdaterUtils
     }
   }
 
-  public static void download(Context context, String url)
+  public static void download(String url)
   {
-    sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback, url,
-            context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
+    sDownload.setUrl(url);
     sDownload.start();
   }
 

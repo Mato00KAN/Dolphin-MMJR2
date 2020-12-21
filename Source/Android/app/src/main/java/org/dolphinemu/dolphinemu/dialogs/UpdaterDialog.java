@@ -51,9 +51,9 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
 
     mLoading = mViewGroup.findViewById(R.id.updater_loading);
 
-    UpdaterUtils.init(getContext());
     UpdaterUtils.setOnLoadListener(this);
     UpdaterUtils.setOnDownloadListener(this);
+    UpdaterUtils.init(getContext());
 
     builder.setView(mViewGroup);
     return builder.create();
@@ -130,7 +130,6 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     if (mIsDownloading)
     {
       UpdaterUtils.cancelDownload();
-      onDownloadStop();
     }
     else
     {
@@ -155,7 +154,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
       if (url != null)
       {
         mIsDownloading = true;
-        UpdaterUtils.download(mViewGroup.getContext(), url);
+        UpdaterUtils.download(url);
       }
       else
         onDownloadError();
@@ -179,7 +178,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   @Override
   public void onDownloadComplete(File downloadFile)
   {
-    disableActiveButton();
+    mActiveButton.setText(R.string.button_install);
     onDownloadStop();
 
     Uri fileUri = FileProvider.getUriForFile(this.getContext(),
