@@ -3,6 +3,7 @@
 // Refer to the license.txt file included.
 
 #include <algorithm>
+#include <chrono>
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
@@ -11,6 +12,7 @@
 #include <limits.h>
 #include <string>
 #include <sys/stat.h>
+#include <thread>
 #include <vector>
 
 #include "Common/Assert.h"
@@ -133,7 +135,7 @@ bool IsFile(const std::string& path)
 
 // Deletes a given filename, return true on success
 // Doesn't supports deleting a directory
-bool Delete(const std::string& filename)
+bool Delete(const std::string& filename, IfAbsentBehavior behavior)
 {
   INFO_LOG_FMT(COMMON, "Delete: file {}", filename);
 
@@ -152,7 +154,10 @@ bool Delete(const std::string& filename)
   // Return true because we care about the file not being there, not the actual delete.
   if (!file_info.Exists())
   {
-    WARN_LOG_FMT(COMMON, "Delete: {} does not exist", filename);
+    if (behavior == IfAbsentBehavior::ConsoleWarning)
+    {
+      WARN_LOG_FMT(COMMON, "Delete: {} does not exist", filename);
+    }
     return true;
   }
 
@@ -251,9 +256,19 @@ bool CreateFullPath(const std::string& fullPath)
 }
 
 // Deletes a directory filename, returns true on success
-bool DeleteDir(const std::string& filename)
+bool DeleteDir(const std::string& filename, IfAbsentBehavior behavior)
 {
   INFO_LOG_FMT(COMMON, "DeleteDir: directory {}", filename);
+
+  // Return true because we care about the directory not being there, not the actual delete.
+  if (!File::Exists(filename))
+  {
+    if (behavior == IfAbsentBehavior::ConsoleWarning)
+    {
+      WARN_LOG_FMT(COMMON, "DeleteDir: {} does not exist", filename);
+    }
+    return true;
+  }
 
   // check if a directory
   if (!IsDirectory(filename))
@@ -276,33 +291,65 @@ bool DeleteDir(const std::string& filename)
   return false;
 }
 
+// Repeatedly invokes func until it returns true or max_attempts failures.
+// Waits after each failure, with each delay doubling in length.
+template <typename FuncType>
+static bool AttemptMaxTimesWithExponentialDelay(int max_attempts, std::chrono::milliseconds delay,
+                                                std::string_view func_name, const FuncType& func)
+{
+  for (int failed_attempts = 0; failed_attempts < max_attempts; ++failed_attempts)
+  {
+    if (func())
+    {
+      return true;
+    }
+    if (failed_attempts + 1 < max_attempts)
+    {
+      INFO_LOG_FMT(COMMON, "{} attempt failed, delaying for {} milliseconds", func_name,
+                   delay.count());
+      std::this_thread::sleep_for(delay);
+      delay *= 2;
+    }
+  }
+  return false;
+}
+
 // renames file srcFilename to destFilename, returns true on success
 bool Rename(const std::string& srcFilename, const std::string& destFilename)
 {
   INFO_LOG_FMT(COMMON, "Rename: {} --> {}", srcFilename, destFilename);
 #ifdef _WIN32
-  auto sf = UTF8ToTStr(srcFilename);
-  auto df = UTF8ToTStr(destFilename);
-  // The Internet seems torn about whether ReplaceFile is atomic or not.
-  // Hopefully it's atomic enough...
-  if (ReplaceFile(df.c_str(), sf.c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr,
-                  nullptr))
-    return true;
-  // Might have failed because the destination doesn't exist.
-  if (GetLastError() == ERROR_FILE_NOT_FOUND)
-  {
-    if (MoveFile(sf.c_str(), df.c_str()))
-      return true;
-  }
-  ERROR_LOG_FMT(COMMON, "Rename: MoveFile failed on {} --> {}: {}", srcFilename, destFilename,
-                GetLastErrorString());
+  const std::wstring source_wstring = UTF8ToTStr(srcFilename);
+  const std::wstring destination_wstring = UTF8ToTStr(destFilename);
+
+  // On Windows ReplaceFile can fail spuriously due to antivirus checking or other noise.
+  // Retry the operation with increasing delays, and if none of them work there's probably a
+  // persistent problem.
+  const bool success = AttemptMaxTimesWithExponentialDelay(
+      3, std::chrono::milliseconds(5), "Rename", [&source_wstring, &destination_wstring] {
+        if (ReplaceFile(destination_wstring.c_str(), source_wstring.c_str(), nullptr,
+                        REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr))
+        {
+          return true;
+        }
+        // Might have failed because the destination doesn't exist.
+        if (GetLastError() == ERROR_FILE_NOT_FOUND)
+        {
+          return MoveFile(source_wstring.c_str(), destination_wstring.c_str()) != 0;
+        }
+        return false;
+      });
+  constexpr auto error_string_func = GetLastErrorString;
 #else
-  if (rename(srcFilename.c_str(), destFilename.c_str()) == 0)
-    return true;
-  ERROR_LOG_FMT(COMMON, "Rename: rename failed on {} --> {}: {}", srcFilename, destFilename,
-                LastStrerrorString());
+  const bool success = rename(srcFilename.c_str(), destFilename.c_str()) == 0;
+  constexpr auto error_string_func = LastStrerrorString;
 #endif
-  return false;
+  if (!success)
+  {
+    ERROR_LOG_FMT(COMMON, "Rename: rename failed on {} --> {}: {}", srcFilename, destFilename,
+                  error_string_func());
+  }
+  return success;
 }
 
 #ifndef _WIN32

@@ -162,11 +162,14 @@
     <string name="lock_emulation_landscape_desc">Some touch controls will require additional tweaking if played in portrait</string>
     <string name="analytics">Enable usage statistics reporting</string>
     <string name="analytics_desc">If authorized, Dolphin can collect data on its performance, feature usage, and configuration, as well as data on your system\'s hardware and operating system.\n\nNo private data is ever collected. This data helps us understand how people and emulated games use Dolphin and prioritize our efforts. It also helps us identify rare configurations that are causing bugs, performance and stability issues. This authorization can be revoked at any time through Dolphin\'s settings.</string>
+    <string name="analytics_new_id">Generate a New Statistics Identity</string>
+    <string name="analytics_new_id_confirmation">Are you sure you want to generate a new statistics identity?</string>
     <string name="gametdb_thanks">Special thanks to Weihuoya, The Dolphin Team and GameTDB.com for getting this emulator to where it is today!</string>
     <string name="dev_thanks">Also, congratulations to @bankaimaster999 and @sspacelynx for Dolphin-|MMJR| development!</string>
 
         <!-- Interface Preference Fragment -->
     <string name="interface_submenu">Interface</string>
+    <string name="emulation_screen_orientation">Screen Orientation During Emulation</string>
     <string name="panic_handlers">Use Panic Handlers</string>
     <string name="panic_handlers_description">Show a message box when a potentially serious error has occurred. Disabling this may avoid annoying and non-fatal messages, but it may result in major crashes having no explanation at all.</string>
     <string name="osd_messages">Show On-Screen Display Messages</string>
@@ -296,11 +299,14 @@
     <string name="log_enable_all_confirmation">Are you sure you want to enable all log types?</string>
     <string name="log_disable_all">Disable all Log Types</string>
     <string name="log_disable_all_confirmation">Are you sure you want to disable all log types?</string>
+    <string name="log_clear">Clear Log file</string>
+    <string name="log_clear_confirmation">Are you sure you want to clear the log file?</string>
     <string name="log_types">Log Types</string>
 
     <!-- Debug -->
     <string name="debug_submenu">Debug</string>
-    <string name="debug_warning">Warning: These settings will slow emulation</string>
+    <string name="debug_warning">Warning: Debug settings will slow emulation</string>
+    <string name="debug_fastmem">Disable Fastmem</string>
     <string name="debug_jit_header">Jit</string>
     <string name="debug_jitoff">Jit Disabled</string>
     <string name="debug_jitloadstoreoff">Jit Load Store Disabled</string>
@@ -322,6 +328,7 @@
     <string name="clear">Clear</string>
     <string name="disabled">Disabled</string>
     <string name="other">Other</string>
+    <string name="continue_anyway">Continue Anyway</string>
 
     <!-- Game Grid Screen-->
     <string name="add_directory_title">Add Folder to Library</string>
@@ -411,7 +418,6 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="emulation_ir_group">Touch IR Pointer</string>
     <string name="emulation_ir_sensitivity">IR Sensitivity</string>
     <string name="emulation_choose_doubletap">Double tap button</string>
-    <string name="emulation_screen_orientation">Screen Orientation</string>
     <string name="emulation_motion_controls">Motion Controls</string>
 
     <!-- GC Adapter Menu-->
@@ -441,6 +447,12 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="homescreen_favorites">Favorites</string>
 
     <string name="select_dir">Select This Directory</string>
+
+    <!-- File Pickers -->
+    <string name="no_file_extension">The selected file does not appear to have a file name extension.\n\nContinue anyway?</string>
+    <string name="wrong_file_extension_single">The selected file has the file name extension \"%1$s\", but \"%2$s\" was expected.\n\nContinue anyway?</string>
+    <string name="wrong_file_extension_multiple">The selected file has the file name extension \"%1$s\", but one of these extensions was expected: %2$s\n\nContinue anyway?</string>
+    <string name="unavailable_paths">Dolphin does not have permission to access one or more configured paths. Would you like to fix this before starting?</string>
 
     <!-- Misc -->
     <string name="pitch">Total Pitch</string>
