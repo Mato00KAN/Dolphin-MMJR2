@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -36,6 +35,7 @@ import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.features.settings.model.BooleanSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.IntSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
+import org.dolphinemu.dolphinemu.features.settings.model.StringSetting;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
 import org.dolphinemu.dolphinemu.features.settings.ui.SettingsActivity;
 import org.dolphinemu.dolphinemu.features.settings.utils.SettingsFile;
@@ -98,9 +98,8 @@ public final class EmulationActivity extends AppCompatActivity
           MENU_ACTION_LOAD_SLOT3, MENU_ACTION_LOAD_SLOT4, MENU_ACTION_LOAD_SLOT5,
           MENU_ACTION_LOAD_SLOT6, MENU_ACTION_EXIT, MENU_ACTION_CHANGE_DISC,
           MENU_ACTION_RESET_OVERLAY, MENU_SET_IR_SENSITIVITY, MENU_ACTION_CHOOSE_DOUBLETAP,
-          MENU_ACTION_SCREEN_ORIENTATION, MENU_ACTION_MOTION_CONTROLS, MENU_ACTION_PAUSE_EMULATION,
-          MENU_ACTION_UNPAUSE_EMULATION, MENU_ACTION_OVERLAY_CONTROLS, MENU_ACTION_SETTINGS_CORE,
-          MENU_ACTION_SETTINGS_GRAPHICS})
+          MENU_ACTION_MOTION_CONTROLS, MENU_ACTION_PAUSE_EMULATION, MENU_ACTION_UNPAUSE_EMULATION,
+          MENU_ACTION_OVERLAY_CONTROLS, MENU_ACTION_SETTINGS_CORE, MENU_ACTION_SETTINGS_GRAPHICS})
   public @interface MenuAction
   {
   }
@@ -134,13 +133,12 @@ public final class EmulationActivity extends AppCompatActivity
   public static final int MENU_ACTION_RESET_OVERLAY = 26;
   public static final int MENU_SET_IR_SENSITIVITY = 27;
   public static final int MENU_ACTION_CHOOSE_DOUBLETAP = 28;
-  public static final int MENU_ACTION_SCREEN_ORIENTATION = 29;
-  public static final int MENU_ACTION_MOTION_CONTROLS = 30;
-  public static final int MENU_ACTION_PAUSE_EMULATION = 31;
-  public static final int MENU_ACTION_UNPAUSE_EMULATION = 32;
-  public static final int MENU_ACTION_OVERLAY_CONTROLS = 33;
-  public static final int MENU_ACTION_SETTINGS_CORE = 34;
-  public static final int MENU_ACTION_SETTINGS_GRAPHICS = 35;
+  public static final int MENU_ACTION_MOTION_CONTROLS = 29;
+  public static final int MENU_ACTION_PAUSE_EMULATION = 30;
+  public static final int MENU_ACTION_UNPAUSE_EMULATION = 31;
+  public static final int MENU_ACTION_OVERLAY_CONTROLS = 32;
+  public static final int MENU_ACTION_SETTINGS_CORE = 33;
+  public static final int MENU_ACTION_SETTINGS_GRAPHICS = 34;
 
   private static final SparseIntArray buttonsActionsMap = new SparseIntArray();
 
@@ -172,13 +170,38 @@ public final class EmulationActivity extends AppCompatActivity
     if (sIgnoreLaunchRequests)
       return;
 
+    new AfterDirectoryInitializationRunner().run(activity, true, () ->
+    {
+      if (FileBrowserHelper.isPathEmptyOrValid(StringSetting.MAIN_DEFAULT_ISO) &&
+              FileBrowserHelper.isPathEmptyOrValid(StringSetting.MAIN_FS_PATH) &&
+              FileBrowserHelper.isPathEmptyOrValid(StringSetting.MAIN_DUMP_PATH) &&
+              FileBrowserHelper.isPathEmptyOrValid(StringSetting.MAIN_LOAD_PATH) &&
+              FileBrowserHelper.isPathEmptyOrValid(StringSetting.MAIN_RESOURCEPACK_PATH) &&
+              FileBrowserHelper.isPathEmptyOrValid(StringSetting.MAIN_SD_PATH))
+      {
+        launchWithoutChecks(activity, filePaths);
+      }
+      else
+      {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.DolphinDialogBase);
+        builder.setMessage(R.string.unavailable_paths);
+        builder.setPositiveButton(R.string.yes, (dialogInterface, i) ->
+                SettingsActivity.launch(activity, MenuTag.CONFIG_PATHS));
+        builder.setNeutralButton(R.string.continue_anyway, (dialogInterface, i) ->
+                launchWithoutChecks(activity, filePaths));
+        builder.show();
+      }
+    });
+  }
+
+  private static void launchWithoutChecks(FragmentActivity activity, String[] filePaths)
+  {
     sIgnoreLaunchRequests = true;
 
     Intent launcher = new Intent(activity, EmulationActivity.class);
     launcher.putExtra(EXTRA_SELECTED_GAMES, filePaths);
 
-    new AfterDirectoryInitializationRunner().run(activity, true,
-            () -> activity.startActivity(launcher));
+    activity.startActivity(launcher);
   }
 
   public static void stopIgnoringLaunchRequests()
@@ -309,6 +332,8 @@ public final class EmulationActivity extends AppCompatActivity
   {
     super.onResume();
 
+    updateOrientation();
+
     if (NativeLibrary.IsGameMetadataValid())
       updateMotionListener();
   }
@@ -408,8 +433,7 @@ public final class EmulationActivity extends AppCompatActivity
 
   private void updateOrientation()
   {
-    setRequestedOrientation(mPreferences.getInt("emulationActivityOrientation",
-            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE));
+    setRequestedOrientation(IntSetting.MAIN_EMULATION_ORIENTATION.getInt(mSettings));
   }
 
   private boolean closeSubmenu()
@@ -626,10 +650,6 @@ public final class EmulationActivity extends AppCompatActivity
 
       case MENU_ACTION_CHOOSE_DOUBLETAP:
         chooseDoubleTapButton();
-        break;
-
-      case MENU_ACTION_SCREEN_ORIENTATION:
-        chooseOrientation();
         break;
 
       case MENU_ACTION_MOTION_CONTROLS:
@@ -894,36 +914,6 @@ public final class EmulationActivity extends AppCompatActivity
               NativeLibrary.ReloadWiimoteConfig();
             });
     builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> dialogInterface.dismiss());
-
-    builder.show();
-  }
-
-  private void chooseOrientation()
-  {
-    final int[] orientationValues = getResources().getIntArray(R.array.orientationValues);
-    int initialChoice = mPreferences.getInt("emulationActivityOrientation",
-            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-    int initialIndex = -1;
-    for (int i = 0; i < orientationValues.length; i++)
-    {
-      if (orientationValues[i] == initialChoice)
-        initialIndex = i;
-    }
-
-    final SharedPreferences.Editor editor = mPreferences.edit();
-    AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DolphinDialogBase);
-    builder.setTitle(R.string.emulation_screen_orientation);
-    builder.setSingleChoiceItems(R.array.orientationEntries, initialIndex,
-            (dialog, indexSelected) ->
-            {
-              int orientation = orientationValues[indexSelected];
-              editor.putInt("emulationActivityOrientation", orientation);
-            });
-    builder.setPositiveButton(R.string.ok, (dialogInterface, i) ->
-    {
-      editor.apply();
-      updateOrientation();
-    });
 
     builder.show();
   }

@@ -88,7 +88,7 @@ template <typename T>
 static void Set(jint layer, const Config::Location& location, T value)
 {
   GetLayer(layer, location)->Set(location, value);
-  Config::InvokeConfigChangedCallbacks();
+  Config::OnConfigChanged();
 }
 
 #ifdef __cplusplus

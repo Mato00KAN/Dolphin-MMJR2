@@ -1,8 +1,10 @@
 package org.dolphinemu.dolphinemu.features.settings.ui;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import org.dolphinemu.dolphinemu.DolphinApplication;
 import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.features.settings.model.AbstractIntSetting;
@@ -15,7 +17,7 @@ import org.dolphinemu.dolphinemu.features.settings.model.LegacyIntSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.LegacyStringSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 import org.dolphinemu.dolphinemu.features.settings.model.StringSetting;
-import org.dolphinemu.dolphinemu.features.settings.model.WiimoteProfileSetting;
+import org.dolphinemu.dolphinemu.features.settings.model.WiimoteProfileStringSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.view.CheckBoxSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.view.FilePicker;
 import org.dolphinemu.dolphinemu.features.settings.model.view.HeaderSetting;
@@ -245,12 +247,25 @@ public final class SettingsFragmentPresenter
     sl.add(new PercentSliderSetting(FloatSetting.MAIN_EMULATION_SPEED, R.string.speed_limit, 0, 0,
             200, "%"));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_ANALYTICS_ENABLED, R.string.analytics, 0));
+    sl.add(new RunRunnable(R.string.analytics_new_id, 0, R.string.analytics_new_id_confirmation, 0,
+            NativeLibrary::GenerateNewStatisticsId));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_ENABLE_SAVESTATES, R.string.enable_save_states,
             R.string.enable_save_states_description));
   }
 
   private void addInterfaceSettings(ArrayList<SettingsItem> sl)
   {
+    // Hide the orientation setting if the device only supports one orientation. Old devices which
+    // support both portrait and landscape may report support for neither, so we use ==, not &&.
+    PackageManager packageManager = DolphinApplication.getAppContext().getPackageManager();
+    if (packageManager.hasSystemFeature(PackageManager.FEATURE_SCREEN_PORTRAIT) ==
+            packageManager.hasSystemFeature(PackageManager.FEATURE_SCREEN_LANDSCAPE))
+    {
+      sl.add(new SingleChoiceSetting(IntSetting.MAIN_EMULATION_ORIENTATION,
+              R.string.emulation_screen_orientation, 0, R.array.orientationEntries,
+              R.array.orientationValues));
+    }
+
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_USE_PANIC_HANDLERS, R.string.panic_handlers,
             R.string.panic_handlers_description));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_OSD_MESSAGES, R.string.osd_messages,
@@ -660,6 +675,8 @@ public final class SettingsFragmentPresenter
             () -> mView.getAdapter().setAllLogTypes(true)));
     sl.add(new RunRunnable(R.string.log_disable_all, 0, R.string.log_disable_all_confirmation, 0,
             () -> mView.getAdapter().setAllLogTypes(false)));
+    sl.add(new RunRunnable(R.string.log_clear, 0, R.string.log_clear_confirmation, 0,
+            SettingsAdapter::clearLog));
 
     sl.add(new HeaderSetting(R.string.log_types, 0));
     for (Map.Entry<String, String> entry : LOG_TYPE_NAMES.entrySet())
@@ -672,6 +689,7 @@ public final class SettingsFragmentPresenter
   private void addDebugSettings(ArrayList<SettingsItem> sl)
   {
     sl.add(new HeaderSetting(R.string.debug_warning, 0));
+    sl.add(new InvertedCheckBoxSetting(BooleanSetting.MAIN_FASTMEM, R.string.debug_fastmem, 0));
 
     sl.add(new HeaderSetting(R.string.debug_jit_header, 0));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_JIT_OFF, R.string.debug_jitoff, 0));
@@ -797,8 +815,8 @@ public final class SettingsFragmentPresenter
     }
     else
     {
-      extension = new WiimoteProfileSetting(mGameID, wiimoteNumber - 4, Settings.SECTION_PROFILE,
-              SettingsFile.KEY_WIIMOTE_EXTENSION, defaultExtension);
+      extension = new WiimoteProfileStringSetting(mGameID, wiimoteNumber - 4,
+              Settings.SECTION_PROFILE, SettingsFile.KEY_WIIMOTE_EXTENSION, defaultExtension);
     }
 
     sl.add(new StringSingleChoiceSetting(extension, R.string.wiimote_extensions, 0,
