@@ -470,7 +470,7 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="updater_title">Updater</string>
     <string name="updater_error">An error has occurred. Please check your internet connection.</string>
     <string name="updater_uptodate">Up to date!</string>
-    <string name="updater_newavailable">Newer version available</string>
+    <string name="updater_newavailable">New version available</string>
     <string name="button_download">Download</string>
     <string name="button_install">Install</string>
     <string name="button_error">Error</string>
