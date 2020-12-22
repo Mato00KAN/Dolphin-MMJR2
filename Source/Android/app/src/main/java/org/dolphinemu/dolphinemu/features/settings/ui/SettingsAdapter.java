@@ -2,6 +2,9 @@ package org.dolphinemu.dolphinemu.features.settings.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
+import android.provider.DocumentsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +42,13 @@ import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SingleChoiceVie
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SliderViewHolder;
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SubmenuViewHolder;
 import org.dolphinemu.dolphinemu.ui.main.MainPresenter;
+import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
+import org.dolphinemu.dolphinemu.utils.Log;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -284,33 +292,42 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
     dialog.show();
   }
 
-  public void onFilePickerDirectoryClick(SettingsItem item)
+  public void onFilePickerDirectoryClick(SettingsItem item, int position)
   {
     mClickedItem = item;
+    mClickedPosition = position;
 
     FileBrowserHelper.openDirectoryPicker(mView.getActivity(), FileBrowserHelper.GAME_EXTENSIONS);
   }
 
-  public void onFilePickerFileClick(SettingsItem item)
+  public void onFilePickerFileClick(SettingsItem item, int position)
   {
     mClickedItem = item;
+    mClickedPosition = position;
     FilePicker filePicker = (FilePicker) item;
 
-    HashSet<String> extensions;
     switch (filePicker.getRequestType())
     {
       case MainPresenter.REQUEST_SD_FILE:
-        extensions = FileBrowserHelper.RAW_EXTENSION;
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+          intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI,
+                  filePicker.getSelectedValue(mView.getSettings()));
+        }
+
+        mView.getActivity().startActivityForResult(intent, filePicker.getRequestType());
         break;
       case MainPresenter.REQUEST_GAME_FILE:
-        extensions = FileBrowserHelper.GAME_EXTENSIONS;
+        FileBrowserHelper.openFilePicker(mView.getActivity(), filePicker.getRequestType(), false,
+                FileBrowserHelper.GAME_EXTENSIONS);
         break;
       default:
         throw new InvalidParameterException("Unhandled request code");
     }
-
-    FileBrowserHelper.openFilePicker(mView.getActivity(), filePicker.getRequestType(), false,
-            extensions);
   }
 
   public void onFilePickerConfirmation(String selectedFile)
@@ -318,7 +335,10 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
     FilePicker filePicker = (FilePicker) mClickedItem;
 
     if (!filePicker.getSelectedValue(mView.getSettings()).equals(selectedFile))
+    {
+      notifyItemChanged(mClickedPosition);
       mView.onSettingChanged();
+    }
 
     filePicker.setSelectedValue(mView.getSettings(), selectedFile);
 
@@ -337,6 +357,22 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
 
     notifyItemRangeChanged(0, getItemCount());
     mView.onSettingChanged();
+  }
+
+  public static void clearLog()
+  {
+    // Don't delete the log in case it is being monitored by another app.
+    File log = new File(DirectoryInitialization.getUserDirectory() + "/Logs/dolphin.log");
+
+    try
+    {
+      RandomAccessFile raf = new RandomAccessFile(log, "rw");
+      raf.setLength(0);
+    }
+    catch (IOException e)
+    {
+      Log.error("[SettingsAdapter] Failed to clear log file: " + e.getMessage());
+    }
   }
 
   private void handleMenuTag(MenuTag menuTag, int value)

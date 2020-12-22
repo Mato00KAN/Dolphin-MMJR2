@@ -29,9 +29,9 @@
 #include "Common/ChunkFile.h"
 #include "Common/CommonTypes.h"
 #include "Common/Config/Config.h"
-#include "Common/Event.h"
 #include "Common/FileUtil.h"
 #include "Common/Flag.h"
+#include "Common/Image.h"
 #include "Common/Logging/Log.h"
 #include "Common/MsgHandler.h"
 #include "Common/Profiler.h"
@@ -64,7 +64,6 @@
 #include "VideoCommon/FramebufferManager.h"
 #include "VideoCommon/FramebufferShaderGen.h"
 #include "VideoCommon/FreeLookCamera.h"
-#include "VideoCommon/ImageWrite.h"
 #include "VideoCommon/NetPlayChatUI.h"
 #include "VideoCommon/NetPlayGolfUI.h"
 #include "VideoCommon/OnScreenDisplay.h"
@@ -90,6 +89,12 @@ std::unique_ptr<Renderer> g_renderer;
 static float AspectToWidescreen(float aspect)
 {
   return aspect * ((16.0f / 9.0f) / (4.0f / 3.0f));
+}
+
+static bool DumpFrameToPNG(const FrameDump::FrameData& frame, const std::string& file_name)
+{
+  return Common::ConvertRGBAToRGBAndSavePNG(file_name, frame.data, frame.width, frame.height,
+                                            frame.stride);
 }
 
 Renderer::Renderer(int backbuffer_width, int backbuffer_height, float backbuffer_scale,
@@ -1305,7 +1310,7 @@ void Renderer::Swap(u32 xfb_addr, u32 fb_width, u32 fb_stride, u32 fb_height, u6
         DolphinAnalytics::Instance().ReportPerformanceInfo(std::move(perf_sample));
 
         if (IsFrameDumping())
-          DumpCurrentFrame(xfb_entry->texture.get(), xfb_rect, ticks);
+          DumpCurrentFrame(xfb_entry->texture.get(), xfb_rect, ticks, m_frame_count);
 
         // Begin new frame
         m_frame_count++;
@@ -1395,7 +1400,8 @@ bool Renderer::IsFrameDumping() const
 }
 
 void Renderer::DumpCurrentFrame(const AbstractTexture* src_texture,
-                                const MathUtil::Rectangle<int>& src_rect, u64 ticks)
+                                const MathUtil::Rectangle<int>& src_rect, u64 ticks,
+                                int frame_number)
 {
   int source_width = src_rect.GetWidth();
   int source_height = src_rect.GetHeight();
@@ -1429,7 +1435,7 @@ void Renderer::DumpCurrentFrame(const AbstractTexture* src_texture,
 
   m_frame_dump_readback_texture->CopyFromTexture(src_texture, copy_rect, 0, 0,
                                                  m_frame_dump_readback_texture->GetRect());
-  m_last_frame_state = m_frame_dump.FetchState(ticks);
+  m_last_frame_state = m_frame_dump.FetchState(ticks, frame_number);
   m_frame_dump_needs_flush = true;
 }
 
@@ -1586,8 +1592,7 @@ void Renderer::FrameDumpThreadFunc()
     {
       std::lock_guard<std::mutex> lk(m_screenshot_lock);
 
-      if (TextureToPng(frame.data, frame.stride, m_screenshot_name, frame.width, frame.height,
-                       false))
+      if (DumpFrameToPNG(frame, m_screenshot_name))
         OSD::AddMessage("Screenshot saved to " + m_screenshot_name);
 
       // Reset settings
@@ -1634,7 +1639,11 @@ void Renderer::FrameDumpThreadFunc()
 
 bool Renderer::StartFrameDumpToFFMPEG(const FrameDump::FrameData& frame)
 {
-  return m_frame_dump.Start(frame.width, frame.height);
+  // If dumping started at boot, the start time must be set to the boot time to maintain audio sync.
+  // TODO: Perhaps we should care about this when starting dumping in the middle of emulation too,
+  // but it's less important there since the first frame to dump usually gets delivered quickly.
+  const u64 start_ticks = frame.state.frame_number == 0 ? 0 : frame.state.ticks;
+  return m_frame_dump.Start(frame.width, frame.height, start_ticks);
 }
 
 void Renderer::DumpFrameToFFMPEG(const FrameDump::FrameData& frame)
@@ -1691,8 +1700,7 @@ bool Renderer::StartFrameDumpToImage(const FrameDump::FrameData&)
 
 void Renderer::DumpFrameToImage(const FrameDump::FrameData& frame)
 {
-  std::string filename = GetFrameDumpNextImageFileName();
-  TextureToPng(frame.data, frame.stride, filename, frame.width, frame.height, false);
+  DumpFrameToPNG(frame, GetFrameDumpNextImageFileName());
   m_frame_dump_image_counter++;
 }
 

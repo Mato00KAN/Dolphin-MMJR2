@@ -7,6 +7,7 @@ add_library(core
   ARDecrypt.h
   BootManager.cpp
   BootManager.h
+  CheatCodes.h
   CommonTitles.h
   ConfigManager.cpp
   ConfigManager.h
@@ -40,6 +41,8 @@ add_library(core
   SyncIdentifier.h
   SysConf.cpp
   SysConf.h
+  System.cpp
+  System.h
   TitleDatabase.cpp
   TitleDatabase.h
   WiiRoot.cpp
@@ -622,6 +625,7 @@ if(WIN32)
 elseif(APPLE)
   target_sources(core PRIVATE
     HW/EXI/BBA/TAP_Apple.cpp
+    HW/EXI/BBA/TAPServer_Apple.cpp
     HW/EXI/BBA/XLINK_KAI_BBA.cpp
     HW/WiimoteReal/IOdarwin.h
     HW/WiimoteReal/IOdarwin_private.h
