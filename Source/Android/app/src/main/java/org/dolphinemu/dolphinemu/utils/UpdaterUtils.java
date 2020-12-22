@@ -9,14 +9,11 @@ import android.os.Looper;
 
 import androidx.annotation.NonNull;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.JSONArray;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.dolphinemu.dolphinemu.BuildConfig;
@@ -25,11 +22,10 @@ public class UpdaterUtils
 {
   private static LoadCallback sLoadCallback;
   private static DownloadCallback sDownloadCallback;
-  private static final String URL = "https://api.npoint.io/c43ee26a63ee41e7c3e5";
+  private static final String URL = "https://api.github.com/repos/Darwin-Rist/Releases/releases";
   private static DownloadUtils sDownload;
 
-  private static JSONObject jsonData;
-  private static int sConfigVersion;
+  private static JSONArray jsonData;
   private static int sLatestVersion;
   private static int sOlderVersion;
   private static String sUrlLatest;
@@ -39,24 +35,13 @@ public class UpdaterUtils
   {
     RequestQueue queue = Volley.newRequestQueue(context);
 
-    JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, URL, null,
-      new Response.Listener<JSONObject>()
+    JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, URL, null,
+      response ->
       {
-        @Override
-        public void onResponse(JSONObject response)
-        {
-          jsonData = response;
-          load();
-        }
+        jsonData = response;
+        load();
       },
-      new Response.ErrorListener()
-      {
-        @Override
-        public void onErrorResponse(VolleyError error)
-        {
-          sLoadCallback.onLoadError();
-        }
-      });
+      error -> sLoadCallback.onLoadError());
     queue.add(jsonRequest);
 
     cleanFolder(getDownloadFolder(context));
@@ -68,17 +53,16 @@ public class UpdaterUtils
   {
     try
     {
-      sConfigVersion = jsonData.getInt("version");
-      sLatestVersion = jsonData.getJSONObject("build").getInt("latest");
-      sOlderVersion = jsonData.getJSONObject("build").getInt("older");
-      sUrlLatest = jsonData.getJSONObject("url").getString("latest");
-      sUrlOlder = jsonData.getJSONObject("url").getString("older");
+      sLatestVersion = jsonData.getJSONObject(0).getInt("tag_name");
+      sOlderVersion = jsonData.getJSONObject(1).getInt("tag_name");
+      sUrlLatest = jsonData.getJSONObject(0).getJSONArray("assets")
+        .getJSONObject(0).getString("browser_download_url");
+      sUrlOlder = jsonData.getJSONObject(1).getJSONArray("assets")
+        .getJSONObject(0).getString("browser_download_url");
+
       sLoadCallback.onLoad();
     }
-    catch (JSONException e)
-    {
-      sLoadCallback.onLoadError();
-    }
+    catch (Exception e) { sLoadCallback.onLoadError(); }
   }
 
   public static void download(String url)
