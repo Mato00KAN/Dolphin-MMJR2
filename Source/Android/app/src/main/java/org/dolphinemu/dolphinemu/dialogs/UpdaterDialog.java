@@ -167,7 +167,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   {
     mActivePb.setProgress(0);
     mActiveButton.setActivated(true);
-    mActiveButton.setText(R.string.button_cancel);
+    mActiveButton.setText(R.string.cancel);
   }
 
   @Override
@@ -202,7 +202,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   @Override
   public void onDownloadError()
   {
-    mActiveButton.setText(R.string.button_error);
+    mActiveButton.setText(R.string.error);
     onDownloadStop();
   }
 
