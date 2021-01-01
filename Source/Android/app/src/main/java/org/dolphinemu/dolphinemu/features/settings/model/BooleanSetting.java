@@ -51,6 +51,11 @@ public enum BooleanSetting implements AbstractBooleanSetting
   MAIN_SHOW_INPUT_OVERLAY(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID,
           "ShowInputOverlay", true),
 
+  CHECK_UPDATES(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID,
+          "CheckForUpdates", false),
+  CHECK_UPDATES_PERMISSION_ASKED(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID,
+          "UpdatesPermissionAsked", false),
+
   MAIN_BUTTON_TOGGLE_GC_0(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID_OVERLAY_BUTTONS,
           "ButtonToggleGCButtonA", true),
   MAIN_BUTTON_TOGGLE_GC_1(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID_OVERLAY_BUTTONS,

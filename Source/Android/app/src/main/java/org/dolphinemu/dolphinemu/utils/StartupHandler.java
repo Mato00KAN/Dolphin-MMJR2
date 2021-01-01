@@ -23,6 +23,10 @@ public final class StartupHandler
     // Ask the user to grant write permission if it's not already granted
     PermissionsHandler.checkWritePermission(parent);
 
+    // Ask the user if he wants to check for updates at startup if we haven't yet.
+    // If allowed, check for updates.
+    UpdaterUtils.checkUpdatesInit(parent);
+
     // Ask the user if he wants to enable analytics if we haven't yet.
     //Analytics.checkAnalyticsInit(parent);
 

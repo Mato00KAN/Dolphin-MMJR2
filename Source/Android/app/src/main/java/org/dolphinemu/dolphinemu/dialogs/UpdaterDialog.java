@@ -51,9 +51,8 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
 
     mLoading = mViewGroup.findViewById(R.id.updater_loading);
 
-    UpdaterUtils.setOnLoadListener(this);
     UpdaterUtils.setOnDownloadListener(this);
-    UpdaterUtils.init(getContext());
+    UpdaterUtils.init(getContext(), this);
 
     builder.setView(mViewGroup);
     return builder.create();
@@ -64,7 +63,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   {
     super.onDestroy();
     UpdaterUtils.cancelDownload();
-    UpdaterUtils.cleanFolder(UpdaterUtils.getDownloadFolder(getContext()));
+    UpdaterUtils.cleanDownloadFolder(getContext());
   }
 
   @Override

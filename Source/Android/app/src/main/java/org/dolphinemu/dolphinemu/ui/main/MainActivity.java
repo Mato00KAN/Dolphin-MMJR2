@@ -75,8 +75,6 @@ public final class MainActivity extends AppCompatActivity implements MainView
       new AfterDirectoryInitializationRunner()
               .run(this, false, this::setPlatformTabsAndStartGameFileCacheService);
     }
-
-    UpdaterUtils.cleanFolder(UpdaterUtils.getDownloadFolder(this));
   }
 
   @Override
@@ -198,9 +196,7 @@ public final class MainActivity extends AppCompatActivity implements MainView
   @Override
   public void openUpdaterDialog()
   {
-    FragmentManager fm = getSupportFragmentManager();
-    UpdaterDialog updaterDialog = UpdaterDialog.newInstance();
-    updaterDialog.show(fm, "fragment_updater");
+    UpdaterUtils.openUpdaterWindow(this);
   }
 
   /**
