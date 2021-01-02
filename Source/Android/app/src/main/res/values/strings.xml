@@ -175,6 +175,8 @@
     <string name="osd_messages">Show On-Screen Display Messages</string>
     <string name="osd_messages_description">Display messages over the emulation screen area. These messages include memory card writes, video backend and CPU information, and JIT cache clearing.</string>
     <string name="download_game_covers">Download Game Covers from GameTDB.com</string>
+    <string name="check_updates">Check for updates at startup</string>
+    <string name="check_updates_description">If allowed, Dolphin |MMJR| will check for updates when opened. A pop-up will appear when a new version is available. An internet connection is required.</string>
 
     <!-- Audio Settings -->
     <string name="audio_submenu">Audio</string>
@@ -327,6 +329,7 @@
     <string name="cancel">Cancel</string>
     <string name="clear">Clear</string>
     <string name="disabled">Disabled</string>
+    <string name="error">Error</string>
     <string name="other">Other</string>
     <string name="continue_anyway">Continue Anyway</string>
 
@@ -473,10 +476,14 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="updater_newavailable">New version available</string>
     <string name="button_download">Download</string>
     <string name="button_install">Install</string>
-    <string name="button_error">Error</string>
-    <string name="button_cancel">Cancel</string>
     <string name="version_description">%2$s version: %1$d</string>
     <string name="updater_changelog_button">View changelog</string>
+
+    <!-- Update available dialog -->
+    <string name="updates_alert">Update available</string>
+    <string name="updater_alert_body">A new version of Dolphin |MMJR| is available, do you want to update?</string>
+    <string name="not_now">Not now</string>
+    <string name="skip_version">Skip this version</string>
 
     <!-- Cheat Window -->
     <string name="enable_cheats">Enable Cheats</string>

@@ -25,8 +25,27 @@ public class Analytics
   {
     new AfterDirectoryInitializationRunner().run(context, false, () ->
     {
-
+      if (!BooleanSetting.MAIN_ANALYTICS_PERMISSION_ASKED.getBooleanGlobal())
+      {
+        showMessage(context);
+      }
     });
+  }
+
+  private static void showMessage(Context context)
+  {
+    new AlertDialog.Builder(context, R.style.DolphinDialogBase)
+      .setTitle(context.getString(R.string.analytics))
+      .setMessage(context.getString(R.string.analytics_desc))
+      .setPositiveButton(R.string.yes, (dialogInterface, i) ->
+      {
+        firstAnalyticsAdd(true);
+      })
+      .setNegativeButton(R.string.no, (dialogInterface, i) ->
+      {
+        firstAnalyticsAdd(false);
+      })
+      .show();
   }
 
   private static void firstAnalyticsAdd(boolean enabled)
