@@ -30,7 +30,6 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   private ProgressBar mActivePb;
   private ProgressBar mLoading;
   private final int mBuildVersion = UpdaterUtils.getBuildVersion();
-  private boolean mIsDownloading = false;
 
   public static UpdaterDialog newInstance()
   {
@@ -51,7 +50,6 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
 
     mLoading = mViewGroup.findViewById(R.id.updater_loading);
 
-    UpdaterUtils.setOnDownloadListener(this);
     UpdaterUtils.init(getContext(), this);
 
     builder.setView(mViewGroup);
@@ -127,7 +125,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
 
   @Override
   public void onClick(View view) {
-    if (mIsDownloading)
+    if (UpdaterUtils.isDownloadRunning())
     {
       UpdaterUtils.cancelDownload();
     }
@@ -153,8 +151,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
 
       if (url != null)
       {
-        mIsDownloading = true;
-        UpdaterUtils.download(url);
+        UpdaterUtils.download(getContext(), url, this);
       }
       else
         onDownloadError();
@@ -207,7 +204,6 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
 
   private void onDownloadStop()
   {
-    mIsDownloading = false;
     mActiveButton.setActivated(false);
     mInactiveButton.setClickable(true);
   }

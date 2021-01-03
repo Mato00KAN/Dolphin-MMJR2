@@ -27,7 +27,6 @@ import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 
 public class UpdaterUtils
 {
-  private static DownloadCallback sDownloadCallback;
   private static final String URL = "https://api.github.com/repos/Darwin-Rist/Releases/releases";
   private static DownloadUtils sDownload;
 
@@ -156,9 +155,6 @@ public class UpdaterUtils
     queue.add(jsonRequest);
 
     cleanDownloadFolder(context);
-
-    sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), sDownloadCallback,
-      getDownloadFolder(context));
   }
 
   private static void load() throws JSONException
@@ -171,10 +167,20 @@ public class UpdaterUtils
             .getJSONObject(0).getString("browser_download_url");
   }
 
-  public static void download(String url)
+  public static void download(Context context, String url, DownloadCallback listener)
   {
+    sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), listener,
+            getDownloadFolder(context));
     sDownload.setUrl(url);
     sDownload.start();
+  }
+
+  public static boolean isDownloadRunning()
+  {
+    if (sDownload == null)
+      return false;
+
+    return sDownload.isRunning();
   }
 
   public static void cancelDownload()
@@ -193,11 +199,6 @@ public class UpdaterUtils
   public static File getDownloadFolder(Context context)
   {
     return context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-  }
-
-  public static void setOnDownloadListener(DownloadCallback listener)
-  {
-    sDownloadCallback = listener;
   }
 
   public static int getBuildVersion()

@@ -15,7 +15,7 @@ public class DownloadUtils implements Runnable
 {
   private final HashMap<String, File> mCache = new HashMap<>();
   private Handler mHandler;
-  private DownloadCallback mCallback;
+  private DownloadCallback mListener;
   private File mDownloadPath;
   private String mUrl;
   private HttpURLConnection mUrlConnection;
@@ -29,13 +29,13 @@ public class DownloadUtils implements Runnable
    * @see DownloadUtils#start()
    *
    * @param handler Handler that will handle download status callbacks.
-   * @param callback Listener of download status callbacks.
+   * @param listener Listener of download status callbacks.
    * @param path The path to download the file to.
    */
-  public DownloadUtils(Handler handler, DownloadCallback callback, File path)
+  public DownloadUtils(Handler handler, DownloadCallback listener, File path)
   {
     mHandler = handler;
-    mCallback = callback;
+    mListener = listener;
     mDownloadPath = path;
   }
 
@@ -61,25 +61,6 @@ public class DownloadUtils implements Runnable
     downloadThread.start();
   }
 
-  /**
-   * Cancel the current downloads by disconnecting from the url.
-   * Report cancelled status back to the listener if any.
-   */
-  public void cancel()
-  {
-    mIsCancelled = true;
-    if (mUrlConnection != null)
-      mUrlConnection.disconnect();
-  }
-
-  /**
-   * Get download status.
-   */
-  public boolean isRunning()
-  {
-    return mIsRunning;
-  }
-
   @Override
   public void run()
   {
@@ -88,21 +69,20 @@ public class DownloadUtils implements Runnable
       downloadFile();
     }
     if (mHandler != null && !mIsCancelled)
-      mHandler.post(() -> mCallback.onDownloadComplete(mCache.get(mUrl)));
+      mHandler.post(() -> mListener.onDownloadComplete(mCache.get(mUrl)));
     mIsCancelled = false;
   }
 
   private void downloadFile()
   {
     try {
+      mIsRunning = true;
       URL url = new URL(mUrl);
-
       HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
       mUrlConnection = urlConnection;
       urlConnection.setRequestMethod("GET");
       urlConnection.connect();
-      mIsRunning = true;
-      if (mHandler != null) mHandler.post(() -> mCallback.onDownloadStart());
+      if (mHandler != null) mHandler.post(() -> mListener.onDownloadStart());
 
       String filename = "download.apk";
       String fieldContentDisp = urlConnection.getHeaderField("Content-Disposition");
@@ -126,7 +106,7 @@ public class DownloadUtils implements Runnable
         downloadedSize += bufferLength;
 
         int progress = (int) (downloadedSize / totalSize * 100);
-        if (mHandler != null) mHandler.post(() -> mCallback.onDownloadProgress(progress));
+        if (mHandler != null) mHandler.post(() -> mListener.onDownloadProgress(progress));
       }
 
       fileOutput.close();
@@ -140,12 +120,31 @@ public class DownloadUtils implements Runnable
       {
         if (mIsCancelled)
         {
-          mHandler.post(() -> mCallback.onDownloadCancelled());
+          mHandler.post(() -> mListener.onDownloadCancelled());
         }
-        else mHandler.post(() -> mCallback.onDownloadError());
+        else mHandler.post(() -> mListener.onDownloadError());
       }
       deleteFile();
     }
+  }
+
+  /**
+   * Cancel the current downloads by disconnecting from the url.
+   * Report cancelled status back to the listener if any.
+   */
+  public void cancel()
+  {
+    mIsCancelled = true;
+    if (mUrlConnection != null)
+      mUrlConnection.disconnect();
+  }
+
+  /**
+   * Get download status.
+   */
+  public boolean isRunning()
+  {
+    return mIsRunning;
   }
 
   /**
@@ -184,7 +183,7 @@ public class DownloadUtils implements Runnable
    */
   public void setCallbackListener(DownloadCallback listener)
   {
-    mCallback = listener;
+    mListener = listener;
   }
 
   /**
