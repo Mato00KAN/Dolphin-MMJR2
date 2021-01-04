@@ -81,9 +81,9 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     if (mActiveButton != null)
       disableActiveButton();
 
-    View updaterUi = mViewGroup.findViewById(R.id.updater_ui);
+    View updaterBody = mViewGroup.findViewById(R.id.updater_body);
     mLoading.setVisibility(View.INVISIBLE);
-    updaterUi.setVisibility(View.VISIBLE);
+    updaterBody.setVisibility(View.VISIBLE);
   }
 
   @Override

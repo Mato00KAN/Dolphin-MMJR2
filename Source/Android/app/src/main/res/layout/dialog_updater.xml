@@ -58,10 +58,10 @@
             android:layout_height="wrap_content"
             android:theme="@style/DolphinBase"
             android:indeterminate="true"
-            app:layout_constraintTop_toTopOf="@id/updater_ui"
-            app:layout_constraintStart_toStartOf="@id/updater_ui"
-            app:layout_constraintEnd_toEndOf="@id/updater_ui"
-            app:layout_constraintBottom_toBottomOf="@id/updater_ui"
+            app:layout_constraintTop_toTopOf="@id/updater_body"
+            app:layout_constraintStart_toStartOf="@id/updater_body"
+            app:layout_constraintEnd_toEndOf="@id/updater_body"
+            app:layout_constraintBottom_toBottomOf="@id/updater_body"
             tools:visibility="invisible" />
 
         <TextView
@@ -71,13 +71,13 @@
             android:text="@string/updater_error"
             android:visibility="invisible"
             android:gravity="center"
-            app:layout_constraintTop_toTopOf="@id/updater_ui"
-            app:layout_constraintStart_toStartOf="@id/updater_ui"
-            app:layout_constraintEnd_toEndOf="@id/updater_ui"
-            app:layout_constraintBottom_toBottomOf="@id/updater_ui" />
+            app:layout_constraintTop_toTopOf="@id/updater_body"
+            app:layout_constraintStart_toStartOf="@id/updater_body"
+            app:layout_constraintEnd_toEndOf="@id/updater_body"
+            app:layout_constraintBottom_toBottomOf="@id/updater_body" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/updater_ui"
+            android:id="@+id/updater_body"
             android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
