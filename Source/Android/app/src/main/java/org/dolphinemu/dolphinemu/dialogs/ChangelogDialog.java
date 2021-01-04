@@ -81,14 +81,14 @@ public final class ChangelogDialog extends DialogFragment
 
   public void onLoad()
   {
-    mLoading.setVisibility(View.INVISIBLE);
+    mLoading.setVisibility(View.GONE);
     mText.setVisibility(View.VISIBLE);
   }
 
   public void onLoadError()
   {
     TextView textError = mViewGroup.findViewById(R.id.changelog_error);
-    mLoading.setVisibility(View.INVISIBLE);
+    mLoading.setVisibility(View.GONE);
     textError.setVisibility(View.VISIBLE);
   }
 }

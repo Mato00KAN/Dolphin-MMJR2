@@ -82,7 +82,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
       disableActiveButton();
 
     View updaterBody = mViewGroup.findViewById(R.id.updater_body);
-    mLoading.setVisibility(View.INVISIBLE);
+    mLoading.setVisibility(View.GONE);
     updaterBody.setVisibility(View.VISIBLE);
   }
 
@@ -90,7 +90,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   public void onLoadError()
   {
     TextView textError = mViewGroup.findViewById(R.id.updater_error);
-    mLoading.setVisibility(View.INVISIBLE);
+    mLoading.setVisibility(View.GONE);
     textError.setVisibility(View.VISIBLE);
   }
 
@@ -124,7 +124,8 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   }
 
   @Override
-  public void onClick(View view) {
+  public void onClick(View view)
+  {
     if (UpdaterUtils.isDownloadRunning())
     {
       UpdaterUtils.cancelDownload();

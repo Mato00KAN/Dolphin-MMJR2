@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/dolphin_background"
     android:transitionName="card_game"
-    style="@style/DolphinDialogBase">
+    style="@style/DolphinDialogBase" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,8 +14,7 @@
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:paddingTop="24dp"
-        android:paddingBottom="24dp">
-
+        android:paddingBottom="24dp" >
 
         <ImageView
             android:id="@+id/banner"
@@ -69,7 +68,7 @@
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:text="@string/updater_error"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="@id/updater_body"
             app:layout_constraintStart_toStartOf="@id/updater_body"
@@ -116,7 +115,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider_1"
-                app:layout_constraintBottom_toTopOf="@id/divider_2"/>
+                app:layout_constraintBottom_toTopOf="@id/divider_2" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/download_latest"

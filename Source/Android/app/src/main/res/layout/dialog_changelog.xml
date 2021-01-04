@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dolphin_background">
+    android:background="@color/dolphin_background" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="10dp" >
 
         <ImageView
             android:id="@+id/MMJR_logo"
@@ -59,7 +59,7 @@
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:text="@string/updater_error"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="@id/changelog_body"
             app:layout_constraintStart_toStartOf="@id/changelog_body"
