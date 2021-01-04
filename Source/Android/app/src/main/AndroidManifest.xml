@@ -23,6 +23,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="com.android.providers.tv.permission.READ_EPG_DATA"/>
     <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA"/>
     <uses-permission
@@ -100,6 +101,13 @@
         <activity
             android:name=".activities.ConvertActivity"
             android:theme="@style/DolphinBase" />
+
+        <activity
+            android:name=".activities.CheatEditorActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/DolphinBase"/>
 
         <service android:name=".utils.DirectoryInitialization"/>
         <service android:name=".services.GameFileCacheService"/>

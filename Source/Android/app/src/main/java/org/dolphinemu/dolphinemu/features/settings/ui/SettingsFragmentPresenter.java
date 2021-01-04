@@ -159,6 +159,7 @@ public final class SettingsFragmentPresenter
         addGraphicsSettings(sl);
         break;
 
+
       case GCPAD_TYPE:
         addGcPadSettings(sl);
         break;
@@ -246,9 +247,6 @@ public final class SettingsFragmentPresenter
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_AUTO_DISC_CHANGE, R.string.auto_disc_change, 0));
     sl.add(new PercentSliderSetting(FloatSetting.MAIN_EMULATION_SPEED, R.string.speed_limit, 0, 0,
             200, "%"));
-    sl.add(new CheckBoxSetting(BooleanSetting.MAIN_ANALYTICS_ENABLED, R.string.analytics, 0));
-    sl.add(new RunRunnable(R.string.analytics_new_id, 0, R.string.analytics_new_id_confirmation, 0,
-            NativeLibrary::GenerateNewStatisticsId));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_ENABLE_SAVESTATES, R.string.enable_save_states,
             R.string.enable_save_states_description));
   }
@@ -272,6 +270,8 @@ public final class SettingsFragmentPresenter
             R.string.osd_messages_description));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_USE_GAME_COVERS, R.string.download_game_covers,
             0));
+    sl.add(new CheckBoxSetting(BooleanSetting.CHECK_UPDATES, R.string.check_updates,
+            R.string.check_updates_description));
   }
 
   private void addAudioSettings(ArrayList<SettingsItem> sl)
@@ -506,7 +506,8 @@ public final class SettingsFragmentPresenter
     }
   }
 
-  private void addGraphicsSettings(ArrayList<SettingsItem> sl)
+
+   private void addGraphicsSettings(ArrayList<SettingsItem> sl)
   {
     sl.add(new HeaderSetting(R.string.graphics_general, 0));
     sl.add(new StringSingleChoiceSetting(StringSetting.MAIN_GFX_BACKEND, R.string.video_backend, 0,
@@ -532,6 +533,7 @@ public final class SettingsFragmentPresenter
     sl.add(new SingleChoiceSetting(IntSetting.GFX_EFB_SCALE, R.string.internal_resolution,
             R.string.internal_resolution_description, R.array.internalResolutionEntries,
             R.array.internalResolutionValues));
+    sl.add(new SubmenuSetting(R.string.custom_textures_submenu, MenuTag.CUSTOM_TEXTURES));
     sl.add(new SingleChoiceSetting(IntSetting.GFX_MSAA, R.string.FSAA, R.string.FSAA_description,
             R.array.FSAAEntries, R.array.FSAAValues));
     sl.add(new SingleChoiceSetting(IntSetting.GFX_ENHANCE_MAX_ANISOTROPY,
@@ -548,8 +550,7 @@ public final class SettingsFragmentPresenter
     sl.add(new StringSingleChoiceSetting(StringSetting.GFX_ENHANCE_POST_SHADER,
             R.string.post_processing_shader, 0, shaderListEntries, shaderListValues));
 
-    sl.add(new SubmenuSetting(R.string.custom_textures_submenu, MenuTag.CUSTOM_TEXTURES));
-    sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_COPY_EFB_SCALED, R.string.scaled_efb_copy,
+        sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_COPY_EFB_SCALED, R.string.scaled_efb_copy,
             R.string.scaled_efb_copy_description));
     sl.add(new CheckBoxSetting(BooleanSetting.GFX_ENABLE_PIXEL_LIGHTING,
             R.string.per_pixel_lighting, R.string.per_pixel_lighting_description));

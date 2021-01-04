@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,6 +21,8 @@ import com.google.android.material.tabs.TabLayout;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.adapters.PlatformPagerAdapter;
+import org.dolphinemu.dolphinemu.dialogs.ChangelogDialog;
+import org.dolphinemu.dolphinemu.dialogs.UpdaterDialog;
 import org.dolphinemu.dolphinemu.features.settings.model.IntSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
@@ -32,6 +35,7 @@ import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
 import org.dolphinemu.dolphinemu.utils.PermissionsHandler;
 import org.dolphinemu.dolphinemu.utils.StartupHandler;
+import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
 
 /**
  * The main Activity of the Lollipop style UI. Manages several PlatformGamesFragments, which
@@ -179,6 +183,20 @@ public final class MainActivity extends AppCompatActivity implements MainView
     intent.addCategory(Intent.CATEGORY_OPENABLE);
     intent.setType("*/*");
     startActivityForResult(intent, MainPresenter.REQUEST_WAD_FILE);
+  }
+
+  @Override
+  public void openChangelogDialog()
+  {
+    FragmentManager fmc = getSupportFragmentManager();
+    ChangelogDialog changelogDialog = ChangelogDialog.newInstance();
+    changelogDialog.show(fmc, "fragment_changelog");
+  }
+
+  @Override
+  public void openUpdaterDialog()
+  {
+    UpdaterUtils.openUpdaterWindow(this);
   }
 
   /**

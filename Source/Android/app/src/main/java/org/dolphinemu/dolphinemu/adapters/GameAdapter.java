@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.dolphinemu.dolphinemu.R;
@@ -24,16 +25,14 @@ import java.util.List;
 
 public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> implements
         View.OnClickListener,
-        View.OnLongClickListener
-{
+        View.OnLongClickListener {
   private List<GameFile> mGameFiles;
 
   /**
    * Initializes the adapter's observer, which watches for changes to the dataset. The adapter will
    * display no data until swapDataSet is called.
    */
-  public GameAdapter()
-  {
+  public GameAdapter() {
     mGameFiles = new ArrayList<>();
   }
 
@@ -45,11 +44,10 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
    * @return The created ViewHolder with references to all the child view's members.
    */
   @Override
-  public GameViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-  {
+  public GameViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     // Create a new view.
     View gameCard = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.card_game, parent, false);
+      .inflate(R.layout.card_game, parent, false);
 
     gameCard.setOnClickListener(this);
     gameCard.setOnLongClickListener(this);
@@ -67,23 +65,20 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
    * @param position The position of the 'new' view in the dataset.
    */
   @Override
-  public void onBindViewHolder(GameViewHolder holder, int position)
-  {
+  public void onBindViewHolder(GameViewHolder holder, int position) {
     Context context = holder.itemView.getContext();
     GameFile gameFile = mGameFiles.get(position);
     PicassoUtils.loadGameCover(holder.imageScreenshot, gameFile);
 
+    String country = context.getResources().getStringArray(R.array.countryNames)[gameFile.getCountry()];
     holder.textGameTitle.setText(gameFile.getTitle());
+    holder.textGameCountry.setText(country);
 
-    if (GameFileCacheService.findSecondDisc(gameFile) != null)
-    {
+    if (GameFileCacheService.findSecondDisc(gameFile) != null) {
       holder.textGameCaption
-              .setText(context.getString(R.string.disc_number, gameFile.getDiscNumber() + 1));
+        .setText(context.getString(R.string.disc_number, gameFile.getDiscNumber() + 1));
     }
-    else
-    {
-      holder.textGameCaption.setText(gameFile.getCompany());
-    }
+
 
     holder.gameFile = gameFile;
   }
@@ -94,8 +89,7 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
    * @return Size of the dataset.
    */
   @Override
-  public int getItemCount()
-  {
+  public int getItemCount() {
     return mGameFiles.size();
   }
 
@@ -105,8 +99,7 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
    * @param hasStableIds ignored.
    */
   @Override
-  public void setHasStableIds(boolean hasStableIds)
-  {
+  public void setHasStableIds(boolean hasStableIds) {
     super.setHasStableIds(false);
   }
 
@@ -114,8 +107,7 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
    * When a load is finished, call this to replace the existing data
    * with the newly-loaded data.
    */
-  public void swapDataSet(List<GameFile> gameFiles)
-  {
+  public void swapDataSet(List<GameFile> gameFiles) {
     mGameFiles = gameFiles;
     notifyDataSetChanged();
   }
@@ -123,8 +115,7 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
   /**
    * Re-fetches game metadata from the game file cache.
    */
-  public void refetchMetadata()
-  {
+  public void refetchMetadata() {
     notifyItemRangeChanged(0, getItemCount());
   }
 
@@ -134,8 +125,7 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
    * @param view The card representing the game the user wants to play.
    */
   @Override
-  public void onClick(View view)
-  {
+  public void onClick(View view) {
     GameViewHolder holder = (GameViewHolder) view.getTag();
 
     String[] paths = GameFileCacheService.findSecondDiscAndGetPaths(holder.gameFile);
@@ -149,14 +139,12 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
    * @param view The Card button that was long-clicked.
    */
   @Override
-  public boolean onLongClick(View view)
-  {
+  public boolean onLongClick(View view) {
     FragmentActivity activity = (FragmentActivity) view.getContext();
     GameViewHolder holder = (GameViewHolder) view.getTag();
     String gameId = holder.gameFile.getGameId();
 
-    if (gameId.isEmpty())
-    {
+    if (gameId.isEmpty()) {
       AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.DolphinDialogBase);
       builder.setTitle("Game Settings");
       builder.setMessage("Files without game IDs don't support game-specific settings.");
@@ -167,29 +155,34 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
 
     GamePropertiesDialog fragment = GamePropertiesDialog.newInstance(holder.gameFile);
     ((FragmentActivity) view.getContext()).getSupportFragmentManager().beginTransaction()
-            .add(fragment, GamePropertiesDialog.TAG).commit();
+      .add(fragment, GamePropertiesDialog.TAG).commit();
 
     return true;
   }
 
-  public static class SpacesItemDecoration extends RecyclerView.ItemDecoration
-  {
+  public static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
     private int space;
 
-    public SpacesItemDecoration(int space)
-    {
+    public SpacesItemDecoration(int space) {
       this.space = space;
     }
 
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view,
-            @NonNull RecyclerView parent,
-            @NonNull RecyclerView.State state)
-    {
+                               @NonNull RecyclerView parent,
+                               @NonNull RecyclerView.State state) {
       outRect.left = space;
       outRect.right = space;
       outRect.bottom = space;
       outRect.top = space;
     }
   }
+
+  private Context context;
+  public GameAdapter(FragmentManager fm, Context context) {
+    this.context = context;
+  }
+
+
+
 }

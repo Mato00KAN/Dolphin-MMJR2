@@ -19,14 +19,14 @@ public enum BooleanSetting implements AbstractBooleanSetting
           "WiimoteContinuousScanning", false),
   MAIN_WIIMOTE_ENABLE_SPEAKER(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE,
           "WiimoteEnableSpeaker", false),
-  MAIN_SYNC_ON_SKIP_IDLE(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "SyncOnSkipIdle", true),
+  MAIN_SYNC_ON_SKIP_IDLE(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "SyncOnSkipIdle", false),
   MAIN_JIT_FOLLOW_BRANCH(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "JITFollowBranch", true),
   MAIN_OVERCLOCK_ENABLE(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "OverclockEnable", false),
   MAIN_AUTO_DISC_CHANGE(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "AutoDiscChange", false),
   MAIN_ALLOW_SD_WRITES(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "WiiSDCardAllowWrites",
           true),
   MAIN_ENABLE_SAVESTATES(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "EnableSaveStates",
-          false),
+          true),
 
   MAIN_DSP_JIT(Settings.FILE_DOLPHIN, Settings.SECTION_INI_DSP, "EnableJIT", true),
 
@@ -50,6 +50,11 @@ public enum BooleanSetting implements AbstractBooleanSetting
           "PhoneRumble", true),
   MAIN_SHOW_INPUT_OVERLAY(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID,
           "ShowInputOverlay", true),
+
+  CHECK_UPDATES(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID,
+          "CheckForUpdates", false),
+  CHECK_UPDATES_PERMISSION_ASKED(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID,
+          "UpdatesPermissionAsked", false),
 
   MAIN_BUTTON_TOGGLE_GC_0(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID_OVERLAY_BUTTONS,
           "ButtonToggleGCButtonA", true),
@@ -131,7 +136,7 @@ public enum BooleanSetting implements AbstractBooleanSetting
   SYSCONF_WIIMOTE_MOTOR(Settings.FILE_SYSCONF, "BT", "MOT", true),
 
   GFX_WIDESCREEN_HACK(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "wideScreenHack", false),
-  GFX_SHOW_FPS(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "ShowFPS", false),
+  GFX_SHOW_FPS(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "ShowFPS", true),
   GFX_HIRES_TEXTURES(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "HiresTextures", false),
   GFX_CACHE_HIRES_TEXTURES(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS, "CacheHiresTextures", false),
   GFX_ENABLE_GPU_TEXTURE_DECODING(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS,
@@ -150,14 +155,14 @@ public enum BooleanSetting implements AbstractBooleanSetting
   GFX_ENHANCE_FORCE_TRUE_COLOR(Settings.FILE_GFX, Settings.SECTION_GFX_ENHANCEMENTS,
           "ForceTrueColor", true),
   GFX_ENHANCE_DISABLE_COPY_FILTER(Settings.FILE_GFX, Settings.SECTION_GFX_ENHANCEMENTS,
-          "DisableCopyFilter", true),
+          "DisableCopyFilter", false),
   GFX_ENHANCE_ARBITRARY_MIPMAP_DETECTION(Settings.FILE_GFX, Settings.SECTION_GFX_ENHANCEMENTS,
           "ArbitraryMipmapDetection", true),
 
   GFX_STEREO_SWAP_EYES(Settings.FILE_GFX, Settings.SECTION_STEREOSCOPY, "StereoSwapEyes", false),
 
   GFX_HACK_EFB_ACCESS_ENABLE(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "EFBAccessEnable",
-          true),
+          false),
   GFX_HACK_EFB_DEFER_INVALIDATION(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "EFBAccessDeferInvalidation",
     false),
   GFX_HACK_SKIP_EFB_COPY_TO_RAM(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS,
@@ -166,7 +171,7 @@ public enum BooleanSetting implements AbstractBooleanSetting
           "XFBToTextureEnable", true),
   GFX_HACK_DEFER_EFB_COPIES(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "DeferEFBCopies", true),
   GFX_HACK_IMMEDIATE_XFB(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "ImmediateXFBEnable",
-          false),
+          true),
   GFX_HACK_SKIP_DUPLICATE_XFBS(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "SkipDuplicateXFBs",
           true),
   GFX_HACK_COPY_EFB_SCALED(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "EFBScaledCopy", true),

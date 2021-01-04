@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -101,6 +102,14 @@ public final class MainPresenter
 
       case R.id.menu_install_wad:
         new AfterDirectoryInitializationRunner().run(context, true, mView::launchInstallWAD);
+        return true;
+
+      case R.id.menu_changelog:
+        mView.openChangelogDialog();
+        return true;
+
+      case R.id.updater_dialog:
+        mView.openUpdaterDialog();
         return true;
     }
 

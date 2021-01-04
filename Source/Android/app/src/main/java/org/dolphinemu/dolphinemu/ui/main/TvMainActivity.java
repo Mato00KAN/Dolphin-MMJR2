@@ -19,6 +19,8 @@ import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.adapters.GameRowPresenter;
 import org.dolphinemu.dolphinemu.adapters.SettingsRowPresenter;
+import org.dolphinemu.dolphinemu.dialogs.ChangelogDialog;
+import org.dolphinemu.dolphinemu.dialogs.UpdaterDialog;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
 import org.dolphinemu.dolphinemu.features.settings.ui.SettingsActivity;
 import org.dolphinemu.dolphinemu.model.GameFile;
@@ -187,6 +189,22 @@ public final class TvMainActivity extends FragmentActivity implements MainView
   }
 
   @Override
+  public void openUpdaterDialog()
+  {
+    FragmentManager fm = getSupportFragmentManager();
+    UpdaterDialog updaterDialog = UpdaterDialog.newInstance();
+    updaterDialog.show(fm, "fragment_updater");
+  }
+
+  @Override
+  public void openChangelogDialog()
+  {
+    FragmentManager fmc = getSupportFragmentManager();
+    ChangelogDialog changelogDialog = ChangelogDialog.newInstance();
+    changelogDialog.show(fmc, "fragment_changelog");
+  }
+
+  @Override
   public void showGames()
   {
     // Kicks off the program services to update all channels
@@ -332,6 +350,10 @@ public final class TvMainActivity extends FragmentActivity implements MainView
     rowItems.add(new TvSettingsItem(R.id.button_add_directory,
             R.drawable.ic_add_tv,
             R.string.add_directory_title));
+
+    rowItems.add(new TvSettingsItem(R.id.updater_dialog,
+      R.drawable.ic_cheat_load,
+      R.string.grid_menu_open_updater));
 
     rowItems.add(new TvSettingsItem(R.id.menu_refresh,
             R.drawable.ic_refresh_tv,

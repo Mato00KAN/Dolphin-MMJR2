@@ -240,6 +240,13 @@ public final class DirectoryInitialization
     return userPath;
   }
 
+  public static String getLocalSettingFile(String gameId)
+  {
+    return getUserDirectory() + File.separator + "GameSettings" + File.separator + gameId +
+      ".ini";
+  }
+
+
   public static String getDolphinInternalDirectory()
   {
     if (!areDirectoriesAvailable)
