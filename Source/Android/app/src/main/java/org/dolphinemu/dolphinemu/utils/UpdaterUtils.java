@@ -27,7 +27,7 @@ import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 
 public class UpdaterUtils
 {
-  private static final String URL = "https://api.github.com/repos/Darwin-Rist/Releases/releases";
+  public static final String URL = "https://api.github.com/repos/Darwin-Rist/Releases/releases";
   private static DownloadUtils sDownload;
 
   private static JSONArray jsonData;

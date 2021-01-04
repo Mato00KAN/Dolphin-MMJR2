@@ -497,9 +497,8 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="enable_cheats_description">Put AR &amp; Gecko Codes in game setting file.</string>
 
     <!-- Changelog Window -->
-    <string name="changelog_Starter_Title1">|MMJR|</string>
-    <string name="changelog_Starter_Title2">=== CHANGELOG ===</string>
-    <string name="changelog_menu">Changelog</string>
-    <string name="changelog_logo">Changelog logo</string>
+    <string name="grid_menu_open_changelog">Changelog</string>
+    <string name="changelog_title">Changelog</string>
+    <string name="changelog_section">Revamp Version# %1$d\nDate = %2$s\n%3$s-----------------------------------------------\nChanges:\n-----------------------------------------------\n%4$s\n________________________________________\n\n</string>
 
 </resources>
