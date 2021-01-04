@@ -14,9 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.dolphinemu.dolphinemu.BuildConfig;
 import org.dolphinemu.dolphinemu.R;
@@ -132,9 +130,6 @@ public class UpdaterUtils
 
   public static void init(Context context, LoadCallback listener)
   {
-    RequestQueue queue = Volley.newRequestQueue(context);
-    queue.getCache().clear();
-
     JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, URL, null,
       response ->
       {
@@ -151,8 +146,7 @@ public class UpdaterUtils
         }
       },
       error -> listener.onLoadError());
-    jsonRequest.setShouldCache(false);
-    queue.add(jsonRequest);
+    VolleyUtil.getQueue().add(jsonRequest);
 
     cleanDownloadFolder(context);
   }

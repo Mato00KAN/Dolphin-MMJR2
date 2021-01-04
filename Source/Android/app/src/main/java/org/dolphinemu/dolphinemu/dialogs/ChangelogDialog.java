@@ -15,12 +15,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.utils.Log;
+import org.dolphinemu.dolphinemu.utils.VolleyUtil;
 import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
 
 public final class ChangelogDialog extends DialogFragment
@@ -46,8 +45,6 @@ public final class ChangelogDialog extends DialogFragment
     mLoading = mViewGroup.findViewById(R.id.changelog_loading);
     mText = mViewGroup.findViewById(R.id.changelog_text);
 
-    RequestQueue queue = Volley.newRequestQueue(getContext());
-
     JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, UpdaterUtils.URL, null,
       response ->
       {
@@ -63,7 +60,7 @@ public final class ChangelogDialog extends DialogFragment
         }
       },
       error -> onLoadError());
-    queue.add(jsonRequest);
+    VolleyUtil.getQueue().add(jsonRequest);
 
     builder.setView(mViewGroup);
     return builder.create();
