@@ -247,6 +247,8 @@ public final class SettingsFragmentPresenter
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_AUTO_DISC_CHANGE, R.string.auto_disc_change, 0));
     sl.add(new PercentSliderSetting(FloatSetting.MAIN_EMULATION_SPEED, R.string.speed_limit, 0, 0,
             200, "%"));
+    sl.add(new CheckBoxSetting(BooleanSetting.MAIN_ENABLE_CHEATS,
+      R.string.enable_cheats, R.string.enable_cheats_description));
     sl.add(new CheckBoxSetting(BooleanSetting.MAIN_ENABLE_SAVESTATES, R.string.enable_save_states,
             R.string.enable_save_states_description));
   }

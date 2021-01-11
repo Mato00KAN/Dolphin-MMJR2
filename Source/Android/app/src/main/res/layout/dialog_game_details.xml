@@ -187,6 +187,16 @@
             app:layout_constraintTop_toBottomOf="@id/label_compression" />
 
         <TextView
+            android:id="@+id/save_folder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="start"
+            android:text="@string/game_details_save_folder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_block_size" />
+
+        <TextView
             android:id="@+id/text_file_format"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -215,6 +225,17 @@
             android:layout_marginStart="16dp"
             android:gravity="end"
             app:layout_constraintBaseline_toBaselineOf="@id/label_block_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/label_barrier"
+            tools:text="0 B" />
+
+        <TextView
+            android:id="@+id/save_folder_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:gravity="end"
+            app:layout_constraintBaseline_toBaselineOf="@id/save_folder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/label_barrier"
             tools:text="0 B" />

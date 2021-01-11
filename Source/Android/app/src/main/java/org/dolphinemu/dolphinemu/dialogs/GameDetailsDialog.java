@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment;
 import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.model.GameFile;
+import org.dolphinemu.dolphinemu.model.GameFileCache;
 import org.dolphinemu.dolphinemu.services.GameFileCacheService;
 import org.dolphinemu.dolphinemu.utils.PicassoUtils;
 
@@ -62,6 +63,16 @@ public final class GameDetailsDialog extends DialogFragment
     String country = getResources().getStringArray(R.array.countryNames)[gameFile.getCountry()];
     String description = gameFile.getDescription();
     String fileSize = NativeLibrary.FormatSize(gameFile.getFileSize(), 2);
+
+    // Save File Location Quoted in GameDetails
+    String gamePath = "/mmjr-revamp/GC/" + country + "\n/Card A/" + gameFile.getGameId();
+    if(gameFile.getPlatform() > 0)
+    {
+      gamePath = gameFile.getWiiSavePath();
+    }
+    TextView textGameFilename = contents.findViewById(R.id.save_folder_location);
+    textGameFilename.setText(gamePath);
+
 
     textTitle.setText(gameFile.getTitle());
     textDescription.setText(gameFile.getDescription());

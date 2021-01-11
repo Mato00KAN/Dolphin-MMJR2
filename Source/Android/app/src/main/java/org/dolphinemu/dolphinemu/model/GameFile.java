@@ -24,6 +24,8 @@ public class GameFile
 
   public native String getTitle();
 
+  public native String getWiiSavePath();
+
   public native String getDescription();
 
   public native String getCompany();

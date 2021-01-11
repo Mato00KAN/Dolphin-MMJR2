@@ -370,6 +370,9 @@
     <string name="game_details_compression">Compression</string>
     <string name="game_details_block_size">Block Size</string>
     <string name="game_details_no_compression">No Compression</string>
+    <string name="game_details_save_folder">Save File</string>
+
+
 
     <!-- Convert Screen -->
     <string name="convert_format">Format</string>

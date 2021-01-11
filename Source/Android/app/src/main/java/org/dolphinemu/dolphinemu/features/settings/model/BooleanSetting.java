@@ -27,6 +27,8 @@ public enum BooleanSetting implements AbstractBooleanSetting
           true),
   MAIN_ENABLE_SAVESTATES(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "EnableSaveStates",
           true),
+  MAIN_ENABLE_CHEATS(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "EnableCheats",
+    false),
 
   MAIN_DSP_JIT(Settings.FILE_DOLPHIN, Settings.SECTION_INI_DSP, "EnableJIT", true),
 
