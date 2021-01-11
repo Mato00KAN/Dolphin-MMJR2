@@ -155,10 +155,10 @@ JNIEXPORT void JNICALL Java_org_dolphinemu_dolphinemu_features_settings_model_Na
     int i = 0;
     jint* settings = env->GetIntArrayElements(array, nullptr);
 
-    Set(LAYER_ACTIVE, {Config::System::Main, "Core", "SyncOnSkipIdle"}, settings[i++]);
-    Set(LAYER_ACTIVE, {Config::System::Main, "Core", "JITFollowBranch"}, settings[i++]);
-    Set(LAYER_ACTIVE, {Config::System::Main, "Core", "OverclockEnable"}, settings[i++]);
-    Set(LAYER_ACTIVE, {Config::System::Main, "Core", "Overclock"}, settings[i]/100.0f);
+    Set(LAYER_LOCAL_GAME, {Config::System::Main, "Core", "SyncOnSkipIdle"}, settings[i++]);
+    Set(LAYER_LOCAL_GAME, {Config::System::Main, "Core", "JITFollowBranch"}, settings[i++]);
+    Set(LAYER_LOCAL_GAME, {Config::System::Main, "Core", "OverclockEnable"}, settings[i++]);
+    Set(LAYER_LOCAL_GAME, {Config::System::Main, "Core", "Overclock"}, settings[i]/100.0f);
 
     SConfig::GetInstance().bSyncGPUOnSkipIdleHack = Config::Get(Config::MAIN_SYNC_ON_SKIP_IDLE);
     SConfig::GetInstance().bJITFollowBranch = Config::Get(Config::MAIN_JIT_FOLLOW_BRANCH);
