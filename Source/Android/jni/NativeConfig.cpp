@@ -16,8 +16,9 @@
 #include "jni/AndroidCommon/AndroidCommon.h"
 
 constexpr jint LAYER_BASE_OR_CURRENT = 0;
-constexpr jint LAYER_LOCAL_GAME = 1;
-constexpr jint LAYER_ACTIVE = 2;
+constexpr jint LAYER_BASE = 1;
+constexpr jint LAYER_LOCAL_GAME = 2;
+constexpr jint LAYER_ACTIVE = 3;
 
 static Config::Location GetLocation(JNIEnv* env, jstring file, jstring section, jstring key)
 {
@@ -60,6 +61,10 @@ static std::shared_ptr<Config::Layer> GetLayer(jint layer, const Config::Locatio
       layer_type = Config::LayerType::Base;
     else
       layer_type = Config::LayerType::CurrentRun;
+    break;
+
+  case LAYER_BASE:
+    layer_type = Config::LayerType::Base;
     break;
 
   case LAYER_LOCAL_GAME:
