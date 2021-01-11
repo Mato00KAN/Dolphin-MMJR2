@@ -6,8 +6,6 @@ import org.json.JSONException;
 
 import android.content.Context;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +24,6 @@ import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 public class UpdaterUtils
 {
   public static final String URL = "https://api.github.com/repos/Darwin-Rist/Releases/releases";
-  private static DownloadUtils sDownload;
 
   private static JSONArray jsonData;
   private static int sLatestVersion;
@@ -159,28 +156,6 @@ public class UpdaterUtils
             .getJSONObject(0).getString("browser_download_url");
     sUrlOlder = jsonData.getJSONObject(1).getJSONArray("assets")
             .getJSONObject(0).getString("browser_download_url");
-  }
-
-  public static void download(Context context, String url, DownloadCallback listener)
-  {
-    sDownload = new DownloadUtils(new Handler(Looper.getMainLooper()), listener,
-            getDownloadFolder(context));
-    sDownload.setUrl(url);
-    sDownload.start();
-  }
-
-  public static boolean isDownloadRunning()
-  {
-    if (sDownload == null)
-      return false;
-
-    return sDownload.isRunning();
-  }
-
-  public static void cancelDownload()
-  {
-    if (sDownload != null)
-      sDownload.cancel();
   }
 
   public static void cleanDownloadFolder(Context context)

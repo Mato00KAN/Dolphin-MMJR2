@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import androidx.fragment.app.DialogFragment;
 
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.utils.DownloadCallback;
+import org.dolphinemu.dolphinemu.utils.DownloadUtils;
 import org.dolphinemu.dolphinemu.utils.LoadCallback;
 import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
 
@@ -29,6 +32,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   private Button mInactiveButton;
   private ProgressBar mActivePb;
   private ProgressBar mLoading;
+  private DownloadUtils mDownloadInstance;
   private final int mBuildVersion = UpdaterUtils.getBuildVersion();
 
   public static UpdaterDialog newInstance()
@@ -51,6 +55,8 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     mLoading = mViewGroup.findViewById(R.id.updater_loading);
 
     UpdaterUtils.init(getContext(), this);
+    mDownloadInstance = new DownloadUtils(new Handler(Looper.getMainLooper()),
+      this, UpdaterUtils.getDownloadFolder(getContext()));
 
     builder.setView(mViewGroup);
     return builder.create();
@@ -60,7 +66,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   public void onDestroy()
   {
     super.onDestroy();
-    UpdaterUtils.cancelDownload();
+    mDownloadInstance.cancel();
     UpdaterUtils.cleanDownloadFolder(getContext());
   }
 
@@ -126,9 +132,9 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   @Override
   public void onClick(View view)
   {
-    if (UpdaterUtils.isDownloadRunning())
+    if (mDownloadInstance.isRunning())
     {
-      UpdaterUtils.cancelDownload();
+      mDownloadInstance.cancel();
     }
     else
     {
@@ -152,7 +158,8 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
 
       if (url != null)
       {
-        UpdaterUtils.download(getContext(), url, this);
+        mDownloadInstance.setUrl(url);
+        mDownloadInstance.start();
       }
       else
         onDownloadError();
