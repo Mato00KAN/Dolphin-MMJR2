@@ -140,6 +140,7 @@ public final class EmulationActivity extends AppCompatActivity
   public static final int MENU_ACTION_SETTINGS_CORE = 33;
   public static final int MENU_ACTION_SETTINGS_GRAPHICS = 34;
 
+
   private static final SparseIntArray buttonsActionsMap = new SparseIntArray();
 
   static
@@ -543,7 +544,7 @@ public final class EmulationActivity extends AppCompatActivity
         toggleControls();
         break;
 
-      // Adjust the scale of the overlay controls.
+      // Adjust the scale and opacity of the overlay controls.
       case MENU_ACTION_ADJUST_SCALE:
         adjustScale();
         break;
@@ -829,15 +830,14 @@ public final class EmulationActivity extends AppCompatActivity
   private void adjustScale()
   {
     LayoutInflater inflater = LayoutInflater.from(this);
-    View view = inflater.inflate(R.layout.dialog_seekbar, null);
+    View view = inflater.inflate(R.layout.dialog_input_adjust, null);
 
-    final SeekBar seekbar = view.findViewById(R.id.seekbar);
-    final TextView value = view.findViewById(R.id.text_value);
-    final TextView units = view.findViewById(R.id.text_units);
+    final SeekBar seekbarScale = view.findViewById(R.id.input_scale_seekbar);
+    final TextView valueScale = view.findViewById(R.id.input_scale_value);
 
-    seekbar.setMax(150);
-    seekbar.setProgress(IntSetting.MAIN_CONTROL_SCALE.getInt(mSettings));
-    seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+    seekbarScale.setMax(150);
+    seekbarScale.setProgress(IntSetting.MAIN_CONTROL_SCALE.getInt(mSettings));
+    seekbarScale.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
     {
       public void onStartTrackingTouch(SeekBar seekBar)
       {
@@ -846,7 +846,7 @@ public final class EmulationActivity extends AppCompatActivity
 
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
       {
-        value.setText(String.valueOf(progress + 50));
+        valueScale.setText((progress + 50) + "%");
       }
 
       public void onStopTrackingTouch(SeekBar seekBar)
@@ -855,20 +855,46 @@ public final class EmulationActivity extends AppCompatActivity
       }
     });
 
-    value.setText(String.valueOf(seekbar.getProgress() + 50));
-    units.setText("%");
+    valueScale.setText((seekbarScale.getProgress() + 50) + "%");
+
+    // alpha
+    final SeekBar seekbarOpacity = view.findViewById(R.id.input_opacity_seekbar);
+    final TextView valueOpacity = view.findViewById(R.id.input_opacity_value);
+
+    seekbarOpacity.setMax(100);
+    seekbarOpacity.setProgress(IntSetting.MAIN_CONTROL_OPACITY.getInt(mSettings));
+    seekbarOpacity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+    {
+      public void onStartTrackingTouch(SeekBar seekBar)
+      {
+        // Do nothing
+      }
+
+      public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+      {
+        valueOpacity.setText(progress + "%");
+      }
+
+      public void onStopTrackingTouch(SeekBar seekBar)
+      {
+        // Do nothing
+      }
+    });
+    valueOpacity.setText(seekbarOpacity.getProgress() + "%");
 
     AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DolphinDialogBase);
-    builder.setTitle(R.string.emulation_control_scale);
+    builder.setTitle(R.string.emulation_control_Adjustments);
     builder.setView(view);
     builder.setPositiveButton(R.string.ok, (dialogInterface, i) ->
     {
-      IntSetting.MAIN_CONTROL_SCALE.setInt(mSettings, seekbar.getProgress());
+      IntSetting.MAIN_CONTROL_SCALE.setInt(mSettings, seekbarScale.getProgress());
+      IntSetting.MAIN_CONTROL_OPACITY.setInt(mSettings, seekbarOpacity.getProgress());
       mEmulationFragment.refreshInputOverlay();
     });
     builder.setNeutralButton(R.string.default_values, (dialogInterface, i) ->
     {
       IntSetting.MAIN_CONTROL_SCALE.delete(mSettings);
+      IntSetting.MAIN_CONTROL_OPACITY.delete(mSettings);
       mEmulationFragment.refreshInputOverlay();
     });
 
