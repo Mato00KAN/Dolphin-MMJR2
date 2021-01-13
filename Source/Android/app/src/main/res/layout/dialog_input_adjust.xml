@@ -38,7 +38,7 @@
             android:layout_marginTop="@dimen/spacing_medlarge"
             android:layout_marginEnd="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_large"
-            android:text="99%"
+            tools:text="99%"
             android:textAlignment="textEnd"
             android:textColor="#FFFFFF" />
 

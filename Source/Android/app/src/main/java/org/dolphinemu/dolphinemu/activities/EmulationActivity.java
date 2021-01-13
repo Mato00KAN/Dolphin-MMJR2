@@ -883,7 +883,7 @@ public final class EmulationActivity extends AppCompatActivity
     valueOpacity.setText(seekbarOpacity.getProgress() + "%");
 
     AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DolphinDialogBase);
-    builder.setTitle(R.string.emulation_control_Adjustments);
+    builder.setTitle(R.string.emulation_control_adjustments);
     builder.setView(view);
     builder.setPositiveButton(R.string.ok, (dialogInterface, i) ->
     {
