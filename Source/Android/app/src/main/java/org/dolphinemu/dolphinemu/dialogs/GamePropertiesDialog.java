@@ -64,8 +64,8 @@ public class GamePropertiesDialog extends DialogFragment
             GameDetailsDialog.newInstance(path).show(requireActivity()
                     .getSupportFragmentManager(), "game_details"));
 
-        itemsBuilder.add(R.string.properties_core_settings, (dialog, i) ->
-      SettingsActivity.launch(getContext(), MenuTag.CONFIG, gameId, revision));
+        itemsBuilder.add(R.string.properties_edit_game_settings, (dialog, i) ->
+      SettingsActivity.launch(getContext(), MenuTag.CONFIG, gameId, revision, isWii));
 
     itemsBuilder.add(R.string.cheat_code, (dialog, i) ->
       CheatEditorActivity.launch(getContext(), path));
@@ -87,12 +87,12 @@ public class GamePropertiesDialog extends DialogFragment
     });
 
     itemsBuilder.add(R.string.properties_gc_controller, (dialog, i) ->
-            SettingsActivity.launch(getContext(), MenuTag.GCPAD_TYPE, gameId, revision));
+            SettingsActivity.launch(getContext(), MenuTag.GCPAD_TYPE, gameId, revision, isWii));
 
-    if (platform != Platform.GAMECUBE.toInt())
+    if (isWii)
     {
       itemsBuilder.add(R.string.properties_wii_controller, (dialog, i) ->
-              SettingsActivity.launch(getActivity(), MenuTag.WIIMOTE, gameId, revision));
+              SettingsActivity.launch(getActivity(), MenuTag.WIIMOTE, gameId, revision, isWii));
     }
 
     itemsBuilder.add(R.string.properties_clear_game_settings, (dialog, i) ->

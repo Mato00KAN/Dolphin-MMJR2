@@ -341,7 +341,7 @@
 
     <!-- Game Grid Screen-->
     <string name="add_directory_title">Add Folder to Library</string>
-    <string name="grid_menu_config">Settings</string> //TODO: change config to settings
+    <string name="grid_menu_settings">Settings</string>
     <string name="grid_menu_graphics_settings">Graphics Settings</string>
     <string name="grid_menu_gcpad_settings">GameCube Input</string>
     <string name="grid_menu_wiimote_settings">Wii Input</string>
@@ -362,9 +362,8 @@
     <string name="properties_details">Details</string>
     <string name="properties_convert">Convert File</string>
     <string name="properties_set_default_iso">Set as Default ISO</string>
-    <string name="properties_edit_game_settings">Edit Game Settings</string> //TODO: fix mismatch
-    <string name="properties_core_settings">Custom Settings</string>
-    <string name="properties_gfx_settings">GFX Settings</string>
+    <string name="properties_edit_game_settings">Edit Game Settings</string>
+    <string name="properties_controller">Controller Settings</string>
     <string name="properties_gc_controller">GameCube Controller Settings</string>
     <string name="properties_wii_controller">Wii Controller Settings</string>
     <string name="properties_clear_game_settings">Clear Game Settings</string>
