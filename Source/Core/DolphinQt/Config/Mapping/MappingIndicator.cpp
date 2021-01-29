@@ -24,7 +24,7 @@
 #include "InputCommon/ControllerEmu/ControlGroup/Force.h"
 #include "InputCommon/ControllerEmu/ControlGroup/MixedTriggers.h"
 #include "InputCommon/ControllerEmu/Setting/NumericSetting.h"
-#include "InputCommon/ControllerInterface/Device.h"
+#include "InputCommon/ControllerInterface/CoreDevice.h"
 
 #include "DolphinQt/Config/Mapping/MappingWidget.h"
 #include "DolphinQt/QtUtils/ModalMessageBox.h"
@@ -592,9 +592,13 @@ void ShakeMappingIndicator::Draw()
   p.scale(1.0, -1.0);
 
   // Deadzone.
-  p.setPen(GetDeadZonePen());
-  p.setBrush(GetDeadZoneBrush(p));
-  p.drawRect(-1.0, 0, 2, m_shake_group.GetDeadzone());
+  const double deadzone = m_shake_group.GetDeadzone();
+  if (deadzone > 0.0)
+  {
+    p.setPen(GetDeadZonePen());
+    p.setBrush(GetDeadZoneBrush(p));
+    p.drawRect(QRectF(-1, 0, 2, deadzone));
+  }
 
   // Raw input.
   const auto raw_coord = m_shake_group.GetState(false);

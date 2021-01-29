@@ -78,6 +78,11 @@
                 android:visibility="gone"/>
 
             <Button
+                android:id="@+id/menu_settings"
+                android:text="@string/grid_menu_settings"
+                style="@style/InGameMenuOption"/>
+
+            <Button
                 android:id="@+id/menu_overlay_controls"
                 android:text="@string/emulation_overlay_controls"
                 style="@style/InGameMenuOption"/>

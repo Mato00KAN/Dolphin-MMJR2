@@ -8,7 +8,7 @@
 #include <QString>
 #include <memory>
 
-#include "InputCommon/ControllerInterface/Device.h"
+#include "InputCommon/ControllerInterface/CoreDevice.h"
 
 namespace ControllerEmu
 {
@@ -42,7 +42,9 @@ public:
     // Wii
     MAPPING_WIIMOTE_EMU,
     // Hotkeys
-    MAPPING_HOTKEYS
+    MAPPING_HOTKEYS,
+    // Freelook
+    MAPPING_FREELOOK,
   };
 
   explicit MappingWindow(QWidget* parent, Type type, int port_num);

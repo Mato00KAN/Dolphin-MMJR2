@@ -21,9 +21,7 @@ public interface MainView
 
   void launchFileListActivity();
 
-  void launchOpenFileActivity();
-
-  void launchInstallWAD();
+  void launchOpenFileActivity(int requestCode);
 
   void openChangelogDialog();
 
