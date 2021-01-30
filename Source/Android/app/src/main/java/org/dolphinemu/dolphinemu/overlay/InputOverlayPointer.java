@@ -31,6 +31,7 @@ public class InputOverlayPointer
   private float mSurfaceScale;
 
   private int mMode;
+  private boolean mRecenter;
 
   private boolean doubleTap = false;
   private int doubleTapButton;
@@ -46,10 +47,11 @@ public class InputOverlayPointer
     DOUBLE_TAP_OPTIONS.add(NativeLibrary.ButtonType.CLASSIC_BUTTON_A);
   }
 
-  public InputOverlayPointer(Rect surfacePosition, int button, int mode)
+  public InputOverlayPointer(Rect surfacePosition, int button, int mode, boolean recenter)
   {
     doubleTapButton = button;
     mMode = mode;
+    mRecenter = recenter;
 
     mSurfaceScale = NativeLibrary.getRenderSurfaceScale() / 2.0f;
     mGameCenterX = (surfacePosition.left + surfacePosition.right) / 2.0f;
@@ -98,21 +100,24 @@ public class InputOverlayPointer
         {
           updateOldAxes();
         }
+        if (mRecenter)
+          reset();
         break;
     }
 
     if (trackId == -1)
       return;
 
-    if (mMode == MODE_FOLLOW)
+    switch(mMode)
     {
-      axes[0] = (event.getY(event.findPointerIndex(trackId)) - mGameCenterY) * mGameHeightHalfInv;
-      axes[1] = (event.getX(event.findPointerIndex(trackId)) - mGameCenterX) * mGameWidthHalfInv;
-    }
-    else if (mMode == MODE_DRAG)
-    {
-      axes[0] = oldaxes[0] + (event.getY(event.findPointerIndex(trackId)) - mCenterY) * mGameHeightHalfInv * mSurfaceScale;
-      axes[1] = oldaxes[1] + (event.getX(event.findPointerIndex(trackId)) - mCenterX) * mGameWidthHalfInv * mSurfaceScale;
+      case MODE_FOLLOW:
+        axes[0] = (event.getY(event.findPointerIndex(trackId)) - mGameCenterY) * mGameHeightHalfInv;
+        axes[1] = (event.getX(event.findPointerIndex(trackId)) - mGameCenterX) * mGameWidthHalfInv;
+        break;
+      case MODE_DRAG:
+        axes[0] = oldaxes[0] + (event.getY(event.findPointerIndex(trackId)) - mCenterY) * mGameHeightHalfInv * mSurfaceScale;
+        axes[1] = oldaxes[1] + (event.getX(event.findPointerIndex(trackId)) - mCenterX) * mGameWidthHalfInv * mSurfaceScale;
+        break;
     }
   }
 
@@ -155,10 +160,21 @@ public class InputOverlayPointer
 
   public void setMode(int mode)
   {
-    mMode = mode;
-    if (mode == MODE_DRAG)
+    if(mode != mMode)
     {
-      updateOldAxes();
+      mMode = mode;
+      if (mode == MODE_DRAG)
+      {
+        updateOldAxes();
+      }
+    }
+  }
+
+  public void setRecenter(boolean recenter)
+  {
+    if(recenter != mRecenter)
+    {
+      mRecenter = recenter;
     }
   }
 }
