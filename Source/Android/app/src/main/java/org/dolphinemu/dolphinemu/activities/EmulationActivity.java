@@ -661,7 +661,7 @@ public final class EmulationActivity extends AppCompatActivity
         break;
 
       case MENU_ACTION_SETTINGS:
-        SettingsActivity.launch(this, MenuTag.SETTINGS);
+        SettingsActivity.launch(this, MenuTag.CONFIG);
         break;
 
       case MENU_ACTION_EXIT:

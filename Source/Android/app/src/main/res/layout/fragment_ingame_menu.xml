@@ -44,8 +44,13 @@
                 android:visibility="gone"/>
 
             <Button
-                android:id="@+id/menu_take_screenshot"
-                android:text="@string/emulation_screenshot"
+                android:id="@+id/menu_settings"
+                android:text="@string/grid_menu_settings"
+                style="@style/InGameMenuOption"/>
+
+            <Button
+                android:id="@+id/menu_overlay_controls"
+                android:text="@string/emulation_overlay_controls"
                 style="@style/InGameMenuOption"/>
 
             <Button
@@ -73,13 +78,8 @@
                 android:visibility="gone"/>
 
             <Button
-                android:id="@+id/menu_settings"
-                android:text="@string/grid_menu_settings"
-                style="@style/InGameMenuOption"/>
-
-            <Button
-                android:id="@+id/menu_overlay_controls"
-                android:text="@string/emulation_overlay_controls"
+                android:id="@+id/menu_take_screenshot"
+                android:text="@string/emulation_screenshot"
                 style="@style/InGameMenuOption"/>
 
             <Button
