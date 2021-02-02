@@ -20,24 +20,37 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 import org.dolphinemu.dolphinemu.R;
+import org.dolphinemu.dolphinemu.model.UpdaterData;
 import org.dolphinemu.dolphinemu.utils.DownloadCallback;
 import org.dolphinemu.dolphinemu.utils.DownloadUtils;
 import org.dolphinemu.dolphinemu.utils.LoadCallback;
 import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
 
-public final class UpdaterDialog extends DialogFragment implements View.OnClickListener, LoadCallback, DownloadCallback
+public final class UpdaterDialog extends DialogFragment implements View.OnClickListener,
+                                                                   LoadCallback<UpdaterData>,
+                                                                   DownloadCallback
 {
+  private static final String DATA = "data";
   private ViewGroup mViewGroup;
-  private Button mActiveButton;
-  private Button mInactiveButton;
-  private ProgressBar mActivePb;
+  private Button mButton;
   private ProgressBar mLoading;
-  private DownloadUtils mDownloadInstance;
+  private ProgressBar mProgressBar;
+  private UpdaterData mData;
+  private DownloadUtils mDownload;
   private final int mBuildVersion = UpdaterUtils.getBuildVersion();
 
-  public static UpdaterDialog newInstance()
+  public static UpdaterDialog newInstance(UpdaterData data)
   {
-    return new UpdaterDialog();
+    UpdaterDialog fragment = new UpdaterDialog();
+
+    if (data != null)
+    {
+      Bundle arguments = new Bundle();
+      arguments.putParcelable(DATA, data);
+      fragment.setArguments(arguments);
+    }
+
+    return fragment;
   }
 
   @NonNull
@@ -50,13 +63,23 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
             .inflate(R.layout.dialog_updater, null);
 
     TextView textInstalled = mViewGroup.findViewById(R.id.text_installed_version);
-    textInstalled.setText(getString(R.string.version_description, mBuildVersion, "Installed"));
+    textInstalled.setText(getString(R.string.installed_version, mBuildVersion));
 
     mLoading = mViewGroup.findViewById(R.id.updater_loading);
+    mButton = mViewGroup.findViewById(R.id.button_download);
+    mProgressBar = mViewGroup.findViewById(R.id.progressbar_download);
 
-    UpdaterUtils.init(getContext(), this);
-    mDownloadInstance = new DownloadUtils(new Handler(Looper.getMainLooper()),
-      this, UpdaterUtils.getDownloadFolder(getContext()));
+    if (getArguments() != null) // Assuming valid data is passed!
+    {
+      onLoad(getArguments().getParcelable(DATA));
+    }
+    else
+    {
+      UpdaterUtils.makeDataRequest(getContext(), this);
+    }
+
+    mDownload = new DownloadUtils(new Handler(Looper.getMainLooper()),
+            this, UpdaterUtils.getDownloadFolder(getContext()));
 
     builder.setView(mViewGroup);
     return builder.create();
@@ -66,26 +89,22 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   public void onDestroy()
   {
     super.onDestroy();
-    mDownloadInstance.cancel();
+    mDownload.cancel();
     UpdaterUtils.cleanDownloadFolder(getContext());
   }
 
   @Override
-  public void onLoad()
+  public void onLoad(UpdaterData data)
   {
-    TextView textLatest = mViewGroup.findViewById(R.id.text_latest_version);
-    TextView textOlder = mViewGroup.findViewById(R.id.text_older_version);
-    textLatest.setText(getString(R.string.version_description, UpdaterUtils.getLatestVersion(), "Latest"));
-    textOlder.setText(getString(R.string.version_description, UpdaterUtils.getOlderVersion(), "Previous"));
+    mData = data;
 
-    Button buttonLatest = mViewGroup.findViewById(R.id.button_latest_version);
-    Button buttonOlder = mViewGroup.findViewById(R.id.button_older_version);
+    TextView textLatest = mViewGroup.findViewById(R.id.text_version);
+    textLatest.setText(getString(R.string.version_description, mData.getVersion()));
+
+    Button buttonLatest = mViewGroup.findViewById(R.id.button_download);
     buttonLatest.setOnClickListener(this);
-    buttonOlder.setOnClickListener(this);
 
     setUpdaterMessage();
-    if (mActiveButton != null)
-      disableActiveButton();
 
     View updaterBody = mViewGroup.findViewById(R.id.updater_body);
     mLoading.setVisibility(View.GONE);
@@ -103,87 +122,51 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   private void setUpdaterMessage()
   {
     TextView updaterMessage = mViewGroup.findViewById(R.id.text_updater_message);
-    if (mBuildVersion >= UpdaterUtils.getLatestVersion())
+    if (mBuildVersion >= mData.getVersion())
     {
       updaterMessage.setText(R.string.updater_uptodate);
       updaterMessage.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-      if (mBuildVersion == UpdaterUtils.getLatestVersion())
-        mActiveButton = mViewGroup.findViewById(R.id.button_latest_version);
     }
     else
     {
       updaterMessage.setText(R.string.updater_newavailable);
       updaterMessage.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
-      if (mBuildVersion == UpdaterUtils.getOlderVersion())
-        mActiveButton = mViewGroup.findViewById(R.id.button_older_version);
     }
-  }
-
-  /**
-   * This function does not check for null mActiveButton reference by design.
-   * If null, it will crash the app so check before calling it.
-   */
-  private void disableActiveButton()
-  {
-    mActiveButton.setText(null);
-    mActiveButton.setEnabled(false);
   }
 
   @Override
   public void onClick(View view)
   {
-    if (mDownloadInstance.isRunning())
+    if (mDownload.isRunning())
     {
-      mDownloadInstance.cancel();
+      mDownload.cancel();
     }
     else
     {
-      int viewId = view.getId();
-      mActiveButton = (Button) view;
-      String url = null;
-
-      if (viewId == R.id.button_latest_version)
-      {
-        mActivePb = mViewGroup.findViewById(R.id.progressbar_latest_version);
-        mInactiveButton = mViewGroup.findViewById(R.id.button_older_version);
-        url = UpdaterUtils.getUrlLatest();
-      }
-      else if (viewId == R.id.button_older_version)
-      {
-        mActivePb = mViewGroup.findViewById(R.id.progressbar_older_version);
-        mInactiveButton = mViewGroup.findViewById(R.id.button_latest_version);
-        url = UpdaterUtils.getUrlOlder();
-      }
-      mInactiveButton.setClickable(false);
-
-      if (url != null)
-      {
-        mDownloadInstance.setUrl(url);
-        mDownloadInstance.start();
-      }
-      else
-        onDownloadError();
+      String url = mData.getDownloadUrl();
+      mDownload.setUrl(url);
+      mDownload.start();
     }
   }
 
   @Override
   public void onDownloadStart()
   {
-    mActivePb.setProgress(0);
-    mActiveButton.setActivated(true);
-    mActiveButton.setText(R.string.cancel);
+    mProgressBar.setProgress(0);
+    mButton.setActivated(true);
+    mButton.setText(R.string.cancel);
   }
 
   @Override
   public void onDownloadProgress(int progress)
   {
-    mActivePb.setProgress(progress);
+    mProgressBar.setProgress(progress);
   }
 
   @Override
   public void onDownloadComplete(File downloadFile)
   {
-    mActiveButton.setText(R.string.button_install);
+    mButton.setText(R.string.button_install);
     onDownloadStop();
 
     Uri fileUri = FileProvider.getUriForFile(getContext(),
@@ -199,20 +182,19 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   @Override
   public void onDownloadCancelled()
   {
-    mActiveButton.setText(R.string.button_download);
+    mButton.setText(R.string.button_download);
     onDownloadStop();
   }
 
   @Override
   public void onDownloadError()
   {
-    mActiveButton.setText(R.string.error);
+    mButton.setText(R.string.error);
     onDownloadStop();
   }
 
   private void onDownloadStop()
   {
-    mActiveButton.setActivated(false);
-    mInactiveButton.setClickable(true);
+    mButton.setActivated(false);
   }
 }

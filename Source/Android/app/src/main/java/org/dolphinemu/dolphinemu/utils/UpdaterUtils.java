@@ -1,8 +1,6 @@
 package org.dolphinemu.dolphinemu.utils;
 
 import java.io.File;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import android.content.Context;
 import android.os.Environment;
@@ -13,9 +11,11 @@ import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.dolphinemu.dolphinemu.BuildConfig;
 import org.dolphinemu.dolphinemu.R;
+import org.dolphinemu.dolphinemu.model.UpdaterData;
 import org.dolphinemu.dolphinemu.dialogs.UpdaterDialog;
 import org.dolphinemu.dolphinemu.features.settings.model.BooleanSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.IntSetting;
@@ -24,17 +24,12 @@ import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 public class UpdaterUtils
 {
   public static final String URL = "https://api.github.com/repos/Darwin-Rist/Releases/releases";
+  public static final String URL_LATEST = "https://api.github.com/repos/Darwin-Rist/Releases/releases/latest";
 
-  private static JSONArray jsonData;
-  private static int sLatestVersion;
-  private static int sOlderVersion;
-  private static String sUrlLatest;
-  private static String sUrlOlder;
-
-  public static void openUpdaterWindow(Context context)
+  public static void openUpdaterWindow(Context context, UpdaterData data)
   {
     FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-    UpdaterDialog updaterDialog = UpdaterDialog.newInstance();
+    UpdaterDialog updaterDialog = UpdaterDialog.newInstance(data);
     updaterDialog.show(fm, "fragment_updater");
   }
 
@@ -56,14 +51,15 @@ public class UpdaterUtils
 
   private static void checkUpdates(Context context)
   {
-    init(context, new LoadCallback()
+    makeDataRequest(context, new LoadCallback<UpdaterData>()
     {
       @Override
-      public void onLoad()
+      public void onLoad(UpdaterData data)
       {
-        if (IntSetting.CHECK_UPDATES_SKIPPED.getIntGlobal() != sLatestVersion && getBuildVersion() < sLatestVersion)
+        if (IntSetting.CHECK_UPDATES_SKIPPED.getIntGlobal() != data.getVersion() &&
+            getBuildVersion() < data.getVersion())
         {
-          showUpdateMessage(context);
+          showUpdateMessage(context, data);
         }
       }
 
@@ -72,15 +68,15 @@ public class UpdaterUtils
     });
   }
 
-  private static void showUpdateMessage(Context context)
+  private static void showUpdateMessage(Context context, UpdaterData data)
   {
     new AlertDialog.Builder(context, R.style.DolphinDialogBase)
       .setTitle(context.getString(R.string.updates_alert))
       .setMessage(context.getString(R.string.updater_alert_body))
       .setPositiveButton(R.string.yes, (dialogInterface, i) ->
-        openUpdaterWindow(context))
+        openUpdaterWindow(context, data))
       .setNegativeButton(R.string.skip_version, (dialogInterface, i) ->
-        skippedVersionSetter())
+        setSkipVersion(data.getVersion()))
       .setNeutralButton(R.string.not_now,
         ((dialogInterface, i) -> dialogInterface.dismiss()))
       .show();
@@ -92,13 +88,13 @@ public class UpdaterUtils
       .setTitle(context.getString(R.string.check_updates))
       .setMessage(context.getString(R.string.check_updates_description))
       .setPositiveButton(R.string.yes, (dialogInterface, i) ->
-        firstUpdaterSetter(true))
+        setPrefs(true))
       .setNegativeButton(R.string.no, (dialogInterface, i) ->
-        firstUpdaterSetter(false))
+        setPrefs(false))
       .show();
   }
 
-  private static void firstUpdaterSetter(boolean enabled)
+  private static void setPrefs(boolean enabled)
   {
     try (Settings settings = new Settings())
     {
@@ -112,29 +108,28 @@ public class UpdaterUtils
     }
   }
 
-  private static void skippedVersionSetter()
+  private static void setSkipVersion(int version)
   {
     try (Settings settings = new Settings())
     {
       settings.loadSettings();
 
-      IntSetting.CHECK_UPDATES_SKIPPED.setInt(settings, sLatestVersion);
+      IntSetting.CHECK_UPDATES_SKIPPED.setInt(settings, version);
 
       // Context is set to null to avoid toasts
       settings.saveSettings(null, null);
     }
   }
 
-  public static void init(Context context, LoadCallback listener)
+  public static void makeDataRequest(Context context, LoadCallback<UpdaterData> listener)
   {
-    JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, URL, null,
+    JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, URL_LATEST, null,
       response ->
       {
-        jsonData = response;
         try
         {
-          load();
-          listener.onLoad();
+          UpdaterData data = new UpdaterData(response);
+          listener.onLoad(data);
         }
         catch (Exception e)
         {
@@ -146,16 +141,6 @@ public class UpdaterUtils
     VolleyUtil.getQueue().add(jsonRequest);
 
     cleanDownloadFolder(context);
-  }
-
-  private static void load() throws JSONException
-  {
-    sLatestVersion = jsonData.getJSONObject(0).getInt("tag_name");
-    sOlderVersion = jsonData.getJSONObject(1).getInt("tag_name");
-    sUrlLatest = jsonData.getJSONObject(0).getJSONArray("assets")
-            .getJSONObject(0).getString("browser_download_url");
-    sUrlOlder = jsonData.getJSONObject(1).getJSONArray("assets")
-            .getJSONObject(0).getString("browser_download_url");
   }
 
   public static void cleanDownloadFolder(Context context)
@@ -181,25 +166,5 @@ public class UpdaterUtils
       Log.error(e.getMessage());
       return -1;
     }
-  }
-
-  public static int getLatestVersion()
-  {
-    return sLatestVersion;
-  }
-
-  public static int getOlderVersion()
-  {
-    return sOlderVersion;
-  }
-
-  public static String getUrlLatest()
-  {
-    return sUrlLatest;
-  }
-
-  public static String getUrlOlder()
-  {
-    return sUrlOlder;
   }
 }

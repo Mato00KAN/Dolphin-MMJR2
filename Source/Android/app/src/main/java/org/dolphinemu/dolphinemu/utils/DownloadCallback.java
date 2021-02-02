@@ -6,7 +6,7 @@ import androidx.annotation.Keep;
 public interface DownloadCallback
 {
   @Keep
-  void onDownloadStart();
+  default void onDownloadStart() {}
 
   @Keep
   default void onDownloadProgress(int progress) {}
