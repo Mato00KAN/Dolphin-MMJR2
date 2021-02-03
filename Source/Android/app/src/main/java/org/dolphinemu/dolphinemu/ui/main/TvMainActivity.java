@@ -20,7 +20,6 @@ import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.adapters.GameRowPresenter;
 import org.dolphinemu.dolphinemu.adapters.SettingsRowPresenter;
-import org.dolphinemu.dolphinemu.dialogs.ChangelogDialog;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
 import org.dolphinemu.dolphinemu.features.settings.ui.SettingsActivity;
 import org.dolphinemu.dolphinemu.model.GameFile;
@@ -194,14 +193,6 @@ public final class TvMainActivity extends FragmentActivity implements MainView
   public void openUpdaterDialog()
   {
     UpdaterUtils.openUpdaterWindow(this, null);
-  }
-
-  @Override
-  public void openChangelogDialog()
-  {
-    FragmentManager fmc = getSupportFragmentManager();
-    ChangelogDialog changelogDialog = ChangelogDialog.newInstance();
-    changelogDialog.show(fmc, "fragment_changelog");
   }
 
   @Override

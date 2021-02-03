@@ -23,8 +23,6 @@ public interface MainView
 
   void launchOpenFileActivity(int requestCode);
 
-  void openChangelogDialog();
-
   void openUpdaterDialog();
 
   /**

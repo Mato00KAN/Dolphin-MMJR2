@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,7 +21,6 @@ import com.google.android.material.tabs.TabLayout;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.adapters.PlatformPagerAdapter;
-import org.dolphinemu.dolphinemu.dialogs.ChangelogDialog;
 import org.dolphinemu.dolphinemu.features.settings.model.IntSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
@@ -184,14 +182,6 @@ public final class MainActivity extends AppCompatActivity implements MainView
     intent.addCategory(Intent.CATEGORY_OPENABLE);
     intent.setType("*/*");
     startActivityForResult(intent, requestCode);
-  }
-
-  @Override
-  public void openChangelogDialog()
-  {
-    FragmentManager fmc = getSupportFragmentManager();
-    ChangelogDialog changelogDialog = ChangelogDialog.newInstance();
-    changelogDialog.show(fmc, "fragment_changelog");
   }
 
   @Override

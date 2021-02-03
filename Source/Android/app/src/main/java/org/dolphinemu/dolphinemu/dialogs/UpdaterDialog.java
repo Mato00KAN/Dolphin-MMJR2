@@ -2,6 +2,8 @@ package org.dolphinemu.dolphinemu.dialogs;
 
 import java.io.File;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,7 +12,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,13 +36,24 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
                                                                    DownloadCallback
 {
   private static final String DATA = "data";
+
   private ViewGroup mViewGroup;
   private Button mButton;
   private ProgressBar mLoading;
   private ProgressBar mProgressBar;
+  private Button mButtonChangelog;
+  private ProgressBar mLoadingChangelog;
+  private TextView mTextChangelog;
+  private View mChangelog;
+  private ImageView mArrow;
   private UpdaterData mData;
   private DownloadUtils mDownload;
+
+  private Animation rotateDown;
+  private Animation rotateUp;
+
   private final int mBuildVersion = UpdaterUtils.getBuildVersion();
+  private boolean isChangelogOpen = false;
 
   public static UpdaterDialog newInstance(UpdaterData data)
   {
@@ -68,6 +84,11 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     mLoading = mViewGroup.findViewById(R.id.updater_loading);
     mButton = mViewGroup.findViewById(R.id.button_download);
     mProgressBar = mViewGroup.findViewById(R.id.progressbar_download);
+    mButtonChangelog = mViewGroup.findViewById(R.id.button_view_changelog);
+    mTextChangelog = mViewGroup.findViewById(R.id.changelog_text);
+    mLoadingChangelog = mViewGroup.findViewById(R.id.changelog_loading);
+    mChangelog = mViewGroup.findViewById(R.id.changelog_body);
+    mArrow = mViewGroup.findViewById(R.id.changelog_arrow);
 
     if (getArguments() != null) // Assuming valid data is passed!
     {
@@ -75,11 +96,12 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     }
     else
     {
-      UpdaterUtils.makeDataRequest(getContext(), this);
+      UpdaterUtils.makeDataRequest(this);
     }
 
     mDownload = new DownloadUtils(new Handler(Looper.getMainLooper()),
             this, UpdaterUtils.getDownloadFolder(getContext()));
+    initAnimations();
 
     builder.setView(mViewGroup);
     return builder.create();
@@ -101,8 +123,8 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     TextView textLatest = mViewGroup.findViewById(R.id.text_version);
     textLatest.setText(getString(R.string.version_description, mData.getVersion()));
 
-    Button buttonLatest = mViewGroup.findViewById(R.id.button_download);
-    buttonLatest.setOnClickListener(this);
+    mButton.setOnClickListener(this);
+    mButtonChangelog.setOnClickListener(this);
 
     setUpdaterMessage();
 
@@ -119,33 +141,25 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     textError.setVisibility(View.VISIBLE);
   }
 
-  private void setUpdaterMessage()
-  {
-    TextView updaterMessage = mViewGroup.findViewById(R.id.text_updater_message);
-    if (mBuildVersion >= mData.getVersion())
-    {
-      updaterMessage.setText(R.string.updater_uptodate);
-      updaterMessage.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-    }
-    else
-    {
-      updaterMessage.setText(R.string.updater_newavailable);
-      updaterMessage.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
-    }
-  }
-
   @Override
   public void onClick(View view)
   {
-    if (mDownload.isRunning())
+    if (view == mButton)
     {
-      mDownload.cancel();
+      if (mDownload.isRunning())
+      {
+        mDownload.cancel();
+      }
+      else
+      {
+        String url = mData.getDownloadUrl();
+        mDownload.setUrl(url);
+        mDownload.start();
+      }
     }
-    else
+    else if (view == mButtonChangelog)
     {
-      String url = mData.getDownloadUrl();
-      mDownload.setUrl(url);
-      mDownload.start();
+      handleChangelog();
     }
   }
 
@@ -196,5 +210,91 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   private void onDownloadStop()
   {
     mButton.setActivated(false);
+  }
+
+  private void setUpdaterMessage()
+  {
+    TextView updaterMessage = mViewGroup.findViewById(R.id.text_updater_message);
+    if (mBuildVersion >= mData.getVersion())
+    {
+      updaterMessage.setText(R.string.updater_uptodate);
+      updaterMessage.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+    }
+    else
+    {
+      updaterMessage.setText(R.string.updater_newavailable);
+      updaterMessage.setTextColor(getResources().getColor(android.R.color.holo_orange_dark));
+    }
+  }
+
+  private void handleChangelog()
+  {
+    if (!isChangelogOpen)
+    {
+      mLoadingChangelog.setVisibility(View.VISIBLE);
+
+      UpdaterUtils.makeChangelogRequest(getString(R.string.changelog_section),
+        new LoadCallback<String>()
+        {
+          @Override
+          public void onLoad(String data)
+          {
+            new Handler().postDelayed(() -> mLoadingChangelog.setVisibility(View.GONE), 200);
+            mTextChangelog.setText(data);
+            mArrow.startAnimation(rotateDown);
+            mChangelog.setVisibility(View.VISIBLE);
+            isChangelogOpen = true;
+          }
+
+          @Override
+          public void onLoadError()
+          {
+            TextView textError = mViewGroup.findViewById(R.id.changelog_error);
+            mLoadingChangelog.setVisibility(View.GONE);
+            textError.setVisibility(View.VISIBLE);
+            new Handler().postDelayed(() -> opacityOut(textError, View.INVISIBLE), 1500);
+          }
+        });
+    }
+    else
+    {
+      isChangelogOpen = false;
+      mArrow.startAnimation(rotateUp);
+      mChangelog.setVisibility(View.GONE);
+    }
+  }
+
+  // UI animations stuff
+  private void initAnimations()
+  {
+    rotateDown = new RotateAnimation(0.0f, -180.0f,
+      Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+      0.5f);
+    rotateDown.setRepeatCount(0);
+    rotateDown.setDuration(200);
+    rotateDown.setFillAfter(true);
+
+    rotateUp = new RotateAnimation(-180.0f, 0.0f,
+      Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+      0.5f);
+    rotateUp.setRepeatCount(0);
+    rotateUp.setDuration(200);
+    rotateUp.setFillAfter(true);
+  }
+
+  private void opacityOut(View view, int endVisibility)
+  {
+    view.animate()
+      .alpha(0.0f)
+      .setListener(new AnimatorListenerAdapter()
+      {
+        @Override
+        public void onAnimationEnd(Animator animation)
+        {
+          view.setVisibility(endVisibility);
+          view.setAlpha(1.0f);
+          view.animate().setListener(null);
+        }
+      });
   }
 }

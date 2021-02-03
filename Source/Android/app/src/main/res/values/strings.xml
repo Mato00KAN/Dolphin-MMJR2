@@ -496,7 +496,8 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="button_install">Install</string>
     <string name="version_description">Version: %1$d</string>
     <string name="installed_version">Installed version: %1$d</string>
-    <string name="updater_changelog_button">View changelog</string>
+    <string name="button_view_changelog">View changelog</string>
+    <string name="changelog_section">Version# %1$d\nDate: %2$s\nChanges:\n%3$s\n\n</string>
 
     <!-- Update available dialog -->
     <string name="updates_alert">Update available</string>
@@ -514,10 +515,5 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="toast_save_code_no">Save Failed!</string>
     <string name="toggle_list">Cheat Editor</string>
     <string name="enable_cheats_description">Put AR &amp; Gecko Codes in game setting file.</string>
-
-    <!-- Changelog Window -->
-    <string name="grid_menu_open_changelog">Changelog</string>
-    <string name="changelog_title">Changelog</string>
-    <string name="changelog_section">Revamp Version# %1$d\nDate = %2$s\n%3$s-----------------------------------------------\nChanges:\n-----------------------------------------------\n%4$s\n________________________________________\n\n</string>
 
 </resources>

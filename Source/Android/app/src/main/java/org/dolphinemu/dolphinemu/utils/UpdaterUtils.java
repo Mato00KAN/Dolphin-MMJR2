@@ -37,6 +37,8 @@ public class UpdaterUtils
   {
     new AfterDirectoryInitializationRunner().run(context, false, () ->
     {
+      cleanDownloadFolder(context);
+
       if (!BooleanSetting.CHECK_UPDATES_PERMISSION_ASKED.getBooleanGlobal())
       {
         showPermissionDialog(context);
@@ -51,7 +53,7 @@ public class UpdaterUtils
 
   private static void checkUpdates(Context context)
   {
-    makeDataRequest(context, new LoadCallback<UpdaterData>()
+    makeDataRequest(new LoadCallback<UpdaterData>()
     {
       @Override
       public void onLoad(UpdaterData data)
@@ -91,6 +93,7 @@ public class UpdaterUtils
         setPrefs(true))
       .setNegativeButton(R.string.no, (dialogInterface, i) ->
         setPrefs(false))
+      .setOnDismissListener(dialog -> checkUpdatesInit(context))
       .show();
   }
 
@@ -121,7 +124,7 @@ public class UpdaterUtils
     }
   }
 
-  public static void makeDataRequest(Context context, LoadCallback<UpdaterData> listener)
+  public static void makeDataRequest(LoadCallback<UpdaterData> listener)
   {
     JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, URL_LATEST, null,
       response ->
@@ -139,8 +142,35 @@ public class UpdaterUtils
       },
       error -> listener.onLoadError());
     VolleyUtil.getQueue().add(jsonRequest);
+  }
 
-    cleanDownloadFolder(context);
+  public static void makeChangelogRequest(String format, LoadCallback<String> listener)
+  {
+    JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, URL, null,
+      response ->
+      {
+        try
+        {
+          StringBuilder changelog = new StringBuilder();
+
+          for (int i = 0; i < response.length(); i++)
+          {
+            changelog.append(String.format(format,
+                    response.getJSONObject(i).getInt("tag_name"),
+                    response.getJSONObject(i).getString("published_at").substring(0, 10),
+                    response.getJSONObject(i).getString("body")));
+          }
+          changelog.setLength(Math.max(changelog.length() - 1, 0));
+          listener.onLoad(changelog.toString());
+        }
+        catch (Exception e)
+        {
+          Log.error(e.getMessage());
+          listener.onLoadError();
+        }
+      },
+      error -> listener.onLoadError());
+    VolleyUtil.getQueue().add(jsonRequest);
   }
 
   public static void cleanDownloadFolder(Context context)
