@@ -26,14 +26,13 @@ android {
     }
 
     defaultConfig {
-        // TODO If this is ever modified, change application_id in strings.xml
         applicationId "org.dolphinemu.mmjr"
         minSdkVersion 21
         targetSdkVersion 29
 
-        versionCode 13274
+        versionCode 13590
 
-        versionName "13274"
+        versionName "13590"
     }
 
     signingConfigs {

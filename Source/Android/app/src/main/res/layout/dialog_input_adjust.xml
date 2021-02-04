@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#000000">
+    android:background="@color/dolphin_background">
 
     <RelativeLayout
         android:id="@+id/input_scale"
@@ -24,7 +25,6 @@
             android:layout_marginTop="@dimen/spacing_large"
             android:layout_marginEnd="@dimen/spacing_large"
             android:text="@string/emulation_control_scale"
-            android:textColor="#FFFFFF"
             android:textSize="16sp"
             tools:text="@string/overclock_enable" />
 
@@ -39,8 +39,7 @@
             android:layout_marginEnd="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_large"
             tools:text="99%"
-            android:textAlignment="textEnd"
-            android:textColor="#FFFFFF" />
+            android:textAlignment="textEnd"/>
 
         <SeekBar
             android:id="@+id/input_scale_seekbar"
@@ -73,7 +72,6 @@
             android:layout_marginTop="@dimen/spacing_large"
             android:layout_marginEnd="@dimen/spacing_large"
             android:text="@string/emulation_control_opacity"
-            android:textColor="#FFFFFF"
             android:textSize="16sp"
             tools:text="@string/overclock_enable" />
 
@@ -87,9 +85,8 @@
             android:layout_marginTop="@dimen/spacing_medlarge"
             android:layout_marginEnd="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_large"
-            android:text="99%"
-            android:textAlignment="textEnd"
-            android:textColor="#FFFFFF" />
+            tools:text="99%"
+            android:textAlignment="textEnd"/>
 
         <SeekBar
             android:id="@+id/input_opacity_seekbar"

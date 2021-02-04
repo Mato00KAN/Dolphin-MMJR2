@@ -122,6 +122,10 @@ public final class SettingsFragmentPresenter
 
     switch (mMenuTag)
     {
+      case SETTINGS:
+        addTopLevelSettings(sl);
+        break;
+
       case CONFIG:
         addConfigSettings(sl);
         break;
@@ -220,6 +224,21 @@ public final class SettingsFragmentPresenter
 
     mSettingsList = sl;
     mView.showSettingsList(mSettingsList);
+  }
+
+  private void addTopLevelSettings(ArrayList<SettingsItem> sl)
+  {
+    sl.add(new SubmenuSetting(R.string.config, MenuTag.CONFIG));
+    sl.add(new SubmenuSetting(R.string.graphics_settings, MenuTag.GRAPHICS));
+
+    if (!NativeLibrary.IsRunning())
+    {
+      sl.add(new SubmenuSetting(R.string.gcpad_settings, MenuTag.GCPAD_TYPE));
+      if (mSettings.isWii())
+        sl.add(new SubmenuSetting(R.string.wiimote_settings, MenuTag.WIIMOTE));
+    }
+
+    sl.add(new HeaderSetting(R.string.setting_clear_info, 0));
   }
 
   private void addConfigSettings(ArrayList<SettingsItem> sl)

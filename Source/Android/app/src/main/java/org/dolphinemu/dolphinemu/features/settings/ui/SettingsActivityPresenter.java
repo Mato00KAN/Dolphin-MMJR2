@@ -26,10 +26,11 @@ public final class SettingsActivityPresenter
 
   private AfterDirectoryInitializationRunner mAfterDirectoryInitializationRunner;
 
-  private MenuTag menuTag;
-  private String gameId;
-  private int revision;
-  private Context context;
+  private MenuTag mMenuTag;
+  private String mGameId;
+  private int mRevision;
+  private boolean mIsWii;
+  private Context mContext;
 
   SettingsActivityPresenter(SettingsActivityView view, Settings settings)
   {
@@ -38,12 +39,13 @@ public final class SettingsActivityPresenter
   }
 
   public void onCreate(Bundle savedInstanceState, MenuTag menuTag, String gameId, int revision,
-          Context context)
+          boolean isWii, Context context)
   {
-    this.menuTag = menuTag;
-    this.gameId = gameId;
-    this.revision = revision;
-    this.context = context;
+    this.mMenuTag = menuTag;
+    this.mGameId = gameId;
+    this.mRevision = revision;
+    this.mIsWii = isWii;
+    this.mContext = context;
 
     mShouldSave = savedInstanceState != null && savedInstanceState.getBoolean(KEY_SHOULD_SAVE);
   }
@@ -66,9 +68,9 @@ public final class SettingsActivityPresenter
   {
     if (mSettings.isEmpty())
     {
-      if (!TextUtils.isEmpty(gameId))
+      if (!TextUtils.isEmpty(mGameId))
       {
-        mSettings.loadSettings(gameId, revision, mView);
+        mSettings.loadSettings(mView, mGameId, mRevision, mIsWii);
 
         if (mSettings.gameIniContainsJunk())
         {
@@ -77,11 +79,11 @@ public final class SettingsActivityPresenter
       }
       else
       {
-        mSettings.loadSettings(mView);
+        mSettings.loadSettings(mView, mIsWii);
       }
     }
 
-    mView.showSettingsFragment(menuTag, null, false, gameId);
+    mView.showSettingsFragment(mMenuTag, null, false, mGameId);
     mView.onSettingsFileLoaded(mSettings);
   }
 
@@ -97,7 +99,7 @@ public final class SettingsActivityPresenter
 
       mAfterDirectoryInitializationRunner = new AfterDirectoryInitializationRunner();
       mAfterDirectoryInitializationRunner.setFinishedCallback(mView::hideLoading);
-      mAfterDirectoryInitializationRunner.run(context, true, this::loadSettingsUI);
+      mAfterDirectoryInitializationRunner.run(mContext, true, this::loadSettingsUI);
     }
   }
 
@@ -123,7 +125,7 @@ public final class SettingsActivityPresenter
     if (mSettings != null && finishing && mShouldSave)
     {
       Log.debug("[SettingsActivity] Settings activity stopping. Saving settings to INI...");
-      mSettings.saveSettings(mView, context);
+      mSettings.saveSettings(mView, mContext);
 
       // MMJR: load settings to Core immediately only if emulation is running
       if (NativeLibrary.IsRunning())
@@ -200,7 +202,7 @@ public final class SettingsActivityPresenter
     {
       Bundle bundle = new Bundle();
       bundle.putInt(SettingsFragmentPresenter.ARG_CONTROLLER_TYPE, value / 6);
-      mView.showSettingsFragment(key, bundle, true, gameId);
+      mView.showSettingsFragment(key, bundle, true, mGameId);
     }
   }
 
@@ -209,7 +211,7 @@ public final class SettingsActivityPresenter
     switch (value)
     {
       case 1:
-        mView.showSettingsFragment(menuTag, null, true, gameId);
+        mView.showSettingsFragment(menuTag, null, true, mGameId);
         break;
 
       case 2:
@@ -224,7 +226,7 @@ public final class SettingsActivityPresenter
     {
       Bundle bundle = new Bundle();
       bundle.putInt(SettingsFragmentPresenter.ARG_CONTROLLER_TYPE, value);
-      mView.showSettingsFragment(menuTag, bundle, true, gameId);
+      mView.showSettingsFragment(menuTag, bundle, true, mGameId);
     }
   }
 }

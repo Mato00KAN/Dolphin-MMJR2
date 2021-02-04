@@ -39,12 +39,13 @@
 #include "Common/Thread.h"
 #include "Common/Timer.h"
 
-#include "Core/Analytics.h"
 #include "Core/Config/NetplaySettings.h"
 #include "Core/Config/SYSCONFSettings.h"
 #include "Core/ConfigManager.h"
 #include "Core/Core.h"
+#include "Core/DolphinAnalytics.h"
 #include "Core/FifoPlayer/FifoRecorder.h"
+#include "Core/FreeLookConfig.h"
 #include "Core/HW/SystemTimers.h"
 #include "Core/HW/VideoInterface.h"
 #include "Core/Host.h"
@@ -105,10 +106,12 @@ Renderer::Renderer(int backbuffer_width, int backbuffer_height, float backbuffer
                                                                                    MAX_XFB_HEIGHT}
 {
   UpdateActiveConfig();
+  FreeLook::UpdateActiveConfig();
   UpdateDrawRectangle();
   CalculateTargetSize();
 
   m_is_game_widescreen = SConfig::GetInstance().bWii && Config::Get(Config::SYSCONF_WIDESCREEN);
+  g_freelook_camera.SetControlType(FreeLook::GetActiveConfig().camera_config.control_type);
 }
 
 Renderer::~Renderer() = default;
@@ -416,11 +419,9 @@ void Renderer::CheckForConfigChanges()
   const bool old_bbox = g_ActiveConfig.bBBoxEnable;
 
   UpdateActiveConfig();
+  FreeLook::UpdateActiveConfig();
 
-  if (g_ActiveConfig.bFreeLook)
-  {
-    g_freelook_camera.SetControlType(g_ActiveConfig.iFreelookControlType);
-  }
+  g_freelook_camera.SetControlType(FreeLook::GetActiveConfig().camera_config.control_type);
 
   // Update texture cache settings with any changed options.
   g_texture_cache->OnConfigChanged(g_ActiveConfig);
@@ -1208,7 +1209,7 @@ void Renderer::UpdateWidescreenHeuristic()
     // with NON-anamorphic orthographic projections.
     // This can cause incorrect changes to 4:3 when perspective projections are temporarily not
     // shown. e.g. Animal Crossing's inventory menu.
-    // Unless we were in a sitation which was orthographically anamorphic
+    // Unless we were in a situation which was orthographically anamorphic
     // we won't consider orthographic data for changes from 16:9 to 4:3.
     m_is_game_widescreen = false;
   }
@@ -1346,7 +1347,7 @@ void Renderer::Swap(u32 xfb_addr, u32 fb_width, u32 fb_stride, u32 fb_height, u6
         Core::Callback_FramePresented();
       }
 
-      // Handle any config changes, this gets propogated to the backend.
+      // Handle any config changes, this gets propagated to the backend.
       CheckForConfigChanges();
       g_Config.iSaveTargetId = 0;
 

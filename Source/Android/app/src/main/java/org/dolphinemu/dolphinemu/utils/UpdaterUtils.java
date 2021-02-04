@@ -102,7 +102,7 @@ public class UpdaterUtils
   {
     try (Settings settings = new Settings())
     {
-      settings.loadSettings(null);
+      settings.loadSettings();
 
       BooleanSetting.CHECK_UPDATES.setBoolean(settings, enabled);
       BooleanSetting.CHECK_UPDATES_PERMISSION_ASKED.setBoolean(settings, true);
@@ -116,7 +116,7 @@ public class UpdaterUtils
   {
     try (Settings settings = new Settings())
     {
-      settings.loadSettings(null);
+      settings.loadSettings();
 
       IntSetting.CHECK_UPDATES_SKIPPED.setInt(settings, sLatestVersion);
 

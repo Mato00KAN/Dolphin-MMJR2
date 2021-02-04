@@ -3,21 +3,15 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_settings_core"
-        android:title="@string/grid_menu_config"
-        android:icon="@drawable/ic_settings_core"
+        android:id="@+id/menu_settings_home"
+        android:title="@string/grid_menu_settings"
+        android:icon="@drawable/ic_settings"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_refresh"
         android:title="@string/grid_menu_refresh"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/menu_settings_graphics"
-        android:icon="@drawable/ic_settings_graphics"
-        android:title="@string/grid_menu_graphics_settings"
-        android:visible="false"
         app:showAsAction="ifRoom" />
 
     <item
@@ -44,6 +38,11 @@
         android:id="@+id/menu_install_wad"
         android:title="@string/grid_menu_install_wad"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_import_wii_save"
+        android:title="@string/grid_menu_import_wii_save"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/menu_changelog"
