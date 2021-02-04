@@ -15,6 +15,10 @@
         android:title="@string/emulation_control_adjustments"/>
 
     <item
+        android:id="@+id/menu_emulation_set_joystick_mode"
+        android:title="@string/emulation_joystick_mode"/>
+
+    <item
         android:id="@+id/menu_emulation_ir_group"
         android:title="@string/emulation_ir_group">
         <menu>

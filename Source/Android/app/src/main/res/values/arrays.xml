@@ -418,6 +418,17 @@
         <item>Right Stick</item>
     </string-array>
 
+    <string-array name="joystickEmulationModeEntries">
+        <item>Disabled</item>
+        <item>IR Pointer</item>
+        <item>Wiimote Swing</item>
+        <item>Wiimote Tilt</item>
+        <item>Wiimote Shake</item>
+        <item>Nunchuk Swing</item>
+        <item>Nunchuk Tilt</item>
+        <item>Nunchuk Shake</item>
+    </string-array>
+
     <string-array name="irModeEntries">
         <item>Disabled</item>
         <item>Follow</item>

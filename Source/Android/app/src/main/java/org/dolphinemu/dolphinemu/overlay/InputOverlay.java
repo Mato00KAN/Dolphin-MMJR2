@@ -200,7 +200,8 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
 
     int pointerIndex = event.getActionIndex();
     // Tracks if any button/joystick is pressed down
-    boolean pressed = false;
+    boolean buttonPressed = false;
+    boolean joystickPressed = false;
 
     for (InputOverlayDrawableButton button : overlayButtons)
     {
@@ -215,7 +216,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
           {
             button.setPressedState(true);
             button.setTrackId(event.getPointerId(pointerIndex));
-            pressed = true;
+            buttonPressed = true;
             NativeLibrary.onGamePadEvent(NativeLibrary.TouchScreenDevice, button.getId(),
                     ButtonState.PRESSED);
           }
@@ -246,7 +247,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
                   .contains((int) event.getX(pointerIndex), (int) event.getY(pointerIndex)))
           {
             dpad.setTrackId(event.getPointerId(pointerIndex));
-            pressed = true;
+            buttonPressed = true;
           }
         case MotionEvent.ACTION_MOVE:
           if (dpad.getTrackId() == event.getPointerId(pointerIndex))
@@ -306,19 +307,22 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
       if (joystick.TrackEvent(event))
       {
         if (joystick.getTrackId() != -1)
-          pressed = true;
+          joystickPressed = true;
       }
       int[] axisIDs = joystick.getAxisIDs();
       float[] axises = joystick.getAxisValues();
 
-      for (int i = 0; i < 4; i++)
+      if (!buttonPressed)
       {
-        NativeLibrary.onGamePadMoveEvent(NativeLibrary.TouchScreenDevice, axisIDs[i], axises[i]);
+        for (int i = 0; i < 4; i++)
+        {
+          NativeLibrary.onGamePadMoveEvent(NativeLibrary.TouchScreenDevice, axisIDs[i], axises[i]);
+        }
       }
     }
 
     // No button/joystick pressed, safe to move pointer
-    if (!pressed && overlayPointer != null)
+    if (!buttonPressed && !joystickPressed && overlayPointer != null)
     {
       overlayPointer.onTouch(event);
       float[] axes = overlayPointer.getAxisValues();
@@ -703,6 +707,19 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     }
   }
 
+  //MMJR: joystick emulation
+  private void addJoystickEmulationControls(String orientation)
+  {
+    int emulationMode = InputOverlayDrawableJoystick.JOYSTICK_EMULATION_OPTIONS
+            .get(mPreferences.getInt("joystickEmulationMode", 0));
+    if (emulationMode != InputOverlayDrawableJoystick.JOYSTICK_EMULATION_OFF)
+    {
+      overlayJoysticks.add(initializeOverlayJoystick(getContext(), R.drawable.gcwii_joystick_range_violet,
+              R.drawable.gcwii_joystick_violet, R.drawable.gcwii_joystick_pressed_violet,
+              ButtonType.STICK_EMULATION, orientation, emulationMode));
+    }
+  }
+
   public void refreshControls()
   {
     // Remove all the overlay buttons from the HashSet.
@@ -746,20 +763,24 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
         {
           case OVERLAY_GAMECUBE:
             addGameCubeOverlayControls(orientation);
+            addJoystickEmulationControls(orientation);
             break;
 
           case OVERLAY_WIIMOTE:
           case OVERLAY_WIIMOTE_SIDEWAYS:
             addWiimoteOverlayControls(orientation);
+            addJoystickEmulationControls(orientation);
             break;
 
           case OVERLAY_WIIMOTE_NUNCHUK:
             addWiimoteOverlayControls(orientation);
             addNunchukOverlayControls(orientation);
+            addJoystickEmulationControls(orientation);
             break;
 
           case OVERLAY_WIIMOTE_CLASSIC:
             addClassicOverlayControls(orientation);
+            addJoystickEmulationControls(orientation);
             break;
 
           case OVERLAY_NONE:
@@ -1066,7 +1087,8 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
    * @return the initialized {@link InputOverlayDrawableJoystick}.
    */
   private static InputOverlayDrawableJoystick initializeOverlayJoystick(Context context,
-          int resOuter, int defaultResInner, int pressedResInner, int joystick, String orientation)
+          int resOuter, int defaultResInner, int pressedResInner, int joystick, String orientation,
+          int emulationMode)
   {
     // Resources handle for fetching the initial Drawable resource.
     final Resources res = context.getResources();
@@ -1112,13 +1134,20 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     // Send the drawableId to the joystick so it can be referenced when saving control position.
     final InputOverlayDrawableJoystick overlayDrawable =
             new InputOverlayDrawableJoystick(res, bitmapOuter, bitmapInnerDefault,
-                    bitmapInnerPressed, outerRect, innerRect, joystick);
+                    bitmapInnerPressed, outerRect, innerRect, joystick, emulationMode);
 
     // Need to set the image's position
     overlayDrawable.setPosition(drawableX, drawableY);
     overlayDrawable.setOpacity(IntSetting.MAIN_CONTROL_OPACITY.getIntGlobal() * 255 / 100);
 
     return overlayDrawable;
+  }
+
+  private static InputOverlayDrawableJoystick initializeOverlayJoystick(Context context,
+          int resOuter, int defaultResInner, int pressedResInner, int joystick, String orientation)
+  {
+    return initializeOverlayJoystick(context, resOuter, defaultResInner, pressedResInner,
+      joystick, orientation, InputOverlayDrawableJoystick.JOYSTICK_EMULATION_OFF);
   }
 
   public void setIsInEditMode(boolean isInEditMode)
@@ -1386,6 +1415,10 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             (((float) res.getInteger(R.integer.NUNCHUK_STICK_X) / 1000) * maxX));
     sPrefsEditor.putFloat(ButtonType.NUNCHUK_STICK + "-Y",
             (((float) res.getInteger(R.integer.NUNCHUK_STICK_Y) / 1000) * maxY));
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + "-X",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_X) / 1000) * maxX));
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + "-Y",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_Y) / 1000) * maxY));
 
     // We want to commit right away, otherwise the overlay could load before this is saved.
     sPrefsEditor.commit();
@@ -1438,6 +1471,11 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             (((float) res.getInteger(R.integer.WIIMOTE_RIGHT_X) / 1000) * maxX));
     sPrefsEditor.putFloat(ButtonType.WIIMOTE_RIGHT + "-Y",
             (((float) res.getInteger(R.integer.WIIMOTE_RIGHT_Y) / 1000) * maxY));
+
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + "_H-X",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_H_X) / 1000) * maxX));
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + "_H-Y",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_H_Y) / 1000) * maxY));
 
     // We want to commit right away, otherwise the overlay could load before this is saved.
     sPrefsEditor.commit();
@@ -1515,6 +1553,11 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     sPrefsEditor.putFloat(ButtonType.WIIMOTE_RIGHT + portrait + "-Y",
             (((float) res.getInteger(R.integer.WIIMOTE_RIGHT_PORTRAIT_Y) / 1000) * maxY));
 
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + portrait + "-X",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_PORTRAIT_X) / 1000) * maxX));
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + portrait + "-Y",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_PORTRAIT_Y) / 1000) * maxY));
+
     // We want to commit right away, otherwise the overlay could load before this is saved.
     sPrefsEditor.commit();
   }
@@ -1561,6 +1604,11 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             (((float) res.getInteger(R.integer.WIIMOTE_O_UP_PORTRAIT_X) / 1000) * maxX));
     sPrefsEditor.putFloat(ButtonType.WIIMOTE_UP + "_O" + portrait + "-Y",
             (((float) res.getInteger(R.integer.WIIMOTE_O_UP_PORTRAIT_Y) / 1000) * maxY));
+
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + "_H" + portrait + "-X",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_H_PORTRAIT_X) / 1000) * maxX));
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + "_H" + portrait + "-Y",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_H_PORTRAIT_Y) / 1000) * maxY));
 
     // We want to commit right away, otherwise the overlay could load before this is saved.
     sPrefsEditor.commit();
@@ -1644,6 +1692,11 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     sPrefsEditor.putFloat(ButtonType.CLASSIC_TRIGGER_R + "-Y",
             (((float) res.getInteger(R.integer.CLASSIC_TRIGGER_R_Y) / 1000) * maxY));
 
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + "-X",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_X) / 1000) * maxX));
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + "-Y",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_Y) / 1000) * maxY));
+
     // We want to commit right away, otherwise the overlay could load before this is saved.
     sPrefsEditor.commit();
   }
@@ -1726,6 +1779,11 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             (((float) res.getInteger(R.integer.CLASSIC_TRIGGER_R_PORTRAIT_X) / 1000) * maxX));
     sPrefsEditor.putFloat(ButtonType.CLASSIC_TRIGGER_R + portrait + "-Y",
             (((float) res.getInteger(R.integer.CLASSIC_TRIGGER_R_PORTRAIT_Y) / 1000) * maxY));
+
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + portrait + "-X",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_PORTRAIT_X) / 1000) * maxX));
+    sPrefsEditor.putFloat(ButtonType.STICK_EMULATION + portrait + "-Y",
+            (((float) res.getInteger(R.integer.STICK_EMULATION_PORTRAIT_Y) / 1000) * maxY));
 
     // We want to commit right away, otherwise the overlay could load before this is saved.
     sPrefsEditor.commit();

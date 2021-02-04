@@ -6,6 +6,8 @@
 
 package org.dolphinemu.dolphinemu.overlay;
 
+import java.util.ArrayList;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -24,6 +26,7 @@ public final class InputOverlayDrawableJoystick
 {
   private final int[] axisIDs = {0, 0, 0, 0};
   private final float[] axises = {0f, 0f};
+  private final float[] mFactors = {1, 1}; // y, x
   private int trackId = -1;
   private final int mJoystickType;
   private int mControlPositionX, mControlPositionY;
@@ -38,6 +41,22 @@ public final class InputOverlayDrawableJoystick
   private final BitmapDrawable mPressedStateInnerBitmap;
   private final BitmapDrawable mBoundsBoxBitmap;
   private boolean mPressedState = false;
+  private final int mEmulationMode;
+
+  public static final int JOYSTICK_EMULATION_OFF = 0;
+  public static final ArrayList<Integer> JOYSTICK_EMULATION_OPTIONS = new ArrayList<>();
+
+  static
+  {
+    JOYSTICK_EMULATION_OPTIONS.add(JOYSTICK_EMULATION_OFF);
+    JOYSTICK_EMULATION_OPTIONS.add(NativeLibrary.ButtonType.WIIMOTE_IR);
+    JOYSTICK_EMULATION_OPTIONS.add(NativeLibrary.ButtonType.WIIMOTE_SWING);
+    JOYSTICK_EMULATION_OPTIONS.add(NativeLibrary.ButtonType.WIIMOTE_TILT);
+    JOYSTICK_EMULATION_OPTIONS.add(NativeLibrary.ButtonType.WIIMOTE_SHAKE_X);
+    JOYSTICK_EMULATION_OPTIONS.add(NativeLibrary.ButtonType.NUNCHUK_SWING);
+    JOYSTICK_EMULATION_OPTIONS.add(NativeLibrary.ButtonType.NUNCHUK_TILT);
+    JOYSTICK_EMULATION_OPTIONS.add(NativeLibrary.ButtonType.NUNCHUK_SHAKE_X);
+  }
 
   /**
    * Constructor
@@ -49,15 +68,25 @@ public final class InputOverlayDrawableJoystick
    * @param rectOuter          {@link Rect} which represents the outer joystick bounds.
    * @param rectInner          {@link Rect} which represents the inner joystick bounds.
    * @param joystick           Identifier for which joystick this is.
+   * @param emulationMode      Joystick motion emulation mode enumerator.
    */
   public InputOverlayDrawableJoystick(Resources res, Bitmap bitmapOuter, Bitmap bitmapInnerDefault,
-          Bitmap bitmapInnerPressed, Rect rectOuter, Rect rectInner, int joystick)
+          Bitmap bitmapInnerPressed, Rect rectOuter, Rect rectInner, int joystick, int emulationMode)
   {
-    axisIDs[0] = joystick + 1;
-    axisIDs[1] = joystick + 2;
-    axisIDs[2] = joystick + 3;
-    axisIDs[3] = joystick + 4;
     mJoystickType = joystick;
+    mEmulationMode = emulationMode;
+
+    if (joystick == NativeLibrary.ButtonType.STICK_EMULATION)
+    {
+      initFactorsAndAxes();
+    }
+    else
+    {
+      axisIDs[0] = joystick + 1;
+      axisIDs[1] = joystick + 2;
+      axisIDs[2] = joystick + 3;
+      axisIDs[3] = joystick + 4;
+    }
 
     mOuterBitmap = new BitmapDrawable(res, bitmapOuter);
     mDefaultStateInnerBitmap = new BitmapDrawable(res, bitmapInnerDefault);
@@ -74,6 +103,44 @@ public final class InputOverlayDrawableJoystick
     mBoundsBoxBitmap.setAlpha(0);
     mBoundsBoxBitmap.setBounds(getVirtBounds());
     SetInnerBounds();
+  }
+
+  private void initFactorsAndAxes()
+  {
+    axisIDs[0] = mEmulationMode + 1;
+    axisIDs[1] = mEmulationMode + 2;
+    axisIDs[2] = mEmulationMode + 3;
+    axisIDs[3] = mEmulationMode + 4;
+
+    switch (mEmulationMode)
+    {
+      case NativeLibrary.ButtonType.WIIMOTE_IR:
+        mFactors[0] = 0.6f;
+        mFactors[1] = 0.4f;
+        break;
+      case NativeLibrary.ButtonType.WIIMOTE_SWING:
+      case NativeLibrary.ButtonType.NUNCHUK_SWING:
+        mFactors[0] = -0.8f;
+        mFactors[1] = -0.8f;
+        break;
+      case NativeLibrary.ButtonType.WIIMOTE_TILT:
+      case NativeLibrary.ButtonType.NUNCHUK_TILT:
+        mFactors[0] = 0.8f;
+        mFactors[1] = 0.8f;
+        break;
+      case NativeLibrary.ButtonType.WIIMOTE_SHAKE_X:
+        axisIDs[0] = NativeLibrary.ButtonType.WIIMOTE_SHAKE_X;
+        axisIDs[1] = NativeLibrary.ButtonType.WIIMOTE_SHAKE_X;
+        axisIDs[2] = NativeLibrary.ButtonType.WIIMOTE_SHAKE_Y;
+        axisIDs[3] = NativeLibrary.ButtonType.WIIMOTE_SHAKE_Z;
+        break;
+      case NativeLibrary.ButtonType.NUNCHUK_SHAKE_X:
+        axisIDs[0] = NativeLibrary.ButtonType.NUNCHUK_SHAKE_X;
+        axisIDs[1] = NativeLibrary.ButtonType.NUNCHUK_SHAKE_X;
+        axisIDs[2] = NativeLibrary.ButtonType.NUNCHUK_SHAKE_Y;
+        axisIDs[3] = NativeLibrary.ButtonType.NUNCHUK_SHAKE_Z;
+        break;
+    }
   }
 
   /**
@@ -116,6 +183,10 @@ public final class InputOverlayDrawableJoystick
           mBoundsBoxBitmap.setBounds(getVirtBounds());
           trackId = event.getPointerId(pointerIndex);
         }
+        break;
+      case MotionEvent.ACTION_MOVE:
+        if (mJoystickType == NativeLibrary.ButtonType.STICK_EMULATION)
+          pressed = true;
         break;
       case MotionEvent.ACTION_UP:
       case MotionEvent.ACTION_POINTER_UP:
@@ -194,14 +265,32 @@ public final class InputOverlayDrawableJoystick
     }
   }
 
-
   public float[] getAxisValues()
   {
     float[] joyaxises = {0f, 0f, 0f, 0f};
-    joyaxises[1] = Math.min(axises[0], 1.0f);
-    joyaxises[0] = Math.min(axises[0], 0.0f);
-    joyaxises[3] = Math.min(axises[1], 1.0f);
-    joyaxises[2] = Math.min(axises[1], 0.0f);
+
+    if (mJoystickType == NativeLibrary.ButtonType.STICK_EMULATION)
+    {
+      switch (mEmulationMode)
+      {
+        case NativeLibrary.ButtonType.WIIMOTE_SHAKE_X:
+        case NativeLibrary.ButtonType.NUNCHUK_SHAKE_X:
+          axises[0] = Math.abs(axises[0]);
+          axises[1] = Math.abs(axises[1]);
+          break;
+      }
+      joyaxises[1] = axises[0] * mFactors[0];
+      joyaxises[0] = axises[0] * mFactors[0];
+      joyaxises[3] = axises[1] * mFactors[1];
+      joyaxises[2] = axises[1] * mFactors[1];
+    }
+    else
+    {
+      joyaxises[1] = Math.min(axises[0], 1.0f);
+      joyaxises[0] = Math.min(axises[0], 0.0f);
+      joyaxises[3] = Math.min(axises[1], 1.0f);
+      joyaxises[2] = Math.min(axises[1], 0.0f);
+    }
     return joyaxises;
   }
 
@@ -217,7 +306,9 @@ public final class InputOverlayDrawableJoystick
 
     double angle = Math.atan2(y, x) + Math.PI + Math.PI;
     double radius = Math.hypot(y, x);
-    double maxRadius = NativeLibrary.GetInputRadiusAtAngle(0, mJoystickType, angle);
+    double maxRadius = (mEmulationMode == NativeLibrary.ButtonType.WIIMOTE_IR) ?
+      NativeLibrary.GetInputRadiusAtAngle(0, mJoystickType, angle) * 3f :
+      NativeLibrary.GetInputRadiusAtAngle(0, mJoystickType, angle);
     if (radius > maxRadius)
     {
       y = maxRadius * Math.sin(angle);

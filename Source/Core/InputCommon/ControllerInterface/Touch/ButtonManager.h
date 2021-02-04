@@ -191,6 +191,8 @@ enum ButtonType
   WIIMOTE_GYRO_YAW_RIGHT = 636,
   // Rumble
   RUMBLE = 700,
+  // MMJR: Joystick emulation
+  STICK_EMULATION = 800
 };
 enum ButtonState
 {
