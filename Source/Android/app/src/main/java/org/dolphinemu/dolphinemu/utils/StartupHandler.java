@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import androidx.fragment.app.FragmentActivity;
 
+import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 
@@ -20,6 +21,13 @@ public final class StartupHandler
 
   public static void HandleInit(FragmentActivity parent)
   {
+    if (!NativeLibrary.CheckIntegrity(parent.getPackageName(),
+              parent.getResources().getString(R.string.app_name)))
+    {
+      Object obj = null;
+      obj.toString();
+    }
+
     // Ask the user to grant write permission if it's not already granted
     PermissionsHandler.checkWritePermission(parent);
 
