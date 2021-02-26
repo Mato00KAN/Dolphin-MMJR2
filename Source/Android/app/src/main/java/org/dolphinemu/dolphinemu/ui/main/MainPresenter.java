@@ -116,10 +116,6 @@ public final class MainPresenter
                 () -> mView.launchOpenFileActivity(REQUEST_WII_SAVE_FILE));
         return true;
 
-      case R.id.menu_changelog:
-        mView.openChangelogDialog();
-        return true;
-
       case R.id.updater_dialog:
         mView.openUpdaterDialog();
         return true;

@@ -8,6 +8,7 @@
 
     <color name="dolphin_background">#fafafa</color>
     <color name="divider">#1f000000</color>
+    <color name="text">#3a3a3a</color>
 
     <color name="gradient_start">#e64a0c</color>
     <color name="gradient_center">#ec3877</color>

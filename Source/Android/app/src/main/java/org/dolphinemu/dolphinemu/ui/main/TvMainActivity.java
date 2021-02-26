@@ -20,8 +20,6 @@ import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.adapters.GameRowPresenter;
 import org.dolphinemu.dolphinemu.adapters.SettingsRowPresenter;
-import org.dolphinemu.dolphinemu.dialogs.ChangelogDialog;
-import org.dolphinemu.dolphinemu.dialogs.UpdaterDialog;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
 import org.dolphinemu.dolphinemu.features.settings.ui.SettingsActivity;
 import org.dolphinemu.dolphinemu.model.GameFile;
@@ -33,6 +31,7 @@ import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
 import org.dolphinemu.dolphinemu.utils.PermissionsHandler;
 import org.dolphinemu.dolphinemu.utils.StartupHandler;
 import org.dolphinemu.dolphinemu.utils.TvUtil;
+import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
 import org.dolphinemu.dolphinemu.viewholders.TvGameViewHolder;
 
 import java.util.ArrayList;
@@ -193,17 +192,7 @@ public final class TvMainActivity extends FragmentActivity implements MainView
   @Override
   public void openUpdaterDialog()
   {
-    FragmentManager fm = getSupportFragmentManager();
-    UpdaterDialog updaterDialog = UpdaterDialog.newInstance();
-    updaterDialog.show(fm, "fragment_updater");
-  }
-
-  @Override
-  public void openChangelogDialog()
-  {
-    FragmentManager fmc = getSupportFragmentManager();
-    ChangelogDialog changelogDialog = ChangelogDialog.newInstance();
-    changelogDialog.show(fmc, "fragment_changelog");
+    UpdaterUtils.openUpdaterWindow(this, null);
   }
 
   @Override
