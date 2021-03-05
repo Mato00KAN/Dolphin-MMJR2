@@ -34,7 +34,7 @@ option(ENABLE_HEADLESS "Enables running Dolphin as a headless variant" OFF)
 option(ENABLE_ALSA "Enables ALSA sound backend" ON)
 option(ENABLE_PULSEAUDIO "Enables PulseAudio sound backend" ON)
 option(ENABLE_LLVM "Enables LLVM support, for disassembly" ON)
-option(ENABLE_TESTS "Enables building the unit tests" ON)
+option(ENABLE_TESTS "Enables building the unit tests" OFF)
 option(ENABLE_VULKAN "Enables vulkan video backend" ON)
 option(USE_DISCORD_PRESENCE "Enables Discord Rich Presence, show the current game on Discord" ON)
 

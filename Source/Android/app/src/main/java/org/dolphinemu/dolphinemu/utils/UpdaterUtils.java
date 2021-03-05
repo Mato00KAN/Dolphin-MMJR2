@@ -23,8 +23,8 @@ import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 
 public class UpdaterUtils
 {
-  public static final String URL = "https://api.github.com/repos/Darwin-Rist/Releases/releases";
-  public static final String URL_LATEST = "https://api.github.com/repos/Darwin-Rist/Releases/releases/latest";
+  public static final String URL = "https://api.github.com/repos/Bankaimaster999/Dolphin-MMJR/releases";
+  public static final String URL_LATEST = "https://api.github.com/repos/Bankaimaster999/Dolphin-MMJR/releases/latest";
 
   public static void openUpdaterWindow(Context context, UpdaterData data)
   {
