@@ -98,9 +98,10 @@ public final class EmulationActivity extends AppCompatActivity
           MENU_ACTION_SAVE_SLOT6, MENU_ACTION_LOAD_SLOT1, MENU_ACTION_LOAD_SLOT2,
           MENU_ACTION_LOAD_SLOT3, MENU_ACTION_LOAD_SLOT4, MENU_ACTION_LOAD_SLOT5,
           MENU_ACTION_LOAD_SLOT6, MENU_ACTION_EXIT, MENU_ACTION_CHANGE_DISC,
-          MENU_ACTION_RESET_OVERLAY, MENU_SET_IR_SENSITIVITY, MENU_ACTION_CHOOSE_DOUBLETAP,
-          MENU_ACTION_MOTION_CONTROLS, MENU_ACTION_PAUSE_EMULATION, MENU_ACTION_UNPAUSE_EMULATION,
-          MENU_ACTION_OVERLAY_CONTROLS, MENU_ACTION_SETTINGS})
+          MENU_ACTION_RESET_OVERLAY, MENU_SET_IR_RECENTER, MENU_SET_IR_MODE,
+          MENU_SET_IR_SENSITIVITY, MENU_ACTION_CHOOSE_DOUBLETAP, MENU_ACTION_MOTION_CONTROLS,
+          MENU_ACTION_PAUSE_EMULATION, MENU_ACTION_UNPAUSE_EMULATION, MENU_ACTION_OVERLAY_CONTROLS,
+          MENU_ACTION_SETTINGS, MENU_ACTION_SET_JOYSTICK_MODE})
   public @interface MenuAction
   {
   }
@@ -132,13 +133,16 @@ public final class EmulationActivity extends AppCompatActivity
   public static final int MENU_ACTION_JOYSTICK_REL_CENTER = 24;
   public static final int MENU_ACTION_RUMBLE = 25;
   public static final int MENU_ACTION_RESET_OVERLAY = 26;
-  public static final int MENU_SET_IR_SENSITIVITY = 27;
-  public static final int MENU_ACTION_CHOOSE_DOUBLETAP = 28;
-  public static final int MENU_ACTION_MOTION_CONTROLS = 29;
-  public static final int MENU_ACTION_PAUSE_EMULATION = 30;
-  public static final int MENU_ACTION_UNPAUSE_EMULATION = 31;
-  public static final int MENU_ACTION_OVERLAY_CONTROLS = 32;
-  public static final int MENU_ACTION_SETTINGS = 33;
+  public static final int MENU_SET_IR_RECENTER = 27;
+  public static final int MENU_SET_IR_MODE = 28;
+  public static final int MENU_SET_IR_SENSITIVITY = 29;
+  public static final int MENU_ACTION_CHOOSE_DOUBLETAP = 30;
+  public static final int MENU_ACTION_MOTION_CONTROLS = 31;
+  public static final int MENU_ACTION_PAUSE_EMULATION = 32;
+  public static final int MENU_ACTION_UNPAUSE_EMULATION = 33;
+  public static final int MENU_ACTION_OVERLAY_CONTROLS = 34;
+  public static final int MENU_ACTION_SETTINGS = 35;
+  public static final int MENU_ACTION_SET_JOYSTICK_MODE = 36;
 
 
   private static final SparseIntArray buttonsActionsMap = new SparseIntArray();
@@ -158,12 +162,18 @@ public final class EmulationActivity extends AppCompatActivity
     buttonsActionsMap.append(R.id.menu_emulation_rumble, EmulationActivity.MENU_ACTION_RUMBLE);
     buttonsActionsMap
             .append(R.id.menu_emulation_reset_overlay, EmulationActivity.MENU_ACTION_RESET_OVERLAY);
+    buttonsActionsMap.append(R.id.menu_emulation_ir_recenter,
+      EmulationActivity.MENU_SET_IR_RECENTER);
+    buttonsActionsMap.append(R.id.menu_emulation_set_ir_mode,
+      EmulationActivity.MENU_SET_IR_MODE);
     buttonsActionsMap.append(R.id.menu_emulation_set_ir_sensitivity,
             EmulationActivity.MENU_SET_IR_SENSITIVITY);
     buttonsActionsMap.append(R.id.menu_emulation_choose_doubletap,
             EmulationActivity.MENU_ACTION_CHOOSE_DOUBLETAP);
     buttonsActionsMap.append(R.id.menu_emulation_motion_controls,
             EmulationActivity.MENU_ACTION_MOTION_CONTROLS);
+    buttonsActionsMap.append(R.id.menu_emulation_set_joystick_mode,
+      EmulationActivity.MENU_ACTION_SET_JOYSTICK_MODE);
   }
 
   public static void launch(FragmentActivity activity, String filePath)
@@ -484,6 +494,11 @@ public final class EmulationActivity extends AppCompatActivity
             .setChecked(BooleanSetting.MAIN_JOYSTICK_REL_CENTER.getBoolean(mSettings));
     menu.findItem(R.id.menu_emulation_rumble)
             .setChecked(BooleanSetting.MAIN_PHONE_RUMBLE.getBoolean(mSettings));
+    if (wii)
+    {
+      menu.findItem(R.id.menu_emulation_ir_recenter)
+        .setChecked(mPreferences.getBoolean("irRecenter", false));
+    }
 
     popup.setOnMenuItemClickListener(this::onOptionsItemSelected);
 
@@ -521,6 +536,10 @@ public final class EmulationActivity extends AppCompatActivity
       case MENU_ACTION_RUMBLE:
         item.setChecked(!item.isChecked());
         toggleRumble(item.isChecked());
+        break;
+      case MENU_SET_IR_RECENTER:
+        item.setChecked(!item.isChecked());
+        toggleRecenter(item.isChecked());
         break;
     }
   }
@@ -648,6 +667,14 @@ public final class EmulationActivity extends AppCompatActivity
         startActivityForResult(intent, REQUEST_CHANGE_DISC);
         break;
 
+      case MENU_ACTION_SET_JOYSTICK_MODE:
+        setJoystickMode();
+        break;
+
+      case MENU_SET_IR_MODE:
+        setIRMode();
+        break;
+
       case MENU_SET_IR_SENSITIVITY:
         setIRSensitivity();
         break;
@@ -694,6 +721,14 @@ public final class EmulationActivity extends AppCompatActivity
   {
     BooleanSetting.MAIN_PHONE_RUMBLE.setBoolean(mSettings, state);
     Rumble.setPhoneVibrator(state, this);
+  }
+
+  private void toggleRecenter(boolean state)
+  {
+    final SharedPreferences.Editor editor = mPreferences.edit();
+    editor.putBoolean("irRecenter", state);
+    editor.apply();
+    mEmulationFragment.refreshOverlayPointer();
   }
 
   private void editControlsPlacement()
@@ -939,6 +974,46 @@ public final class EmulationActivity extends AppCompatActivity
               NativeLibrary.ReloadWiimoteConfig();
             });
     builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> dialogInterface.dismiss());
+
+    builder.show();
+  }
+
+  private void setJoystickMode()
+  {
+    final SharedPreferences.Editor editor = mPreferences.edit();
+    AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DolphinDialogBase);
+    builder.setTitle(R.string.emulation_joystick_mode);
+    builder.setSingleChoiceItems(R.array.joystickEmulationModeEntries,
+      mPreferences.getInt("joystickEmulationMode", 0),
+      (dialog, indexSelected) ->
+      {
+        editor.putInt("joystickEmulationMode", indexSelected);
+      });
+    builder.setPositiveButton(R.string.ok, (dialogInterface, i) ->
+    {
+      editor.apply();
+      mEmulationFragment.refreshInputOverlay();
+    });
+
+    builder.show();
+  }
+
+  private void setIRMode()
+  {
+    final SharedPreferences.Editor editor = mPreferences.edit();
+    AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DolphinDialogBase);
+    builder.setTitle(R.string.emulation_ir_mode);
+    builder.setSingleChoiceItems(R.array.irModeEntries,
+      mPreferences.getInt("irMode", InputOverlayPointer.MODE_FOLLOW),
+      (dialog, indexSelected) ->
+      {
+        editor.putInt("irMode", indexSelected);
+      });
+    builder.setPositiveButton(R.string.ok, (dialogInterface, i) ->
+      {
+        editor.apply();
+        mEmulationFragment.refreshOverlayPointer();
+      });
 
     builder.show();
   }

@@ -219,6 +219,7 @@ public final class NativeLibrary
     public static final int WIIMOTE_GYRO_ROLL_RIGHT = 634;
     public static final int WIIMOTE_GYRO_YAW_LEFT = 635;
     public static final int WIIMOTE_GYRO_YAW_RIGHT = 636;
+    public static final int STICK_EMULATION = 800;
   }
 
   /**
