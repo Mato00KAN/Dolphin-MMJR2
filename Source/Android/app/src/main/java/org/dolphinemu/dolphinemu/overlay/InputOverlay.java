@@ -230,6 +230,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             NativeLibrary.onGamePadEvent(NativeLibrary.TouchScreenDevice, button.getId(),
                     ButtonState.RELEASED);
             button.setTrackId(-1);
+            buttonPressed = true;
           }
           break;
       }
@@ -297,6 +298,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
                       ButtonState.RELEASED);
             }
             dpad.setTrackId(-1);
+            buttonPressed = true;
           }
           break;
       }
