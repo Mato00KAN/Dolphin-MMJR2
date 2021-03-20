@@ -39,6 +39,10 @@
     </item>
 
     <item
+        android:id="@+id/menu_emulation_hotkey"
+        android:title="@string/emulation_hotkey"/>
+
+    <item
         android:id="@+id/menu_emulation_motion_controls"
         android:title="@string/emulation_motion_controls"/>
 

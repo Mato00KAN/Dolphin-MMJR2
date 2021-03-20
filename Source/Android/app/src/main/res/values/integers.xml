@@ -199,4 +199,14 @@
     <integer name="STICK_EMULATION_PORTRAIT_Y">470</integer>
     <integer name="STICK_EMULATION_H_PORTRAIT_X">160</integer>
     <integer name="STICK_EMULATION_H_PORTRAIT_Y">470</integer>
+
+    <!-- Hotkey layout -->
+    <integer name="HOTKEY_X">595</integer>
+    <integer name="HOTKEY_Y">745</integer>
+    <integer name="HOTKEY_H_X">595</integer>
+    <integer name="HOTKEY_H_Y">745</integer>
+    <integer name="HOTKEY_PORTRAIT_X">846</integer>
+    <integer name="HOTKEY_PORTRAIT_Y">810</integer>
+    <integer name="HOTKEY_H_PORTRAIT_X">846</integer>
+    <integer name="HOTKEY_H_PORTRAIT_Y">810</integer>
 </resources>

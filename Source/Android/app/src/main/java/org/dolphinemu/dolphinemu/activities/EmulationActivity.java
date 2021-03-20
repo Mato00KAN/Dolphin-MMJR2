@@ -101,7 +101,7 @@ public final class EmulationActivity extends AppCompatActivity
           MENU_ACTION_RESET_OVERLAY, MENU_SET_IR_RECENTER, MENU_SET_IR_MODE,
           MENU_SET_IR_SENSITIVITY, MENU_ACTION_CHOOSE_DOUBLETAP, MENU_ACTION_MOTION_CONTROLS,
           MENU_ACTION_PAUSE_EMULATION, MENU_ACTION_UNPAUSE_EMULATION, MENU_ACTION_OVERLAY_CONTROLS,
-          MENU_ACTION_SETTINGS, MENU_ACTION_SET_JOYSTICK_MODE})
+          MENU_ACTION_SETTINGS, MENU_ACTION_SET_JOYSTICK_MODE, MENU_ACTION_HOTKEY})
   public @interface MenuAction
   {
   }
@@ -143,6 +143,7 @@ public final class EmulationActivity extends AppCompatActivity
   public static final int MENU_ACTION_OVERLAY_CONTROLS = 34;
   public static final int MENU_ACTION_SETTINGS = 35;
   public static final int MENU_ACTION_SET_JOYSTICK_MODE = 36;
+  public static final int MENU_ACTION_HOTKEY = 37;
 
 
   private static final SparseIntArray buttonsActionsMap = new SparseIntArray();
@@ -174,6 +175,8 @@ public final class EmulationActivity extends AppCompatActivity
             EmulationActivity.MENU_ACTION_MOTION_CONTROLS);
     buttonsActionsMap.append(R.id.menu_emulation_set_joystick_mode,
       EmulationActivity.MENU_ACTION_SET_JOYSTICK_MODE);
+    buttonsActionsMap.append(R.id.menu_emulation_hotkey,
+      EmulationActivity.MENU_ACTION_HOTKEY);
   }
 
   public static void launch(FragmentActivity activity, String filePath)
@@ -683,6 +686,10 @@ public final class EmulationActivity extends AppCompatActivity
         chooseDoubleTapButton();
         break;
 
+      case MENU_ACTION_HOTKEY:
+        setHotkeyMode();
+        break;
+
       case MENU_ACTION_MOTION_CONTROLS:
         showMotionControlsOptions();
         break;
@@ -974,6 +981,26 @@ public final class EmulationActivity extends AppCompatActivity
               NativeLibrary.ReloadWiimoteConfig();
             });
     builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> dialogInterface.dismiss());
+
+    builder.show();
+  }
+
+  private void setHotkeyMode()
+  {
+    final SharedPreferences.Editor editor = mPreferences.edit();
+    AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DolphinDialogBase);
+    builder.setTitle(R.string.emulation_hotkey);
+    builder.setSingleChoiceItems(R.array.hotkeyModeEntries,
+      mPreferences.getInt("hotkeyMode", 0),
+      (dialog, indexSelected) ->
+      {
+        editor.putInt("hotkeyMode", indexSelected);
+      });
+    builder.setPositiveButton(R.string.ok, (dialogInterface, i) ->
+    {
+      editor.apply();
+      mEmulationFragment.refreshInputOverlay();
+    });
 
     builder.show();
   }
