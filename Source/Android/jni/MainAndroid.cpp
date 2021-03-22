@@ -45,6 +45,7 @@
 #include "Core/PowerPC/PowerPC.h"
 #include "Core/PowerPC/Profiler.h"
 #include "Core/State.h"
+#include "Core/ARDecrypt.h"
 
 #include "DiscIO/Blob.h"
 #include "DiscIO/Enums.h"
@@ -454,6 +455,35 @@ JNIEXPORT void JNICALL Java_org_dolphinemu_dolphinemu_NativeLibrary_SurfaceDestr
     ANativeWindow_release(s_surf);
     s_surf = nullptr;
   }
+}
+
+JNIEXPORT jstring JNICALL Java_org_dolphinemu_dolphinemu_NativeLibrary_DecryptARCode(JNIEnv* env,
+                                                                                     jclass,
+                                                                                     jstring jCodes)
+{
+  std::vector<ActionReplay::AREntry> entries;
+  std::vector<std::string> encrypted_lines;
+  std::string codes = GetJString(env, jCodes);
+  std::string result;
+  size_t offset{};
+  size_t position;
+  while ((position = codes.find('\n', offset)) != std::string::npos)
+  {
+    encrypted_lines.push_back(codes.substr(offset, position - offset));
+    offset = position + 1;
+  }
+
+  if (offset + 1 < codes.size())
+  {
+    encrypted_lines.push_back(codes.substr(offset));
+  }
+
+  ActionReplay::DecryptARCode(encrypted_lines, &entries);
+  for (const auto& op : entries)
+  {
+    result += StringFromFormat("%08X %08X\n", op.cmd_addr, op.value);
+  }
+  return ToJString(env, result);
 }
 
 JNIEXPORT jfloat JNICALL Java_org_dolphinemu_dolphinemu_NativeLibrary_GetGameAspectRatio(JNIEnv*,

@@ -115,6 +115,8 @@ add_library(core
   FreeLookManager.h
   GeckoCode.cpp
   GeckoCode.h
+  Gecko2AR.cpp
+  Gecko2AR.h
   GeckoCodeConfig.cpp
   GeckoCodeConfig.h
   HLE/HLE_Misc.cpp
