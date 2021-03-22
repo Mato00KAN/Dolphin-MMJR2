@@ -540,6 +540,8 @@ public final class SettingsFragmentPresenter
             R.string.overclock_enable_description));
     sl.add(new PercentSliderSetting(FloatSetting.MAIN_OVERCLOCK, R.string.overclock_title,
             R.string.overclock_title_description, 0, 400, "%"));
+    sl.add(new CheckBoxSetting(BooleanSetting.MAIN_FAST_DISC_SPEED, R.string.fast_disc_speed,
+            R.string.fast_disc_speed_description));
   }
 
   private void addGcPadSettings(ArrayList<SettingsItem> sl)
