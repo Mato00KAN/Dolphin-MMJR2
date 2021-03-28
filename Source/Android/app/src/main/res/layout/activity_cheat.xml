@@ -39,7 +39,8 @@
             android:inputType="textMultiLine"
             android:scrollbars="horizontal|vertical"
             android:textSize="14sp"
-            android:typeface="monospace" />
+            android:typeface="monospace"
+            android:autofillHints="" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/code_list"
@@ -52,7 +53,11 @@
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:divider="@drawable/spacer_medsmall"
+        android:padding="@dimen/spacing_medsmall"
+        android:showDividers="middle" >
 
         <Button
             android:id="@+id/button_cancel"
@@ -60,12 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="2.5dp"
             android:background="@drawable/button_gradient"
-            android:foreground="?android:attr/selectableItemBackground"
             android:stateListAnimator="@null"
             android:text="@android:string/cancel"
             android:textColor="#fafafa"
@@ -77,12 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginStart="2.5dp"
-            android:layout_marginEnd="5dp"
             android:background="@drawable/button_gradient"
-            android:foreground="?android:attr/selectableItemBackground"
             android:stateListAnimator="@null"
             android:text="@string/save"
             android:textColor="#fafafa"

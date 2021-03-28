@@ -22,6 +22,8 @@
     <color name="gradient_blue_center">#1f75dd</color>
     <color name="gradient_blue_end">#262fe0</color>
 
+    <color name="ripple_white">#d3d3d3</color>
+
     <color name="dolphin_accent_wii">#9e9e9e</color>
     <color name="dolphin_accent_wiiware">#2979ff</color>
     <color name="dolphin_accent_gamecube">#651fff</color>

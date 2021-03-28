@@ -3,13 +3,13 @@
 
     <item android:id="@android:id/background">
         <shape>
-            <corners android:radius="4dp"/>
+            <corners android:radius="6dp"/>
             <solid android:color="@color/divider"/>
         </shape>
     </item>
 
     <item android:id="@android:id/progress">
-        <clip android:drawable="@drawable/button_purple" />
+        <clip android:drawable="@drawable/button_gradient_purple" />
     </item>
 
 </layer-list>

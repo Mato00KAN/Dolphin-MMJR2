@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dolphin_background"
+    style="@style/DolphinDialogBase">
+
+    <ImageView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="center"
+        tools:src="@drawable/no_banner" />
+
+    <View
+        android:id="@+id/center_line"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/spacer_medium"
+        android:orientation="vertical"
+        android:layout_below="@id/banner"
+        android:padding="@dimen/spacing_medium"
+        android:showDividers="middle">
+
+        <Button
+            android:id="@+id/custom_settings"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/gameprop_button_height"
+            android:background="@drawable/button_gradient"
+            android:stateListAnimator="@null"
+            android:text="@string/properties_edit_game_settings"
+            android:textAllCaps="false"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:id="@+id/row1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/spacer_medium"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <Button
+                android:id="@+id/properties_details"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/gameprop_button_height"
+                android:layout_weight="1"
+                android:background="@drawable/button_gradient_purple"
+                android:stateListAnimator="@null"
+                android:text="@string/properties_details"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"/>
+
+            <Button
+                android:id="@+id/button_cheat_code"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/gameprop_button_height"
+                android:layout_weight="1"
+                android:background="@drawable/button_gradient_purple"
+                android:stateListAnimator="@null"
+                android:text="@string/cheat_code"
+                android:textColor="#ffffff"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/spacer_medium"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <Button
+                android:id="@+id/button_wiimote_settings"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/gameprop_button_height"
+                android:layout_weight="1"
+                android:background="@drawable/button_gradient_purple"
+                android:stateListAnimator="@null"
+                android:text="@string/grid_menu_wiimote_settings"
+                android:textColor="#ffffff"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/button_gcpad_settings"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/gameprop_button_height"
+                android:layout_weight="1"
+                android:background="@drawable/button_gradient_purple"
+                android:stateListAnimator="@null"
+                android:text="@string/grid_menu_gcpad_settings"
+                android:textColor="#ffffff"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/spacer_medium"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <Button
+                android:id="@+id/properties_convert"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/gameprop_button_height"
+                android:layout_weight="1"
+                android:background="@drawable/button_gradient_purple"
+                android:stateListAnimator="@null"
+                android:text="@string/properties_convert"
+                android:textColor="#ffffff"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/properties_clear_settings"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/gameprop_button_height"
+                android:layout_weight="1"
+                android:background="@drawable/button_gradient_purple"
+                android:stateListAnimator="@null"
+                android:text="@string/properties_clear_game_settings"
+                android:textColor="#ffffff"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+        <!-- Default ISO (removed)
+        <Button
+            android:id="@+id/properties_default_iso"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/gameprop_button_height"
+            android:background="@drawable/button_gradient_purple"
+            android:stateListAnimator="@null"
+            android:text="@string/properties_set_default_iso"
+            android:textColor="#ffffff"
+            android:textAllCaps="false" />
+        -->
+    </LinearLayout>
+
+</RelativeLayout>
