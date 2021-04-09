@@ -27,10 +27,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/dolphin_blue"
+        android:background="@drawable/button_gradient"
+        android:foreground="?android:attr/selectableItemBackground"
         android:padding="@dimen/spacing_small"
         android:text="@string/emulation_done"
-        android:textColor="@color/lb_tv_white"
+        android:textColor="@android:color/white"
         android:visibility="gone" />
 
 </FrameLayout>
