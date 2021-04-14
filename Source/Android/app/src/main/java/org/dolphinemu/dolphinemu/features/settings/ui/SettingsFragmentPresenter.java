@@ -540,6 +540,9 @@ public final class SettingsFragmentPresenter
             R.string.overclock_enable_description));
     sl.add(new PercentSliderSetting(FloatSetting.MAIN_OVERCLOCK, R.string.overclock_title,
             R.string.overclock_title_description, 0, 400, "%"));
+    sl.add(new SingleChoiceSetting(synchronizeGpuThread, R.string.synchronize_gpu_thread,
+            R.string.synchronize_gpu_thread_description, R.array.synchronizeGpuThreadEntries,
+            R.array.synchronizeGpuThreadValues));
   }
 
   private void addGcPadSettings(ArrayList<SettingsItem> sl)
