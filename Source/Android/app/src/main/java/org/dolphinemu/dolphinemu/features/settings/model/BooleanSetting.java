@@ -11,6 +11,7 @@ public enum BooleanSetting implements AbstractBooleanSetting
   MAIN_DSP_HLE(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "DSPHLE", true),
   MAIN_FASTMEM(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "Fastmem", true),
   MAIN_CPU_THREAD(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "CPUThread", true),
+  MAIN_SYNC_ON_SKIP_IDLE(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "SyncOnSkipIdle", true),
   MAIN_OVERRIDE_REGION_SETTINGS(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE,
           "OverrideRegionSettings", false),
   MAIN_AUDIO_STRETCH(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "AudioStretch", false),
@@ -19,8 +20,8 @@ public enum BooleanSetting implements AbstractBooleanSetting
           "WiimoteContinuousScanning", false),
   MAIN_WIIMOTE_ENABLE_SPEAKER(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE,
           "WiimoteEnableSpeaker", false),
-  MAIN_SYNC_ON_SKIP_IDLE(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "SyncOnSkipIdle", false),
   MAIN_JIT_FOLLOW_BRANCH(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "JITFollowBranch", true),
+  MAIN_SYNC_GPU(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "SyncGPU", false),
   MAIN_OVERCLOCK_ENABLE(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "OverclockEnable", false),
   MAIN_AUTO_DISC_CHANGE(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "AutoDiscChange", false),
   MAIN_ALLOW_SD_WRITES(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "WiiSDCardAllowWrites",
@@ -151,6 +152,8 @@ public enum BooleanSetting implements AbstractBooleanSetting
           "BackendMultithreading", false),
   GFX_WAIT_FOR_SHADERS_BEFORE_STARTING(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS,
           "WaitForShadersBeforeStarting", false),
+  GFX_SAVE_TEXTURE_CACHE_TO_STATE(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS,
+          "SaveTextureCacheToState", true),
 
   GFX_ENHANCE_FORCE_FILTERING(Settings.FILE_GFX, Settings.SECTION_GFX_ENHANCEMENTS,
           "ForceFiltering", false),
@@ -166,7 +169,8 @@ public enum BooleanSetting implements AbstractBooleanSetting
   GFX_HACK_EFB_ACCESS_ENABLE(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "EFBAccessEnable",
           false),
   GFX_HACK_EFB_DEFER_INVALIDATION(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "EFBAccessDeferInvalidation",
-    false),
+          false),
+  GFX_HACK_BBOX_ENABLE(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "BBoxEnable", false),
   GFX_HACK_SKIP_EFB_COPY_TO_RAM(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS,
           "EFBToTextureEnable", true),
   GFX_HACK_SKIP_XFB_COPY_TO_RAM(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS,
@@ -179,6 +183,7 @@ public enum BooleanSetting implements AbstractBooleanSetting
   GFX_HACK_COPY_EFB_SCALED(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "EFBScaledCopy", true),
   GFX_HACK_EFB_EMULATE_FORMAT_CHANGES(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS,
           "EFBEmulateFormatChanges", false),
+  GFX_HACK_VERTEX_ROUDING(Settings.FILE_GFX, Settings.SECTION_GFX_HACKS, "VertexRounding", false),
 
   LOGGER_WRITE_TO_FILE(Settings.FILE_LOGGER, Settings.SECTION_LOGGER_OPTIONS, "WriteToFile", false),
 
@@ -306,5 +311,10 @@ public enum BooleanSetting implements AbstractBooleanSetting
   public boolean getBooleanGlobal()
   {
     return NativeConfig.getBoolean(NativeConfig.LAYER_ACTIVE, mFile, mSection, mKey, mDefaultValue);
+  }
+
+  public void setBooleanGlobal(int layer, boolean newValue)
+  {
+    NativeConfig.setBoolean(layer, mFile, mSection, mKey, newValue);
   }
 }

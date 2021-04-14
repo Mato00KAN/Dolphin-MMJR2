@@ -163,7 +163,6 @@ public final class SettingsFragmentPresenter
         addGraphicsSettings(sl);
         break;
 
-
       case GCPAD_TYPE:
         addGcPadSettings(sl);
         break;
@@ -444,6 +443,71 @@ public final class SettingsFragmentPresenter
 
   private void addAdvancedSettings(ArrayList<SettingsItem> sl)
   {
+    final int SYNC_GPU_NEVER = 0;
+    final int SYNC_GPU_ON_IDLE_SKIP = 1;
+    final int SYNC_GPU_ALWAYS = 2;
+
+    AbstractIntSetting synchronizeGpuThread = new AbstractIntSetting()
+    {
+      @Override
+      public int getInt(Settings settings)
+      {
+        if (BooleanSetting.MAIN_SYNC_GPU.getBoolean(settings))
+        {
+          return SYNC_GPU_ALWAYS;
+        }
+        else
+        {
+          boolean syncOnSkipIdle = BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE.getBoolean(settings);
+          return syncOnSkipIdle ? SYNC_GPU_ON_IDLE_SKIP : SYNC_GPU_NEVER;
+        }
+      }
+
+      @Override
+      public void setInt(Settings settings, int newValue)
+      {
+        switch (newValue)
+        {
+          case SYNC_GPU_NEVER:
+            BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE.setBoolean(settings, false);
+            BooleanSetting.MAIN_SYNC_GPU.setBoolean(settings, false);
+            break;
+
+          case SYNC_GPU_ON_IDLE_SKIP:
+            BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE.setBoolean(settings, true);
+            BooleanSetting.MAIN_SYNC_GPU.setBoolean(settings, false);
+            break;
+
+          case SYNC_GPU_ALWAYS:
+            BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE.setBoolean(settings, true);
+            BooleanSetting.MAIN_SYNC_GPU.setBoolean(settings, true);
+            break;
+        }
+      }
+
+      @Override
+      public boolean isOverridden(Settings settings)
+      {
+        return BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE.isOverridden(settings) ||
+                BooleanSetting.MAIN_SYNC_GPU.isOverridden(settings);
+      }
+
+      @Override
+      public boolean isRuntimeEditable()
+      {
+        return BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE.isRuntimeEditable() &&
+                BooleanSetting.MAIN_SYNC_GPU.isRuntimeEditable();
+      }
+
+      @Override
+      public boolean delete(Settings settings)
+      {
+        // Not short circuiting
+        return BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE.delete(settings) &
+                BooleanSetting.MAIN_SYNC_GPU.delete(settings);
+      }
+    };
+
     // TODO: Having different emuCoresEntries/emuCoresValues for each architecture is annoying.
     //       The proper solution would be to have one set of entries and one set of values
     //       and exclude the values that aren't present in PowerPC::AvailableCPUCores().
@@ -527,8 +591,7 @@ public final class SettingsFragmentPresenter
     }
   }
 
-
-   private void addGraphicsSettings(ArrayList<SettingsItem> sl)
+  private void addGraphicsSettings(ArrayList<SettingsItem> sl)
   {
     sl.add(new HeaderSetting(R.string.graphics_general, 0));
     sl.add(new StringSingleChoiceSetting(StringSetting.MAIN_GFX_BACKEND, R.string.video_backend, 0,
@@ -571,7 +634,7 @@ public final class SettingsFragmentPresenter
     sl.add(new StringSingleChoiceSetting(StringSetting.GFX_ENHANCE_POST_SHADER,
             R.string.post_processing_shader, 0, shaderListEntries, shaderListValues));
 
-        sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_COPY_EFB_SCALED, R.string.scaled_efb_copy,
+    sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_COPY_EFB_SCALED, R.string.scaled_efb_copy,
             R.string.scaled_efb_copy_description));
     sl.add(new CheckBoxSetting(BooleanSetting.GFX_ENABLE_PIXEL_LIGHTING,
             R.string.per_pixel_lighting, R.string.per_pixel_lighting_description));
@@ -685,12 +748,18 @@ public final class SettingsFragmentPresenter
     sl.add(new HeaderSetting(R.string.other, 0));
     sl.add(new CheckBoxSetting(BooleanSetting.GFX_FAST_DEPTH_CALC, R.string.fast_depth_calculation,
             R.string.fast_depth_calculation_description));
+    sl.add(new InvertedCheckBoxSetting(BooleanSetting.GFX_HACK_BBOX_ENABLE, R.string.disable_bbox,
+            R.string.disable_bbox_description));
+    sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_VERTEX_ROUDING, R.string.vertex_rounding,
+            R.string.vertex_rounding_description));
+    sl.add(new CheckBoxSetting(BooleanSetting.GFX_SAVE_TEXTURE_CACHE_TO_STATE,
+            R.string.texture_cache_to_state, R.string.texture_cache_to_state_description));
   }
 
   private void addLogConfigurationSettings(ArrayList<SettingsItem> sl)
   {
-    sl.add(new CheckBoxSetting(BooleanSetting.LOGGER_WRITE_TO_FILE, R.string.enable_logging,
-            R.string.enable_logging_description));
+    sl.add(new CheckBoxSetting(BooleanSetting.LOGGER_WRITE_TO_FILE, R.string.log_to_file,
+            R.string.log_to_file_description));
     sl.add(new SingleChoiceSetting(IntSetting.LOGGER_VERBOSITY, R.string.log_verbosity, 0,
             getLogVerbosityEntries(), getLogVerbosityValues()));
     sl.add(new RunRunnable(R.string.log_enable_all, 0, R.string.log_enable_all_confirmation, 0,

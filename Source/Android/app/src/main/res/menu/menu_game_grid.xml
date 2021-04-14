@@ -10,9 +10,9 @@
 
     <item
         android:id="@+id/menu_refresh"
-        android:icon="@drawable/ic_refresh"
         android:title="@string/grid_menu_refresh"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_refresh"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_settings_gcpad"
@@ -37,7 +37,7 @@
     <item
         android:id="@+id/menu_install_wad"
         android:title="@string/grid_menu_install_wad"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/menu_import_wii_save"

@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:focusable="true"
-    android:background="@color/dolphin_background"
-    android:layout_height="48dp">
+    android:layout_height="48dp"
+    android:background="@color/dolphin_background">
 
     <TextView
         android:layout_width="wrap_content"

@@ -54,9 +54,13 @@ public class GamePropertiesDialog extends DialogFragment
     final String path = requireArguments().getString(ARG_PATH);
     final String gameId = requireArguments().getString(ARG_GAMEID);
     final int revision = requireArguments().getInt(ARG_REVISION);
-    final boolean isWii = requireArguments().getInt(ARG_PLATFORM) != Platform.GAMECUBE.toInt();
+    final int platform = requireArguments().getInt(ARG_PLATFORM);
     final boolean shouldAllowConversion =
             requireArguments().getBoolean(ARG_SHOULD_ALLOW_CONVERSION);
+
+    final boolean isDisc = platform == Platform.GAMECUBE.toInt() ||
+            platform == Platform.WII.toInt();
+    final boolean isWii = platform != Platform.GAMECUBE.toInt();
 
     AlertDialogItemsBuilder itemsBuilder = new AlertDialogItemsBuilder(requireContext());
 
@@ -64,11 +68,11 @@ public class GamePropertiesDialog extends DialogFragment
             GameDetailsDialog.newInstance(path).show(requireActivity()
                     .getSupportFragmentManager(), "game_details"));
 
-        itemsBuilder.add(R.string.properties_edit_game_settings, (dialog, i) ->
-      SettingsActivity.launch(getContext(), MenuTag.CONFIG, gameId, revision, isWii));
+    itemsBuilder.add(R.string.properties_edit_game_settings, (dialog, i) ->
+            SettingsActivity.launch(getContext(), MenuTag.CONFIG, gameId, revision, isWii));
 
     itemsBuilder.add(R.string.cheat_code, (dialog, i) ->
-      CheatEditorActivity.launch(getContext(), path));
+            CheatEditorActivity.launch(getContext(), path));
 
     if (shouldAllowConversion)
     {
@@ -76,15 +80,18 @@ public class GamePropertiesDialog extends DialogFragment
               ConvertActivity.launch(getContext(), path));
     }
 
-    itemsBuilder.add(R.string.properties_set_default_iso, (dialog, i) ->
+    if (isDisc)
     {
-      try (Settings settings = new Settings())
+      itemsBuilder.add(R.string.properties_set_default_iso, (dialog, i) ->
       {
-        settings.loadSettings();
-        StringSetting.MAIN_DEFAULT_ISO.setString(settings, path);
-        settings.saveSettings(null, getContext());
-      }
-    });
+        try (Settings settings = new Settings())
+        {
+          settings.loadSettings();
+          StringSetting.MAIN_DEFAULT_ISO.setString(settings, path);
+          settings.saveSettings(null, getContext());
+        }
+      });
+    }
 
     itemsBuilder.add(R.string.properties_gc_controller, (dialog, i) ->
             SettingsActivity.launch(getContext(), MenuTag.GCPAD_TYPE, gameId, revision, isWii));

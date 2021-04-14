@@ -98,12 +98,21 @@ void UpdatePointer()
   env->CallStaticVoidMethod(IDCache::GetNativeLibraryClass(), IDCache::GetUpdateTouchPointer());
 }
 
+std::vector<std::string> Host_GetPreferredLocales()
+{
+  // We would like to call ConfigurationCompat.getLocales here, but this function gets called
+  // during dynamic initialization, and it seems like that makes us unable to obtain a JNIEnv.
+  return {};
+}
+
 void Host_NotifyMapLoaded()
 {
 }
+
 void Host_RefreshDSPDebuggerWindow()
 {
 }
+
 bool Host_UIBlocksControllerState()
 {
   return false;
@@ -201,9 +210,7 @@ static std::string GetAnalyticValue(const std::string& key)
   return stdvalue;
 }
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 JNIEXPORT jboolean JNICALL Java_org_dolphinemu_dolphinemu_NativeLibrary_CheckIntegrity(
     JNIEnv* env, jclass, jstring package, jstring label)
@@ -735,7 +742,4 @@ Java_org_dolphinemu_dolphinemu_NativeLibrary_GetCurrentTitleDescriptionUnchecked
 
   return ToJString(env, description);
 }
-
-#ifdef __cplusplus
 }
-#endif

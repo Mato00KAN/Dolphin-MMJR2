@@ -4,11 +4,14 @@
 
 #include "Core/ConfigManager.h"
 
+#include <algorithm>
 #include <cinttypes>
 #include <climits>
 #include <memory>
 #include <optional>
 #include <sstream>
+#include <string>
+#include <string_view>
 #include <variant>
 
 #include <fmt/format.h>
@@ -30,6 +33,7 @@
 
 #include "Core/Boot/Boot.h"
 #include "Core/CommonTitles.h"
+#include "Core/Config/DefaultLocale.h"
 #include "Core/Config/MainSettings.h"
 #include "Core/Config/SYSCONFSettings.h"
 #include "Core/ConfigLoaders/GameConfigLoader.h"
@@ -469,7 +473,8 @@ void SConfig::LoadCoreSettings(IniFile& ini)
   core->Get("CPUThread", &bCPUThread, true);
   core->Get("SyncOnSkipIdle", &bSyncGPUOnSkipIdleHack, true);
   core->Get("EnableCheats", &bEnableCheats, false);
-  core->Get("SelectedLanguage", &SelectedLanguage, 0);
+  core->Get("SelectedLanguage", &SelectedLanguage,
+            DiscIO::ToGameCubeLanguage(Config::GetDefaultLanguage()));
   core->Get("OverrideRegionSettings", &bOverrideRegionSettings, false);
   core->Get("DPL2Decoder", &bDPL2Decoder, false);
   core->Get("AudioLatency", &iLatency, 20);
@@ -507,6 +512,7 @@ void SConfig::LoadCoreSettings(IniFile& ini)
   core->Get("LowDCBZHack", &bLowDCBZHack, false);
   core->Get("FPRF", &bFPRF, false);
   core->Get("AccurateNaNs", &bAccurateNaNs, false);
+  core->Get("DisableICache", &bDisableICache, false);
   core->Get("EmulationSpeed", &m_EmulationSpeed, 1.0f);
   core->Get("Overclock", &m_OCFactor, 1.0f);
   core->Get("OverclockEnable", &m_OCEnable, false);
@@ -653,6 +659,11 @@ void SConfig::SetRunningGameMetadata(const IOS::ES::TMDReader& tmd, DiscIO::Plat
   }
 }
 
+void SConfig::SetRunningGameMetadata(const std::string& game_id)
+{
+  SetRunningGameMetadata(game_id, "", 0, 0, DiscIO::Region::Unknown);
+}
+
 void SConfig::SetRunningGameMetadata(const std::string& game_id, const std::string& gametdb_id,
                                      u64 title_id, u16 revision, DiscIO::Region region)
 {
@@ -698,19 +709,23 @@ void SConfig::SetRunningGameMetadata(const std::string& game_id, const std::stri
   Config::AddLayer(ConfigLoaders::GenerateLocalGameConfigLoader(game_id, revision));
 
   if (Core::IsRunning())
-  {
-    // TODO: have a callback mechanism for title changes?
-    if (!g_symbolDB.IsEmpty())
-    {
-      g_symbolDB.Clear();
-      Host_NotifyMapLoaded();
-    }
-    CBoot::LoadMapFromFilename();
-    HLE::Reload();
-    PatchEngine::Reload();
-    HiresTexture::Update();
     DolphinAnalytics::Instance().ReportGameStart();
+}
+
+void SConfig::OnNewTitleLoad()
+{
+  if (!Core::IsRunning())
+    return;
+
+  if (!g_symbolDB.IsEmpty())
+  {
+    g_symbolDB.Clear();
+    Host_NotifyMapLoaded();
   }
+  CBoot::LoadMapFromFilename();
+  HLE::Reload();
+  PatchEngine::Reload();
+  HiresTexture::Update();
 }
 
 void SConfig::LoadDefaults()
@@ -735,6 +750,7 @@ void SConfig::LoadDefaults()
   bFastmem = true;
   bFPRF = false;
   bAccurateNaNs = false;
+  bDisableICache = false;
   bMMU = false;
   bLowDCBZHack = false;
   iBBDumpPort = -1;
@@ -768,6 +784,15 @@ void SConfig::LoadDefaults()
 bool SConfig::IsUSBDeviceWhitelisted(const std::pair<u16, u16> vid_pid) const
 {
   return m_usb_passthrough_devices.find(vid_pid) != m_usb_passthrough_devices.end();
+}
+
+// Static method to make a simple game ID for elf/dol files
+std::string SConfig::MakeGameID(std::string_view file_name)
+{
+  size_t lastdot = file_name.find_last_of(".");
+  if (lastdot == std::string::npos)
+    return "ID-" + std::string(file_name);
+  return "ID-" + std::string(file_name.substr(0, lastdot));
 }
 
 // The reason we need this function is because some memory card code
@@ -839,6 +864,13 @@ struct SetGameMetadata
 
     // Strip the .elf/.dol file extension and directories before the name
     SplitPath(executable.path, nullptr, &config->m_debugger_game_id, nullptr);
+
+    // Set DOL/ELF game ID appropriately
+    std::string executable_path = executable.path;
+    constexpr char BACKSLASH = '\\';
+    constexpr char FORWARDSLASH = '/';
+    std::replace(executable_path.begin(), executable_path.end(), BACKSLASH, FORWARDSLASH);
+    config->SetRunningGameMetadata(SConfig::MakeGameID(PathToFileName(executable_path)));
 
     Host_TitleChanged();
 
@@ -935,12 +967,11 @@ DiscIO::Region SConfig::GetFallbackRegion()
 
 DiscIO::Language SConfig::GetCurrentLanguage(bool wii) const
 {
-  int language_value;
+  DiscIO::Language language;
   if (wii)
-    language_value = Config::Get(Config::SYSCONF_LANGUAGE);
+    language = static_cast<DiscIO::Language>(Config::Get(Config::SYSCONF_LANGUAGE));
   else
-    language_value = SConfig::GetInstance().SelectedLanguage + 1;
-  DiscIO::Language language = static_cast<DiscIO::Language>(language_value);
+    language = DiscIO::FromGameCubeLanguage(SConfig::GetInstance().SelectedLanguage);
 
   // Get rid of invalid values (probably doesn't matter, but might as well do it)
   if (language > DiscIO::Language::Unknown || language < DiscIO::Language::Japanese)

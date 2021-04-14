@@ -94,9 +94,8 @@ JNIEXPORT jstring JNICALL Java_org_dolphinemu_dolphinemu_model_GameFile_getPath(
 JNIEXPORT jstring JNICALL Java_org_dolphinemu_dolphinemu_model_GameFile_getWiiSavePath(JNIEnv* env,
                                                                                 jobject obj)
 {
-    return ToJString(env, GetRef(env, obj)->GetWiiFSPath());
+  return ToJString(env, GetRef(env, obj)->GetWiiFSPath());
 }
-
 
 JNIEXPORT jstring JNICALL Java_org_dolphinemu_dolphinemu_model_GameFile_getGameId(JNIEnv* env,
                                                                                   jobject obj)

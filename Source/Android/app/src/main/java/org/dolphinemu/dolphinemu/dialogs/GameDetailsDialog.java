@@ -73,7 +73,6 @@ public final class GameDetailsDialog extends DialogFragment
     TextView textGameFilename = contents.findViewById(R.id.save_folder_location);
     textGameFilename.setText(gamePath);
 
-
     textTitle.setText(gameFile.getTitle());
     textDescription.setText(gameFile.getDescription());
     if (description.isEmpty())

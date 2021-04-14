@@ -74,6 +74,7 @@ extern const Info<bool> MAIN_FAST_DISC_SPEED;
 extern const Info<bool> MAIN_LOW_DCBZ_HACK;
 extern const Info<bool> MAIN_FPRF;
 extern const Info<bool> MAIN_ACCURATE_NANS;
+extern const Info<bool> MAIN_DISABLE_ICACHE;
 extern const Info<float> MAIN_EMULATION_SPEED;
 extern const Info<float> MAIN_OVERCLOCK;
 extern const Info<bool> MAIN_OVERCLOCK_ENABLE;
@@ -129,6 +130,8 @@ extern const Info<bool> MAIN_NETWORK_SSL_DUMP_WRITE;
 extern const Info<bool> MAIN_NETWORK_SSL_VERIFY_CERTIFICATES;
 extern const Info<bool> MAIN_NETWORK_SSL_DUMP_ROOT_CA;
 extern const Info<bool> MAIN_NETWORK_SSL_DUMP_PEER_CERT;
+extern const Info<bool> MAIN_NETWORK_DUMP_AS_PCAP;
+extern const Info<int> MAIN_NETWORK_TIMEOUT;
 
 // Main.Interface
 

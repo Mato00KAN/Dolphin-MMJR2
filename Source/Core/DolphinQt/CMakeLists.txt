@@ -122,6 +122,8 @@ add_executable(dolphin-emu
   Config/LogWidget.h
   Config/Mapping/FreeLookGeneral.cpp
   Config/Mapping/FreeLookGeneral.h
+  Config/Mapping/FreeLookRotation.cpp
+  Config/Mapping/FreeLookRotation.h
   Config/Mapping/GCKeyboardEmu.cpp
   Config/Mapping/GCKeyboardEmu.h
   Config/Mapping/GCMicrophone.cpp
@@ -347,6 +349,13 @@ if (WIN32)
   )
 endif()
 
+if (MSVC)
+  # Disable some warnings
+
+  # 5054: operator '+': deprecated between enumerations of different types (in Qt headers)
+  target_compile_options(dolphin-emu PRIVATE /wd5054)
+endif()
+
 if(WIN32)
   target_sources(dolphin-emu PRIVATE DolphinQt.manifest DolphinQt.rc)
 
@@ -355,8 +364,6 @@ if(WIN32)
     OUTPUT_NAME      Dolphin
     WIN32_EXECUTABLE TRUE
   )
-
-  target_compile_options(dolphin-emu PRIVATE "-D_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING")
 
   # Copy Sys dir
   add_custom_command(TARGET dolphin-emu POST_BUILD

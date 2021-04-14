@@ -26,6 +26,11 @@ public interface MainView
   void openUpdaterDialog();
 
   /**
+   * Shows or hides the loading indicator.
+   */
+  void setRefreshing(boolean refreshing);
+
+  /**
    * To be called when the game file cache is updated.
    */
   void showGames();

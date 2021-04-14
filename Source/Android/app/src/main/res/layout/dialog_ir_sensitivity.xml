@@ -15,12 +15,12 @@
             android:id="@+id/seekbar_width"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_ir_yaw"
-            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/text_ir_yaw"
+            android:layout_marginBottom="@dimen/spacing_medlarge"
             android:layout_marginLeft="@dimen/spacing_large"
             android:layout_marginRight="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_medlarge"
             android:backgroundTint="@color/dolphin_purple" />
 
         <TextView
@@ -29,9 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_medlarge"
             android:layout_marginBottom="@dimen/spacing_medlarge"
-            tools:text="75" />
+            android:layout_marginTop="@dimen/spacing_medlarge"
+            tools:text="75"/>
 
         <TextView
             android:id="@+id/text_ir_yaw_units"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/text_ir_yaw"
             android:layout_toEndOf="@+id/text_ir_yaw"
-            tools:text="%" />
+            tools:text="%"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -51,13 +51,13 @@
             android:id="@+id/seekbar_pitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_ir_pitch"
-            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/text_ir_pitch"
+            android:layout_marginBottom="@dimen/spacing_medlarge"
             android:layout_marginLeft="@dimen/spacing_large"
             android:layout_marginRight="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_medlarge"
-            android:backgroundTint="@color/dolphin_purple" />
+            android:backgroundTint="@color/dolphin_purple"/>
 
         <TextView
             android:id="@+id/text_ir_pitch"
@@ -65,9 +65,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_medlarge"
             android:layout_marginBottom="@dimen/spacing_medlarge"
-            tools:text="75" />
+            android:layout_marginTop="@dimen/spacing_medlarge"
+            tools:text="75"/>
 
         <TextView
             android:id="@+id/text_ir_pitch_units"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/text_ir_pitch"
             android:layout_toEndOf="@+id/text_ir_pitch"
-            tools:text="%" />
+            tools:text="%"/>
 
     </RelativeLayout>
 
@@ -88,12 +88,12 @@
             android:id="@+id/seekbar_vertical_offset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_ir_vertical_offset"
-            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/text_ir_vertical_offset"
+            android:layout_marginBottom="@dimen/spacing_medlarge"
             android:layout_marginLeft="@dimen/spacing_large"
             android:layout_marginRight="@dimen/spacing_large"
-            android:layout_marginBottom="@dimen/spacing_medlarge"
             android:backgroundTint="@color/dolphin_purple" />
 
         <TextView
@@ -102,9 +102,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_medlarge"
             android:layout_marginBottom="@dimen/spacing_medlarge"
-            tools:text="75" />
+            android:layout_marginTop="@dimen/spacing_medlarge"
+            tools:text="75"/>
 
         <TextView
             android:id="@+id/text_ir_vertical_offset_units"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/text_ir_vertical_offset"
             android:layout_toEndOf="@+id/text_ir_vertical_offset"
-            tools:text="%" />
+            tools:text="%"/>
 
     </RelativeLayout>
 

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,12 +23,14 @@ import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.adapters.PlatformPagerAdapter;
 import org.dolphinemu.dolphinemu.features.settings.model.IntSetting;
+import org.dolphinemu.dolphinemu.features.settings.model.NativeConfig;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
 import org.dolphinemu.dolphinemu.features.settings.ui.SettingsActivity;
 import org.dolphinemu.dolphinemu.services.GameFileCacheService;
 import org.dolphinemu.dolphinemu.ui.platform.Platform;
 import org.dolphinemu.dolphinemu.ui.platform.PlatformGamesView;
+import org.dolphinemu.dolphinemu.utils.Action1;
 import org.dolphinemu.dolphinemu.utils.AfterDirectoryInitializationRunner;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
@@ -39,13 +42,13 @@ import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
  * The main Activity of the Lollipop style UI. Manages several PlatformGamesFragments, which
  * individually display a grid of available games for each Fragment, in a tabbed layout.
  */
-public final class MainActivity extends AppCompatActivity implements MainView
+public final class MainActivity extends AppCompatActivity
+        implements MainView, SwipeRefreshLayout.OnRefreshListener
 {
   private ViewPager mViewPager;
   private Toolbar mToolbar;
   private TabLayout mTabLayout;
   private FloatingActionButton mFab;
-  private static boolean sShouldRescanLibrary = true;
 
   private final MainPresenter mPresenter = new MainPresenter(this, this);
 
@@ -87,20 +90,11 @@ public final class MainActivity extends AppCompatActivity implements MainView
               .run(this, false, this::setPlatformTabsAndStartGameFileCacheService);
     }
 
-    mPresenter.addDirIfNeeded();
+    mPresenter.onResume();
 
     // In case the user changed a setting that affects how games are displayed,
     // such as system language, cover downloading...
-    refetchMetadata();
-
-    if (sShouldRescanLibrary)
-    {
-      GameFileCacheService.startRescan(this);
-    }
-    else
-    {
-      sShouldRescanLibrary = true;
-    }
+    forEachPlatformGamesView(PlatformGamesView::refetchMetadata);
   }
 
   @Override
@@ -121,10 +115,17 @@ public final class MainActivity extends AppCompatActivity implements MainView
   protected void onStop()
   {
     super.onStop();
+
     if (isChangingConfigurations())
     {
-      skipRescanningLibrary();
+      MainPresenter.skipRescanningLibrary();
     }
+    else if (DirectoryInitialization.areDolphinDirectoriesReady())
+    {
+      // If the currently selected platform tab changed, save it to disk
+      NativeConfig.save(NativeConfig.LAYER_BASE);
+    }
+
     StartupHandler.setSessionTime(this);
   }
 
@@ -201,7 +202,7 @@ public final class MainActivity extends AppCompatActivity implements MainView
     super.onActivityResult(requestCode, resultCode, result);
 
     // If the user picked a file, as opposed to just backing out.
-    if (resultCode == MainActivity.RESULT_OK)
+    if (resultCode == RESULT_OK)
     {
       Uri uri = result.getData();
       switch (requestCode)
@@ -236,7 +237,7 @@ public final class MainActivity extends AppCompatActivity implements MainView
     }
     else
     {
-      skipRescanningLibrary();
+      MainPresenter.skipRescanningLibrary();
     }
   }
 
@@ -273,26 +274,42 @@ public final class MainActivity extends AppCompatActivity implements MainView
     return mPresenter.handleOptionSelection(item.getItemId(), this);
   }
 
-  public void showGames()
+  /**
+   * Called when the user requests a refresh by swiping down.
+   */
+  @Override
+  public void onRefresh()
   {
-    for (Platform platform : Platform.values())
-    {
-      PlatformGamesView fragment = getPlatformGamesView(platform);
-      if (fragment != null)
-      {
-        fragment.showGames();
-      }
-    }
+    setRefreshing(true);
+    GameFileCacheService.startRescan(this);
   }
 
-  private void refetchMetadata()
+  /**
+   * Shows or hides the loading indicator.
+   */
+  @Override
+  public void setRefreshing(boolean refreshing)
+  {
+    forEachPlatformGamesView(view -> view.setRefreshing(refreshing));
+  }
+
+  /**
+   * To be called when the game file cache is updated.
+   */
+  @Override
+  public void showGames()
+  {
+    forEachPlatformGamesView(PlatformGamesView::showGames);
+  }
+
+  private void forEachPlatformGamesView(Action1<PlatformGamesView> action)
   {
     for (Platform platform : Platform.values())
     {
       PlatformGamesView fragment = getPlatformGamesView(platform);
       if (fragment != null)
       {
-        fragment.refetchMetadata();
+        action.call(fragment);
       }
     }
   }
@@ -309,7 +326,7 @@ public final class MainActivity extends AppCompatActivity implements MainView
   private void setPlatformTabsAndStartGameFileCacheService()
   {
     PlatformPagerAdapter platformPagerAdapter = new PlatformPagerAdapter(
-            getSupportFragmentManager(), this);
+            getSupportFragmentManager(), this, this);
     mViewPager.setAdapter(platformPagerAdapter);
     mViewPager.setOffscreenPageLimit(platformPagerAdapter.getCount());
     mTabLayout.setupWithViewPager(mViewPager);
@@ -319,16 +336,7 @@ public final class MainActivity extends AppCompatActivity implements MainView
       public void onTabSelected(@NonNull TabLayout.Tab tab)
       {
         super.onTabSelected(tab);
-
-        try (Settings settings = new Settings())
-        {
-          settings.loadSettings();
-
-          IntSetting.MAIN_LAST_PLATFORM_TAB.setInt(settings, tab.getPosition());
-
-          // Context is set to null to avoid toasts
-          settings.saveSettings(null, null);
-        }
+        IntSetting.MAIN_LAST_PLATFORM_TAB.setIntGlobal(NativeConfig.LAYER_BASE, tab.getPosition());
       }
     });
 
@@ -336,10 +344,5 @@ public final class MainActivity extends AppCompatActivity implements MainView
 
     showGames();
     GameFileCacheService.startLoad(this);
-  }
-
-  public static void skipRescanningLibrary()
-  {
-    sShouldRescanLibrary = false;
   }
 }

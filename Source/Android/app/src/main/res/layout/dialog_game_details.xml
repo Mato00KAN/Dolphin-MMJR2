@@ -22,9 +22,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:ellipsize="end"
+            tools:text="Rhythm Heaven Fever"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Rhythm Heaven Fever" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_description"
@@ -32,27 +32,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            tools:text="Zany rhythm action!"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_game_title"
-            tools:text="Zany rhythm action!" />
+            app:layout_constraintTop_toBottomOf="@id/text_game_title" />
 
         <ImageView
             android:id="@+id/banner"
             android:layout_width="225dp"
             android:layout_height="79dp"
             android:layout_marginTop="16dp"
+            tools:src="@drawable/no_banner"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_description"
-            tools:src="@drawable/no_banner" />
+            app:layout_constraintTop_toBottomOf="@id/text_description" />
 
         <View
             android:id="@+id/divider_1"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="32dp"
             android:background="@color/divider"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/banner" />
 
         <TextView
@@ -108,10 +108,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_country"
-            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="United States"
             app:layout_constraintStart_toEndOf="@id/label_barrier"
-            tools:text="United States" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_country" />
 
         <TextView
             android:id="@+id/text_company"
@@ -119,10 +119,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_company"
-            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Nintendo"
             app:layout_constraintStart_toEndOf="@id/label_barrier"
-            tools:text="Nintendo" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_company" />
 
         <TextView
             android:id="@+id/text_game_id"
@@ -130,10 +130,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_game_id"
-            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="SOME01"
             app:layout_constraintStart_toEndOf="@id/label_barrier"
-            tools:text="SOME01" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_game_id" />
 
         <TextView
             android:id="@+id/text_revision"
@@ -141,19 +141,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_revision"
-            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="0"
             app:layout_constraintStart_toEndOf="@id/label_barrier"
-            tools:text="0" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_revision" />
 
         <View
             android:id="@+id/divider_2"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginTop="32dp"
             android:background="@color/divider"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_revision" />
 
         <TextView
@@ -202,10 +202,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_file_format"
-            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="ISO (4.38 GiB)"
             app:layout_constraintStart_toEndOf="@id/label_barrier"
-            tools:text="ISO (4.38 GiB)" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_file_format" />
 
         <TextView
             android:id="@+id/text_compression"
@@ -213,10 +213,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_compression"
-            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="No Compression"
             app:layout_constraintStart_toEndOf="@id/label_barrier"
-            tools:text="No Compression" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_compression" />
 
         <TextView
             android:id="@+id/text_block_size"
@@ -224,10 +224,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:gravity="end"
-            app:layout_constraintBaseline_toBaselineOf="@id/label_block_size"
-            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="0 B"
             app:layout_constraintStart_toEndOf="@id/label_barrier"
-            tools:text="0 B" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/label_block_size" />
 
         <TextView
             android:id="@+id/save_folder_location"
