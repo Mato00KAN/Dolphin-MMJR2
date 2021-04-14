@@ -823,6 +823,9 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
                     "-Portrait" : "";
 
+    // MMJR: hotkey visibility is managed separately so always add it
+    addHotkeys(orientation);
+
     if (BooleanSetting.MAIN_SHOW_INPUT_OVERLAY.getBooleanGlobal())
     {
       // Add all the enabled overlay items back to the HashSet.
@@ -843,7 +846,6 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
 
           case EMULATED_GAMECUBE_CONTROLLER:
             addGameCubeOverlayControls(orientation);
-            addHotkeys(orientation);
             break;
 
           case GAMECUBE_ADAPTER:
@@ -857,27 +859,23 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
           case OVERLAY_GAMECUBE:
             addGameCubeOverlayControls(orientation);
             addJoystickEmulationControls(orientation);
-            addHotkeys(orientation);
             break;
 
           case OVERLAY_WIIMOTE:
           case OVERLAY_WIIMOTE_SIDEWAYS:
             addWiimoteOverlayControls(orientation);
             addJoystickEmulationControls(orientation);
-            addHotkeys(orientation);
             break;
 
           case OVERLAY_WIIMOTE_NUNCHUK:
             addWiimoteOverlayControls(orientation);
             addNunchukOverlayControls(orientation);
             addJoystickEmulationControls(orientation);
-            addHotkeys(orientation);
             break;
 
           case OVERLAY_WIIMOTE_CLASSIC:
             addClassicOverlayControls(orientation);
             addJoystickEmulationControls(orientation);
-            addHotkeys(orientation);
             break;
 
           case OVERLAY_NONE:
