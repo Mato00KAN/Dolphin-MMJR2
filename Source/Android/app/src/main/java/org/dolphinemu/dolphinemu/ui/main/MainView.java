@@ -31,11 +31,6 @@ public interface MainView
   void setRefreshing(boolean refreshing);
 
   /**
-   * Shows or hides the loading indicator.
-   */
-  void setRefreshing(boolean refreshing);
-
-  /**
    * To be called when the game file cache is updated.
    */
   void showGames();

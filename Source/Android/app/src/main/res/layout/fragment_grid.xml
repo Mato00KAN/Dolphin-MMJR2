@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/spacing_small"
         android:background="@color/dolphin_background">
 
         <androidx.recyclerview.widget.RecyclerView
