@@ -2,6 +2,10 @@ package org.dolphinemu.dolphinemu.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,9 +21,9 @@ import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
 import org.dolphinemu.dolphinemu.features.settings.ui.SettingsActivity;
 import org.dolphinemu.dolphinemu.model.GameFile;
 import org.dolphinemu.dolphinemu.ui.platform.Platform;
-import org.dolphinemu.dolphinemu.utils.AlertDialogItemsBuilder;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.Log;
+import org.dolphinemu.dolphinemu.utils.PicassoUtils;
 
 import java.io.File;
 
@@ -62,27 +66,41 @@ public class GamePropertiesDialog extends DialogFragment
             platform == Platform.WII.toInt();
     final boolean isWii = platform != Platform.GAMECUBE.toInt();
 
-    AlertDialogItemsBuilder itemsBuilder = new AlertDialogItemsBuilder(requireContext());
+    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(),
+            R.style.DolphinDialogBase);
+    ViewGroup contents = (ViewGroup) getActivity().getLayoutInflater()
+            .inflate(R.layout.dialog_game_properties, null);
 
-    itemsBuilder.add(R.string.properties_details, (dialog, i) ->
+
+    ImageView banner = contents.findViewById(R.id.banner);
+
+
+    Button buttonDetails = contents.findViewById(R.id.properties_details);
+    buttonDetails.setOnClickListener(view ->
             GameDetailsDialog.newInstance(path).show(requireActivity()
                     .getSupportFragmentManager(), "game_details"));
 
-    itemsBuilder.add(R.string.properties_edit_game_settings, (dialog, i) ->
+    Button buttonCustomSettings = contents.findViewById(R.id.custom_settings);
+    buttonCustomSettings.setOnClickListener(view ->
             SettingsActivity.launch(getContext(), MenuTag.CONFIG, gameId, revision, isWii));
 
-    itemsBuilder.add(R.string.cheat_code, (dialog, i) ->
+    Button buttonCheats = contents.findViewById(R.id.button_cheat_code);
+    buttonCheats.setOnClickListener(view ->
             CheatEditorActivity.launch(getContext(), path));
 
+    Button buttonConvert = contents.findViewById(R.id.properties_convert);
+    buttonConvert.setEnabled(false);
     if (shouldAllowConversion)
     {
-      itemsBuilder.add(R.string.properties_convert, (dialog, i) ->
+      buttonConvert.setEnabled(true);
+      buttonConvert.setOnClickListener(view ->
               ConvertActivity.launch(getContext(), path));
     }
 
-    if (isDisc)
+/*  if (isDisc)
     {
-      itemsBuilder.add(R.string.properties_set_default_iso, (dialog, i) ->
+      Button buttonDefaultISO = contents.findViewById(R.id.properties_default_iso);
+      buttonDefaultISO.setOnClickListener(view ->
       {
         try (Settings settings = new Settings())
         {
@@ -91,25 +109,31 @@ public class GamePropertiesDialog extends DialogFragment
           settings.saveSettings(null, getContext());
         }
       });
-    }
+    }*/
 
-    itemsBuilder.add(R.string.properties_gc_controller, (dialog, i) ->
+    Button buttonGCControls = contents.findViewById(R.id.button_gcpad_settings);
+    buttonGCControls.setOnClickListener(view ->
             SettingsActivity.launch(getContext(), MenuTag.GCPAD_TYPE, gameId, revision, isWii));
 
+    Button buttonWiiControls = contents.findViewById(R.id.button_wiimote_settings);
     if (isWii)
     {
-      itemsBuilder.add(R.string.properties_wii_controller, (dialog, i) ->
+      buttonWiiControls.setOnClickListener(view ->
               SettingsActivity.launch(getActivity(), MenuTag.WIIMOTE, gameId, revision, isWii));
     }
+    else
+    {
+      buttonWiiControls.setEnabled(false);
+    }
 
-    itemsBuilder.add(R.string.properties_clear_game_settings, (dialog, i) ->
+
+    Button buttonClearSettings = contents.findViewById(R.id.properties_clear_settings);
+    buttonClearSettings.setOnClickListener(view ->
             clearGameSettings(gameId));
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(),
-            R.style.DolphinDialogBase);
-    itemsBuilder.applyToBuilder(builder);
-    builder.setTitle(requireContext()
-            .getString(R.string.preferences_game_properties) + ": " + gameId);
+    PicassoUtils.loadGameBanner(banner, GameFile.parse(path));
+
+    builder.setView(contents);
     return builder.create();
   }
 

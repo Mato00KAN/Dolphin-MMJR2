@@ -146,7 +146,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/button_gradient"
-                    android:foreground="?android:attr/selectableItemBackground"
                     android:stateListAnimator="@null"
                     android:text="@string/button_download"
                     android:textColor="#ffffff"
@@ -169,8 +168,7 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#00000000"
-                android:foreground="?android:attr/selectableItemBackground"
+                android:background="?android:attr/selectableItemBackground"
                 android:stateListAnimator="@null"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider_2" />

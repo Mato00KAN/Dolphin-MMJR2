@@ -3,11 +3,17 @@
     <item android:state_activated="true">
         <shape>
             <solid android:color="@android:color/transparent"/>
-            <corners android:radius="4dp" />
+            <corners android:radius="6dp" />
         </shape>
     </item>
     <item android:state_enabled="false">
-        <layer-list>
+        <shape>
+            <solid android:color="@color/tv_card_unselected"/>
+            <corners android:radius="6dp" />
+        </shape>
+    </item>
+    <item>
+        <ripple android:color="@color/ripple_white">
             <item>
                 <shape>
                     <gradient
@@ -16,23 +22,10 @@
                         android:startColor="@color/dolphin_blue"
                         android:centerX="40%"
                         android:endColor="@color/dolphin_blue_dark" />
-                    <corners android:radius="4dp" />
+                    <corners android:radius="6dp" />
                 </shape>
             </item>
-            <item android:drawable="@drawable/ic_baseline_check"
-                android:gravity="center">
-            </item>
-        </layer-list>
-    </item>
-    <item>
-        <shape>
-            <gradient
-                android:angle="45"
-                android:type="linear"
-                android:startColor="@color/dolphin_blue"
-                android:centerX="40%"
-                android:endColor="@color/dolphin_blue_dark" />
-            <corners android:radius="4dp" />
-        </shape>
+        </ripple>
+
     </item>
 </selector>
