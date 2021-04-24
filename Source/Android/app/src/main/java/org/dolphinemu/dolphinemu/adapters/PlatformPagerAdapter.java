@@ -25,6 +25,7 @@ public class PlatformPagerAdapter extends FragmentPagerAdapter
           {
                   R.drawable.ic_gamecube,
                   R.drawable.ic_wii,
+                  R.drawable.wiiware,
           };
 
   public PlatformPagerAdapter(FragmentManager fm, Context context,
@@ -47,10 +48,7 @@ public class PlatformPagerAdapter extends FragmentPagerAdapter
   }
 
   @Override
-  public int getCount()
-  {
-    return TAB_ICONS.length;
-  }
+  public int getCount() {return TAB_ICONS.length;}
 
   @Override
   public CharSequence getPageTitle(int position)
