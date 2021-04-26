@@ -875,6 +875,8 @@ public final class SettingsFragmentPresenter
       sl.add(new RumbleBindingSetting(Settings.FILE_DOLPHIN, Settings.SECTION_BINDINGS,
               SettingsFile.KEY_EMU_RUMBLE + gcPadNumber, R.string.emulation_control_rumble,
               mGameID));
+
+      addHotkeyBindingSettings(sl);
     }
     else // Adapter
     {
@@ -1002,6 +1004,8 @@ public final class SettingsFragmentPresenter
     sl.add(new RumbleBindingSetting(Settings.FILE_DOLPHIN, Settings.SECTION_BINDINGS,
             SettingsFile.KEY_EMU_RUMBLE + wiimoteNumber, R.string.emulation_control_rumble,
             mGameID));
+
+    addHotkeyBindingSettings(sl);
   }
 
   private void addExtensionTypeSettings(ArrayList<SettingsItem> sl, int wiimoteNumber,
@@ -1324,6 +1328,15 @@ public final class SettingsFragmentPresenter
                 R.string.generic_right, mGameID));
         break;
     }
+  }
+
+  private void addHotkeyBindingSettings(ArrayList<SettingsItem> sl) {
+    // MMJR: Hotkey settings
+    sl.add(new HeaderSetting(R.string.hotkey, 0));
+    sl.add(new InputBindingSetting(Settings.FILE_DOLPHIN, Settings.SECTION_BINDINGS,
+      SettingsFile.KEY_HOTKEY_EFB_ACCESS, R.string.skip_efb_access, mGameID));
+    sl.add(new InputBindingSetting(Settings.FILE_DOLPHIN, Settings.SECTION_BINDINGS,
+      SettingsFile.KEY_HOTKEY_EFB_COPIES, R.string.efb_copy_method, mGameID));
   }
 
   private static int getLogVerbosityEntries()

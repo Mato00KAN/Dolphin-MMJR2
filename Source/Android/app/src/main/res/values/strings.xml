@@ -46,6 +46,7 @@
     <string name="wiimote_swing">Swing</string>
     <string name="wiimote_tilt">Tilt</string>
     <string name="wiimote_shake">Shake</string>
+    <string name="hotkey">Hotkey</string>
 
     <string name="input_binding">Input Binding</string>
     <string name="input_binding_description">Press or move an input to bind it to %1$s.</string>

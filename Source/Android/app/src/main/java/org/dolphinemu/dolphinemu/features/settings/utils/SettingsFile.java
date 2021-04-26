@@ -49,6 +49,10 @@ public final class SettingsFile
 
   public static final String KEY_EMU_RUMBLE = "EmuRumble";
 
+  // MMJR: Hotkey bindings
+  public static final String KEY_HOTKEY_EFB_ACCESS = "HotkeyEfbAccess";
+  public static final String KEY_HOTKEY_EFB_COPIES = "HotkeyEfbCopies";
+
   public static final String KEY_WIIMOTE_TYPE = "Source";
   public static final String KEY_WIIMOTE_EXTENSION = "Extension";
 
