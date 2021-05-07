@@ -30,7 +30,6 @@
         android:padding="@dimen/spacing_small"
         android:background="@drawable/button_gradient"
         android:textColor="@android:color/white"
-        android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/emulation_done"
         android:visibility="gone"/>
 
