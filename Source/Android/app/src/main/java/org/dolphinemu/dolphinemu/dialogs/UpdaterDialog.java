@@ -35,17 +35,15 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
                                                                    LoadCallback<UpdaterData>,
                                                                    DownloadCallback
 {
-  private static final String DATA = "data";
+  private static final String DATA = "updaterData";
 
   private ViewGroup mViewGroup;
-  private Button mButton;
-  private ProgressBar mLoading;
-  private ProgressBar mProgressBar;
-  private Button mButtonChangelog;
-  private ProgressBar mLoadingChangelog;
-  private TextView mTextChangelog;
-  private View mChangelog;
-  private ImageView mArrow;
+  private View updaterBody;
+  private Button downloadButton, changelogButton;
+  private ProgressBar loadingBar, downloadProgressBar, changelogProgressBar;
+  private TextView errorText, downloadText, changelogBody, changelogErrorText;
+  private ImageView changelogArrow;
+
   private UpdaterData mData;
   private DownloadUtils mDownload;
 
@@ -81,14 +79,17 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
     TextView textInstalled = mViewGroup.findViewById(R.id.text_installed_version);
     textInstalled.setText(getString(R.string.installed_version, mBuildVersion));
 
-    mLoading = mViewGroup.findViewById(R.id.updater_loading);
-    mButton = mViewGroup.findViewById(R.id.button_download);
-    mProgressBar = mViewGroup.findViewById(R.id.progressbar_download);
-    mButtonChangelog = mViewGroup.findViewById(R.id.button_view_changelog);
-    mTextChangelog = mViewGroup.findViewById(R.id.changelog_text);
-    mLoadingChangelog = mViewGroup.findViewById(R.id.changelog_loading);
-    mChangelog = mViewGroup.findViewById(R.id.changelog_body);
-    mArrow = mViewGroup.findViewById(R.id.changelog_arrow);
+    loadingBar = mViewGroup.findViewById(R.id.updater_loading);
+    updaterBody = mViewGroup.findViewById(R.id.updater_body);
+    errorText = mViewGroup.findViewById(R.id.updater_error);
+    downloadButton = mViewGroup.findViewById(R.id.button_download);
+    downloadText = mViewGroup.findViewById(R.id.text_version);
+    downloadProgressBar = mViewGroup.findViewById(R.id.progressbar_download);
+    changelogButton = mViewGroup.findViewById(R.id.button_view_changelog);
+    changelogProgressBar = mViewGroup.findViewById(R.id.changelog_loading);
+    changelogBody = mViewGroup.findViewById(R.id.changelog_text);
+    changelogErrorText = mViewGroup.findViewById(R.id.changelog_error);
+    changelogArrow = mViewGroup.findViewById(R.id.changelog_arrow);
 
     if (getArguments() != null) // Assuming valid data is passed!
     {
@@ -120,31 +121,27 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   {
     mData = data;
 
-    TextView textLatest = mViewGroup.findViewById(R.id.text_version);
-    textLatest.setText(getString(R.string.version_description, mData.getVersion()));
-
-    mButton.setOnClickListener(this);
-    mButtonChangelog.setOnClickListener(this);
+    downloadText.setText(getString(R.string.version_description, mData.version));
+    downloadButton.setOnClickListener(this);
+    changelogButton.setOnClickListener(this);
 
     setUpdaterMessage();
 
-    View updaterBody = mViewGroup.findViewById(R.id.updater_body);
-    mLoading.setVisibility(View.GONE);
+    loadingBar.setVisibility(View.GONE);
     updaterBody.setVisibility(View.VISIBLE);
   }
 
   @Override
   public void onLoadError()
   {
-    TextView textError = mViewGroup.findViewById(R.id.updater_error);
-    mLoading.setVisibility(View.GONE);
-    textError.setVisibility(View.VISIBLE);
+    loadingBar.setVisibility(View.GONE);
+    errorText.setVisibility(View.VISIBLE);
   }
 
   @Override
   public void onClick(View view)
   {
-    if (view == mButton)
+    if (view == downloadButton)
     {
       if (mDownload.isRunning())
       {
@@ -152,12 +149,11 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
       }
       else
       {
-        String url = mData.getDownloadUrl();
-        mDownload.setUrl(url);
+        mDownload.setUrl(mData.downloadUrl);
         mDownload.start();
       }
     }
-    else if (view == mButtonChangelog)
+    else if (view == changelogButton)
     {
       handleChangelog();
     }
@@ -166,21 +162,21 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   @Override
   public void onDownloadStart()
   {
-    mProgressBar.setProgress(0);
-    mButton.setActivated(true);
-    mButton.setText(R.string.cancel);
+    downloadProgressBar.setProgress(0);
+    downloadButton.setActivated(true);
+    downloadButton.setText(R.string.cancel);
   }
 
   @Override
   public void onDownloadProgress(int progress)
   {
-    mProgressBar.setProgress(progress);
+    downloadProgressBar.setProgress(progress);
   }
 
   @Override
   public void onDownloadComplete(File downloadFile)
   {
-    mButton.setText(R.string.button_install);
+    downloadButton.setText(R.string.button_install);
     onDownloadStop();
 
     Uri fileUri = FileProvider.getUriForFile(getContext(),
@@ -196,26 +192,26 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   @Override
   public void onDownloadCancelled()
   {
-    mButton.setText(R.string.button_download);
+    downloadButton.setText(R.string.button_download);
     onDownloadStop();
   }
 
   @Override
   public void onDownloadError()
   {
-    mButton.setText(R.string.error);
+    downloadButton.setText(R.string.error);
     onDownloadStop();
   }
 
   private void onDownloadStop()
   {
-    mButton.setActivated(false);
+    downloadButton.setActivated(false);
   }
 
   private void setUpdaterMessage()
   {
     TextView updaterMessage = mViewGroup.findViewById(R.id.text_updater_message);
-    if (mBuildVersion >= mData.getVersion())
+    if (mBuildVersion >= mData.version)
     {
       updaterMessage.setText(R.string.updater_uptodate);
       updaterMessage.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
@@ -231,7 +227,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   {
     if (!isChangelogOpen)
     {
-      mLoadingChangelog.setVisibility(View.VISIBLE);
+      changelogProgressBar.setVisibility(View.VISIBLE);
 
       UpdaterUtils.makeChangelogRequest(getString(R.string.changelog_section),
         new LoadCallback<String>()
@@ -239,28 +235,27 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
           @Override
           public void onLoad(String data)
           {
-            new Handler().postDelayed(() -> mLoadingChangelog.setVisibility(View.GONE), 200);
-            mTextChangelog.setText(data);
-            mArrow.startAnimation(rotateDown);
-            mChangelog.setVisibility(View.VISIBLE);
+            changelogProgressBar.setVisibility(View.GONE);
+            changelogBody.setText(data);
+            changelogArrow.startAnimation(rotateDown);
+            changelogBody.setVisibility(View.VISIBLE);
             isChangelogOpen = true;
           }
 
           @Override
           public void onLoadError()
           {
-            TextView textError = mViewGroup.findViewById(R.id.changelog_error);
-            mLoadingChangelog.setVisibility(View.GONE);
-            textError.setVisibility(View.VISIBLE);
-            new Handler().postDelayed(() -> opacityOut(textError, View.INVISIBLE), 1500);
+            changelogProgressBar.setVisibility(View.GONE);
+            changelogErrorText.setVisibility(View.VISIBLE);
+            new Handler().postDelayed(() -> opacityOut(changelogErrorText, View.INVISIBLE), 1750);
           }
         });
     }
     else
     {
       isChangelogOpen = false;
-      mArrow.startAnimation(rotateUp);
-      mChangelog.setVisibility(View.GONE);
+      changelogArrow.startAnimation(rotateUp);
+      changelogBody.setVisibility(View.GONE);
     }
   }
 

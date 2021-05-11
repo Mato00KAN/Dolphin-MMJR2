@@ -84,7 +84,7 @@ public class DownloadUtils implements Runnable
       urlConnection.connect();
       if (mHandler != null) mHandler.post(() -> mListener.onDownloadStart());
 
-      String filename = "download.apk";
+      String filename = "download";
       String fieldContentDisp = urlConnection.getHeaderField("Content-Disposition");
       if (fieldContentDisp != null && fieldContentDisp.contains("filename=")) {
         filename = fieldContentDisp.substring(fieldContentDisp.indexOf("filename=") + 9);

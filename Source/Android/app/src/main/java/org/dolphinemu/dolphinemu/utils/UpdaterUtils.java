@@ -24,7 +24,7 @@ import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 public class UpdaterUtils
 {
   public static final String URL = "https://api.github.com/repos/Bankaimaster999/Dolphin-MMJR/releases";
-  public static final String URL_LATEST = "https://api.github.com/repos/Bankaimaster999/Dolphin-MMJR/releases/latest";
+  public static final String LATEST = "/latest";
 
   public static void openUpdaterWindow(Context context, UpdaterData data)
   {
@@ -58,8 +58,8 @@ public class UpdaterUtils
       @Override
       public void onLoad(UpdaterData data)
       {
-        if (IntSetting.CHECK_UPDATES_SKIPPED.getIntGlobal() != data.getVersion() &&
-            getBuildVersion() < data.getVersion())
+        if (IntSetting.CHECK_UPDATES_SKIPPED.getIntGlobal() != data.version &&
+            getBuildVersion() < data.version)
         {
           showUpdateMessage(context, data);
         }
@@ -78,7 +78,7 @@ public class UpdaterUtils
       .setPositiveButton(R.string.yes, (dialogInterface, i) ->
         openUpdaterWindow(context, data))
       .setNegativeButton(R.string.skip_version, (dialogInterface, i) ->
-        setSkipVersion(data.getVersion()))
+        setSkipVersion(data.version))
       .setNeutralButton(R.string.not_now,
         ((dialogInterface, i) -> dialogInterface.dismiss()))
       .show();
@@ -126,7 +126,7 @@ public class UpdaterUtils
 
   public static void makeDataRequest(LoadCallback<UpdaterData> listener)
   {
-    JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, URL_LATEST, null,
+    JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, URL + LATEST, null,
       response ->
       {
         try

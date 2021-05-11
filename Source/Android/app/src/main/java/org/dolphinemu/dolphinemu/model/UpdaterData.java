@@ -7,23 +7,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class UpdaterData implements Parcelable {
-  private final int version;
-  private final String downloadUrl;
+  public final int version;
+  public final String downloadUrl;
 
   public UpdaterData(JSONObject data) throws JSONException
   {
     version = data.getInt("tag_name");
     downloadUrl = data.getJSONArray("assets").getJSONObject(0).getString("browser_download_url");
-  }
-
-  public int getVersion()
-  {
-    return version;
-  }
-
-  public String getDownloadUrl()
-  {
-    return downloadUrl;
   }
 
   protected UpdaterData(Parcel in) {
