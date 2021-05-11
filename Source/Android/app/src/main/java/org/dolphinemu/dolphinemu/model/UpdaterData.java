@@ -6,37 +6,42 @@ import org.json.JSONObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.dolphinemu.dolphinemu.utils.VersionCode;
+
 public class UpdaterData implements Parcelable {
-  public final int version;
+  public final VersionCode version;
   public final String downloadUrl;
 
-  public UpdaterData(JSONObject data) throws JSONException
+  public UpdaterData(JSONObject data) throws JSONException, IllegalArgumentException
   {
-    version = data.getInt("tag_name");
-    downloadUrl = data.getJSONArray("assets").getJSONObject(0).getString("browser_download_url");
+    this.version = VersionCode.create(data.getString("tag_name"));
+    this.downloadUrl = data.getJSONArray("assets").getJSONObject(0).getString("browser_download_url");
   }
 
-  protected UpdaterData(Parcel in) {
-    version = in.readInt();
-    downloadUrl = in.readString();
+  protected UpdaterData(Parcel in)
+  {
+    this.version = in.readParcelable(VersionCode.class.getClassLoader());
+    this.downloadUrl = in.readString();
   }
 
   @Override
-  public int describeContents() {
+  public int describeContents()
+  {
     return 0;
   }
 
   @Override
-  public void writeToParcel(Parcel dest, int flags) {
-    dest.writeInt(version);
-    dest.writeString(downloadUrl);
+  public void writeToParcel(Parcel dest, int flags)
+  {
+    dest.writeParcelable(this.version, flags);
+    dest.writeString(this.downloadUrl);
   }
 
-  @SuppressWarnings("unused")
-  public static final Parcelable.Creator<UpdaterData> CREATOR = new Parcelable.Creator<UpdaterData>() {
+  public static final Creator<UpdaterData> CREATOR = new Creator<UpdaterData>()
+  {
     @Override
-    public UpdaterData createFromParcel(Parcel in) {
-      return new UpdaterData(in);
+    public UpdaterData createFromParcel(Parcel source) {
+      return new UpdaterData(source);
     }
 
     @Override

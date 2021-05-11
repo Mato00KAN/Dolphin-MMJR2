@@ -22,7 +22,9 @@ public enum StringSetting implements AbstractStringSetting
   MAIN_SD_PATH(Settings.FILE_DOLPHIN, Settings.SECTION_INI_GENERAL, "WiiSDCardPath", ""),
 
   GFX_ENHANCE_POST_SHADER(Settings.FILE_GFX, Settings.SECTION_GFX_ENHANCEMENTS,
-          "PostProcessingShader", "");
+          "PostProcessingShader", ""),
+
+  UPDATER_SKIPPED_VERSION(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID, "SkippedVersion", "");
 
   private static final StringSetting[] NOT_RUNTIME_EDITABLE_ARRAY = new StringSetting[]{
           MAIN_GFX_BACKEND,

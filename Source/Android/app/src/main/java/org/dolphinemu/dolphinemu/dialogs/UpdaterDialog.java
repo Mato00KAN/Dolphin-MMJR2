@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -30,6 +31,7 @@ import org.dolphinemu.dolphinemu.utils.DownloadCallback;
 import org.dolphinemu.dolphinemu.utils.DownloadUtils;
 import org.dolphinemu.dolphinemu.utils.LoadCallback;
 import org.dolphinemu.dolphinemu.utils.UpdaterUtils;
+import org.dolphinemu.dolphinemu.utils.VersionCode;
 
 public final class UpdaterDialog extends DialogFragment implements View.OnClickListener,
                                                                    LoadCallback<UpdaterData>,
@@ -50,7 +52,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   private Animation rotateDown;
   private Animation rotateUp;
 
-  private final int mBuildVersion = UpdaterUtils.getBuildVersion();
+  private final VersionCode mBuildVersion = UpdaterUtils.getBuildVersion();
   private boolean isChangelogOpen = false;
 
   public static UpdaterDialog newInstance(UpdaterData data)
@@ -121,7 +123,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   {
     mData = data;
 
-    downloadText.setText(getString(R.string.version_description, mData.version));
+    downloadText.setText(getString(R.string.version_description, mData.version.toString()));
     downloadButton.setOnClickListener(this);
     changelogButton.setOnClickListener(this);
 
@@ -211,7 +213,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
   private void setUpdaterMessage()
   {
     TextView updaterMessage = mViewGroup.findViewById(R.id.text_updater_message);
-    if (mBuildVersion >= mData.version)
+    if (mBuildVersion.compareTo(mData.version) >= 0)
     {
       updaterMessage.setText(R.string.updater_uptodate);
       updaterMessage.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
@@ -237,6 +239,7 @@ public final class UpdaterDialog extends DialogFragment implements View.OnClickL
           {
             changelogProgressBar.setVisibility(View.GONE);
             changelogBody.setText(data);
+            changelogBody.setMovementMethod(new ScrollingMovementMethod());
             changelogArrow.startAnimation(rotateDown);
             changelogBody.setVisibility(View.VISIBLE);
             isChangelogOpen = true;

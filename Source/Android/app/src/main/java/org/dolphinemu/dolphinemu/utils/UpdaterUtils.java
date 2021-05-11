@@ -2,6 +2,7 @@ package org.dolphinemu.dolphinemu.utils;
 
 import java.io.File;
 
+import android.util.Log;
 import android.content.Context;
 import android.os.Environment;
 
@@ -18,7 +19,7 @@ import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.model.UpdaterData;
 import org.dolphinemu.dolphinemu.dialogs.UpdaterDialog;
 import org.dolphinemu.dolphinemu.features.settings.model.BooleanSetting;
-import org.dolphinemu.dolphinemu.features.settings.model.IntSetting;
+import org.dolphinemu.dolphinemu.features.settings.model.StringSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 
 public class UpdaterUtils
@@ -39,12 +40,12 @@ public class UpdaterUtils
     {
       cleanDownloadFolder(context);
 
-      if (!BooleanSetting.CHECK_UPDATES_PERMISSION_ASKED.getBooleanGlobal())
+      if (!BooleanSetting.UPDATER_PERMISSION_ASKED.getBooleanGlobal())
       {
         showPermissionDialog(context);
       }
 
-      if (BooleanSetting.CHECK_UPDATES.getBooleanGlobal())
+      if (BooleanSetting.UPDATER_CHECK_AT_STARTUP.getBooleanGlobal())
       {
         checkUpdates(context);
       }
@@ -58,8 +59,9 @@ public class UpdaterUtils
       @Override
       public void onLoad(UpdaterData data)
       {
-        if (IntSetting.CHECK_UPDATES_SKIPPED.getIntGlobal() != data.version &&
-            getBuildVersion() < data.version)
+        VersionCode version = getBuildVersion();
+        if (!StringSetting.UPDATER_SKIPPED_VERSION.getStringGlobal().equals(data.version.toString()) &&
+             version.compareTo(data.version) < 0)
         {
           showUpdateMessage(context, data);
         }
@@ -78,7 +80,7 @@ public class UpdaterUtils
       .setPositiveButton(R.string.yes, (dialogInterface, i) ->
         openUpdaterWindow(context, data))
       .setNegativeButton(R.string.skip_version, (dialogInterface, i) ->
-        setSkipVersion(data.version))
+        setSkipVersion(data.version.toString()))
       .setNeutralButton(R.string.not_now,
         ((dialogInterface, i) -> dialogInterface.dismiss()))
       .show();
@@ -87,8 +89,8 @@ public class UpdaterUtils
   private static void showPermissionDialog(Context context)
   {
     new AlertDialog.Builder(context, R.style.DolphinDialogBase)
-      .setTitle(context.getString(R.string.check_updates))
-      .setMessage(context.getString(R.string.check_updates_description))
+      .setTitle(context.getString(R.string.updater_check_startup))
+      .setMessage(context.getString(R.string.updater_check_startup_description))
       .setPositiveButton(R.string.yes, (dialogInterface, i) ->
         setPrefs(true))
       .setNegativeButton(R.string.no, (dialogInterface, i) ->
@@ -103,21 +105,21 @@ public class UpdaterUtils
     {
       settings.loadSettings();
 
-      BooleanSetting.CHECK_UPDATES.setBoolean(settings, enabled);
-      BooleanSetting.CHECK_UPDATES_PERMISSION_ASKED.setBoolean(settings, true);
+      BooleanSetting.UPDATER_CHECK_AT_STARTUP.setBoolean(settings, enabled);
+      BooleanSetting.UPDATER_PERMISSION_ASKED.setBoolean(settings, true);
 
       // Context is set to null to avoid toasts
       settings.saveSettings(null, null);
     }
   }
 
-  private static void setSkipVersion(int version)
+  private static void setSkipVersion(String version)
   {
     try (Settings settings = new Settings())
     {
       settings.loadSettings();
 
-      IntSetting.CHECK_UPDATES_SKIPPED.setInt(settings, version);
+      StringSetting.UPDATER_SKIPPED_VERSION.setString(settings, version);
 
       // Context is set to null to avoid toasts
       settings.saveSettings(null, null);
@@ -136,7 +138,7 @@ public class UpdaterUtils
         }
         catch (Exception e)
         {
-          Log.error(e.getMessage());
+          Log.e(UpdaterUtils.class.getSimpleName(), e.toString());
           listener.onLoadError();
         }
       },
@@ -156,16 +158,16 @@ public class UpdaterUtils
           for (int i = 0; i < response.length(); i++)
           {
             changelog.append(String.format(format,
-                    response.getJSONObject(i).getInt("tag_name"),
+                    response.getJSONObject(i).getString("tag_name"),
                     response.getJSONObject(i).getString("published_at").substring(0, 10),
                     response.getJSONObject(i).getString("body")));
           }
-          changelog.setLength(Math.max(changelog.length() - 1, 0));
+          changelog.setLength(Math.max(changelog.length() - 2, 0));
           listener.onLoad(changelog.toString());
         }
         catch (Exception e)
         {
-          Log.error(e.getMessage());
+          Log.e(UpdaterUtils.class.getSimpleName(), e.toString());
           listener.onLoadError();
         }
       },
@@ -175,9 +177,12 @@ public class UpdaterUtils
 
   public static void cleanDownloadFolder(Context context)
   {
-    File downloadFolder = getDownloadFolder(context);
-    for (File file : downloadFolder.listFiles())
-      file.delete();
+    File[] files = getDownloadFolder(context).listFiles();
+    if (files != null)
+    {
+      for (File file : files)
+        file.delete();
+    }
   }
 
   public static File getDownloadFolder(Context context)
@@ -185,16 +190,11 @@ public class UpdaterUtils
     return context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
   }
 
-  public static int getBuildVersion()
+  /**
+   * This function must never fail, versionName scheme in build.gradle must be correct!
+   */
+  public static VersionCode getBuildVersion()
   {
-    try
-    {
-      return BuildConfig.VERSION_CODE;
-    }
-    catch (Exception e)
-    {
-      Log.error(e.getMessage());
-      return -1;
-    }
+    return VersionCode.create(BuildConfig.VERSION_NAME);
   }
 }

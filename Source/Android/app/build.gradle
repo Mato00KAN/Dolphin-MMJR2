@@ -30,9 +30,9 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
 
-        versionCode 14007
+        versionCode 2
 
-        versionName "14007"
+        versionName "2.0-14007"
     }
 
     signingConfigs {
@@ -130,16 +130,4 @@ def getBuildVersionCode() {
     }
 
     return 1;
-}
-
-def getBranchName() {
-    try {
-        def branchName = 'git branch --show-current'.execute([], project.rootDir).text
-            .trim()
-        return String.valueOf(branchName);
-    } catch (Exception e) {
-        logger.error('Cannot find git, defaulting to dummy version number')
-    }
-
-    return "";
 }
