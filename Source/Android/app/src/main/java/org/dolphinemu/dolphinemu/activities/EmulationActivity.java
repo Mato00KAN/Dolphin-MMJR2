@@ -774,7 +774,7 @@ public final class EmulationActivity extends AppCompatActivity
     builder.setTitle(R.string.emulation_toggle_controls);
     if (!NativeLibrary.IsEmulatingWii() || mPreferences.getInt("wiiController", 3) == 0)
     {
-      boolean[] gcEnabledButtons = new boolean[11];
+      boolean[] gcEnabledButtons = new boolean[13];
       String gcSettingBase = "MAIN_BUTTON_TOGGLE_GC_";
 
       for (int i = 0; i < gcEnabledButtons.length; i++)

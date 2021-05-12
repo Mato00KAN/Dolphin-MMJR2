@@ -22,6 +22,10 @@
     <integer name="TRIGGER_L_Y">330</integer>
     <integer name="TRIGGER_R_X">845</integer>
     <integer name="TRIGGER_R_Y">133</integer>
+    <integer name="TRIGGER_L_ANALOG_X">13</integer>
+    <integer name="TRIGGER_L_ANALOG_Y">200</integer>
+    <integer name="TRIGGER_R_ANALOG_X">845</integer>
+    <integer name="TRIGGER_R_ANALOG_Y">3</integer>
     <integer name="BUTTON_START_X">506</integer>
     <integer name="BUTTON_START_Y">818</integer>
     <integer name="STICK_C_X">686</integer>
@@ -46,6 +50,10 @@
     <integer name="TRIGGER_L_PORTRAIT_Y">582</integer>
     <integer name="TRIGGER_R_PORTRAIT_X">739</integer>
     <integer name="TRIGGER_R_PORTRAIT_Y">629</integer>
+    <integer name="TRIGGER_L_ANALOG_PORTRAIT_X">130</integer>
+    <integer name="TRIGGER_L_ANALOG_PORTRAIT_Y">677</integer>
+    <integer name="TRIGGER_R_ANALOG_PORTRAIT_X">620</integer>
+    <integer name="TRIGGER_R_ANALOG_PORTRAIT_Y">705</integer>
     <integer name="BUTTON_START_PORTRAIT_X">472</integer>
     <integer name="BUTTON_START_PORTRAIT_Y">789</integer>
     <integer name="STICK_C_PORTRAIT_X">622</integer>

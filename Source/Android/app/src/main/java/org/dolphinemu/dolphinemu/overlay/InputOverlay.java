@@ -639,6 +639,15 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
       overlayJoysticks.add(initializeOverlayJoystick(getContext(), R.drawable.gcwii_joystick_range,
               R.drawable.gcpad_c, R.drawable.gcpad_c_pressed, ButtonType.STICK_C, orientation));
     }
+    if (BooleanSetting.MAIN_BUTTON_TOGGLE_GC_11.getBooleanGlobal())
+    {
+      overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.classic_l,
+              R.drawable.classic_l_pressed, ButtonType.TRIGGER_L_ANALOG, orientation));
+    }
+    if (BooleanSetting.MAIN_BUTTON_TOGGLE_GC_12.getBooleanGlobal()) {
+      overlayButtons.add(initializeOverlayButton(getContext(), R.drawable.classic_r,
+              R.drawable.classic_r_pressed, ButtonType.TRIGGER_R_ANALOG, orientation));
+    }
   }
 
   private void addWiimoteOverlayControls(String orientation)
@@ -1020,6 +1029,8 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
         break;
       case ButtonType.BUTTON_X:
       case ButtonType.BUTTON_Y:
+      case ButtonType.TRIGGER_L_ANALOG:
+      case ButtonType.TRIGGER_R_ANALOG:
         scale = 0.175f;
         break;
       case ButtonType.BUTTON_Z:
@@ -1412,6 +1423,14 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             (((float) res.getInteger(R.integer.TRIGGER_R_X) / 1000) * maxX));
     sPrefsEditor.putFloat(ButtonType.TRIGGER_R + "-Y",
             (((float) res.getInteger(R.integer.TRIGGER_R_Y) / 1000) * maxY));
+    sPrefsEditor.putFloat(ButtonType.TRIGGER_L_ANALOG + "-X",
+            (((float) res.getInteger(R.integer.TRIGGER_L_ANALOG_X) / 1000) * maxX));
+    sPrefsEditor.putFloat(ButtonType.TRIGGER_L_ANALOG + "-Y",
+            (((float) res.getInteger(R.integer.TRIGGER_L_ANALOG_Y) / 1000) * maxY));
+    sPrefsEditor.putFloat(ButtonType.TRIGGER_R_ANALOG + "-X",
+            (((float) res.getInteger(R.integer.TRIGGER_R_ANALOG_X) / 1000) * maxX));
+    sPrefsEditor.putFloat(ButtonType.TRIGGER_R_ANALOG + "-Y",
+            (((float) res.getInteger(R.integer.TRIGGER_R_ANALOG_Y) / 1000) * maxY));
     sPrefsEditor.putFloat(ButtonType.BUTTON_START + "-X",
             (((float) res.getInteger(R.integer.BUTTON_START_X) / 1000) * maxX));
     sPrefsEditor.putFloat(ButtonType.BUTTON_START + "-Y",
@@ -1487,6 +1506,14 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
             (((float) res.getInteger(R.integer.TRIGGER_R_PORTRAIT_X) / 1000) * maxX));
     sPrefsEditor.putFloat(ButtonType.TRIGGER_R + portrait + "-Y",
             (((float) res.getInteger(R.integer.TRIGGER_R_PORTRAIT_Y) / 1000) * maxY));
+    sPrefsEditor.putFloat(ButtonType.TRIGGER_L_ANALOG + portrait + "-X",
+            (((float) res.getInteger(R.integer.TRIGGER_L_ANALOG_PORTRAIT_X) / 1000) * maxX));
+    sPrefsEditor.putFloat(ButtonType.TRIGGER_L_ANALOG + portrait + "-Y",
+            (((float) res.getInteger(R.integer.TRIGGER_L_ANALOG_PORTRAIT_Y) / 1000) * maxY));
+    sPrefsEditor.putFloat(ButtonType.TRIGGER_R_ANALOG + portrait + "-X",
+            (((float) res.getInteger(R.integer.TRIGGER_R_ANALOG_PORTRAIT_X) / 1000) * maxX));
+    sPrefsEditor.putFloat(ButtonType.TRIGGER_R_ANALOG + portrait + "-Y",
+            (((float) res.getInteger(R.integer.TRIGGER_R_ANALOG_PORTRAIT_Y) / 1000) * maxY));
     sPrefsEditor.putFloat(ButtonType.BUTTON_START + portrait + "-X",
             (((float) res.getInteger(R.integer.BUTTON_START_PORTRAIT_X) / 1000) * maxX));
     sPrefsEditor.putFloat(ButtonType.BUTTON_START + portrait + "-Y",
