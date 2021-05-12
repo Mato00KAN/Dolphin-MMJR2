@@ -1,9 +1,10 @@
-# Dolphin MMJR [2020/2021- REVAMP] 
-[Using dolphin-emu as a base and Updating it with MMJ/MMJR performance tweaks]
+# Dolphin MMJR
+An Android-only performance-focused dolphin fork, rebased on top of latest dolphin development builds and reimplementing MMJ UX and performance improvements, plus adding our own.
 
-[Visit their links below to support their work and see the original dolphin builds]
+Grab the latest build in the [releases](https://github.com/Bankaimaster999/Dolphin-MMJR/releases) section, or check for new version in the in-app updater.
 
-[Dolphin MMJR - A performance focused variant of Dolphin]
+This fork wouldn't be possible without the crazy amount of work that developers much more skilled than us put into Dolphin.
+## Dolphin - A GameCube and Wii Emulator
 
 [Homepage](https://dolphin-emu.org/) | [Project Site](https://github.com/dolphin-emu/dolphin) | [Buildbot](https://dolphin.ci) | [Forums](https://forums.dolphin-emu.org/) | [Wiki](https://wiki.dolphin-emu.org/) | [Issue Tracker](https://bugs.dolphin-emu.org/projects/emulator/issues) | [Coding Style](https://github.com/dolphin-emu/dolphin/blob/master/Contributing.md) | [Transifex Page](https://www.transifex.com/projects/p/dolphin-emu/)
 
