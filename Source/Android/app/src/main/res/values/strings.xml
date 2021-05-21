@@ -508,8 +508,9 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="updater_newavailable">New version available</string>
     <string name="button_download">Download</string>
     <string name="button_install">Install</string>
-    <string name="version_description">Version: %1$s</string>
-    <string name="installed_version">Installed version: %1$s</string>
+    <string name="version_description">Latest: %1$s</string>
+    <string name="current_version">Current version: %1$s</string>
+    <string name="download_size">Size: %1$.2f MB</string>
     <string name="button_view_changelog">View changelog</string>
     <string name="changelog_section">Version %1$s\nDate: %2$s\nChanges:\n%3$s\n\n</string>
 

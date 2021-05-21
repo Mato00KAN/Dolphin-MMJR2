@@ -11,17 +11,20 @@ import org.dolphinemu.dolphinemu.utils.VersionCode;
 public class UpdaterData implements Parcelable {
   public final VersionCode version;
   public final String downloadUrl;
+  public final float size;
 
   public UpdaterData(JSONObject data) throws JSONException, IllegalArgumentException
   {
     this.version = VersionCode.create(data.getString("tag_name"));
     this.downloadUrl = data.getJSONArray("assets").getJSONObject(0).getString("browser_download_url");
+    this.size = data.getJSONArray("assets").getJSONObject(0).getInt("size") / 1048576f; // byte count to MegaBytes
   }
 
   protected UpdaterData(Parcel in)
   {
     this.version = in.readParcelable(VersionCode.class.getClassLoader());
     this.downloadUrl = in.readString();
+    this.size = in.readFloat();
   }
 
   @Override
@@ -35,6 +38,7 @@ public class UpdaterData implements Parcelable {
   {
     dest.writeParcelable(this.version, flags);
     dest.writeString(this.downloadUrl);
+    dest.writeFloat(this.size);
   }
 
   public static final Creator<UpdaterData> CREATOR = new Creator<UpdaterData>()
