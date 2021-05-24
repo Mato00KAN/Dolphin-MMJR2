@@ -32,10 +32,6 @@ public enum FloatSetting implements AbstractFloatSetting
   @Override
   public boolean isRuntimeEditable()
   {
-    if (MAIN_OVERCLOCK == this)
-    {
-      return true;
-    }
     return NativeConfig.isSettingSaveable(mFile, mSection, mKey);
   }
 

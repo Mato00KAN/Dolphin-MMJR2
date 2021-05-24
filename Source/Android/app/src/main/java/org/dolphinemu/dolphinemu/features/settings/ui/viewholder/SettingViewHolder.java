@@ -44,11 +44,7 @@ public abstract class SettingViewHolder extends RecyclerView.ViewHolder
     textView.setTypeface(null, overridden ? Typeface.BOLD : Typeface.NORMAL);
 
     if (!settingsItem.isEditable())
-    {
       textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-    } else { // MMJR: workaround for settingsItem getting random strikethrough
-      textView.setPaintFlags(textView.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-    }
   }
 
   protected static void showNotRuntimeEditableError()
