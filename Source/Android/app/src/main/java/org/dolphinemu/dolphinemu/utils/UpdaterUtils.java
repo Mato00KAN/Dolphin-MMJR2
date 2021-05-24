@@ -7,7 +7,7 @@ import android.content.Context;
 import android.os.Environment;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.Request;
@@ -29,7 +29,7 @@ public class UpdaterUtils
 
   public static void openUpdaterWindow(Context context, UpdaterData data)
   {
-    FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
+    FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
     UpdaterDialog updaterDialog = UpdaterDialog.newInstance(data);
     updaterDialog.show(fm, "fragment_updater");
   }
