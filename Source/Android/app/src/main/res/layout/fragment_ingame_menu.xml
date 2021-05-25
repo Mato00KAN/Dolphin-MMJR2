@@ -48,7 +48,7 @@
 
             <Button
                 android:id="@+id/menu_settings"
-                android:text="@string/grid_menu_settings"
+                android:text="@string/emulation_quick_settings"
                 style="@style/InGameMenuOption"/>
 
             <Button
@@ -105,17 +105,17 @@
         android:layout_height="1dp"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="12dp"
-        android:background="#FFFFFF" />
+        android:layout_marginHorizontal="1dp"
+        android:background="@color/divider_dark" />
 
     <Button
         android:id="@+id/menu_exit"
         style="@style/InGameMenuOption"
         android:layout_width="210dp"
         android:layout_gravity="center"
-        android:background="@drawable/button_ingame_menu_exit"
+        android:background="@drawable/button_gradient_shadow"
         android:text="@string/emulation_exit"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
         android:textStyle="bold" />
 
 </LinearLayout>

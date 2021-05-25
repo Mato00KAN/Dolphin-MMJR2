@@ -3,4 +3,5 @@
     <color name="dolphin_background">#000000</color>
     <color name="divider">#4fffffff</color>
     <color name="text">#dcdcdc</color>
+    <color name="dialog_background">#151515</color>
 </resources>
