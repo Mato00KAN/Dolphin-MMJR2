@@ -820,6 +820,16 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     }
   }
 
+  public void refreshHotkeys()
+  {
+    if (!overlayHotkeys.isEmpty())
+    {
+      for (InputOverlayDrawableHotkey hotkey : overlayHotkeys)
+        hotkey.refreshState();
+      invalidate();
+    }
+  }
+
   public void refreshControls()
   {
     // Remove all the overlay buttons from the HashSet.

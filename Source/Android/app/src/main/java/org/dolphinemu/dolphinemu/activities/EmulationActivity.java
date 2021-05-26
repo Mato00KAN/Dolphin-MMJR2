@@ -1313,4 +1313,9 @@ public final class EmulationActivity extends AppCompatActivity
   {
     mEmulationFragment.initInputPointer();
   }
+
+  public void refreshHotkeyOverlay()
+  {
+    mEmulationFragment.refreshHotkeyOverlay();
+  }
 }

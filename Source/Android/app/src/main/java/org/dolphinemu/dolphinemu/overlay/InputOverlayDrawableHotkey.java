@@ -54,10 +54,15 @@ public final class InputOverlayDrawableHotkey
     mPressedStateBitmap = new BitmapDrawable(res, pressedStateBitmap);
     mHotkeyId = hotkeyId;
     mButtonType = buttonType;
-    mEnabledState = NativeLibrary.getHotkeyState(mHotkeyId);
+    refreshState();
 
     mWidth = mDisabledStateBitmap.getIntrinsicWidth();
     mHeight = mDisabledStateBitmap.getIntrinsicHeight();
+  }
+
+  public void refreshState()
+  {
+    mEnabledState = NativeLibrary.getHotkeyState(mHotkeyId);
   }
 
   /**

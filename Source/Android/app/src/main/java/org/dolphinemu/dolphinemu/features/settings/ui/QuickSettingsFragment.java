@@ -124,7 +124,8 @@ public class QuickSettingsFragment extends Fragment implements SettingsFragmentV
   @Override
   public void onSettingChanged()
   {
-
+    if (mActivity != null)
+      mActivity.refreshHotkeyOverlay();
   }
 
   @Override
