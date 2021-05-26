@@ -442,7 +442,7 @@ public final class EmulationActivity extends AppCompatActivity
     setRequestedOrientation(IntSetting.MAIN_EMULATION_ORIENTATION.getInt(mSettings));
   }
 
-  private boolean closeSubmenu()
+  public boolean closeSubmenu()
   {
     return getSupportFragmentManager().popBackStackImmediate(BACKSTACK_NAME_SUBMENU,
             FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -1284,8 +1284,7 @@ public final class EmulationActivity extends AppCompatActivity
   private void showQuickSettings()
   {
     // Get rid of any visible submenu
-    getSupportFragmentManager().popBackStack(
-            BACKSTACK_NAME_SUBMENU, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    closeSubmenu();
 
     Fragment fragment = QuickSettingsFragment.newInstance();
     getSupportFragmentManager().beginTransaction()

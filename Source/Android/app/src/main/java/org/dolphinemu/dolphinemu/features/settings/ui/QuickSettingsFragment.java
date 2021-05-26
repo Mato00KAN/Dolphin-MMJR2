@@ -67,7 +67,10 @@ public class QuickSettingsFragment extends Fragment implements SettingsFragmentV
     super.onViewCreated(view, savedInstanceState);
 
     view.findViewById(R.id.open_settings).setOnClickListener(v ->
-      SettingsActivity.launch(requireActivity(), MenuTag.CONFIG));
+      {
+        SettingsActivity.launch(requireActivity(), MenuTag.CONFIG);
+        mActivity.closeSubmenu();
+      });
 
     RecyclerView recyclerView = view.findViewById(R.id.list_quick_settings);
     recyclerView.setAdapter(mAdapter);
