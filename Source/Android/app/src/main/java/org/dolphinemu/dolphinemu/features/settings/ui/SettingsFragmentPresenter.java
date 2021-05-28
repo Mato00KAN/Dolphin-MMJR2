@@ -263,6 +263,7 @@ public final class SettingsFragmentPresenter
 
   private void addGeneralSettings(ArrayList<SettingsItem> sl)
   {
+    sl.add(new HeaderSetting(mContext, R.string.advanced_submenu2, 0));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_CPU_THREAD, R.string.dual_core,
             R.string.dual_core_description));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_OVERRIDE_REGION_SETTINGS,
@@ -685,9 +686,9 @@ public final class SettingsFragmentPresenter
 
   private void addCustomTexturesSettings(ArrayList<SettingsItem> sl)
   {
-    sl.add(new CheckBoxSetting(BooleanSetting.GFX_HIRES_TEXTURES,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_HIRES_TEXTURES,
       R.string.hires_textures, 0));
-    sl.add(new CheckBoxSetting(BooleanSetting.GFX_CACHE_HIRES_TEXTURES,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_CACHE_HIRES_TEXTURES,
       R.string.cache_hires_textures, R.string.cache_hires_textures_description));
   }
 
@@ -836,9 +837,9 @@ public final class SettingsFragmentPresenter
               SettingsFile.KEY_GCBIND_TRIGGER_L + gcPadNumber, R.string.trigger_left, mGameID));
       sl.add(new InputBindingSetting(mContext, Settings.FILE_DOLPHIN, Settings.SECTION_BINDINGS,
               SettingsFile.KEY_GCBIND_TRIGGER_R + gcPadNumber, R.string.trigger_right, mGameID));
-      sl.add(new InputBindingSetting(Settings.FILE_DOLPHIN, Settings.SECTION_BINDINGS,
+      sl.add(new InputBindingSetting(mContext, Settings.FILE_DOLPHIN, Settings.SECTION_BINDINGS,
               SettingsFile.KEY_GCBIND_TRIGGER_L_ANALOG + gcPadNumber, R.string.trigger_left_analog, mGameID));
-      sl.add(new InputBindingSetting(Settings.FILE_DOLPHIN, Settings.SECTION_BINDINGS,
+      sl.add(new InputBindingSetting(mContext, Settings.FILE_DOLPHIN, Settings.SECTION_BINDINGS,
               SettingsFile.KEY_GCBIND_TRIGGER_R_ANALOG + gcPadNumber, R.string.trigger_right_analog, mGameID));
 
       sl.add(new HeaderSetting(mContext, R.string.controller_dpad, 0));

@@ -238,6 +238,13 @@ public final class DirectoryInitialization
     }
     return userPath;
   }
+
+  public static String getLocalSettingFile(String gameId)
+  {
+    return getUserDirectory() + File.separator + "GameSettings" + File.separator + gameId +
+      ".ini";
+  }
+
   private static void sendBroadcastState(DirectoryInitializationState state, Context context)
   {
     Intent localIntent =
