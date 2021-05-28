@@ -8,7 +8,7 @@
 #include <string>
 #include <thread>
 
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(__APPLE__)
 #ifndef __FreeBSD__
 #include <asm/hwcap.h>
 #endif
@@ -69,8 +69,19 @@ void CPUInfo::Detect()
   CPU64bit = true;
   Mode64bit = true;
   vendor = CPUVendor::ARM;
+  bFlushToZero = true;
 
-#ifdef _WIN32
+#ifdef __APPLE__
+  num_cores = std::thread::hardware_concurrency();
+
+  // M-series CPUs have all of these
+  bFP = true;
+  bASIMD = true;
+  bAES = true;
+  bSHA1 = true;
+  bSHA2 = true;
+  bCRC32 = true;
+#elif defined(_WIN32)
   num_cores = std::thread::hardware_concurrency();
 
   // Windows does not provide any mechanism for querying the system registers on ARMv8, unlike Linux

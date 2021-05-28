@@ -197,6 +197,32 @@ void Renderer::ReinterpretPixelData(EFBReinterpretType convtype)
   g_framebuffer_manager->ReinterpretPixelData(convtype);
 }
 
+u16 Renderer::BBoxRead(int index)
+{
+  u16 value = BBoxReadImpl(index);
+
+  // The GC/Wii GPU rasterizes in 2x2 pixel groups, so bounding box values will be rounded to the
+  // extents of these groups, rather than the exact pixel.
+  // This would have been handled in the pixel shader, but all attempts to do so did not work on
+  // OpenGL/NVIDIA, due to presumably mystical driver behavior with atomics.
+  if (index == 0 || index == 2)
+    value &= ~1;
+  else
+    value |= 1;
+
+  return value;
+}
+
+void Renderer::BBoxWrite(int index, u16 value)
+{
+  BBoxWriteImpl(index, value);
+}
+
+void Renderer::BBoxFlush()
+{
+  BBoxFlushImpl();
+}
+
 u32 Renderer::AccessEFB(EFBAccessType type, u32 x, u32 y, u32 poke_data)
 {
   if (type == EFBAccessType::PeekColor)
@@ -242,18 +268,24 @@ u32 Renderer::AccessEFB(EFBAccessType type, u32 x, u32 y, u32 poke_data)
     if (!g_ActiveConfig.backend_info.bSupportsReversedDepthRange)
       depth = 1.0f - depth;
 
-    u32 ret = 0;
+    // Convert to 24bit depth
+    u32 z24depth = std::clamp<u32>(static_cast<u32>(depth * 16777216.0f), 0, 0xFFFFFF);
+
     if (bpmem.zcontrol.pixel_format == PixelFormat::RGB565_Z16)
     {
-      // if Z is in 16 bit format you must return a 16 bit integer
-      ret = std::clamp<u32>(static_cast<u32>(depth * 65536.0f), 0, 0xFFFF);
-    }
-    else
-    {
-      ret = std::clamp<u32>(static_cast<u32>(depth * 16777216.0f), 0, 0xFFFFFF);
+      // When in RGB565_Z16 mode, EFB Z peeks return a 16bit value, which is presumably a
+      // resolved sample from the MSAA buffer.
+      // Dolphin doesn't currently emulate the 3 sample MSAA mode (and potentially never will)
+      // it just transparently upgrades the framebuffer to 24bit depth and color and whatever
+      // level of MSAA and higher Internal Resolution the user has configured.
+
+      // This is mostly transparent, unless the game does an EFB read.
+      // But we can simply convert the 24bit depth on the fly to the 16bit depth the game expects.
+
+      return CompressZ16(z24depth, bpmem.zcontrol.zformat);
     }
 
-    return ret;
+    return z24depth;
   }
 }
 
@@ -785,6 +817,7 @@ void Renderer::UpdateDrawRectangle()
   const float win_width = static_cast<float>(m_backbuffer_width);
   const float win_height = static_cast<float>(m_backbuffer_height);
 
+  // FIXME: this breaks at very low widget sizes
   // Make ControllerInterface aware of the render window region actually being used
   // to adjust mouse cursor inputs.
   g_controller_interface.SetAspectRatioAdjustment(draw_aspect_ratio / (win_width / win_height));
@@ -898,7 +931,9 @@ void Renderer::CheckFifoRecording()
     RecordVideoMemory();
   }
 
-  FifoRecorder::GetInstance().EndFrame(CommandProcessor::fifo.CPBase, CommandProcessor::fifo.CPEnd);
+  FifoRecorder::GetInstance().EndFrame(
+      CommandProcessor::fifo.CPBase.load(std::memory_order_relaxed),
+      CommandProcessor::fifo.CPEnd.load(std::memory_order_relaxed));
 }
 
 void Renderer::RecordVideoMemory()
@@ -1344,7 +1379,12 @@ void Renderer::Swap(u32 xfb_addr, u32 fb_width, u32 fb_stride, u32 fb_height, u6
       {
         // Remove stale EFB/XFB copies.
         g_texture_cache->Cleanup(m_frame_count);
-        Core::Callback_FramePresented();
+        const double last_speed_denominator =
+            m_fps_counter.GetDeltaTime() * VideoInterface::GetTargetRefreshRate();
+        // The denominator should always be > 0 but if it's not, just return 1
+        const double last_speed =
+            last_speed_denominator > 0.0 ? (1.0 / last_speed_denominator) : 1.0;
+        Core::Callback_FramePresented(last_speed);
       }
 
       // Handle any config changes, this gets propagated to the backend.

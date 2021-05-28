@@ -98,6 +98,12 @@ bool Host_RendererHasFocus()
   return s_platform->IsWindowFocused();
 }
 
+bool Host_RendererHasFullFocus()
+{
+  // Mouse capturing isn't implemented
+  return Host_RendererHasFocus();
+}
+
 bool Host_RendererIsFullscreen()
 {
   return s_platform->IsWindowFullscreen();
@@ -224,7 +230,7 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  Core::SetOnStateChangedCallback([](Core::State state) {
+  Core::AddOnStateChangedCallback([](Core::State state) {
     if (state == Core::State::Uninitialized)
       s_platform->Stop();
   });

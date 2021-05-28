@@ -656,6 +656,7 @@ unsigned int NetPlayClient::OnData(sf::Packet& packet)
       packet >> m_net_settings.m_DSPEnableJIT;
       packet >> m_net_settings.m_DSPHLE;
       packet >> m_net_settings.m_WriteToMemcard;
+      packet >> m_net_settings.m_RAMOverrideEnable;
       packet >> m_net_settings.m_Mem1Size;
       packet >> m_net_settings.m_Mem2Size;
 
@@ -665,6 +666,7 @@ unsigned int NetPlayClient::OnData(sf::Packet& packet)
         m_net_settings.m_FallbackRegion = static_cast<DiscIO::Region>(tmp);
       }
 
+      packet >> m_net_settings.m_AllowSDWrites;
       packet >> m_net_settings.m_CopyWiiSave;
       packet >> m_net_settings.m_OCEnable;
       packet >> m_net_settings.m_OCFactor;
@@ -856,6 +858,13 @@ unsigned int NetPlayClient::OnData(sf::Packet& packet)
       std::string region;
       bool mc251;
       packet >> is_slot_a >> region >> mc251;
+
+      // This check is mainly intended to filter out characters which have special meanings in paths
+      if (region != JAP_DIR && region != USA_DIR && region != EUR_DIR)
+      {
+        SyncSaveDataResponse(false);
+        return 0;
+      }
 
       const std::string path = File::GetUserPath(D_GCUSER_IDX) + GC_MEMCARD_NETPLAY +
                                (is_slot_a ? "A." : "B.") + region + (mc251 ? ".251" : "") + ".raw";
