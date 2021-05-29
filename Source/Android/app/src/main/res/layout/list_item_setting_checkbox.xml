@@ -17,6 +17,7 @@
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_large"
         android:layout_toStartOf="@+id/checkbox"
         android:textSize="16sp"
         tools:text="@string/overclock_enable"/>
@@ -31,7 +32,7 @@
         android:layout_marginBottom="@dimen/spacing_large"
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginTop="-12dp"
         android:layout_toStartOf="@+id/checkbox"
         tools:text="@string/overclock_enable_description"/>
 

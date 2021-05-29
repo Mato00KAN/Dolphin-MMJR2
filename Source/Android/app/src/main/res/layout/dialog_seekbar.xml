@@ -14,8 +14,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/text_value"
-        android:layout_marginBottom="@dimen/spacing_medlarge"
-        android:backgroundTint="@color/dolphin_purple" />
+        android:layout_marginBottom="@dimen/spacing_medlarge" />
 
     <TextView
         android:layout_width="wrap_content"

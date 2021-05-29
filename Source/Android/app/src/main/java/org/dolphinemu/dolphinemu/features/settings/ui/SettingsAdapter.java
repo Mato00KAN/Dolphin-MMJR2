@@ -39,6 +39,7 @@ import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.RumbleBindingVi
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.RunRunnableViewHolder;
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SettingViewHolder;
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SingleChoiceViewHolder;
+import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SliderSelectorViewHolder;
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SliderViewHolder;
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SubmenuViewHolder;
 import org.dolphinemu.dolphinemu.ui.main.MainPresenter;
@@ -76,6 +77,11 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
     mClickedPosition = -1;
   }
 
+  public SettingsFragmentView getView()
+  {
+    return mView;
+  }
+
   @Override
   public SettingViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
   {
@@ -101,6 +107,10 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
       case SettingsItem.TYPE_SLIDER:
         view = inflater.inflate(R.layout.list_item_setting, parent, false);
         return new SliderViewHolder(view, this, mContext);
+
+      case SettingsItem.TYPE_SLIDER_SELECTOR:
+        view = inflater.inflate(R.layout.list_item_setting_slider_selector, parent, false);
+        return new SliderSelectorViewHolder(view, this);
 
       case SettingsItem.TYPE_SUBMENU:
         view = inflater.inflate(R.layout.list_item_setting_submenu, parent, false);

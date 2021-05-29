@@ -10,6 +10,7 @@
     <color name="divider">#1f000000</color>
     <color name="divider_dark">#66FFFFFF</color>
     <color name="text">#3a3a3a</color>
+    <color name="text_dark">#dcdcdc</color>
     <color name="dialog_background">#fafafa</color>
 
     <color name="gradient_start">#e64a0c</color>

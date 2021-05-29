@@ -42,7 +42,14 @@ public final class CheckBoxSettingViewHolder extends SettingViewHolder
     mItem = (CheckBoxSetting) item;
 
     mTextSettingName.setText(item.getName());
-    mTextSettingDescription.setText(item.getDescription());
+    CharSequence description = item.getDescription();
+    mTextSettingDescription.setText(description);
+    
+    if (TextUtils.isEmpty(description))
+      mTextSettingDescription.setVisibility(View.GONE);
+    else
+      mTextSettingDescription.setVisibility(View.VISIBLE);
+
     mCheckbox.setChecked(mItem.isChecked(getAdapter().getSettings()));
 
     setStyle(mTextSettingName, mItem);

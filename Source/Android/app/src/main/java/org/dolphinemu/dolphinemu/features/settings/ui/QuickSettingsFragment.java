@@ -1,11 +1,13 @@
-package org.dolphinemu.dolphinemu.features.quicksettings;
+package org.dolphinemu.dolphinemu.features.settings.ui;
 
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,20 +18,15 @@ import android.widget.Toast;
 
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.EmulationActivity;
-import org.dolphinemu.dolphinemu.features.settings.model.FloatSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
-import org.dolphinemu.dolphinemu.features.settings.model.view.PercentSliderSetting;
-import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
-import org.dolphinemu.dolphinemu.features.settings.ui.SettingsActivity;
-import org.dolphinemu.dolphinemu.features.settings.ui.SettingsAdapter;
-import org.dolphinemu.dolphinemu.features.settings.ui.SettingsFragmentView;
+import org.dolphinemu.dolphinemu.features.settings.model.view.SliderSelectorSetting;
 
 import org.dolphinemu.dolphinemu.features.settings.model.BooleanSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.IntSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.view.CheckBoxSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.view.InvertedCheckBoxSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.view.SettingsItem;
-import org.dolphinemu.dolphinemu.features.settings.model.view.SingleChoiceSetting;
+import org.dolphinemu.dolphinemu.ui.DividerItemDecoration;
 
 
 public class QuickSettingsFragment extends Fragment implements SettingsFragmentView
@@ -72,8 +69,13 @@ public class QuickSettingsFragment extends Fragment implements SettingsFragmentV
     view.findViewById(R.id.open_settings).setOnClickListener(v ->
       SettingsActivity.launch(requireActivity(), MenuTag.CONFIG));
 
-    RecyclerView settingsView = view.findViewById(R.id.list_quick_settings);
-    settingsView.setAdapter(mAdapter);
+    RecyclerView recyclerView = view.findViewById(R.id.list_quick_settings);
+    recyclerView.setAdapter(mAdapter);
+
+    Resources.Theme theme = getResources().newTheme();
+    theme.applyStyle(R.style.QuickSettingsList, true);
+    recyclerView.addItemDecoration(new DividerItemDecoration(ResourcesCompat
+            .getDrawable(getResources(), R.drawable.line_divider, theme)));
 
     loadSettingsList();
     showSettingsList(mSettingsList);
@@ -137,32 +139,35 @@ public class QuickSettingsFragment extends Fragment implements SettingsFragmentV
   private void loadSettingsList()
   {
     ArrayList<SettingsItem> sl = new ArrayList<>();
+    Context context = getContext();
 
     // Advanced ; Uncomment when they are migrated to the new system
-    /*sl.add(new CheckBoxSetting(BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE, R.string.skip_on_skip_idle,
-      0));
-    sl.add(new CheckBoxSetting(BooleanSetting.MAIN_JIT_FOLLOW_BRANCH, R.string.jit_follow_branch,
-      0));
-    sl.add(new CheckBoxSetting(BooleanSetting.MAIN_OVERCLOCK_ENABLE, R.string.overclock_enable,
-      0));
-    sl.add(new PercentSliderSetting(FloatSetting.MAIN_OVERCLOCK, R.string.overclock_title,
-      0, 0, 400, "%"));
-    sl.add(new PercentSliderSetting(FloatSetting.MAIN_EMULATION_SPEED, R.string.speed_limit, 0, 0,
-      200, "%"));*/
+    /*sl.add(new CheckBoxSetting(context, BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE,
+            R.string.skip_on_skip_idle, 0));
+    sl.add(new CheckBoxSetting(context, BooleanSetting.MAIN_JIT_FOLLOW_BRANCH,
+            R.string.jit_follow_branch, 0));
+    sl.add(new CheckBoxSetting(context, BooleanSetting.MAIN_OVERCLOCK_ENABLE,
+            R.string.overclock_enable, 0));
+    sl.add(new PercentSliderSetting(context, FloatSetting.MAIN_OVERCLOCK, R.string.overclock_title,
+            0, 0, 400, "%"));
+    sl.add(new PercentSliderSetting(context, FloatSetting.MAIN_EMULATION_SPEED, R.string.speed_limit,
+            0, 0, 200, "%"));*/
 
     // GFX Enhancements
-    sl.add(new SingleChoiceSetting(IntSetting.GFX_EFB_SCALE, R.string.internal_resolution,
-      0, R.array.internalResolutionEntries, R.array.internalResolutionValues));
+    sl.add(new SliderSelectorSetting(context, IntSetting.GFX_EFB_SCALE, R.string.internal_resolution,
+            0, 0, R.array.internalResolutionValues, "x", 0.01f));
 
     // GFX Hacks
-    sl.add(new InvertedCheckBoxSetting(BooleanSetting.GFX_HACK_EFB_ACCESS_ENABLE,
-      R.string.skip_efb_access, 0));
-    sl.add(new InvertedCheckBoxSetting(BooleanSetting.GFX_HACK_EFB_EMULATE_FORMAT_CHANGES,
-      R.string.ignore_format_changes, 0));
-    sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_SKIP_EFB_COPY_TO_RAM,
-      R.string.efb_copy_method, 0));
-    sl.add(new CheckBoxSetting(BooleanSetting.GFX_HACK_DEFER_EFB_COPIES, R.string.defer_efb_copies, 0));
-    sl.add(new InvertedCheckBoxSetting(BooleanSetting.GFX_HACK_BBOX_ENABLE, R.string.disable_bbox, 0));
+    sl.add(new InvertedCheckBoxSetting(context, BooleanSetting.GFX_HACK_EFB_ACCESS_ENABLE,
+            R.string.skip_efb_access, 0));
+    sl.add(new InvertedCheckBoxSetting(context, BooleanSetting.GFX_HACK_EFB_EMULATE_FORMAT_CHANGES,
+            R.string.ignore_format_changes, 0));
+    sl.add(new CheckBoxSetting(context, BooleanSetting.GFX_HACK_SKIP_EFB_COPY_TO_RAM,
+            R.string.efb_copy_method, 0));
+    sl.add(new CheckBoxSetting(context,BooleanSetting.GFX_HACK_DEFER_EFB_COPIES,
+            R.string.defer_efb_copies, 0));
+    sl.add(new InvertedCheckBoxSetting(context, BooleanSetting.GFX_HACK_BBOX_ENABLE,
+            R.string.disable_bbox, 0));
 
     mSettingsList = sl;
   }

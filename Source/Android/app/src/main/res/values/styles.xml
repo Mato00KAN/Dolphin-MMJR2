@@ -9,6 +9,7 @@
         <!-- Darker variant for the status bar and contextual app bars -->
         <item name="colorPrimaryDark">@color/dolphin_blue_dark</item>
         <item name="colorAccent">@color/dolphin_purple</item>
+        <item name="textColor">@color/text</item>
         <item name="colorDivider">@color/divider</item>
 
         <!-- Enable window content transitions -->
@@ -91,6 +92,7 @@
 
     <style name="QuickSettingsList" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorDivider">@color/divider_dark</item>
+        <item name="textColor">@color/text_dark</item>
     </style>
 
     <!-- Inherit from a base file picker theme that handles day/night -->
@@ -117,6 +119,7 @@
     </style>
 
     <!-- User by CheatActivity and QuickSettings -->
+    <attr name="textColor" format="color" />
     <attr name="colorDivider" format="color" />
 
 </resources>
