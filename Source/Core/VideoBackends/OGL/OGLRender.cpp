@@ -11,7 +11,6 @@
 #include <memory>
 #include <string>
 
-#include "Common/Atomic.h"
 #include "Common/CommonTypes.h"
 #include "Common/GL/GLContext.h"
 #include "Common/GL/GLUtil.h"
@@ -877,6 +876,11 @@ void Renderer::BBoxWrite(int index, u16 value)
   }
 
   BoundingBox::Set(index, swapped_value);
+}
+
+void Renderer::BBoxFlush()
+{
+  BoundingBox::Flush();
 }
 
 void Renderer::SetViewport(float x, float y, float width, float height, float near_depth,

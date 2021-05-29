@@ -7,7 +7,8 @@
     <QTDIR Condition="Exists('$(QTDIR)') And !HasTrailingSlash('$(QTDIR)')">$(QTDIR)\</QTDIR>
     <QtDirValid>false</QtDirValid>
     <QtDirValid Condition="Exists('$(QTDIR)')">true</QtDirValid>
-    <QtIncludeDir>$(QTDIR)include\</QtIncludeDir>
+    <QtIncludeDirWithoutTrailingSeparator>$(QTDIR)include</QtIncludeDirWithoutTrailingSeparator>
+    <QtIncludeDir>$(QtIncludeDirWithoutTrailingSeparator)\</QtIncludeDir>
     <QtLibDir>$(QTDIR)lib\</QtLibDir>
     <QtBinDir>$(QTDIR)bin\</QtBinDir>
     <QtPluginsDir>$(QTDIR)plugins\</QtPluginsDir>
@@ -28,10 +29,11 @@
       <AdditionalIncludeDirectories>$(QtIncludeDir)QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Platform)'=='ARM64'">$(QtIncludeDir)QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <!--
-      Negate the previously enabled warning (set in Base.props). Not compatible with QtCore\qtmap.h
-      This isn't too bad since we live with the fact that Qt-using projects will have different compiler args already.
+      Set the qt directories as 'external', so we avoid any warnings in them
       -->
-      <AdditionalOptions>%(AdditionalOptions) /wd4946</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /experimental:external</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /external:W0</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "$(QtIncludeDirWithoutTrailingSeparator)"</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(QtLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

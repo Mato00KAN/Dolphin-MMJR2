@@ -274,6 +274,11 @@ void Renderer::BBoxWrite(int index, u16 value)
   BBox::Set(index, value);
 }
 
+void Renderer::BBoxFlush()
+{
+  BBox::Flush();
+}
+
 void Renderer::Flush()
 {
   D3D::context->Flush();

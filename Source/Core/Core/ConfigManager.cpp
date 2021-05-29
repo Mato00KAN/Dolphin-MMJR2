@@ -29,7 +29,7 @@
 #include "Common/MsgHandler.h"
 #include "Common/NandPaths.h"
 #include "Common/StringUtil.h"
-#include "Common/scmrev.h"
+#include "Common/Version.h"
 
 #include "Core/Boot/Boot.h"
 #include "Core/CommonTitles.h"
@@ -147,6 +147,7 @@ void SConfig::SaveInterfaceSettings(IniFile& ini)
 
   interface->Set("ConfirmStop", bConfirmStop);
   interface->Set("HideCursor", bHideCursor);
+  interface->Set("LockCursor", bLockCursor);
   interface->Set("LanguageCode", m_InterfaceLanguage);
   interface->Set("ExtendedFPSInfo", m_InterfaceExtendedFPSInfo);
   interface->Set("ShowActiveTitle", m_show_active_title);
@@ -401,6 +402,7 @@ void SConfig::LoadInterfaceSettings(IniFile& ini)
 
   interface->Get("ConfirmStop", &bConfirmStop, true);
   interface->Get("HideCursor", &bHideCursor, false);
+  interface->Get("LockCursor", &bLockCursor, false);
   interface->Get("LanguageCode", &m_InterfaceLanguage, "");
   interface->Get("ExtendedFPSInfo", &m_InterfaceExtendedFPSInfo, false);
   interface->Get("ShowActiveTitle", &m_show_active_title, true);
@@ -601,7 +603,7 @@ void SConfig::LoadAutoUpdateSettings(IniFile& ini)
 {
   IniFile::Section* section = ini.GetOrCreateSection("AutoUpdate");
 
-  section->Get("UpdateTrack", &m_auto_update_track, SCM_UPDATE_TRACK_STR);
+  section->Get("UpdateTrack", &m_auto_update_track, Common::scm_update_track_str);
   section->Get("HashOverride", &m_auto_update_hash_override, "");
 }
 
