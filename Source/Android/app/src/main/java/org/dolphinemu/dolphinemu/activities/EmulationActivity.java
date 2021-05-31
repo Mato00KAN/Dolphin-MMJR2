@@ -32,6 +32,7 @@ import androidx.fragment.app.FragmentManager;
 
 import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
+import org.dolphinemu.dolphinemu.features.settings.ui.QuickSettingsFragment;
 import org.dolphinemu.dolphinemu.features.settings.model.BooleanSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.IntSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
@@ -441,7 +442,7 @@ public final class EmulationActivity extends AppCompatActivity
     setRequestedOrientation(IntSetting.MAIN_EMULATION_ORIENTATION.getInt(mSettings));
   }
 
-  private boolean closeSubmenu()
+  public boolean closeSubmenu()
   {
     return getSupportFragmentManager().popBackStackImmediate(BACKSTACK_NAME_SUBMENU,
             FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -685,7 +686,7 @@ public final class EmulationActivity extends AppCompatActivity
         break;
 
       case MENU_ACTION_SETTINGS:
-        SettingsActivity.launch(this, MenuTag.CONFIG);
+        showQuickSettings();
         break;
 
       case MENU_ACTION_EXIT:
@@ -1280,6 +1281,23 @@ public final class EmulationActivity extends AppCompatActivity
             .commit();
   }
 
+  private void showQuickSettings()
+  {
+    // Get rid of any visible submenu
+    closeSubmenu();
+
+    Fragment fragment = QuickSettingsFragment.newInstance();
+    getSupportFragmentManager().beginTransaction()
+            .setCustomAnimations(
+                    R.animator.menu_slide_in_from_start,
+                    R.animator.menu_slide_out_to_start,
+                    R.animator.menu_slide_in_from_start,
+                    R.animator.menu_slide_out_to_start)
+            .replace(R.id.frame_submenu, fragment)
+            .addToBackStack(BACKSTACK_NAME_SUBMENU)
+            .commit();
+  }
+
   public boolean isActivityRecreated()
   {
     return activityRecreated;
@@ -1293,5 +1311,10 @@ public final class EmulationActivity extends AppCompatActivity
   public void initInputPointer()
   {
     mEmulationFragment.initInputPointer();
+  }
+
+  public void refreshHotkeyOverlay()
+  {
+    mEmulationFragment.refreshHotkeyOverlay();
   }
 }

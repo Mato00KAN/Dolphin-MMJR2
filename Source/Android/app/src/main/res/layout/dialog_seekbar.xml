@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/dolphin_background">
+    android:layout_height="wrap_content">
 
     <SeekBar
         android:id="@+id/seekbar"
@@ -15,8 +14,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/text_value"
-        android:layout_marginBottom="@dimen/spacing_medlarge"
-        android:backgroundTint="@color/dolphin_purple" />
+        android:layout_marginBottom="@dimen/spacing_medlarge" />
 
     <TextView
         android:layout_width="wrap_content"

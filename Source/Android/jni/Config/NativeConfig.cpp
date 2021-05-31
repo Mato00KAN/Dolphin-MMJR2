@@ -9,9 +9,7 @@
 
 #include "Common/Assert.h"
 #include "Common/Config/Config.h"
-#include "Core/Config/MainSettings.h"
 #include "Core/ConfigLoaders/GameConfigLoader.h"
-#include "Core/ConfigManager.h"
 #include "Core/ConfigLoaders/IsSettingSaveable.h"
 #include "jni/AndroidCommon/AndroidCommon.h"
 
@@ -134,39 +132,6 @@ JNIEXPORT void JNICALL Java_org_dolphinemu_dolphinemu_features_settings_model_Na
   layer_ptr->MarkAsDirty();
 
   return layer_ptr->Save();
-}
-
-// MMJR: Native methods to apply settings directly to Core
-JNIEXPORT jintArray JNICALL Java_org_dolphinemu_dolphinemu_features_settings_model_NativeConfig_getEditableSettings(
-        JNIEnv* env, jclass)
-{
-    int i = 0, settings[4];
-
-    settings[i++] = Config::Get(Config::MAIN_SYNC_ON_SKIP_IDLE);
-    settings[i++] = Config::Get(Config::MAIN_JIT_FOLLOW_BRANCH);
-    settings[i++] = Config::Get(Config::MAIN_OVERCLOCK_ENABLE);
-    settings[i++] = static_cast<int>(Config::Get(Config::MAIN_OVERCLOCK)*100);
-
-    jintArray array = env->NewIntArray(i);
-    env->SetIntArrayRegion(array, 0, i, settings);
-    return array;
-}
-
-JNIEXPORT void JNICALL Java_org_dolphinemu_dolphinemu_features_settings_model_NativeConfig_setEditableSettings(
-        JNIEnv* env, jclass, jintArray array)
-{
-    int i = 0;
-    jint* settings = env->GetIntArrayElements(array, nullptr);
-
-    Set(LAYER_LOCAL_GAME, {Config::System::Main, "Core", "SyncOnSkipIdle"}, settings[i++]);
-    Set(LAYER_LOCAL_GAME, {Config::System::Main, "Core", "JITFollowBranch"}, settings[i++]);
-    Set(LAYER_LOCAL_GAME, {Config::System::Main, "Core", "OverclockEnable"}, settings[i++]);
-    Set(LAYER_LOCAL_GAME, {Config::System::Main, "Core", "Overclock"}, settings[i]/100.0f);
-
-    SConfig::GetInstance().bSyncGPUOnSkipIdleHack = Config::Get(Config::MAIN_SYNC_ON_SKIP_IDLE);
-    SConfig::GetInstance().bJITFollowBranch = Config::Get(Config::MAIN_JIT_FOLLOW_BRANCH);
-    SConfig::GetInstance().m_OCEnable = Config::Get(Config::MAIN_OVERCLOCK_ENABLE);
-    SConfig::GetInstance().m_OCEnable = Config::Get(Config::MAIN_OVERCLOCK);
 }
 
 JNIEXPORT jboolean JNICALL

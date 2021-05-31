@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="72dp"
-    android:background="@color/dolphin_background"
-    android:foreground="?android:attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     android:focusable="true"
     android:clickable="true">
 
@@ -19,6 +17,7 @@
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_large"
         android:layout_toStartOf="@+id/checkbox"
         android:textSize="16sp"
         tools:text="@string/overclock_enable"/>
@@ -33,7 +32,7 @@
         android:layout_marginBottom="@dimen/spacing_large"
         android:layout_marginEnd="@dimen/spacing_large"
         android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginTop="-12dp"
         android:layout_toStartOf="@+id/checkbox"
         tools:text="@string/overclock_enable_description"/>
 

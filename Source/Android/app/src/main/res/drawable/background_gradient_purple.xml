@@ -5,10 +5,9 @@
             <gradient
                 android:angle="45"
                 android:type="linear"
-                android:startColor="@color/gradient_start"
+                android:startColor="@color/dolphin_blue"
                 android:centerX="40%"
-                android:centerColor="@color/gradient_center"
-                android:endColor="@color/gradient_end" />
+                android:endColor="@color/dolphin_blue_dark" />
         </shape>
     </item>
 </selector>

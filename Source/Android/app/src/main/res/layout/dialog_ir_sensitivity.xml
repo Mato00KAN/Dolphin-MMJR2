@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dolphin_background"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -20,8 +19,7 @@
             android:layout_below="@+id/text_ir_yaw"
             android:layout_marginBottom="@dimen/spacing_medlarge"
             android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"
-            android:backgroundTint="@color/dolphin_purple" />
+            android:layout_marginRight="@dimen/spacing_large" />
 
         <TextView
             android:id="@+id/text_ir_yaw"
@@ -56,8 +54,7 @@
             android:layout_below="@+id/text_ir_pitch"
             android:layout_marginBottom="@dimen/spacing_medlarge"
             android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"
-            android:backgroundTint="@color/dolphin_purple"/>
+            android:layout_marginRight="@dimen/spacing_large" />
 
         <TextView
             android:id="@+id/text_ir_pitch"
@@ -93,8 +90,7 @@
             android:layout_below="@+id/text_ir_vertical_offset"
             android:layout_marginBottom="@dimen/spacing_medlarge"
             android:layout_marginLeft="@dimen/spacing_large"
-            android:layout_marginRight="@dimen/spacing_large"
-            android:backgroundTint="@color/dolphin_purple" />
+            android:layout_marginRight="@dimen/spacing_large" />
 
         <TextView
             android:id="@+id/text_ir_vertical_offset"
