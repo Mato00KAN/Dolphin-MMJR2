@@ -625,6 +625,8 @@ public final class SettingsFragmentPresenter
             R.string.wait_for_shaders, R.string.wait_for_shaders_description));
     sl.add(new SingleChoiceSetting(mContext, IntSetting.GFX_ASPECT_RATIO, R.string.aspect_ratio, 0,
             R.array.aspectRatioEntries, R.array.aspectRatioValues));
+    sl.add(new PercentSliderSetting(mContext, FloatSetting.GFX_DISPLAY_SCALE, R.string.setting_display_scale,
+            0, 0, 200, "%"));
 
     sl.add(new HeaderSetting(mContext, R.string.graphics_enhancements_and_hacks, 0));
     sl.add(new SubmenuSetting(mContext, R.string.enhancements_submenu, MenuTag.ENHANCEMENTS));

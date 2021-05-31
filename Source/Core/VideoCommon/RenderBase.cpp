@@ -607,38 +607,40 @@ float Renderer::CalculateDrawAspectRatio() const
   return aspect_ratio;
 }
 
-void Renderer::AdjustRectanglesToFitBounds(MathUtil::Rectangle<int>* target_rect,
-                                           MathUtil::Rectangle<int>* source_rect, int fb_width,
-                                           int fb_height)
+void Renderer::AdjustRectanglesToFitBounds(MathUtil::Rectangle<int>& dst,
+                                           MathUtil::Rectangle<int>& src)
 {
-  const int orig_target_width = target_rect->GetWidth();
-  const int orig_target_height = target_rect->GetHeight();
-  const int orig_source_width = source_rect->GetWidth();
-  const int orig_source_height = source_rect->GetHeight();
-  if (target_rect->left < 0)
-  {
-    const int offset = -target_rect->left;
-    target_rect->left = 0;
-    source_rect->left += offset * orig_source_width / orig_target_width;
-  }
-  if (target_rect->right > fb_width)
-  {
-    const int offset = target_rect->right - fb_width;
-    target_rect->right -= offset;
-    source_rect->right -= offset * orig_source_width / orig_target_width;
-  }
-  if (target_rect->top < 0)
-  {
-    const int offset = -target_rect->top;
-    target_rect->top = 0;
-    source_rect->top += offset * orig_source_height / orig_target_height;
-  }
-  if (target_rect->bottom > fb_height)
-  {
-    const int offset = target_rect->bottom - fb_height;
-    target_rect->bottom -= offset;
-    source_rect->bottom -= offset * orig_source_height / orig_target_height;
-  }
+    float scale = g_ActiveConfig.fDisplayScale;
+
+    int delta_x = std::lround(dst.GetWidth() * (scale - 1.0f) / 4.0f);
+    int delta_y = std::lround(dst.GetHeight() * (scale - 1.0f) / 4.0f);
+
+    dst.left = dst.left - delta_x;
+    dst.top = dst.top - delta_y;
+    dst.right = dst.right + delta_x;
+    dst.bottom = dst.bottom + delta_y;
+
+    if (dst.GetWidth() > m_backbuffer_width)
+    {
+        delta_x =
+                std::lround(src.GetWidth() * (1.0f - m_backbuffer_width / (float)dst.GetWidth()) / 2.0f);
+        src.left += delta_x;
+        src.right -= delta_x;
+
+        dst.left = 0;
+        dst.right = m_backbuffer_width;
+    }
+
+    if (dst.GetHeight() > m_backbuffer_height)
+    {
+        delta_y =
+                std::lround(src.GetHeight() * (1.0f - m_backbuffer_height / (float)dst.GetHeight()) / 2.0f);
+        src.top += delta_y;
+        src.bottom -= delta_y;
+
+        dst.top = 0;
+        dst.bottom = m_backbuffer_height;
+    }
 }
 
 bool Renderer::IsHeadless() const
@@ -1293,8 +1295,7 @@ void Renderer::Swap(u32 xfb_addr, u32 fb_width, u32 fb_stride, u32 fb_height, u6
         // Adjust the source rectangle instead of using an oversized viewport to render the XFB.
         auto render_target_rc = GetTargetRectangle();
         auto render_source_rc = xfb_rect;
-        AdjustRectanglesToFitBounds(&render_target_rc, &render_source_rc, m_backbuffer_width,
-                                    m_backbuffer_height);
+        AdjustRectanglesToFitBounds(render_target_rc, render_source_rc);
         RenderXFBToScreen(render_target_rc, xfb_entry->texture.get(), render_source_rc);
 
         DrawImGui();

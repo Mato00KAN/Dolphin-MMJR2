@@ -24,6 +24,7 @@ const Info<bool> GFX_WIDESCREEN_HACK{{System::GFX, "Settings", "wideScreenHack"}
 const Info<AspectMode> GFX_ASPECT_RATIO{{System::GFX, "Settings", "AspectRatio"}, AspectMode::Stretch};
 const Info<AspectMode> GFX_SUGGESTED_ASPECT_RATIO{{System::GFX, "Settings", "SuggestedAspectRatio"},
                                                   AspectMode::Stretch};
+const Info<float> GFX_DISPLAY_SCALE{{System::GFX, "Settings", "DisplayScale"}, 1.0f};
 const Info<bool> GFX_CROP{{System::GFX, "Settings", "Crop"}, false};
 const Info<int> GFX_SAFE_TEXTURE_CACHE_COLOR_SAMPLES{
     {System::GFX, "Settings", "SafeTextureCacheColorSamples"}, 128};

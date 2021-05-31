@@ -3,7 +3,7 @@ package org.dolphinemu.dolphinemu.features.settings.model;
 public enum FloatSetting implements AbstractFloatSetting
 {
   // These entries have the same names and order as in C++, just for consistency.
-
+  GFX_DISPLAY_SCALE(Settings.FILE_GFX, Settings.SECTION_GFX_SETTINGS,"DisplayScale", 1.0f),
   MAIN_EMULATION_SPEED(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "EmulationSpeed", 1.0f),
   MAIN_OVERCLOCK(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "Overclock", 0.6f);
 

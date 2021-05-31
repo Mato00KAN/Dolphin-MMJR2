@@ -175,9 +175,8 @@ public:
   // Crops the target rectangle to the framebuffer dimensions, reducing the size of the source
   // rectangle if it is greater. Works even if the source and target rectangles don't have a
   // 1:1 pixel mapping, scaling as appropriate.
-  void AdjustRectanglesToFitBounds(MathUtil::Rectangle<int>* target_rect,
-                                   MathUtil::Rectangle<int>* source_rect, int fb_width,
-                                   int fb_height);
+  void AdjustRectanglesToFitBounds(MathUtil::Rectangle<int>& target_rect,
+                                   MathUtil::Rectangle<int>& source_rect);
 
   std::tuple<float, float> ScaleToDisplayAspectRatio(int width, int height) const;
   void UpdateDrawRectangle();

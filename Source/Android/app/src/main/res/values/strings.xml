@@ -505,6 +505,7 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="disabled_gc_overlay_notice">GameCube Controller 1 is set to \"None\"</string>
     <string name="ignore_warning_alert_messages">Ignore for this session</string>
     <string name="controls_heading">Controllers</string>
+    <string name="setting_display_scale">Display Scale</string>
 
     <!-- Updater Window -->
     <string name="grid_menu_open_updater">MMJR Updater</string>
