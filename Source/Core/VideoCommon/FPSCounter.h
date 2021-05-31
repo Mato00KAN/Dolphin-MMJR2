@@ -23,6 +23,7 @@ public:
 
   float GetFPS() const { return m_fps; }
   double GetDeltaTime() const { return m_time_diff_secs; }
+  float color[3]{1.0f, 0.0f, 1.0f};
 
 private:
   void SetPaused(bool paused);

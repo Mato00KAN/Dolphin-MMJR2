@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.StyleRes;
 
+import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.DolphinApplication;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
@@ -21,12 +22,12 @@ public class AppTheme
 {
   public static final String APP_THEME = "appTheme";
 
-  public static final String PURPLE = "mmjrpurple";
+  public static final String MMJR_PURPLE = "mmjrpurple";
   public static final String NEON_RED = "neonred";
   public static final String DOLPHIN_BLUE = "dolphinblue";
   public static final String LUIGI_GREEN = "luigigreen";
 
-  public static final String DEFAULT = PURPLE;
+  public static final String DEFAULT = MMJR_PURPLE;
 
   public static AbstractStringSetting APPLICATION_THEME = new AbstractStringSetting() {
     @Override
@@ -84,7 +85,7 @@ public class AppTheme
         case AppTheme.LUIGI_GREEN:
           themeId = R.style.Theme_DolphinSettings_LuigiGreen;
           break;
-        case AppTheme.PURPLE:
+        case AppTheme.MMJR_PURPLE:
         default:
           themeId = R.style.Theme_DolphinSettings_MmjrPurple;
           break;
@@ -103,7 +104,7 @@ public class AppTheme
         case AppTheme.LUIGI_GREEN:
           themeId = R.style.Theme_DolphinEmulation_LuigiGreen;
           break;
-        case AppTheme.PURPLE:
+        case AppTheme.MMJR_PURPLE:
         default:
           themeId = R.style.Theme_DolphinEmulation_MmjrPurple;
           break;
@@ -122,7 +123,7 @@ public class AppTheme
         case AppTheme.LUIGI_GREEN:
           themeId = R.style.Theme_DolphinTv_LuigiGreen;
           break;
-        case AppTheme.PURPLE:
+        case AppTheme.MMJR_PURPLE:
         default:
           themeId = R.style.Theme_DolphinTv_MmjrPurple;
           break;
@@ -141,7 +142,7 @@ public class AppTheme
         case AppTheme.LUIGI_GREEN:
           themeId = R.style.Theme_DolphinMain_LuigiGreen;
           break;
-        case AppTheme.PURPLE:
+        case AppTheme.MMJR_PURPLE:
         default:
           themeId = R.style.Theme_DolphinMain_MmjrPurple;
           break;
@@ -150,6 +151,16 @@ public class AppTheme
 
     activity.setTheme(themeId);
   }
+
+  public static SharedPreferences.OnSharedPreferenceChangeListener onThemeSettingChanged = (sharedPreferences, key) ->
+  {
+    if (key.equals(AppTheme.APP_THEME))
+    {
+      final String newValue = sharedPreferences.getString(APP_THEME, DEFAULT);
+      NativeLibrary.setNativeTheme(newValue);
+      onThemeChanged();
+    }
+  };
 
   public static void onThemeChanged()
   {

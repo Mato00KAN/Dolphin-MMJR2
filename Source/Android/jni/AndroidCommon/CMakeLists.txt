@@ -5,6 +5,8 @@ add_library(androidcommon STATIC
   IDCache.h
   AndroidHotkey.cpp
   AndroidHotkey.h
+  AndroidTheme.cpp
+  AndroidTheme.h
 )
 
 target_link_libraries(androidcommon

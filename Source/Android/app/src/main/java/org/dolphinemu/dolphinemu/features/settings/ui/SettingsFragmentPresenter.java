@@ -287,11 +287,7 @@ public final class SettingsFragmentPresenter
             0, R.array.themeEntries, R.array.themeValues));
     // Listener that reloads the application when the theme is changed
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-    prefs.registerOnSharedPreferenceChangeListener((sharedPreferences, key) ->
-    {
-      if (key.equals(AppTheme.APP_THEME))
-        AppTheme.onThemeChanged();
-    });
+    prefs.registerOnSharedPreferenceChangeListener(AppTheme.onThemeSettingChanged);
 
     // Hide the orientation setting if the device only supports one orientation. Old devices which
     // support both portrait and landscape may report support for neither, so we use ==, not &&.

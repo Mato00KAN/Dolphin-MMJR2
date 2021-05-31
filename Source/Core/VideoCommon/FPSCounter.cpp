@@ -12,6 +12,10 @@
 #include "VideoCommon/FPSCounter.h"
 #include "VideoCommon/VideoConfig.h"
 
+#ifdef ANDROID
+#include <jni/AndroidCommon/AndroidTheme.h>
+#endif
+
 static constexpr u64 FPS_REFRESH_INTERVAL = 250000;
 
 FPSCounter::FPSCounter()
@@ -24,6 +28,11 @@ FPSCounter::FPSCounter()
     else if (state == Core::State::Running)
       SetPaused(false);
   });
+
+#ifdef ANDROID
+  auto theme = AndroidTheme::GetFloat();
+  std::copy(theme, theme + sizeof(color) / sizeof(color[0]), color);
+#endif
 }
 
 FPSCounter::~FPSCounter()

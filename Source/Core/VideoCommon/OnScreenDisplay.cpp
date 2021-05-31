@@ -19,6 +19,10 @@
 
 #include "Core/Config/MainSettings.h"
 
+#ifdef ANDROID
+#include <jni/AndroidCommon/AndroidTheme.h>
+#endif
+
 namespace OSD
 {
 constexpr float LEFT_MARGIN = 150.0f;        // Pixels to the left of OSD messages.
@@ -63,6 +67,7 @@ static float DrawMessage(int index, Message& msg, const ImVec2& position, int ti
   // The size must be reset, otherwise the length of old messages could influence new ones.
   ImGui::SetNextWindowPos(position);
   ImGui::SetNextWindowSize(ImVec2(0.0f, 0.0f));
+  ImGui::SetNextWindowBgAlpha(.6f);
 
   // Gradually fade old messages away (except in their first frame)
   const float fade_time = std::max(std::min(MESSAGE_FADE_TIME, (float)msg.duration), 1.f);
@@ -92,6 +97,7 @@ static float DrawMessage(int index, Message& msg, const ImVec2& position, int ti
 
 void AddTypedMessage(MessageType type, std::string message, u32 ms, u32 argb)
 {
+  argb = *AndroidTheme::GetInt();
   std::lock_guard lock{s_messages_mutex};
   s_messages.erase(type);
   s_messages.emplace(type, Message(std::move(message), Common::Timer::GetTimeMs() + ms, ms, argb));
@@ -99,6 +105,7 @@ void AddTypedMessage(MessageType type, std::string message, u32 ms, u32 argb)
 
 void AddMessage(std::string message, u32 ms, u32 argb)
 {
+  argb = *AndroidTheme::GetInt();
   std::lock_guard lock{s_messages_mutex};
   s_messages.emplace(MessageType::Typeless,
                      Message(std::move(message), Common::Timer::GetTimeMs() + ms, ms, argb));
