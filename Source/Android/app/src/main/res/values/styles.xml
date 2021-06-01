@@ -24,6 +24,7 @@
         <item name="colorGradientSecondaryEnd">@null</item>
         <item name="colorOnGradientPrimary">@android:color/white</item>
         <item name="textColorOnPrimary">@android:color/white</item>
+        <item name="textColorAccent">@android:color/white</item>
     </style>
 
     <style name="Theme.DolphinMain.MmjrPurple" parent="DolphinBase">
@@ -36,6 +37,7 @@
         <item name="colorGradientPrimaryEnd">@color/purple_gradient_primary_end</item>
         <item name="colorGradientSecondaryStart">@color/purple_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/purple_gradient_secondary_end</item>
+        <item name="textColorAccent">@color/purple_text_accent</item>
     </style>
 
     <style name="Theme.DolphinMain.NeonRed" parent="DolphinBase">
@@ -49,6 +51,7 @@
         <item name="colorGradientSecondaryStart">@color/red_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/red_gradient_secondary_end</item>
         <item name="textColorOnPrimary">@color/neon_red_primary</item>
+        <item name="textColorAccent">@color/neon_red_text_accent</item>
     </style>
 
     <style name="Theme.DolphinMain.DolphinBlue" parent="DolphinBase">
@@ -61,6 +64,7 @@
         <item name="colorGradientPrimaryEnd">@color/blue_gradient_primary_end</item>
         <item name="colorGradientSecondaryStart">@color/blue_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/blue_gradient_secondary_end</item>
+        <item name="textColorAccent">@color/dolphin_blue_text_accent</item>
     </style>
 
     <style name="Theme.DolphinMain.LuigiGreen" parent="DolphinBase">
@@ -74,6 +78,7 @@
         <item name="colorGradientSecondaryStart">@color/green_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/green_gradient_secondary_end</item>
         <item name="textColorOnPrimary">@color/luigi_green_primary</item>
+        <item name="textColorAccent">@color/luigi_green_text_accent</item>
     </style>
 
 <!-- SettingsActivity Themes, use default action bar, and mandate margins. -->
@@ -91,6 +96,7 @@
         <item name="colorGradientSecondaryEnd">@null</item>
         <item name="colorOnGradientPrimary">@android:color/white</item>
         <item name="textColorOnPrimary">@android:color/white</item>
+        <item name="textColorAccent">@android:color/white</item>
     </style>
 
     <style name="Theme.DolphinSettings.MmjrPurple" parent="DolphinSettingsBase">
@@ -103,6 +109,7 @@
         <item name="colorGradientPrimaryEnd">@color/purple_gradient_primary_end</item>
         <item name="colorGradientSecondaryStart">@color/purple_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/purple_gradient_secondary_end</item>
+        <item name="textColorAccent">@color/purple_text_accent</item>
     </style>
 
     <style name="Theme.DolphinSettings.NeonRed" parent="DolphinSettingsBase">
@@ -116,6 +123,7 @@
         <item name="colorGradientSecondaryStart">@color/red_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/red_gradient_secondary_end</item>
         <item name="textColorOnPrimary">@color/neon_red_primary</item>
+        <item name="textColorAccent">@color/neon_red_text_accent</item>
     </style>
 
     <style name="Theme.DolphinSettings.DolphinBlue" parent="DolphinSettingsBase">
@@ -128,6 +136,7 @@
         <item name="colorGradientPrimaryEnd">@color/blue_gradient_primary_end</item>
         <item name="colorGradientSecondaryStart">@color/blue_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/blue_gradient_secondary_end</item>
+        <item name="textColorAccent">@color/dolphin_blue_text_accent</item>
     </style>
 
     <style name="Theme.DolphinSettings.LuigiGreen" parent="DolphinSettingsBase">
@@ -141,6 +150,7 @@
         <item name="colorGradientSecondaryStart">@color/green_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/green_gradient_secondary_end</item>
         <item name="textColorOnPrimary">@color/luigi_green_primary</item>
+        <item name="textColorAccent">@color/luigi_green_text_accent</item>
     </style>
 
 <!-- EmulationActivity Themes, no action bar, transparent navigation bar. -->
@@ -167,6 +177,7 @@
         <item name="colorGradientSecondaryEnd">@null</item>
         <item name="colorOnGradientPrimary">@android:color/white</item>
         <item name="textColorOnPrimary">@android:color/white</item>
+        <item name="textColorAccent">@android:color/white</item>
     </style>
 
     <style name="Theme.DolphinEmulation.MmjrPurple" parent="DolphinEmulationBase">
@@ -179,6 +190,7 @@
         <item name="colorGradientPrimaryEnd">@color/purple_gradient_primary_end</item>
         <item name="colorGradientSecondaryStart">@color/purple_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/purple_gradient_secondary_end</item>
+        <item name="textColorAccent">@color/purple_text_accent</item>
     </style>
 
     <style name="Theme.DolphinEmulation.NeonRed" parent="DolphinEmulationBase">
@@ -192,6 +204,7 @@
         <item name="colorGradientSecondaryStart">@color/red_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/red_gradient_secondary_end</item>
         <item name="textColorOnPrimary">@color/neon_red_primary</item>
+        <item name="textColorAccent">@color/neon_red_text_accent</item>
     </style>
 
     <style name="Theme.DolphinEmulation.DolphinBlue" parent="DolphinEmulationBase">
@@ -204,6 +217,7 @@
         <item name="colorGradientPrimaryEnd">@color/blue_gradient_primary_end</item>
         <item name="colorGradientSecondaryStart">@color/blue_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/blue_gradient_secondary_end</item>
+        <item name="textColorAccent">@color/dolphin_blue_text_accent</item>
     </style>
 
     <style name="Theme.DolphinEmulation.LuigiGreen" parent="DolphinEmulationBase">
@@ -217,6 +231,7 @@
         <item name="colorGradientSecondaryStart">@color/green_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/green_gradient_secondary_end</item>
         <item name="textColorOnPrimary">@color/luigi_green_primary</item>
+        <item name="textColorAccent">@color/luigi_green_text_accent</item>
     </style>
 
 <!-- Android TV Themes -->
@@ -243,6 +258,7 @@
         <item name="colorGradientSecondaryEnd">@null</item>
         <item name="colorOnGradientPrimary">@android:color/white</item>
         <item name="textColorOnPrimary">@android:color/white</item>
+        <item name="textColorAccent">@android:color/white</item>
     </style>
 
     <style name="Theme.DolphinTv.MmjrPurple" parent="DolphinTvBase">
@@ -255,6 +271,7 @@
         <item name="colorGradientPrimaryEnd">@color/purple_gradient_primary_end</item>
         <item name="colorGradientSecondaryStart">@color/purple_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/purple_gradient_secondary_end</item>
+        <item name="textColorAccent">@color/purple_text_accent</item>
     </style>
 
     <style name="Theme.DolphinTv.NeonRed" parent="DolphinTvBase">
@@ -268,6 +285,7 @@
         <item name="colorGradientSecondaryStart">@color/red_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/red_gradient_secondary_end</item>
         <item name="textColorOnPrimary">@color/neon_red_primary</item>
+        <item name="textColorAccent">@color/neon_red_text_accent</item>
     </style>
 
     <style name="Theme.DolphinTv.DolphinBlue" parent="DolphinTvBase">
@@ -280,6 +298,7 @@
         <item name="colorGradientPrimaryEnd">@color/blue_gradient_primary_end</item>
         <item name="colorGradientSecondaryStart">@color/blue_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/blue_gradient_secondary_end</item>
+        <item name="textColorAccent">@color/dolphin_blue_text_accent</item>
     </style>
 
     <style name="Theme.DolphinTv.LuigiGreen" parent="DolphinTvBase">
@@ -293,6 +312,7 @@
         <item name="colorGradientSecondaryStart">@color/green_gradient_secondary_start</item>
         <item name="colorGradientSecondaryEnd">@color/green_gradient_secondary_end</item>
         <item name="textColorOnPrimary">@color/luigi_green_primary</item>
+        <item name="textColorAccent">@color/luigi_green_text_accent</item>
     </style>
 
     <!-- Themes for Dialogs, custom background color -->
@@ -366,5 +386,6 @@
     <attr name="colorGradientSecondaryEnd" format="color" />
     <attr name="colorOnGradientPrimary" format="color" />
     <attr name="textColorOnPrimary" format="color" />
+    <attr name="textColorAccent" format="color" />
 
 </resources>

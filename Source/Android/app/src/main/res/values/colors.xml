@@ -4,21 +4,25 @@
     <color name="dolphin_blue">#2196f3</color>
     <color name="dolphin_blue_dark">#1976d2</color>
     <color name="dolphin_purple">#651fff</color>
+    <color name="dolphin_blue_text_accent">@color/dolphin_purple</color>
 
     <color name="purple_primary">#711fff</color>
     <color name="purple_primary_dark">#4c1bbf</color>
     <color name="purple_accent">#711fff</color>
     <color name="purple_onprimary">#e91c63</color>
+    <color name="purple_text_accent">@color/purple_onprimary</color>
 
     <color name="neon_red_primary">#ff3131</color>
     <color name="neon_red_primary_dark">#d22323</color>
     <color name="neon_red_accent">#ff3131</color>
     <color name="neon_red_onprimary">@android:color/white</color>
+    <color name="neon_red_text_accent">#ff9100</color>
 
     <color name="luigi_green_primary">#3ca821</color>
     <color name="luigi_green_primary_dark">#32851d</color>
     <color name="luigi_green_accent">#3ca821</color>
     <color name="luigi_green_onprimary">@android:color/white</color>
+    <color name="luigi_green_text_accent">#0091ea</color>
 
     <color name="purple_gradient_primary_start">#e64a0c</color>
     <color name="purple_gradient_primary_center">#ec3877</color>

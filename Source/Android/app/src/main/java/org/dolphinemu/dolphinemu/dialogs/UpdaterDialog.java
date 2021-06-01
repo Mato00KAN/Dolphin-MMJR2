@@ -40,10 +40,10 @@ public final class UpdaterDialog extends DialogFragment implements LoadCallback<
 {
   private static final String DATA = "updaterData";
 
-  private View updaterBody;
+  private View updaterBody, changelogBody;
   private Button downloadButton, changelogButton;
   private ProgressBar loadingBar, downloadProgressBar, changelogProgressBar;
-  private TextView updaterMessage, errorText, versionText, downloadSize, changelogBody, changelogErrorText;
+  private TextView updaterMessage, errorText, versionText, downloadSize, changelogText, changelogErrorText;
   private ImageView changelogArrow;
 
   private UpdaterData mData;
@@ -90,7 +90,8 @@ public final class UpdaterDialog extends DialogFragment implements LoadCallback<
     downloadProgressBar = viewGroup.findViewById(R.id.progressbar_download);
     changelogButton = viewGroup.findViewById(R.id.button_view_changelog);
     changelogProgressBar = viewGroup.findViewById(R.id.changelog_loading);
-    changelogBody = viewGroup.findViewById(R.id.changelog_text);
+    changelogText = viewGroup.findViewById(R.id.changelog_text);
+    changelogBody = viewGroup.findViewById(R.id.changelog_body);
     changelogErrorText = viewGroup.findViewById(R.id.changelog_error);
     changelogArrow = viewGroup.findViewById(R.id.changelog_arrow);
 
@@ -236,8 +237,7 @@ public final class UpdaterDialog extends DialogFragment implements LoadCallback<
           public void onLoad(String data)
           {
             changelogProgressBar.setVisibility(View.GONE);
-            changelogBody.setText(data);
-            changelogBody.setMovementMethod(new ScrollingMovementMethod());
+            changelogText.setText(data);
             changelogArrow.startAnimation(rotateDown);
             changelogBody.setVisibility(View.VISIBLE);
             isChangelogOpen = true;

@@ -162,7 +162,7 @@ public class UpdaterUtils
                     response.getJSONObject(i).getString("published_at").substring(0, 10),
                     response.getJSONObject(i).getString("body")));
           }
-          changelog.setLength(Math.max(changelog.length() - 2, 0));
+          changelog.setLength(Math.max(changelog.length() - 1, 0));
           listener.onLoad(changelog.toString());
         }
         catch (Exception e)
