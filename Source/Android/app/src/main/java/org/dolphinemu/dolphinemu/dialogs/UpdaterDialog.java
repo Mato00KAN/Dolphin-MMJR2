@@ -73,8 +73,7 @@ public final class UpdaterDialog extends DialogFragment implements LoadCallback<
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState)
   {
-    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(),
-            R.style.DolphinDialogBase);
+    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
     ViewGroup viewGroup = (ViewGroup) getActivity().getLayoutInflater()
       .inflate(R.layout.dialog_updater, null);
 

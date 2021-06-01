@@ -183,6 +183,7 @@
     <string name="osd_messages">Show On-Screen Display Messages</string>
     <string name="osd_messages_description">Display messages over the emulation screen area. These messages include memory card writes, video backend and CPU information, and JIT cache clearing.</string>
     <string name="download_game_covers">Download Game Covers from GameTDB.com</string>
+    <string name="application_theme">Theme</string>
     <string name="updater_check_startup">Check for updates at startup</string>
     <string name="updater_check_startup_description">If allowed, Dolphin |MMJR| will check for updates when opened. A pop-up will appear when a new version is available. An internet connection is required.</string>
 

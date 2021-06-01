@@ -19,10 +19,9 @@
                     <gradient
                         android:angle="45"
                         android:type="linear"
-                        android:startColor="@color/gradient_blue_start"
-                        android:centerX="50%"
-                        android:centerColor="@color/gradient_blue_center"
-                        android:endColor="@color/gradient_blue_end" />
+                        android:startColor="?attr/colorGradientSecondaryStart"
+                        android:centerColor="?attr/colorGradientSecondaryCenter"
+                        android:endColor="?attr/colorGradientSecondaryEnd" />
                     <corners android:radius="6dp" />
                 </shape>
             </item>

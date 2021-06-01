@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -33,6 +34,7 @@ import com.nononsenseapps.filepicker.DividerItemDecoration;
 
 import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
+import org.dolphinemu.dolphinemu.model.AppTheme;
 import org.dolphinemu.dolphinemu.model.GameFile;
 import org.dolphinemu.dolphinemu.services.GameFileCacheService;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
@@ -429,6 +431,7 @@ public class CheatEditorActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
+    AppTheme.applyTheme(this);
     setContentView(R.layout.activity_cheat);
     Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -439,7 +442,7 @@ public class CheatEditorActivity extends AppCompatActivity
     setTitle(gameId);
 
     // code list
-    Drawable lineDivider = getDrawable(R.drawable.line_divider);
+    Drawable lineDivider = ContextCompat.getDrawable(this, R.drawable.line_divider);
     mListView = findViewById(R.id.code_list);
     mAdapter = new CheatEntryAdapter();
     mListView.setAdapter(mAdapter);

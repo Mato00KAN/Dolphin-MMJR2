@@ -8,6 +8,6 @@
         </shape>
     </item>
 
-    <item android:bottom="3dp" android:left="3dp" android:drawable="@drawable/button_gradient" />
+    <item android:bottom="3dp" android:left="3dp" android:drawable="@drawable/button_primary_gradient" />
 
 </layer-list>

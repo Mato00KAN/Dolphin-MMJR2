@@ -340,7 +340,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener
 
     if (iso_warning || gcz_warning)
     {
-      AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DolphinDialogBase);
+      AlertDialog.Builder builder = new AlertDialog.Builder(context);
       builder.setMessage(iso_warning ? R.string.convert_warning_iso : R.string.convert_warning_gcz)
               .setPositiveButton(R.string.yes, (dialog, i) ->
               {
@@ -446,7 +446,7 @@ public class ConvertFragment extends Fragment implements View.OnClickListener
         {
           progressDialog.dismiss();
 
-          AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DolphinDialogBase);
+          AlertDialog.Builder builder = new AlertDialog.Builder(context);
           if (success)
           {
             builder.setMessage(R.string.convert_success_message)

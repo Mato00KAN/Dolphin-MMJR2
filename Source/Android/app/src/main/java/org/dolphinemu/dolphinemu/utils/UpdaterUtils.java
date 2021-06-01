@@ -74,7 +74,7 @@ public class UpdaterUtils
 
   private static void showUpdateMessage(Context context, UpdaterData data)
   {
-    new AlertDialog.Builder(context, R.style.DolphinDialogBase)
+    new AlertDialog.Builder(context)
       .setTitle(context.getString(R.string.updates_alert))
       .setMessage(context.getString(R.string.updater_alert_body))
       .setPositiveButton(R.string.yes, (dialogInterface, i) ->
@@ -88,7 +88,7 @@ public class UpdaterUtils
 
   private static void showPermissionDialog(Context context)
   {
-    new AlertDialog.Builder(context, R.style.DolphinDialogBase)
+    new AlertDialog.Builder(context)
       .setTitle(context.getString(R.string.updater_check_startup))
       .setMessage(context.getString(R.string.updater_check_startup_description))
       .setPositiveButton(R.string.yes, (dialogInterface, i) ->

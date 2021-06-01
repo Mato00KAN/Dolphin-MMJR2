@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/dolphin_background"
     android:transitionName="card_game"
-    android:animateLayoutChanges="true"
-    style="@style/DolphinDialogBase" >
+    android:animateLayoutChanges="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,7 +37,7 @@
             android:text="@string/updater_title"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/dolphin_fucsia"
+            android:textColor="?attr/colorOnPrimary"
             app:layout_constraintTop_toBottomOf="@id/banner" />
 
         <TextView
@@ -148,7 +147,7 @@
                     android:layout_height="match_parent"
                     android:max="100"
                     android:progress="0"
-                    android:progressDrawable="@drawable/progressbar_gradient"
+                    android:progressDrawable="@drawable/progressbar_primary_gradient"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
@@ -156,10 +155,10 @@
                     style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/button_gradient"
+                    android:background="@drawable/button_primary_gradient"
                     android:stateListAnimator="@null"
                     android:text="@string/button_download"
-                    android:textColor="#ffffff"
+                    android:textColor="?attr/colorOnGradientPrimary"
                     app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

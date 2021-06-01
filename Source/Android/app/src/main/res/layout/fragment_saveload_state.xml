@@ -13,7 +13,7 @@
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
         android:backgroundTint="#000000"
-        android:textColor="@color/dolphin_fucsia" />
+        android:textColor="?attr/colorPrimary" />
 
     <Button
         android:id="@+id/loadsave_state_button_2"
@@ -21,7 +21,7 @@
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
         android:backgroundTint="#AF000000"
-        android:textColor="@color/dolphin_fucsia" />
+        android:textColor="?attr/colorPrimary" />
 
     <Button
         android:id="@+id/loadsave_state_button_3"
@@ -29,7 +29,7 @@
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
         android:backgroundTint="#AF000000"
-        android:textColor="@color/dolphin_fucsia" />
+        android:textColor="?attr/colorPrimary" />
 
     <Button
         android:id="@+id/loadsave_state_button_4"
@@ -37,7 +37,7 @@
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
         android:backgroundTint="#AF000000"
-        android:textColor="@color/dolphin_fucsia" />
+        android:textColor="?attr/colorPrimary" />
 
     <Button
         android:id="@+id/loadsave_state_button_5"
@@ -45,13 +45,13 @@
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
         android:backgroundTint="#AF000000"
-        android:textColor="@color/dolphin_fucsia" />
+        android:textColor="?attr/colorPrimary" />
 
     <Button
         android:id="@+id/loadsave_state_button_6"
         android:layout_width="128dp"
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
-        android:textColor="@color/dolphin_fucsia" />
+        android:textColor="?attr/colorPrimary" />
 
 </GridLayout>
