@@ -1,9 +1,12 @@
 # Dolphin MMJR
 An Android-only performance-focused dolphin fork, rebased on top of latest dolphin development builds and reimplementing MMJ UX and performance improvements, plus adding our own.
 
-Grab the latest build in the [releases](https://github.com/Bankaimaster999/Dolphin-MMJR/releases) section, or check for new version in the in-app updater.
+Grab the latest build in the [releases](https://github.com/Bankaimaster999/Dolphin-MMJR/releases) section, or check for new version in the in-app updater. Old MMJR v1.0 builds can be found at the old repository [here](https://github.com/Bankaimaster999/dolphin/releases). 1.0 and 2.0 builds can be installed without conflicts as they use different folders, but **savestates are not compatible**. We kindly ask you to avoid misusing GitHub Issues and Pull Requests.
 
 This fork wouldn't be possible without the crazy amount of work that developers much more skilled than us put into Dolphin.
+
+Join the MMJR community at our [Discord](https://discord.gg/8svpxRFqxT).
+
 ## Dolphin - A GameCube and Wii Emulator
 
 [Homepage](https://dolphin-emu.org/) | [Project Site](https://github.com/dolphin-emu/dolphin) | [Buildbot](https://dolphin.ci) | [Forums](https://forums.dolphin-emu.org/) | [Wiki](https://wiki.dolphin-emu.org/) | [Issue Tracker](https://bugs.dolphin-emu.org/projects/emulator/issues) | [Coding Style](https://github.com/dolphin-emu/dolphin/blob/master/Contributing.md) | [Transifex Page](https://www.transifex.com/projects/p/dolphin-emu/)
@@ -19,7 +22,7 @@ Please read the [FAQ](https://dolphin-emu.org/docs/faq/) before using Dolphin.
 ### Android
 
 * OS
-    * Android (5.0 Lollipop or higher).
+    * Android 5.0 Lollipop or higher (SDK >= 21).
 * Processor
     * A processor with support for 64-bit applications (either ARMv8 or x86-64).
 * Graphics
@@ -27,6 +30,7 @@ Please read the [FAQ](https://dolphin-emu.org/docs/faq/) before using Dolphin.
     * A graphics processor that supports standard desktop OpenGL features is recommended for best performance.
 
 Dolphin can only be installed on devices that satisfy the above requirements. Attempting to install on an unsupported device will fail and display an error message.
+
 ## Building for Android
 
 These instructions assume familiarity with Android development. If you do not have an
