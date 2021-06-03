@@ -38,28 +38,6 @@ Android apps are compiled using a build system called Gradle. Dolphin's native c
 however, is compiled using CMake. The Gradle script will attempt to run a CMake build
 automatically while building the Java code.
 
-## Command Line Usage
-
-`Usage: Dolphin [-h] [-d] [-l] [-e <str>] [-b] [-V <str>] [-A <str>]`
-
-* -h, --help Show this help message
-* -d, --debugger Show the debugger pane and additional View menu options
-* -l, --logger Open the logger
-* -e, --exec=<str> Load the specified file (DOL,ELF,WAD,GCM,ISO)
-* -b, --batch Exit Dolphin with emulator
-* -V, --video_backend=<str> Specify a video backend
-* -A, --audio_emulation=<str> Low level (LLE) or high level (HLE) audio
-
-Available DSP emulation engines are HLE (High Level Emulation) and
-LLE (Low Level Emulation). HLE is faster but less accurate whereas
-LLE is slower but close to perfect. Note that LLE has two submodes (Interpreter and Recompiler)
-but they cannot be selected from the command line.
-
-Available video backends are "D3D" and "D3D12" (they are only available on Windows), "OGL", and "Vulkan".
-There's also "Null", which will not render anything, and
-"Software Renderer", which uses the CPU for rendering and
-is intended for debugging purposes only.
-
 ## Sys Files
 
 * `wiitdb.txt`: Wii title database from [GameTDB](https://www.gametdb.com/)
