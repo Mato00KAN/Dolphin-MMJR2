@@ -28,8 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="@dimen/spacing_small"
-        android:background="@drawable/button_gradient"
-        android:textColor="@android:color/white"
+        android:background="@drawable/button_primary_gradient"
+        android:textColor="?attr/colorOnGradientPrimary"
         android:text="@string/emulation_done"
         android:visibility="gone"/>
 

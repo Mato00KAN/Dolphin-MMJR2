@@ -81,6 +81,7 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
     {
       holder.textGameCaption
               .setText(context.getString(R.string.disc_number, gameFile.getDiscNumber() + 1));
+      holder.textGameCaption.setVisibility(View.VISIBLE);
     }
 
     holder.gameFile = gameFile;

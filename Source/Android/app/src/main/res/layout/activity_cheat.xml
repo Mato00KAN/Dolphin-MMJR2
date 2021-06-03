@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,12 +7,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
+        android:background="?colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/DolphinSettingsBase"
-        app:popupTheme="@style/DolphinDialogBase" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -21,7 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="invisible"
-        android:theme="@style/DolphinBase"
         tools:visibility="visible" />
 
     <FrameLayout
@@ -30,17 +26,24 @@
         android:layout_above="@id/buttons"
         android:layout_below="@id/toolbar">
 
-        <EditText
-            android:id="@+id/code_content"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="top|start"
-            android:hint="@string/cheat_code"
-            android:inputType="textMultiLine"
-            android:scrollbars="horizontal|vertical"
-            android:textSize="14sp"
-            android:typeface="monospace"
-            android:autofillHints="" />
+            android:gravity="top|start">
+
+            <EditText
+                android:id="@+id/code_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cheat_code"
+                android:inputType="textMultiLine"
+                android:scrollbars="horizontal|vertical"
+                android:textSize="14sp"
+                android:typeface="monospace"
+                android:background="@null"
+                android:autofillHints="null" />
+
+        </ScrollView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/code_list"
@@ -48,6 +51,12 @@
             android:layout_height="match_parent" />
 
     </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        android:layout_alignTop="@id/buttons" />
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -65,10 +74,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button_gradient"
+            android:background="@drawable/button_primary_gradient"
             android:stateListAnimator="@null"
-            android:text="@android:string/cancel"
-            android:textColor="#fafafa"
+            android:text="@string/cancel"
+            android:textColor="?attr/colorOnGradientPrimary"
+            android:textSize="16sp"
             android:textAllCaps="false" />
 
         <Button
@@ -77,10 +87,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button_gradient"
+            android:background="@drawable/button_primary_gradient"
             android:stateListAnimator="@null"
             android:text="@string/save"
-            android:textColor="#fafafa"
+            android:textColor="?attr/colorOnGradientPrimary"
+            android:textSize="16sp"
             android:textAllCaps="false" />
     </LinearLayout>
 

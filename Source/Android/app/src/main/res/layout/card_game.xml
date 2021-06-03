@@ -40,58 +40,39 @@
         android:visibility="gone"
         tools:text="The Legend of Zelda: The Wind Waker" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="145dp"
-        android:layout_marginRight="3dp">
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="3dp">
 
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cover_info_background"
+        <TextView
+            android:id="@+id/text_game_caption"
+            style="@android:style/TextAppearance.Material.Caption"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/dolphin_blue_dark"
-            app:cardCornerRadius="2dp"
-            app:layout_constraintLeft_toRightOf="@id/cover_info_background2"
-            tools:ignore="MissingConstraints">
+            android:layout_height="match_parent"
+            android:textColor="?attr/textColorOnPrimary"
+            android:textStyle="bold"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="3dp"
+            android:background="?attr/colorOnPrimary"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:text="Disc 1" />
 
-            <TextView
-                android:id="@+id/text_country"
-                style="@android:style/TextAppearance.Material.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="3dp"
-                android:textColor="@color/dolphin_fucsia"
-                android:textStyle="bold"
-                tools:text="NTSC" />
-
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cover_info_background2"
+        <TextView
+            android:id="@+id/text_country"
+            style="@android:style/TextAppearance.Material.Caption"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/dolphin_fucsia"
-            app:cardCornerRadius="3dp"
-            app:layout_constraintRight_toLeftOf="@id/cover_info_background"
-            tools:ignore="MissingConstraints">
+            android:layout_height="match_parent"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="3dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:background="?attr/colorPrimary"
+            tools:text="NTSC" />
 
-            <TextView
-                android:id="@+id/text_game_caption"
-                style="@android:style/TextAppearance.Material.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/dolphin_blue_dark"
-                android:textStyle="bold"
-                tools:text="Nintendo" />
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
 

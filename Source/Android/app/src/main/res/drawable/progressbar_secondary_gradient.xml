@@ -9,7 +9,7 @@
     </item>
 
     <item android:id="@android:id/progress">
-        <clip android:drawable="@drawable/button_gradient_purple" />
+        <clip android:drawable="@drawable/button_secondary_gradient" />
     </item>
 
 </layer-list>

@@ -29,7 +29,7 @@
             android:paddingRight="1dp"
             app:tabBackground="?colorPrimary"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/dolphin_fucsia"
+            app:tabIndicatorColor="?attr/colorOnPrimary"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/MyCustomTextAppearance" />
 
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/dolphin_blue"
+        android:backgroundTint="?attr/colorAccent"
         android:src="@drawable/ic_add"
         app:borderWidth="0dp"
         app:layout_anchor="@+id/pager_platforms"

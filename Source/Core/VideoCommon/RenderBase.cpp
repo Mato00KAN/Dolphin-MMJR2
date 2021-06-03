@@ -524,8 +524,8 @@ void Renderer::DrawDebugText()
     ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x - (20.0f * m_backbuffer_scale),
                                    5.0f * m_backbuffer_scale),
                             ImGuiCond_Always, ImVec2(9.5f, 0.0f));
-    ImGui::SetNextWindowSize(ImVec2(135.0f * m_backbuffer_scale, 25.5f * m_backbuffer_scale));
-    ImGui::SetNextWindowBgAlpha(0.5f);
+    ImGui::SetNextWindowSize(ImVec2(.0f, 28.f * m_backbuffer_scale));
+    ImGui::SetNextWindowBgAlpha(.6f);
 
     if (ImGui::Begin("FPS", nullptr,
                      ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoInputs |
@@ -533,7 +533,8 @@ void Renderer::DrawDebugText()
                          ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoNav |
                          ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing))
     {
-      ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "|MMJR| FPS: %.2f", m_fps_counter.GetFPS());
+      ImGui::TextColored(ImVec4(m_fps_counter.color[0], m_fps_counter.color[1], m_fps_counter.color[2], 1.0f),
+                         "|MMJR| FPS: %.2f", m_fps_counter.GetFPS());
     }
     ImGui::End();
   }

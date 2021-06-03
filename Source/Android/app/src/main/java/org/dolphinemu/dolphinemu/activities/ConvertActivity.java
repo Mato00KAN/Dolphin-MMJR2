@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import org.dolphinemu.dolphinemu.R;
+import org.dolphinemu.dolphinemu.model.AppTheme;
 import org.dolphinemu.dolphinemu.fragments.ConvertFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +25,7 @@ public class ConvertActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
-
+    AppTheme.applyTheme(this);
     setContentView(R.layout.activity_convert);
 
     String path = getIntent().getStringExtra(ARG_GAME_PATH);

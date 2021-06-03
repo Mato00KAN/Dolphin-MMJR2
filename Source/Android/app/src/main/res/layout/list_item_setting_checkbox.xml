@@ -45,6 +45,6 @@
         android:layout_marginEnd="@dimen/spacing_large"
         android:focusable="false"
         android:clickable="false"
-        android:buttonTint="@color/dolphin_purple"/>
+        android:buttonTint="?attr/colorAccent" />
 
 </RelativeLayout>

@@ -92,7 +92,7 @@ public final class GameRowPresenter extends Presenter
 
       if (gameId.isEmpty())
       {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.DolphinDialogBase);
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle("Game Settings");
         builder.setMessage("Files without game IDs don't support game-specific settings.");
 

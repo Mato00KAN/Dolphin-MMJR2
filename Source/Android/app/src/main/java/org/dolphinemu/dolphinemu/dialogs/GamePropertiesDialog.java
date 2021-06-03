@@ -66,8 +66,7 @@ public class GamePropertiesDialog extends DialogFragment
             platform == Platform.WII.toInt();
     final boolean isWii = platform != Platform.GAMECUBE.toInt();
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(),
-            R.style.DolphinDialogBase);
+    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
     ViewGroup contents = (ViewGroup) getActivity().getLayoutInflater()
             .inflate(R.layout.dialog_game_properties, null);
 

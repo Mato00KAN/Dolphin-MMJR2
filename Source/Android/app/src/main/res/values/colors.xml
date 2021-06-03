@@ -1,30 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="dolphin_blue">#711fff</color>
-    <color name="dolphin_blue_dark">#4c1bbf</color>
-    <color name="dolphin_purple">#711fff</color>
-    <color name="dolphin_fucsia">#e91c63</color>
+    <color name="dolphin_blue">#2196f3</color>
+    <color name="dolphin_blue_dark">#1976d2</color>
+    <color name="dolphin_purple">#651fff</color>
+    <color name="dolphin_blue_text_accent">@color/dolphin_purple</color>
+
+    <color name="purple_primary">#711fff</color>
+    <color name="purple_primary_dark">#4c1bbf</color>
+    <color name="purple_accent">#711fff</color>
+    <color name="purple_onprimary">#e91c63</color>
+    <color name="purple_text_accent">@color/purple_onprimary</color>
+
+    <color name="neon_red_primary">#ff3131</color>
+    <color name="neon_red_primary_dark">#d22323</color>
+    <color name="neon_red_accent">#ff3131</color>
+    <color name="neon_red_onprimary">@android:color/white</color>
+    <color name="neon_red_text_accent">#ff9100</color>
+
+    <color name="luigi_green_primary">#3ca821</color>
+    <color name="luigi_green_primary_dark">#32851d</color>
+    <color name="luigi_green_accent">#3ca821</color>
+    <color name="luigi_green_onprimary">@android:color/white</color>
+    <color name="luigi_green_text_accent">#0091ea</color>
+
+    <color name="purple_gradient_primary_start">#e64a0c</color>
+    <color name="purple_gradient_primary_center">#ec3877</color>
+    <color name="purple_gradient_primary_end">@color/purple_onprimary</color>
+    <color name="purple_gradient_secondary_start">@color/purple_primary</color>
+    <color name="purple_gradient_secondary_end">@color/purple_primary_dark</color>
+
+    <!-- Neon Red theme has no gradient -->
+    <color name="red_gradient_primary_start">#ff3939</color>
+    <color name="red_gradient_primary_center">@null</color>
+    <color name="red_gradient_primary_end">@color/red_gradient_primary_start</color>
+    <color name="red_gradient_secondary_start">@color/neon_red_primary_dark</color>
+    <color name="red_gradient_secondary_end">@color/red_gradient_secondary_start</color>
+
+    <color name="blue_gradient_primary_start">#28a6f4</color>
+    <color name="blue_gradient_primary_center">@null</color>
+    <color name="blue_gradient_primary_end">#0dbfec</color>
+    <color name="blue_gradient_secondary_start">@color/dolphin_blue</color>
+    <color name="blue_gradient_secondary_end">@color/dolphin_blue_dark</color>
+
+    <!-- Luigi Green theme has no gradient -->
+    <color name="green_gradient_primary_start">#40c61e</color>
+    <color name="green_gradient_primary_center">@null</color>
+    <color name="green_gradient_primary_end">@color/green_gradient_primary_start</color>
+    <color name="green_gradient_secondary_start">@color/luigi_green_primary_dark</color>
+    <color name="green_gradient_secondary_end">@color/green_gradient_secondary_start</color>
 
     <color name="dolphin_background">#fafafa</color>
     <color name="divider">#1f000000</color>
-    <color name="divider_dark">#66FFFFFF</color>
+    <color name="divider_dark">#66ffffff</color>
     <color name="text">#3a3a3a</color>
     <color name="text_dark">#dcdcdc</color>
     <color name="dialog_background">#fafafa</color>
-
-    <color name="gradient_start">#e64a0c</color>
-    <color name="gradient_center">#ec3877</color>
-    <color name="gradient_end">#e91c63</color>
-
-    <color name="gradient2_start">#262fe0</color>
-    <color name="gradient2_center">#267ae0</color>
-    <color name="gradient2_end">#26cde0</color>
-
-    <color name="gradient_blue_start">#2196f3</color>
-    <color name="gradient_blue_center">#1f75dd</color>
-    <color name="gradient_blue_end">#262fe0</color>
-
     <color name="ripple_white">#d3d3d3</color>
 
     <color name="dolphin_accent_wii">#9e9e9e</color>

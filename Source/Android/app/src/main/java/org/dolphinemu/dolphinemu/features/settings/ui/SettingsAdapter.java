@@ -43,6 +43,7 @@ import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SliderSelectorV
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SliderViewHolder;
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SubmenuViewHolder;
 import org.dolphinemu.dolphinemu.ui.main.MainPresenter;
+import org.dolphinemu.dolphinemu.model.AppTheme;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
 import org.dolphinemu.dolphinemu.utils.Log;
@@ -208,8 +209,7 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
 
     int value = getSelectionForSingleChoiceValue(item);
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(mView.getActivity(),
-            R.style.DolphinDialogBase);
+    AlertDialog.Builder builder = new AlertDialog.Builder(mView.getActivity());
 
     builder.setTitle(item.getName());
     builder.setSingleChoiceItems(item.getChoicesId(), value, this);
@@ -222,8 +222,7 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
     mClickedItem = item;
     mClickedPosition = position;
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(mView.getActivity(),
-            R.style.DolphinDialogBase);
+    AlertDialog.Builder builder = new AlertDialog.Builder(mView.getActivity());
 
     builder.setTitle(item.getName());
     builder.setSingleChoiceItems(item.getChoicesId(), item.getSelectValueIndex(getSettings()),
@@ -240,8 +239,7 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
 
     int value = getSelectionForSingleChoiceDynamicDescriptionsValue(item);
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(mView.getActivity(),
-            R.style.DolphinDialogBase);
+    AlertDialog.Builder builder = new AlertDialog.Builder(mView.getActivity());
 
     builder.setTitle(item.getName());
     builder.setSingleChoiceItems(item.getChoicesId(), value, this);
@@ -255,8 +253,7 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
     mClickedPosition = position;
     mSeekbarMinValue = item.getMin();
     mSeekbarProgress = item.getSelectedValue(getSettings());
-    AlertDialog.Builder builder = new AlertDialog.Builder(mView.getActivity(),
-            R.style.DolphinDialogBase);
+    AlertDialog.Builder builder = new AlertDialog.Builder(mView.getActivity());
 
     LayoutInflater inflater = LayoutInflater.from(mView.getActivity());
     View view = inflater.inflate(R.layout.dialog_seekbar, null);

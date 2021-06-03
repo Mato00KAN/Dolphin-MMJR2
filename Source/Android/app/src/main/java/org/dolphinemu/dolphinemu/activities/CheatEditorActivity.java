@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -15,6 +16,7 @@ import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +35,7 @@ import com.nononsenseapps.filepicker.DividerItemDecoration;
 
 import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
+import org.dolphinemu.dolphinemu.model.AppTheme;
 import org.dolphinemu.dolphinemu.model.GameFile;
 import org.dolphinemu.dolphinemu.services.GameFileCacheService;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
@@ -69,6 +72,9 @@ public class CheatEditorActivity extends AppCompatActivity
 
   private static class IniTextWatcher implements TextWatcher
   {
+    public static int colorPrimary;
+    public static int colorTextAccent;
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after)
     {
@@ -142,12 +148,12 @@ public class CheatEditorActivity extends AppCompatActivity
           }
           else if (codenameStart != -1)
           {
-            s.setSpan(new ForegroundColorSpan(Color.MAGENTA), offset + codenameStart,
+            s.setSpan(new ForegroundColorSpan(colorTextAccent), offset + codenameStart,
               offset + len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
           }
           else if (sectionStart != -1 && sectionEnd != -1)
           {
-            s.setSpan(new ForegroundColorSpan(Color.BLUE), offset + sectionStart,
+            s.setSpan(new ForegroundColorSpan(colorPrimary), offset + sectionStart,
               offset + sectionEnd + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
           }
 
@@ -358,7 +364,7 @@ public class CheatEditorActivity extends AppCompatActivity
     public void bind(CheatEntry entry)
     {
       mModel = entry;
-      mTextName.setText(entry.name);
+      mTextName.setText(entry.name.substring(1));
       mTextDescription.setText(entry.info);
       mCheckbox.setChecked(entry.active);
     }
@@ -429,6 +435,7 @@ public class CheatEditorActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
+    AppTheme.applyTheme(this);
     setContentView(R.layout.activity_cheat);
     Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -439,7 +446,7 @@ public class CheatEditorActivity extends AppCompatActivity
     setTitle(gameId);
 
     // code list
-    Drawable lineDivider = getDrawable(R.drawable.line_divider);
+    Drawable lineDivider = ContextCompat.getDrawable(this, R.drawable.line_divider);
     mListView = findViewById(R.id.code_list);
     mAdapter = new CheatEntryAdapter();
     mListView.setAdapter(mAdapter);
@@ -454,6 +461,12 @@ public class CheatEditorActivity extends AppCompatActivity
     mProgressBar.setVisibility(View.INVISIBLE);
 
     mEditor.addTextChangedListener(new IniTextWatcher());
+    TypedValue typedValue = new TypedValue();
+    getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+    IniTextWatcher.colorPrimary = typedValue.data;
+    getTheme().resolveAttribute(R.attr.textColorAccent, typedValue, true);
+    IniTextWatcher.colorTextAccent = typedValue.data;
+
     mEditor.setHorizontallyScrolling(true);
     setGameSettings(gameId, mEditor);
     loadCheatList();

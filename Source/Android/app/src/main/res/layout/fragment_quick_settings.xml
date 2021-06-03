@@ -12,7 +12,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/dolphin_blue_dark"
+        android:background="?attr/colorPrimaryDark"
         app:layout_constraintTop_toTopOf="@id/title"
         app:layout_constraintBottom_toBottomOf="@id/title" />
 
@@ -41,7 +41,8 @@
         android:paddingStart="4dp"
         android:paddingBottom="4dp"
         android:src="@drawable/ic_baseline_open_in_new"
-        android:background="@drawable/button_gradient_shadow"
+        android:tint="?attr/colorOnGradientPrimary"
+        android:background="@drawable/button_primary_gradient_shadow"
         android:tooltipText="@string/open_settings_tooltip"
         android:contentDescription="@string/open_settings_tooltip"
         app:layout_constraintTop_toTopOf="@id/title"

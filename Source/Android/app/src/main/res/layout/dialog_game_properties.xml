@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dolphin_background"
-    style="@style/DolphinDialogBase">
+    android:background="@color/dolphin_background">
 
     <ImageView
         android:id="@+id/banner"
@@ -37,11 +35,11 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="@dimen/gameprop_button_height"
-            android:background="@drawable/button_gradient"
+            android:background="@drawable/button_primary_gradient"
             android:stateListAnimator="@null"
             android:text="@string/properties_edit_game_settings"
             android:textAllCaps="false"
-            android:textColor="#ffffff" />
+            android:textColor="?attr/colorOnGradientPrimary" />
 
         <LinearLayout
             android:id="@+id/row1"
@@ -57,7 +55,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/gameprop_button_height"
                 android:layout_weight="1"
-                android:background="@drawable/button_gradient_purple"
+                android:background="@drawable/button_secondary_gradient"
                 android:stateListAnimator="@null"
                 android:text="@string/properties_details"
                 android:textAllCaps="false"
@@ -69,7 +67,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/gameprop_button_height"
                 android:layout_weight="1"
-                android:background="@drawable/button_gradient_purple"
+                android:background="@drawable/button_secondary_gradient"
                 android:stateListAnimator="@null"
                 android:text="@string/cheat_code"
                 android:textColor="#ffffff"
@@ -91,7 +89,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/gameprop_button_height"
                 android:layout_weight="1"
-                android:background="@drawable/button_gradient_purple"
+                android:background="@drawable/button_secondary_gradient"
                 android:stateListAnimator="@null"
                 android:text="@string/grid_menu_wiimote_settings"
                 android:textColor="#ffffff"
@@ -103,7 +101,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/gameprop_button_height"
                 android:layout_weight="1"
-                android:background="@drawable/button_gradient_purple"
+                android:background="@drawable/button_secondary_gradient"
                 android:stateListAnimator="@null"
                 android:text="@string/grid_menu_gcpad_settings"
                 android:textColor="#ffffff"
@@ -125,7 +123,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/gameprop_button_height"
                 android:layout_weight="1"
-                android:background="@drawable/button_gradient_purple"
+                android:background="@drawable/button_secondary_gradient"
                 android:stateListAnimator="@null"
                 android:text="@string/properties_convert"
                 android:textColor="#ffffff"
@@ -137,7 +135,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/gameprop_button_height"
                 android:layout_weight="1"
-                android:background="@drawable/button_gradient_purple"
+                android:background="@drawable/button_secondary_gradient"
                 android:stateListAnimator="@null"
                 android:text="@string/properties_clear_game_settings"
                 android:textColor="#ffffff"
