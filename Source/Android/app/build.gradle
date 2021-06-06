@@ -109,7 +109,7 @@ def getVersion() {
     def versionNumber = '0.0'
 
     try {
-        versionNumber = 'git describe --always --tags'.execute([], project.rootDir).text
+        versionNumber = 'git describe --always --tags --abbrev=0'.execute([], project.rootDir).text
                 .trim()
     } catch (Exception e) {
         logger.error(e + ': Cannot find git, defaulting to dummy version number')
