@@ -5,7 +5,7 @@ Grab the latest build in the [releases](https://github.com/Bankaimaster999/Dolph
 
 This fork wouldn't be possible without the crazy amount of work that developers much more skilled than us put into Dolphin.
 
-Join the MMJR community at our [Discord](https://discord.gg/8svpxRFqxT).
+Join the MMJR community at our [Discord](https://discord.gg/WYcywwV49Z).
 
 ## Dolphin - A GameCube and Wii Emulator
 
