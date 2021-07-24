@@ -451,20 +451,37 @@ void WritePixelShaderCommonHeader(ShaderCode& out, APIType api_type,
 
   if (bounding_box)
   {
+    if (api_type == APIType::D3D)
+    {
+      out.Write("globallycoherent RWBuffer<int> bbox_data : register(u2);\n"
+                "#define atomicMin InterlockedMin\n"
+                "#define atomicMax InterlockedMax");
+    }
+    else
+    {
+      out.Write("SSBO_BINDING(0) buffer BBox {{\n");
+
+      if (DriverDetails::HasBug(DriverDetails::BUG_BROKEN_SSBO_FIELD_ATOMICS))
+      {
+        // AMD drivers on Windows seemingly ignore atomic writes to fields or array elements of an
+        // SSBO other than the first one, but using an int4 seems to work fine
+        out.Write("  int4 bbox_data;\n");
+      }
+      else
+      {
+        // The Metal shader compiler fails to compile the atomic instructions when operating on
+        // individual components of a vector
+        out.Write("  int bbox_data[4];\n");
+      }
+
+      out.Write("}};");
+    }
+
     out.Write(R"(
-#ifdef API_D3D
-globallycoherent RWBuffer<int> bbox_data : register(u2);
-#define atomicMin InterlockedMin
-#define atomicMax InterlockedMax
 #define bbox_left bbox_data[0]
 #define bbox_right bbox_data[1]
 #define bbox_top bbox_data[2]
 #define bbox_bottom bbox_data[3]
-#else
-SSBO_BINDING(0) buffer BBox {{
-  int bbox_left, bbox_right, bbox_top, bbox_bottom;
-}};
-#endif
 
 void UpdateBoundingBoxBuffer(int2 min_pos, int2 max_pos) {{
   if (bbox_left > min_pos.x)
@@ -478,30 +495,19 @@ void UpdateBoundingBoxBuffer(int2 min_pos, int2 max_pos) {{
 }}
 
 void UpdateBoundingBox(float2 rawpos) {{
-  // The pixel center in the GameCube GPU is 7/12, not 0.5 (see VertexShaderGen.cpp)
-  // Adjust for this by unapplying the offset we added in the vertex shader.
-  const float PIXEL_CENTER_OFFSET = 7.0 / 12.0 - 0.5;
-  float2 offset = float2(PIXEL_CENTER_OFFSET, -PIXEL_CENTER_OFFSET);
-
-#ifdef API_OPENGL
-  // OpenGL lower-left origin means that Y goes in the opposite direction.
-  offset.y = -offset.y;
-#endif
-
   // The rightmost shaded pixel is not included in the right bounding box register,
   // such that width = right - left + 1. This has been verified on hardware.
-  int2 pos = iround(rawpos * cefbscale + offset);
+  int2 pos = int2(rawpos * cefbscale);
+
+#ifdef API_OPENGL
+  // We need to invert the Y coordinate due to OpenGL's lower-left origin
+  pos.y = {efb_height} - pos.y - 1;
+#endif
 
   // The GC/Wii GPU rasterizes in 2x2 pixel groups, so bounding box values will be rounded to the
   // extents of these groups, rather than the exact pixel.
-#ifdef API_OPENGL
-  // Need to flip the operands for Y on OpenGL because of lower-left origin.
-  int2 pos_tl = int2(pos.x & ~1, pos.y | 1);
-  int2 pos_br = int2(pos.x | 1, pos.y & ~1);
-#else
   int2 pos_tl = pos & ~1;
   int2 pos_br = pos | 1;
-#endif
 
 #ifdef SUPPORTS_SUBGROUP_REDUCTION
   if (CAN_USE_SUBGROUP_REDUCTION) {{
@@ -519,7 +525,8 @@ void UpdateBoundingBox(float2 rawpos) {{
 #endif
 }}
 
-)");
+)",
+              fmt::arg("efb_height", EFB_HEIGHT));
   }
 }
 
