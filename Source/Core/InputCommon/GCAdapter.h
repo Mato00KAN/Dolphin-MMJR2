@@ -31,4 +31,4 @@ bool DeviceConnected(int chan);
 void ResetDeviceType(int chan);
 bool UseAdapter();
 
-}  // namespace GCAdapter
+}  // end of namespace GCAdapter

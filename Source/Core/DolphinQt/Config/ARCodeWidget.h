@@ -16,6 +16,11 @@ namespace ActionReplay
 struct ARCode;
 }
 
+namespace UICommon
+{
+class GameFile;
+}
+
 class CheatWarningWidget;
 class QLabel;
 class QListWidget;
@@ -26,7 +31,7 @@ class ARCodeWidget : public QWidget
 {
   Q_OBJECT
 public:
-  explicit ARCodeWidget(std::string game_id, u16 game_revision, bool restart_required = true);
+  explicit ARCodeWidget(const UICommon::GameFile& game, bool restart_required = true);
   ~ARCodeWidget() override;
 
   void AddCode(ActionReplay::ARCode code);
@@ -51,6 +56,7 @@ private:
 
   void OnListReordered();
 
+  const UICommon::GameFile& m_game;
   std::string m_game_id;
   u16 m_game_revision;
 

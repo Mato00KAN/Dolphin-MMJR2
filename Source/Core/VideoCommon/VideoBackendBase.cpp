@@ -168,8 +168,10 @@ u16 VideoBackendBase::Video_GetBoundingBox(int index)
                     "for this game.");
     }
     warn_once = false;
+    return 0;
   }
-  else if (!g_ActiveConfig.backend_info.bSupportsBBox)
+
+  if (!g_ActiveConfig.backend_info.bSupportsBBox)
   {
     static bool warn_once = true;
     if (warn_once)
@@ -180,6 +182,7 @@ u16 VideoBackendBase::Video_GetBoundingBox(int index)
           "freezes while running this game.");
     }
     warn_once = false;
+    return 0;
   }
 
   Fifo::SyncGPU(Fifo::SyncGPUReason::BBox);

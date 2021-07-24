@@ -26,6 +26,10 @@ void INITUCode::Initialize()
   m_mail_handler.PushMail(0x80544348);
 }
 
+void INITUCode::Init()
+{
+}
+
 void INITUCode::Update()
 {
 }

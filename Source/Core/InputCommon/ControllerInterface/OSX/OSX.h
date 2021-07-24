@@ -6,7 +6,8 @@
 
 namespace ciface::OSX
 {
-void Init();
+void Init(void* window);
+void PopulateDevices(void* window);
 void DeInit();
 
 void DeviceElementDebugPrint(const void*, void*);

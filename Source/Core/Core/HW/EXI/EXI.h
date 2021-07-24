@@ -47,4 +47,4 @@ CEXIChannel* GetChannel(u32 index);
 
 IEXIDevice* FindDevice(TEXIDevices device_type, int customIndex = -1);
 
-}  // namespace ExpansionInterface
+}  // end of namespace ExpansionInterface

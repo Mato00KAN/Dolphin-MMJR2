@@ -687,4 +687,4 @@ u32 GetPollXLines()
   return s_poll.X;
 }
 
-}  // namespace SerialInterface
+}  // end of namespace SerialInterface

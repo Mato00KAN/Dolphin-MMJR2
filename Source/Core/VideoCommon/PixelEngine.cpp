@@ -322,4 +322,4 @@ UPEAlphaReadReg GetAlphaReadMode()
   return m_AlphaRead;
 }
 
-}  // namespace PixelEngine
+}  // end of namespace PixelEngine

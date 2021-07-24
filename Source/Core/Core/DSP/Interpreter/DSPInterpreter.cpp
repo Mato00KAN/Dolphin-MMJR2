@@ -200,14 +200,14 @@ int Interpreter::RunCycles(int cycles)
 void Interpreter::WriteCR(u16 val)
 {
   // reset
-  if ((val & CR_RESET) != 0)
+  if ((val & 1) != 0)
   {
     INFO_LOG_FMT(DSPLLE, "DSP_CONTROL RESET");
     m_dsp_core.Reset();
     val &= ~CR_RESET;
   }
   // init
-  else if (val == CR_HALT)
+  else if (val == 4)
   {
     // HAX!
     // OSInitAudioSystem ucode should send this mail - not DSP core itself

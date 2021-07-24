@@ -38,9 +38,8 @@ PropertiesDialog::PropertiesDialog(QWidget* parent, const UICommon::GameFile& ga
   QTabWidget* tab_widget = new QTabWidget(this);
   InfoWidget* info = new InfoWidget(game);
 
-  ARCodeWidget* ar = new ARCodeWidget(game.GetGameID(), game.GetRevision());
-  GeckoCodeWidget* gecko =
-      new GeckoCodeWidget(game.GetGameID(), game.GetGameTDBID(), game.GetRevision());
+  ARCodeWidget* ar = new ARCodeWidget(game);
+  GeckoCodeWidget* gecko = new GeckoCodeWidget(game);
   PatchesWidget* patches = new PatchesWidget(game);
   GameConfigWidget* game_config = new GameConfigWidget(game);
 

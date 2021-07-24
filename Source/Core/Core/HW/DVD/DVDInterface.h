@@ -149,4 +149,4 @@ void FinishExecutingCommand(ReplyType reply_type, DIInterruptType interrupt_type
 void SetInterruptEnabled(DIInterruptType interrupt, bool enabled);
 void ClearInterrupt(DIInterruptType interrupt);
 
-}  // namespace DVDInterface
+}  // end of namespace DVDInterface

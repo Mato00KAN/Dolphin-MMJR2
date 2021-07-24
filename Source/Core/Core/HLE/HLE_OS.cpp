@@ -266,4 +266,4 @@ std::string GetStringVA(u32 str_reg, ParameterType parameter_type)
   return result;
 }
 
-}  // namespace HLE_OS
+}  // end of namespace HLE_OS

@@ -54,8 +54,16 @@ void Jit64::SetCRFieldBit(int field, int bit, X64Reg in)
   MOV(64, R(RSCRATCH2), CROffset(field));
   MOVZX(32, 8, in, R(in));
 
+  // Gross but necessary; if the input is totally zero and we set SO or LT,
+  // or even just add the (1<<32), GT will suddenly end up set without us
+  // intending to. This can break actual games, so fix it up.
   if (bit != PowerPC::CR_GT_BIT)
-    FixGTBeforeSettingCRFieldBit(RSCRATCH2);
+  {
+    TEST(64, R(RSCRATCH2), R(RSCRATCH2));
+    FixupBranch dont_clear_gt = J_CC(CC_NZ);
+    BTS(64, R(RSCRATCH2), Imm8(63));
+    SetJumpTarget(dont_clear_gt);
+  }
 
   switch (bit)
   {
@@ -99,10 +107,7 @@ void Jit64::ClearCRFieldBit(int field, int bit)
     break;
 
   case PowerPC::CR_EQ_BIT:
-    MOV(64, R(RSCRATCH), CROffset(field));
-    FixGTBeforeSettingCRFieldBit(RSCRATCH);
-    OR(64, R(RSCRATCH), Imm8(1));
-    MOV(64, CROffset(field), R(RSCRATCH));
+    OR(64, CROffset(field), Imm8(1));
     break;
 
   case PowerPC::CR_GT_BIT:
@@ -121,7 +126,12 @@ void Jit64::SetCRFieldBit(int field, int bit)
 {
   MOV(64, R(RSCRATCH), CROffset(field));
   if (bit != PowerPC::CR_GT_BIT)
-    FixGTBeforeSettingCRFieldBit(RSCRATCH);
+  {
+    TEST(64, R(RSCRATCH), R(RSCRATCH));
+    FixupBranch dont_clear_gt = J_CC(CC_NZ);
+    BTS(64, R(RSCRATCH), Imm8(63));
+    SetJumpTarget(dont_clear_gt);
+  }
 
   switch (bit)
   {
@@ -145,17 +155,6 @@ void Jit64::SetCRFieldBit(int field, int bit)
 
   BTS(64, R(RSCRATCH), Imm8(32));
   MOV(64, CROffset(field), R(RSCRATCH));
-}
-
-void Jit64::FixGTBeforeSettingCRFieldBit(Gen::X64Reg reg)
-{
-  // Gross but necessary; if the input is totally zero and we set SO or LT,
-  // or even just add the (1<<32), GT will suddenly end up set without us
-  // intending to. This can break actual games, so fix it up.
-  TEST(64, R(reg), R(reg));
-  FixupBranch dont_clear_gt = J_CC(CC_NZ);
-  BTS(64, R(reg), Imm8(63));
-  SetJumpTarget(dont_clear_gt);
 }
 
 FixupBranch Jit64::JumpIfCRFieldBit(int field, int bit, bool jump_if_set)

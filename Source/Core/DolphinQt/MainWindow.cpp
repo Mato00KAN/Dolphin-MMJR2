@@ -411,7 +411,7 @@ void MainWindow::CreateComponents()
   m_watch_widget = new WatchWidget(this);
   m_breakpoint_widget = new BreakpointWidget(this);
   m_code_widget = new CodeWidget(this);
-  m_cheats_manager = new CheatsManager(this);
+  m_cheats_manager = new CheatsManager(m_game_list->GetGameListModel(), this);
 
   const auto request_watch = [this](QString name, u32 addr) {
     m_watch_widget->AddWatch(name, addr);
@@ -789,7 +789,7 @@ void MainWindow::TogglePause()
 void MainWindow::OnStopComplete()
 {
   m_stop_requested = false;
-  HideRenderWidget(true, m_exit_requested);
+  HideRenderWidget();
 #ifdef USE_DISCORD_PRESENCE
   if (!m_netplay_dialog->isVisible())
     Discord::UpdateDiscordPresence();
@@ -1099,7 +1099,7 @@ void MainWindow::ShowRenderWidget()
   }
 }
 
-void MainWindow::HideRenderWidget(bool reinit, bool is_exit)
+void MainWindow::HideRenderWidget(bool reinit)
 {
   if (m_rendering_to_main)
   {
@@ -1136,9 +1136,7 @@ void MainWindow::HideRenderWidget(bool reinit, bool is_exit)
     // The controller interface will still be registered to the old render widget, if the core
     // has booted. Therefore, we should re-bind it to the main window for now. When the core
     // is next started, it will be swapped back to the new render widget.
-    g_controller_interface.ChangeWindow(GetWindowSystemInfo(windowHandle()).render_window,
-                                        is_exit ? ControllerInterface::WindowChangeReason::Exit :
-                                                  ControllerInterface::WindowChangeReason::Other);
+    g_controller_interface.ChangeWindow(GetWindowSystemInfo(windowHandle()).render_window);
   }
 }
 

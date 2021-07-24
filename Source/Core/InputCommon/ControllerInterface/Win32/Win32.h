@@ -8,6 +8,5 @@ namespace ciface::Win32
 {
 void Init(void* hwnd);
 void PopulateDevices(void* hwnd);
-void ChangeWindow(void* hwnd);
 void DeInit();
 }  // namespace ciface::Win32
