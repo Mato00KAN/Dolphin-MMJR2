@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 package org.dolphinemu.dolphinemu.dialogs;
 
 import android.app.Dialog;
@@ -133,6 +135,7 @@ public class GamePropertiesDialog extends DialogFragment
     PicassoUtils.loadGameBanner(banner, GameFile.parse(path));
 
     builder.setView(contents);
+
     return builder.create();
   }
 
@@ -149,18 +152,20 @@ public class GamePropertiesDialog extends DialogFragment
     {
       if (gameSettingsFile.delete() || hadGameProfiles)
       {
-        Toast.makeText(getContext(), "Cleared settings for " + gameId, Toast.LENGTH_SHORT)
-                .show();
+        Toast.makeText(getContext(),
+                getResources().getString(R.string.properties_clear_success, gameId),
+                Toast.LENGTH_SHORT).show();
       }
       else
       {
-        Toast.makeText(getContext(), "Unable to clear settings for " + gameId,
+        Toast.makeText(getContext(),
+                getResources().getString(R.string.properties_clear_failure, gameId),
                 Toast.LENGTH_SHORT).show();
       }
     }
     else
     {
-      Toast.makeText(getContext(), "No game settings to delete", Toast.LENGTH_SHORT).show();
+      Toast.makeText(getContext(), R.string.properties_clear_missing, Toast.LENGTH_SHORT).show();
     }
   }
 

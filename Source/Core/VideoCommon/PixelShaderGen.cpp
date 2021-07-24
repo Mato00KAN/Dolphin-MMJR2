@@ -1,6 +1,5 @@
 // Copyright 2008 Dolphin Emulator Project
-// Licensed under GPLv2+
-// Refer to the license.txt file included.
+// SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "VideoCommon/PixelShaderGen.h"
 
@@ -236,12 +235,6 @@ PixelShaderUid GetPixelShaderUid()
   for (unsigned int n = 0; n < numStages; n++)
   {
     uid_data->stagehash[n].tevorders_texcoord = bpmem.tevorders[n / 2].getTexCoord(n & 1);
-
-    // hasindstage previously was used as a criterion to set tevind to 0, but there are variables in
-    // tevind that are used even if the indirect stage is disabled, so now it is only left in to
-    // avoid breaking existing UIDs (in most cases, games will have 0 in tevind anyways)
-    // TODO: Remove hasindstage on the next UID version bump
-    uid_data->stagehash[n].hasindstage = bpmem.tevind[n].bt < bpmem.genMode.numindstages;
     uid_data->stagehash[n].tevind = bpmem.tevind[n].hex;
 
     TevStageCombiner::ColorCombiner& cc = bpmem.combiners[n].colorC;
@@ -451,20 +444,37 @@ void WritePixelShaderCommonHeader(ShaderCode& out, APIType api_type,
 
   if (bounding_box)
   {
+    if (api_type == APIType::D3D)
+    {
+      out.Write("globallycoherent RWBuffer<int> bbox_data : register(u2);\n"
+                "#define atomicMin InterlockedMin\n"
+                "#define atomicMax InterlockedMax");
+    }
+    else
+    {
+      out.Write("SSBO_BINDING(0) buffer BBox {{\n");
+
+      if (DriverDetails::HasBug(DriverDetails::BUG_BROKEN_SSBO_FIELD_ATOMICS))
+      {
+        // AMD drivers on Windows seemingly ignore atomic writes to fields or array elements of an
+        // SSBO other than the first one, but using an int4 seems to work fine
+        out.Write("  int4 bbox_data;\n");
+      }
+      else
+      {
+        // The Metal shader compiler fails to compile the atomic instructions when operating on
+        // individual components of a vector
+        out.Write("  int bbox_data[4];\n");
+      }
+
+      out.Write("}};");
+    }
+
     out.Write(R"(
-#ifdef API_D3D
-globallycoherent RWBuffer<int> bbox_data : register(u2);
-#define atomicMin InterlockedMin
-#define atomicMax InterlockedMax
 #define bbox_left bbox_data[0]
 #define bbox_right bbox_data[1]
 #define bbox_top bbox_data[2]
 #define bbox_bottom bbox_data[3]
-#else
-SSBO_BINDING(0) buffer BBox {{
-  int bbox_left, bbox_right, bbox_top, bbox_bottom;
-}};
-#endif
 
 void UpdateBoundingBoxBuffer(int2 min_pos, int2 max_pos) {{
   if (bbox_left > min_pos.x)
@@ -478,30 +488,31 @@ void UpdateBoundingBoxBuffer(int2 min_pos, int2 max_pos) {{
 }}
 
 void UpdateBoundingBox(float2 rawpos) {{
-  // The pixel center in the GameCube GPU is 7/12, not 0.5 (see VertexShaderGen.cpp)
-  // Adjust for this by unapplying the offset we added in the vertex shader.
-  const float PIXEL_CENTER_OFFSET = 7.0 / 12.0 - 0.5;
-  float2 offset = float2(PIXEL_CENTER_OFFSET, -PIXEL_CENTER_OFFSET);
-
-#ifdef API_OPENGL
-  // OpenGL lower-left origin means that Y goes in the opposite direction.
-  offset.y = -offset.y;
-#endif
+  // We only want to include coordinates for pixels aligned with the native resolution pixel centers.
+  // This makes bounding box sizes more accurate (though not perfect) at higher resolutions,
+  // avoiding EFB copy buffer overflow in affected games.
+  //
+  // For a more detailed explanation, see https://dolp.in/pr9801
+  int2 int_efb_scale = iround(1.0 / {efb_scale}.xy);
+  if (int(rawpos.x) % int_efb_scale.x != int_efb_scale.x >> 1 ||
+      int(rawpos.y) % int_efb_scale.y != int_efb_scale.y >> 1)  // right shift for fast divide by two
+  {{
+    return;
+  }}
 
   // The rightmost shaded pixel is not included in the right bounding box register,
   // such that width = right - left + 1. This has been verified on hardware.
-  int2 pos = iround(rawpos * cefbscale + offset);
+  int2 pos = int2(rawpos * {efb_scale}.xy);
+
+#ifdef API_OPENGL
+  // We need to invert the Y coordinate due to OpenGL's lower-left origin
+  pos.y = {efb_height} - pos.y - 1;
+#endif
 
   // The GC/Wii GPU rasterizes in 2x2 pixel groups, so bounding box values will be rounded to the
   // extents of these groups, rather than the exact pixel.
-#ifdef API_OPENGL
-  // Need to flip the operands for Y on OpenGL because of lower-left origin.
-  int2 pos_tl = int2(pos.x & ~1, pos.y | 1);
-  int2 pos_br = int2(pos.x | 1, pos.y & ~1);
-#else
-  int2 pos_tl = pos & ~1;
-  int2 pos_br = pos | 1;
-#endif
+  int2 pos_tl = pos & ~1;  // round down to even
+  int2 pos_br = pos | 1;   // round up to odd
 
 #ifdef SUPPORTS_SUBGROUP_REDUCTION
   if (CAN_USE_SUBGROUP_REDUCTION) {{
@@ -519,7 +530,8 @@ void UpdateBoundingBox(float2 rawpos) {{
 #endif
 }}
 
-)");
+)",
+              fmt::arg("efb_height", EFB_HEIGHT), fmt::arg("efb_scale", I_EFBSCALE));
   }
 }
 
@@ -987,17 +999,22 @@ static void WriteStage(ShaderCode& out, const pixel_shader_uid_data* uid_data, i
           "z",
       };
 
-      // 0b11111000, 0b11100000, 0b11110000, 0b11111000
-      static constexpr std::array<const char*, 4> tev_ind_alpha_mask{
-          "248",
-          "224",
-          "240",
-          "248",
+      // According to libogc, the bump alpha value is 5 bits, and comes from the bottom bits of the
+      // component byte, except in the case of ITF_8, which presumably uses the top bits with a
+      // mask.
+      // https://github.com/devkitPro/libogc/blob/bd24a9b3f59502f9b30d6bac0ae35fc485045f78/gc/ogc/gx.h#L3038-L3041
+      // https://github.com/devkitPro/libogc/blob/bd24a9b3f59502f9b30d6bac0ae35fc485045f78/gc/ogc/gx.h#L790-L800
+
+      static constexpr std::array<char, 4> tev_ind_alpha_shift{
+          '0',  // ITF_8: 0bXXXXXYYY -> 0bXXXXX000? No shift?
+          '5',  // ITF_5: 0bIIIIIAAA -> 0bAAA00000, shift of 5
+          '4',  // ITF_4: 0bIIIIAAAA -> 0bAAAA0000, shift of 4
+          '3',  // ITF_3: 0bIIIAAAAA -> 0bAAAAA000, shift of 3
       };
 
-      out.Write("alphabump = iindtex{}.{} & {};\n", tevind.bt.Value(),
+      out.Write("\talphabump = (iindtex{}.{} << {}) & 248;\n", tevind.bt.Value(),
                 tev_ind_alpha_sel[u32(tevind.bs.Value())],
-                tev_ind_alpha_mask[u32(tevind.fmt.Value())]);
+                tev_ind_alpha_shift[u32(tevind.fmt.Value())]);
     }
     else
     {
@@ -1007,14 +1024,14 @@ static void WriteStage(ShaderCode& out, const pixel_shader_uid_data* uid_data, i
     if (has_ind_stage && tevind.matrix_index != IndMtxIndex::Off)
     {
       // format
-      static constexpr std::array<const char*, 4> tev_ind_fmt_mask{
-          "255",
-          "31",
-          "15",
-          "7",
+      static constexpr std::array<char, 4> tev_ind_fmt_shift{
+          '0',  // ITF_8: 0bXXXXXXXX -> 0bXXXXXXXX, no shift
+          '3',  // ITF_5: 0bIIIIIAAA -> 0b000IIIII, shift of 3
+          '4',  // ITF_4: 0bIIIIAAAA -> 0b0000IIII, shift of 4
+          '5',  // ITF_3: 0bIIIAAAAA -> 0b00000III, shift of 5
       };
-      out.Write("\tint3 iindtevcrd{} = iindtex{} & {};\n", n, tevind.bt.Value(),
-                tev_ind_fmt_mask[u32(tevind.fmt.Value())]);
+      out.Write("\tint3 iindtevcrd{} = iindtex{} >> {};\n", n, tevind.bt.Value(),
+                tev_ind_fmt_shift[u32(tevind.fmt.Value())]);
 
       // bias - TODO: Check if this needs to be this complicated...
       // indexed by bias

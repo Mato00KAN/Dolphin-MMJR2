@@ -1,10 +1,10 @@
 // Copyright 2008 Dolphin Emulator Project
-// Licensed under GPLv2+
-// Refer to the license.txt file included.
+// SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "Common/StringUtil.h"
 
 #include <algorithm>
+#include <array>
 #include <codecvt>
 #include <cstdarg>
 #include <cstddef>
@@ -342,19 +342,6 @@ std::string PathToFileName(std::string_view path)
   return file_name + extension;
 }
 
-void BuildCompleteFilename(std::string& complete_filename, std::string_view path,
-                           std::string_view filename)
-{
-  complete_filename = path;
-
-  // check for seperator
-  if (DIR_SEP_CHR != *complete_filename.rbegin())
-    complete_filename += DIR_SEP_CHR;
-
-  // add the filename
-  complete_filename += filename;
-}
-
 std::vector<std::string> SplitString(const std::string& str, const char delim)
 {
   std::istringstream iss(str);
@@ -664,3 +651,21 @@ std::vector<std::string> CommandLineToUtf8Argv(const wchar_t* command_line)
   return argv;
 }
 #endif
+
+std::string GetEscapedHtml(std::string html)
+{
+  static constexpr std::array<std::array<const char*, 2>, 5> replacements{{
+      // Escape ampersand first to avoid escaping the ampersands in other replacements
+      {{"&", "&amp;"}},
+      {{"<", "&lt;"}},
+      {{">", "&gt;"}},
+      {{"\"", "&quot;"}},
+      {{"'", "&apos;"}},
+  }};
+
+  for (const auto& [unescaped, escaped] : replacements)
+  {
+    html = ReplaceAll(html, unescaped, escaped);
+  }
+  return html;
+}

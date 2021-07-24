@@ -1,6 +1,5 @@
 // Copyright 2018 Dolphin Emulator Project
-// Licensed under GPLv2+
-// Refer to the license.txt file included.
+// SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
 
@@ -70,7 +69,7 @@ private:
   using SHA1 = std::array<u8, 20>;
   using WiiKey = std::array<u8, 16>;
 
-  // See docs/WIA.md for details about the format
+  // See docs/WiaAndRvz.md for details about the format
 
 #pragma pack(push, 1)
   struct WIAHeader1
@@ -241,26 +240,24 @@ private:
 
   struct ReuseID
   {
-    bool operator==(const ReuseID& other) const
-    {
-      return std::tie(partition_key, data_size, encrypted, value) ==
-             std::tie(other.partition_key, other.data_size, other.encrypted, other.value);
-    }
-    bool operator<(const ReuseID& other) const
-    {
-      return std::tie(partition_key, data_size, encrypted, value) <
-             std::tie(other.partition_key, other.data_size, other.encrypted, other.value);
-    }
-    bool operator>(const ReuseID& other) const
-    {
-      return std::tie(partition_key, data_size, encrypted, value) >
-             std::tie(other.partition_key, other.data_size, other.encrypted, other.value);
-    }
+    // This is a workaround for an ICE in Visual Studio 16.10.0 when making an ARM64 Release build.
+    // Once the ICE has been fixed upstream, we can move partition_key inside the tie.
+#define COMPARE_TIED(op)                                                                           \
+  (partition_key op other.partition_key) &&                                                        \
+      std::tie(data_size, encrypted, value)                                                        \
+          op std::tie(other.data_size, other.encrypted, other.value)
+
+    bool operator==(const ReuseID& other) const { return COMPARE_TIED(==); }
+    bool operator<(const ReuseID& other) const { return COMPARE_TIED(<); }
+    bool operator>(const ReuseID& other) const { return COMPARE_TIED(>); }
+
     bool operator!=(const ReuseID& other) const { return !operator==(other); }
     bool operator>=(const ReuseID& other) const { return !operator<(other); }
     bool operator<=(const ReuseID& other) const { return !operator>(other); }
 
-    const WiiKey* partition_key;
+#undef COMPARE_TIED
+
+    WiiKey partition_key;
     u64 data_size;
     bool encrypted;
     u8 value;
