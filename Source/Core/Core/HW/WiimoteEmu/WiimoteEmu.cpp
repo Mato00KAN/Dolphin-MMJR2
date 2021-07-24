@@ -1,6 +1,5 @@
 // Copyright 2010 Dolphin Emulator Project
-// Licensed under GPLv2+
-// Refer to the license.txt file included.
+// SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "Core/HW/WiimoteEmu/WiimoteEmu.h"
 
@@ -614,6 +613,11 @@ void Wiimote::LoadDefaults(const ControllerInterface& ciface)
   m_buttons->SetControlExpression(0, "`Click 1`");
   // B
   m_buttons->SetControlExpression(1, "`Click 3`");
+#elif __APPLE__
+  // A
+  m_buttons->SetControlExpression(0, "`Left Click`");
+  // B
+  m_buttons->SetControlExpression(1, "`Right Click`");
 #else
   // A
   m_buttons->SetControlExpression(0, "`Click 0`");
@@ -634,7 +638,11 @@ void Wiimote::LoadDefaults(const ControllerInterface& ciface)
 
   // Shake
   for (int i = 0; i < 3; ++i)
+#ifdef __APPLE__
+    m_shake->SetControlExpression(i, "`Middle Click`");
+#else
     m_shake->SetControlExpression(i, "`Click 2`");
+#endif
 
   // Pointing (IR)
   m_ir->SetControlExpression(0, "`Cursor Y-`");

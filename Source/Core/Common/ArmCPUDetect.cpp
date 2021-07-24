@@ -1,6 +1,5 @@
 // Copyright 2013 Dolphin Emulator Project
-// Licensed under GPLv2+
-// Refer to the license.txt file included.
+// SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <cstring>
 #include <fstream>
@@ -63,13 +62,14 @@ CPUInfo::CPUInfo()
 void CPUInfo::Detect()
 {
   // Set some defaults here
-  // When ARMv8 CPUs come out, these need to be updated.
   HTT = false;
   OS64bit = true;
   CPU64bit = true;
   Mode64bit = true;
   vendor = CPUVendor::ARM;
+  bFMA = true;
   bFlushToZero = true;
+  bAFP = false;
 
 #ifdef __APPLE__
   num_cores = std::thread::hardware_concurrency();
