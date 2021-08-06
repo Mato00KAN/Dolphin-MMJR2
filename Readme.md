@@ -1,7 +1,7 @@
-# Dolphin |MMJR2|
+# Dolphin MMJR
 An Android-only performance-focused dolphin fork, rebased on top of latest dolphin development builds and reimplementing MMJ UX and performance improvements, plus adding our own.
 
-Grab the latest build in the [releases](https://github.com/Bankaimaster999/Dolphin-MMJR2/releases) section, or check for new version in the in-app updater. Old MMJR v1.0 builds can be found at the old repository [here](https://github.com/Bankaimaster999/Dolphin-MMJR/releases). |MMJR| and |MMJR2| builds can be installed without conflicts as they use different folders, but **savestates are not compatible**. We kindly ask you to avoid misusing GitHub Issues and Pull Requests.
+Grab the latest build in the [releases](https://github.com/Bankaimaster999/Dolphin-MMJR/releases) section, or check for new version in the in-app updater. Old MMJR v1.0 builds can be found at the old repository [here](https://github.com/Bankaimaster999/dolphin/releases). 1.0 and 2.0 builds can be installed without conflicts as they use different folders, but **savestates are not compatible**. We kindly ask you to avoid misusing GitHub Issues and Pull Requests.
 
 This fork wouldn't be possible without the crazy amount of work that developers much more skilled than us put into Dolphin.
 

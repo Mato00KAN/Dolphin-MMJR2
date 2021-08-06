@@ -557,7 +557,7 @@ void Renderer::DrawDebugText()
                          ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing))
     {
       ImGui::TextColored(ImVec4(m_fps_counter.color[0], m_fps_counter.color[1], m_fps_counter.color[2], 1.0f),
-                         "|MMJR| FPS: %.2f", m_fps_counter.GetFPS());
+                         "|MMJR2| FPS: %.2f", m_fps_counter.GetFPS());
     }
     ImGui::End();
   }

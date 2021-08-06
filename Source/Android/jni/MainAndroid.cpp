@@ -72,7 +72,7 @@ namespace
 constexpr char DOLPHIN_TAG[] = "DolphinEmuNative";
 constexpr char PACKAGE[] = "org.dolphinemu.mmjr";
 constexpr char PACKAGE_DEBUG[] = "org.dolphinemu.mmjr.debug";
-constexpr char LABEL[] = "Dolphin |MMJR|";
+constexpr char LABEL[] = "Dolphin |MMJR2|";
 
 ANativeWindow* s_surf;
 

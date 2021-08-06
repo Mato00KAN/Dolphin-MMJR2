@@ -24,7 +24,7 @@ import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 
 public class UpdaterUtils
 {
-  public static final String URL = "https://api.github.com/repos/Bankaimaster999/Dolphin-MMJR/releases";
+  public static final String URL = "https://api.github.com/repos/Bankaimaster999/Dolphin-MMJR2/releases";
   public static final String LATEST = "/latest";
 
   public static void openUpdaterWindow(Context context, UpdaterData data)
