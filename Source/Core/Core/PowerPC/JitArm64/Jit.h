@@ -120,6 +120,9 @@ public:
   void mcrfs(UGeckoInstruction inst);
   void mffsx(UGeckoInstruction inst);
   void mtfsb0x(UGeckoInstruction inst);
+  void mtfsb1x(UGeckoInstruction inst);
+  void mtfsfix(UGeckoInstruction inst);
+  void mtfsfx(UGeckoInstruction inst);
 
   // LoadStore
   void lXX(UGeckoInstruction inst);
@@ -156,8 +159,8 @@ public:
   void ps_cmpXX(UGeckoInstruction inst);
 
   // Loadstore paired
-  void psq_l(UGeckoInstruction inst);
-  void psq_st(UGeckoInstruction inst);
+  void psq_lXX(UGeckoInstruction inst);
+  void psq_stXX(UGeckoInstruction inst);
 
   void ConvertDoubleToSingleLower(size_t guest_reg, Arm64Gen::ARM64Reg dest_reg,
                                   Arm64Gen::ARM64Reg src_reg);
@@ -192,7 +195,7 @@ protected:
 
   struct FastmemArea
   {
-    u32 length;
+    const u8* fastmem_code;
     const u8* slowmem_code;
   };
 
@@ -229,6 +232,10 @@ protected:
   // Loadstore routines
   void SafeLoadToReg(u32 dest, s32 addr, s32 offsetReg, u32 flags, s32 offset, bool update);
   void SafeStoreFromReg(s32 dest, u32 value, s32 regOffset, u32 flags, s32 offset);
+  // If lookup succeeds, writes upper 15 bits of physical address to addr_out. If not,
+  // jumps to the returned FixupBranch. Clobbers tmp and the 17 lower bits of addr_out.
+  Arm64Gen::FixupBranch BATAddressLookup(Arm64Gen::ARM64Reg addr_out, Arm64Gen::ARM64Reg addr_in,
+                                         Arm64Gen::ARM64Reg tmp, const void* bat_table);
 
   void DoJit(u32 em_address, JitBlock* b, u32 nextPC);
 
