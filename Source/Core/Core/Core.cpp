@@ -98,6 +98,7 @@ static bool s_wants_determinism;
 static Common::Timer s_timer;
 static std::atomic<u32> s_drawn_frame;
 static std::atomic<u32> s_drawn_video;
+static PerformanceStatistics perf_stats;
 
 static bool s_is_stopping = false;
 static bool s_hardware_initialized = false;
@@ -248,6 +249,9 @@ bool Init(std::unique_ptr<BootParameters> boot, const WindowSystemInfo& wsi)
 
   // Issue any API calls which must occur on the main thread for the graphics backend.
   WindowSystemInfo prepared_wsi(wsi);
+
+  static PerformanceStatistics perf_stats;
+
   g_video_backend->PrepareWindow(prepared_wsi);
 
   // Start the emu thread
@@ -914,6 +918,12 @@ void Callback_NewField()
   }
 }
 
+const PerformanceStatistics& GetPerformanceStatistics()
+{
+    return perf_stats;
+}
+
+
 void UpdateTitle(u32 ElapseTime)
 {
   s_request_refresh_info = false;
@@ -922,10 +932,14 @@ void UpdateTitle(u32 ElapseTime)
   if (ElapseTime == 0)
     ElapseTime = 1;
 
-  float FPS = (float)(s_drawn_frame.load() * 1000.0 / ElapseTime);
-  float VPS = (float)(s_drawn_video.load() * 1000.0 / ElapseTime);
-  float Speed = (float)(s_drawn_video.load() * (100 * 1000.0) /
-                        (VideoInterface::GetTargetRefreshRate() * ElapseTime));
+    //float FPS = (float)(s_drawn_frame.load() * 1000.0 / ElapseTime);
+    //float VPS = (float)(s_drawn_video.load() * 1000.0 / ElapseTime);
+    //float Speed = (float)(s_drawn_video.load() * (100 * 1000.0) /
+    //                      (VideoInterface::GetTargetRefreshRate() * ElapseTime));
+    perf_stats.FPS = (float)(s_drawn_frame.load() * 1000.0 / ElapseTime);
+    perf_stats.VPS = (float)(s_drawn_video.load() * 1000.0 / ElapseTime);
+    perf_stats.Speed = (float)(s_drawn_video.load() * (100 * 1000.0) /
+                                      (VideoInterface::GetTargetRefreshRate() * ElapseTime));
 
   // Settings are shown the same for both extended and summary info
   const std::string SSettings =
@@ -937,16 +951,16 @@ void UpdateTitle(u32 ElapseTime)
   {
     SFPS = fmt::format("Input: {}/{} - VI: {} - FPS: {:.0f} - VPS: {:.0f} - {:.0f}%",
                        Movie::GetCurrentInputCount(), Movie::GetTotalInputCount(),
-                       Movie::GetCurrentFrame(), FPS, VPS, Speed);
+                       Movie::GetCurrentFrame(), perf_stats.FPS, perf_stats.VPS, perf_stats.Speed);
   }
   else if (Movie::IsRecordingInput())
   {
     SFPS = fmt::format("Input: {} - VI: {} - FPS: {:.0f} - VPS: {:.0f} - {:.0f}%",
-                       Movie::GetCurrentInputCount(), Movie::GetCurrentFrame(), FPS, VPS, Speed);
+                       Movie::GetCurrentInputCount(), Movie::GetCurrentFrame(), perf_stats.FPS, perf_stats.VPS, perf_stats.Speed);
   }
   else
   {
-    SFPS = fmt::format("FPS: {:.0f} - VPS: {:.0f} - {:.0f}%", FPS, VPS, Speed);
+    SFPS = fmt::format("FPS: {:.0f} - VPS: {:.0f} - {:.0f}%", perf_stats.FPS, perf_stats.VPS, perf_stats.Speed);
     if (SConfig::GetInstance().m_InterfaceExtendedFPSInfo)
     {
       // Use extended or summary information. The summary information does not print the ticks data,
@@ -984,7 +998,7 @@ void UpdateTitle(u32 ElapseTime)
   if (g_sound_stream)
   {
     Mixer* pMixer = g_sound_stream->GetMixer();
-    pMixer->UpdateSpeed((float)Speed / 100);
+    pMixer->UpdateSpeed(perf_stats.Speed / 100);
   }
 
   Host_UpdateTitle(message);

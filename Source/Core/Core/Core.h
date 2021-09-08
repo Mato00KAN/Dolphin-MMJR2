@@ -113,6 +113,15 @@ bool WantsDeterminism();
 void SetState(State state);
 State GetState();
 
+struct PerformanceStatistics
+{
+    float FPS;
+    float VPS;
+    float Speed;
+};
+
+const PerformanceStatistics& GetPerformanceStatistics();
+
 void SaveScreenShot();
 void SaveScreenShot(std::string_view name);
 

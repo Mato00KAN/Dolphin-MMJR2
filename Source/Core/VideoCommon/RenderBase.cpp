@@ -556,8 +556,9 @@ void Renderer::DrawDebugText()
                          ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoNav |
                          ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoFocusOnAppearing))
     {
-      ImGui::TextColored(ImVec4(m_fps_counter.color[0], m_fps_counter.color[1], m_fps_counter.color[2], 1.0f),
-                         "|MMJR2| FPS: %.2f", m_fps_counter.GetFPS());
+        const Core::PerformanceStatistics& pstats = Core::GetPerformanceStatistics();
+        ImGui::TextColored(ImVec4(m_fps_counter.color[0], m_fps_counter.color[1], m_fps_counter.color[2], 1.0f),
+                           "|MMJR2| FPS:%.f | %.f%%", pstats.FPS, pstats.Speed);
     }
     ImGui::End();
   }
