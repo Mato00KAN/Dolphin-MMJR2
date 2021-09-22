@@ -118,14 +118,14 @@
             android:showDividers="middle">
 
             <Button
-                android:id="@+id/properties_convert"
+                android:id="@+id/menu_clear_data"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/gameprop_button_height"
                 android:layout_weight="1"
                 android:background="@drawable/button_secondary_gradient"
                 android:stateListAnimator="@null"
-                android:text="@string/properties_convert"
+                android:text="@string/properties_clear_game_data"
                 android:textColor="#ffffff"
                 android:textAllCaps="false" />
 
@@ -143,18 +143,17 @@
 
         </LinearLayout>
 
-        <!-- Default ISO (removed)
         <Button
-            android:id="@+id/properties_default_iso"
+            android:id="@+id/properties_convert"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="@dimen/gameprop_button_height"
-            android:background="@drawable/button_gradient_purple"
+            android:background="@drawable/button_primary_gradient"
             android:stateListAnimator="@null"
-            android:text="@string/properties_set_default_iso"
-            android:textColor="#ffffff"
-            android:textAllCaps="false" />
-        -->
+            android:text="@string/properties_convert"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorOnGradientPrimary" />
+
     </LinearLayout>
 
 </RelativeLayout>

@@ -132,6 +132,11 @@ public class GamePropertiesDialog extends DialogFragment
     buttonClearSettings.setOnClickListener(view ->
             clearGameSettings(gameId));
 
+    Button buttonClearCache = contents.findViewById(R.id.menu_clear_data);
+    buttonClearCache.setOnClickListener(view ->
+      clearGameData(gameId));
+
+
     PicassoUtils.loadGameBanner(banner, GameFile.parse(path));
 
     builder.setView(contents);
@@ -196,5 +201,48 @@ public class GamePropertiesDialog extends DialogFragment
       }
     }
     return hadGameProfiles;
+  }
+  private void clearGameData(String gameId)
+  {
+    int count = 0;
+    String cachePath = String.valueOf(getContext().getExternalCacheDir());
+    File dir = new File(cachePath);
+    if (dir.exists())
+    {
+      for (File f : dir.listFiles())
+      {
+        if (f.getName().contains(gameId) & f.getName().endsWith(".uidcache"))
+        {
+          if (f.delete())
+          {
+            count += 1;
+          }
+        }
+      }
+    }
+
+    String shadersPath = cachePath + File.separator + "Shaders";
+    dir = new File(shadersPath);
+    if (dir.exists())
+    {
+      for (File f : dir.listFiles())
+      {
+        if (f.getName().contains(gameId) & f.getName().endsWith(".cache"))
+        {
+          if (f.delete())
+          {
+            count += 1;
+          }
+        }
+      }
+    }
+
+    if (count > 0){
+      Toast.makeText(getContext(), "Cleared Cache for " + gameId, Toast.LENGTH_SHORT)
+        .show();
+    } else{
+      Toast.makeText(getContext(), "No Cache Found for " + gameId, Toast.LENGTH_SHORT)
+        .show();
+    }
   }
 }

@@ -517,6 +517,7 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="ignore_warning_alert_messages">Ignore for this session</string>
     <string name="controls_heading">Controllers</string>
     <string name="setting_display_scale">Display Scale</string>
+    <string name="properties_clear_game_data">Clear Game Cache</string>
 
     <!-- Updater Window -->
     <string name="grid_menu_open_updater">MMJR2 Updater</string>
