@@ -125,20 +125,22 @@ public class InputOverlayPointer
 
   private void touchPress()
   {
-    if (doubleTap)
+    if (mMode != 0)
     {
-      NativeLibrary.onGamePadEvent(NativeLibrary.TouchScreenDevice,
+      if (doubleTap)
+      {
+        NativeLibrary.onGamePadEvent(NativeLibrary.TouchScreenDevice,
               doubleTapButton, NativeLibrary.ButtonState.PRESSED);
-      new Handler().postDelayed(() -> NativeLibrary.onGamePadEvent(NativeLibrary.TouchScreenDevice,
+        new Handler().postDelayed(() -> NativeLibrary.onGamePadEvent(NativeLibrary.TouchScreenDevice,
               doubleTapButton, NativeLibrary.ButtonState.RELEASED), 50);
-    }
-    else
-    {
-      doubleTap = true;
-      new Handler().postDelayed(() -> doubleTap = false, 300);
+      }
+      else
+      {
+        doubleTap = true;
+        new Handler().postDelayed(() -> doubleTap = false, 300);
+      }
     }
   }
-
   private void reset()
   {
     axes[0] = axes[1] = oldaxes[0] = oldaxes[1] = 0f;
