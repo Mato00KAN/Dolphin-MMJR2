@@ -650,13 +650,15 @@
 
     <!-- Application Theme -->
     <string-array name="themeEntries">
-        <item>|MMJR| Purple</item>
+        <item>MMJR2 Purple</item>
+        <item>AMOLED</item>
         <item>Neon Red</item>
         <item>Dolphin Blue</item>
         <item>Luigi Green</item>
     </string-array>
     <string-array name="themeValues">
         <item>mmjrpurple</item>
+        <item>mmjramoled</item>
         <item>neonred</item>
         <item>dolphinblue</item>
         <item>luigigreen</item>

@@ -23,11 +23,12 @@ public class AppTheme
   public static final String APP_THEME = "appTheme";
 
   public static final String MMJR_PURPLE = "mmjrpurple";
+  public static final String MMJR_AMOLED = "mmjramoled";
   public static final String NEON_RED = "neonred";
   public static final String DOLPHIN_BLUE = "dolphinblue";
   public static final String LUIGI_GREEN = "luigigreen";
 
-  public static final String DEFAULT = MMJR_PURPLE;
+  public static final String DEFAULT = MMJR_AMOLED;
 
   public static AbstractStringSetting APPLICATION_THEME = new AbstractStringSetting() {
     @Override
@@ -86,8 +87,11 @@ public class AppTheme
           themeId = R.style.Theme_DolphinSettings_LuigiGreen;
           break;
         case AppTheme.MMJR_PURPLE:
-        default:
           themeId = R.style.Theme_DolphinSettings_MmjrPurple;
+          break;
+        case AppTheme.MMJR_AMOLED:
+        default:
+          themeId = R.style.Theme_DolphinSettings_MmjrAmoled;
           break;
       }
     }
@@ -105,8 +109,11 @@ public class AppTheme
           themeId = R.style.Theme_DolphinEmulation_LuigiGreen;
           break;
         case AppTheme.MMJR_PURPLE:
+          themeId = R.style.Theme_DolphinSettings_MmjrPurple;
+          break;
+        case AppTheme.MMJR_AMOLED:
         default:
-          themeId = R.style.Theme_DolphinEmulation_MmjrPurple;
+          themeId = R.style.Theme_DolphinSettings_MmjrAmoled;
           break;
       }
     }
@@ -124,8 +131,11 @@ public class AppTheme
           themeId = R.style.Theme_DolphinTv_LuigiGreen;
           break;
         case AppTheme.MMJR_PURPLE:
-        default:
           themeId = R.style.Theme_DolphinTv_MmjrPurple;
+          break;
+        case AppTheme.MMJR_AMOLED:
+        default:
+          themeId = R.style.Theme_DolphinTv_MmjrAmoled;
           break;
       }
     }
@@ -143,8 +153,11 @@ public class AppTheme
           themeId = R.style.Theme_DolphinMain_LuigiGreen;
           break;
         case AppTheme.MMJR_PURPLE:
-        default:
           themeId = R.style.Theme_DolphinMain_MmjrPurple;
+          break;
+        case AppTheme.MMJR_AMOLED:
+        default:
+          themeId = R.style.Theme_DolphinMain_MmjrAmoled;
           break;
       }
     }
