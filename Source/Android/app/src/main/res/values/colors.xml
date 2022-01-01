@@ -12,11 +12,11 @@
     <color name="purple_onprimary">#e91c63</color>
     <color name="purple_text_accent">@color/purple_onprimary</color>
 	
-    <color name="amoled_primary">#000000</color>
+    <color name="amoled_primary">#808080</color>
     <color name="amoled_primary_dark">#000000</color>
-    <color name="amoled_accent">#711fff</color>
+    <color name="amoled_accent">#808080</color>
     <color name="amoled_onprimary">@android:color/white</color>
-    <color name="amoled_text_accent">@color/amoled_onprimary</color>
+    <color name="amoled_text_accent">#808080</color>
 
     <color name="neon_red_primary">#ff3131</color>
     <color name="neon_red_primary_dark">#d22323</color>
@@ -36,12 +36,11 @@
     <color name="purple_gradient_secondary_start">@color/purple_primary</color>
     <color name="purple_gradient_secondary_end">@color/purple_primary_dark</color>
 
-    <!-- Amoled theme has no gradient -->
     <color name="amoled_gradient_primary_start">#000000</color>
-    <color name="amoled_gradient_primary_center">@null</color>
-    <color name="amoled_gradient_primary_end">@color/amoled_onprimary</color>
-    <color name="amoled_gradient_secondary_start">@color/amoled_primary</color>
-    <color name="amoled_gradient_secondary_end">@color/amoled_primary_dark</color>
+    <color name="amoled_gradient_primary_center">#000000</color>
+    <color name="amoled_gradient_primary_end">#000000</color>
+    <color name="amoled_gradient_secondary_start">#000000</color>
+    <color name="amoled_gradient_secondary_end">#000000</color>
 
     <!-- Neon Red theme has no gradient -->
     <color name="red_gradient_primary_start">#ff3939</color>
