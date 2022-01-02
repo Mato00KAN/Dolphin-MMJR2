@@ -62,6 +62,8 @@ public class GameFile
 
   public native boolean isDatelDisc();
 
+  public native boolean isNKit();
+
   public native int[] getBanner();
 
   public native int getBannerWidth();

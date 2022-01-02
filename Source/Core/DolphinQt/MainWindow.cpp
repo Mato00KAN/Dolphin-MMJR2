@@ -587,6 +587,7 @@ void MainWindow::ConnectHotkeys()
           &MainWindow::SetStateSlot);
   connect(m_hotkey_scheduler, &HotkeyScheduler::StartRecording, this,
           &MainWindow::OnStartRecording);
+  connect(m_hotkey_scheduler, &HotkeyScheduler::PlayRecording, this, &MainWindow::OnPlayRecording);
   connect(m_hotkey_scheduler, &HotkeyScheduler::ExportRecording, this,
           &MainWindow::OnExportRecording);
   connect(m_hotkey_scheduler, &HotkeyScheduler::ConnectWiiRemote, this,
@@ -1655,8 +1656,8 @@ void MainWindow::OnImportNANDBackup()
 
 void MainWindow::OnPlayRecording()
 {
-  QString dtm_file = QFileDialog::getOpenFileName(this, tr("Select the Recording File"), QString(),
-                                                  tr("Dolphin TAS Movies (*.dtm)"));
+  QString dtm_file = QFileDialog::getOpenFileName(this, tr("Select the Recording File to Play"),
+                                                  QString(), tr("Dolphin TAS Movies (*.dtm)"));
 
   if (dtm_file.isEmpty())
     return;
@@ -1725,8 +1726,8 @@ void MainWindow::OnStopRecording()
 void MainWindow::OnExportRecording()
 {
   Core::RunAsCPUThread([this] {
-    QString dtm_file = QFileDialog::getSaveFileName(this, tr("Select the Recording File"),
-                                                    QString(), tr("Dolphin TAS Movies (*.dtm)"));
+    QString dtm_file = QFileDialog::getSaveFileName(this, tr("Save Recording File As"), QString(),
+                                                    tr("Dolphin TAS Movies (*.dtm)"));
     if (!dtm_file.isEmpty())
       Movie::SaveRecording(dtm_file.toStdString());
   });
