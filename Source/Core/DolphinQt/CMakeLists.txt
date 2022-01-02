@@ -258,6 +258,8 @@ add_executable(dolphin-emu
   NetPlay/NetPlaySetupDialog.h
   NetPlay/PadMappingDialog.cpp
   NetPlay/PadMappingDialog.h
+  QtUtils/DolphinFileDialog.cpp
+  QtUtils/DolphinFileDialog.h
   QtUtils/DoubleClickEventFilter.cpp
   QtUtils/DoubleClickEventFilter.h
   QtUtils/ElidedButton.cpp
