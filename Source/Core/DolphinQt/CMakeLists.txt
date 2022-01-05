@@ -285,6 +285,8 @@ add_executable(dolphin-emu
   QtUtils/AspectRatioWidget.h
   ResourcePackManager.cpp
   ResourcePackManager.h
+  RiivolutionBootWidget.cpp
+  RiivolutionBootWidget.h
   Settings/AdvancedPane.cpp
   Settings/AdvancedPane.h
   Settings/AudioPane.cpp

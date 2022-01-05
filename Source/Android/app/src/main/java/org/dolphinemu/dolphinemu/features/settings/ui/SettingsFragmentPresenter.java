@@ -1324,7 +1324,7 @@ public final class SettingsFragmentPresenter
 
   private static int getLogVerbosityEntries()
   {
-    // Value obtained from LOG_LEVELS in Common/Logging/Log.h
+    // Value obtained from LogLevel in Common/Logging/Log.h
     if (NativeLibrary.GetMaxLogLevel() == 5)
     {
       return R.array.logVerbosityEntriesMaxLevelDebug;
@@ -1337,7 +1337,7 @@ public final class SettingsFragmentPresenter
 
   private static int getLogVerbosityValues()
   {
-    // Value obtained from LOG_LEVELS in Common/Logging/Log.h
+    // Value obtained from LogLevel in Common/Logging/Log.h
     if (NativeLibrary.GetMaxLogLevel() == 5)
     {
       return R.array.logVerbosityValuesMaxLevelDebug;
