@@ -154,6 +154,17 @@
             android:textAllCaps="false"
             android:textColor="?attr/colorOnGradientPrimary" />
 
+        <Button
+            android:id="@+id/properties_start_with_riivolution"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/gameprop_button_height"
+            android:background="@drawable/button_primary_gradient"
+            android:stateListAnimator="@null"
+            android:text="@string/properties_start_with_riivolution"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorOnGradientPrimary" />
+
     </LinearLayout>
 
 </RelativeLayout>

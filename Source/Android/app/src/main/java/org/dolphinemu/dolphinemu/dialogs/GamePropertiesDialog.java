@@ -98,12 +98,9 @@ public class GamePropertiesDialog extends DialogFragment
     Button buttonConvert = contents.findViewById(R.id.properties_convert);
     buttonConvert.setEnabled(false);
 
-  if (isDisc)
-    {
-      Button buttonRiivolution = contents.findViewById(R.string.properties_start_with_riivolution);
-      buttonRiivolution.setOnClickListener(view ->
+    Button buttonRiivolution = contents.findViewById(R.id.properties_start_with_riivolution);
+    buttonRiivolution.setOnClickListener(view ->
             RiivolutionBootActivity.launch(getContext(), path, gameId, revision, discNumber));
-    }
 
     if (shouldAllowConversion)
     {
