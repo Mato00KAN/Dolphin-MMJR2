@@ -155,7 +155,7 @@ public final class TvMainActivity extends FragmentActivity
 
                 // Start the emulation activity and send the path of the clicked ISO to it.
                 String[] paths = GameFileCacheService.findSecondDiscAndGetPaths(holder.gameFile);
-                EmulationActivity.launch(TvMainActivity.this, paths);
+                EmulationActivity.launch(TvMainActivity.this, paths, false);
               }
             });
   }
@@ -263,7 +263,7 @@ public final class TvMainActivity extends FragmentActivity
         case MainPresenter.REQUEST_GAME_FILE:
           FileBrowserHelper.runAfterExtensionCheck(this, uri,
                   FileBrowserHelper.GAME_LIKE_EXTENSIONS,
-                  () -> EmulationActivity.launch(this, result.getData().toString()));
+                  () -> EmulationActivity.launch(this, result.getData().toString(), false));
           break;
 
         case MainPresenter.REQUEST_WAD_FILE:

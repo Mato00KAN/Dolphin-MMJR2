@@ -121,6 +121,11 @@
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/DolphinBase"/>
 
+        <activity
+            android:name=".features.riivolution.ui.RiivolutionBootActivity"
+            android:exported="false"
+            android:theme="@style/DolphinBase" />
+
         <service
             android:name=".utils.DirectoryInitialization"
             android:exported="false"/>
