@@ -110,6 +110,7 @@ void VideoConfig::Refresh()
   bForceTrueColor = Config::Get(Config::GFX_ENHANCE_FORCE_TRUE_COLOR);
   bDisableCopyFilter = Config::Get(Config::GFX_ENHANCE_DISABLE_COPY_FILTER);
   bArbitraryMipmapDetection = Config::Get(Config::GFX_ENHANCE_ARBITRARY_MIPMAP_DETECTION);
+  bSkipApproximateLogicOp = Config::Get(Config::GFX_ENHANCE_SKIP_APPROXIMATE_LOGIC_OP);
   fArbitraryMipmapDetectionThreshold =
       Config::Get(Config::GFX_ENHANCE_ARBITRARY_MIPMAP_DETECTION_THRESHOLD);
 
