@@ -554,7 +554,7 @@ public final class SettingsFragmentPresenter
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_SYNC_ON_SKIP_IDLE, R.string.skip_on_skip_idle,
             R.string.skip_on_skip_idle_description));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_FOLLOW_BRANCH, R.string.jit_follow_branch,
-      R.string.jit_follow_branch_description));
+            R.string.jit_follow_branch_description));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_OVERCLOCK_ENABLE,
             R.string.overclock_enable, R.string.overclock_enable_description));
     sl.add(new PercentSliderSetting(mContext, FloatSetting.MAIN_OVERCLOCK, R.string.overclock_title,
@@ -678,6 +678,8 @@ public final class SettingsFragmentPresenter
             R.string.disable_copy_filter, R.string.disable_copy_filter_description));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_ENHANCE_ARBITRARY_MIPMAP_DETECTION,
             R.string.arbitrary_mipmap_detection, R.string.arbitrary_mipmap_detection_description));
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_ENHANCE_SKIP_APPROXIMATE_LOGIC_OP,
+            R.string.skip_approximate_logic_op, R.string.skip_approximate_logic_op_description));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_WIDESCREEN_HACK,
             R.string.wide_screen_hack, R.string.wide_screen_hack_description));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_BACKEND_MULTITHREADING,
