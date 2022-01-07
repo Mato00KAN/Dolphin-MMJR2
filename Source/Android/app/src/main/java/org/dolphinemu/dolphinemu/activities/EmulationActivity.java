@@ -81,11 +81,13 @@ public final class EmulationActivity extends AppCompatActivity
 
   private boolean activityRecreated;
   private String[] mPaths;
+  private boolean mRiivolution;
   private boolean mIgnoreWarnings;
   private static boolean sUserPausedEmulation;
   private boolean mMenuToastShown;
 
   public static final String EXTRA_SELECTED_GAMES = "SelectedGames";
+  public static final String EXTRA_RIIVOLUTION = "Riivolution";
   public static final String EXTRA_IGNORE_WARNINGS = "IgnoreWarnings";
   public static final String EXTRA_USER_PAUSED_EMULATION = "sUserPausedEmulation";
   public static final String EXTRA_MENU_TOAST_SHOWN = "MenuToastShown";
@@ -180,12 +182,12 @@ public final class EmulationActivity extends AppCompatActivity
       EmulationActivity.MENU_ACTION_HOTKEY);
   }
 
-  public static void launch(FragmentActivity activity, String filePath)
+  public static void launch(FragmentActivity activity, String filePath, boolean riivolution)
   {
-    launch(activity, new String[]{filePath});
+    launch(activity, new String[]{filePath}, riivolution);
   }
 
-  public static void launch(FragmentActivity activity, String[] filePaths)
+  public static void launch(FragmentActivity activity, String[] filePaths, boolean riivolution)
   {
     if (sIgnoreLaunchRequests)
       return;
@@ -199,7 +201,7 @@ public final class EmulationActivity extends AppCompatActivity
               FileBrowserHelper.isPathEmptyOrValid(StringSetting.MAIN_RESOURCEPACK_PATH) &&
               FileBrowserHelper.isPathEmptyOrValid(StringSetting.MAIN_SD_PATH))
       {
-        launchWithoutChecks(activity, filePaths);
+        launchWithoutChecks(activity, filePaths, riivolution);
       }
       else
       {
@@ -208,18 +210,20 @@ public final class EmulationActivity extends AppCompatActivity
         builder.setPositiveButton(R.string.yes, (dialogInterface, i) ->
                 SettingsActivity.launch(activity, MenuTag.CONFIG_PATHS));
         builder.setNeutralButton(R.string.continue_anyway, (dialogInterface, i) ->
-                launchWithoutChecks(activity, filePaths));
+                launchWithoutChecks(activity, filePaths, riivolution));
         builder.show();
       }
     });
   }
 
-  private static void launchWithoutChecks(FragmentActivity activity, String[] filePaths)
+  private static void launchWithoutChecks(FragmentActivity activity, String[] filePaths,
+          boolean riivolution)
   {
     sIgnoreLaunchRequests = true;
 
     Intent launcher = new Intent(activity, EmulationActivity.class);
     launcher.putExtra(EXTRA_SELECTED_GAMES, filePaths);
+    launcher.putExtra(EXTRA_RIIVOLUTION, riivolution);
 
     activity.startActivity(launcher);
   }
@@ -267,6 +271,7 @@ public final class EmulationActivity extends AppCompatActivity
       // Get params we were passed
       Intent gameToEmulate = getIntent();
       mPaths = gameToEmulate.getStringArrayExtra(EXTRA_SELECTED_GAMES);
+      mRiivolution = gameToEmulate.getBooleanExtra(EXTRA_RIIVOLUTION, false);
       mIgnoreWarnings = gameToEmulate.getBooleanExtra(EXTRA_IGNORE_WARNINGS, false);
       sUserPausedEmulation = gameToEmulate.getBooleanExtra(EXTRA_USER_PAUSED_EMULATION, false);
       mMenuToastShown = false;
@@ -300,7 +305,7 @@ public final class EmulationActivity extends AppCompatActivity
             .findFragmentById(R.id.frame_emulation_fragment);
     if (mEmulationFragment == null)
     {
-      mEmulationFragment = EmulationFragment.newInstance(mPaths);
+      mEmulationFragment = EmulationFragment.newInstance(mPaths, mRiivolution);
       getSupportFragmentManager().beginTransaction()
               .add(R.id.frame_emulation_fragment, mEmulationFragment)
               .commit();

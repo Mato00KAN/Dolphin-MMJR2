@@ -57,4 +57,7 @@ jmethodID GetNetworkHelperGetNetworkGateway();
 
 jmethodID GetBooleanSupplierGet();
 
+jclass GetRiivolutionPatchesClass();
+jfieldID GetRiivolutionPatchesPointer();
+
 }  // namespace IDCache
