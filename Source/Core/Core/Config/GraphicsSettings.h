@@ -56,7 +56,6 @@ extern const Info<bool> GFX_FAST_DEPTH_CALC;
 extern const Info<u32> GFX_MSAA;
 extern const Info<bool> GFX_SSAA;
 extern const Info<int> GFX_EFB_SCALE;
-extern const Info<int> GFX_MAX_EFB_SCALE;
 extern const Info<bool> GFX_TEXFMT_OVERLAY_ENABLE;
 extern const Info<bool> GFX_TEXFMT_OVERLAY_CENTER;
 extern const Info<bool> GFX_ENABLE_WIREFRAME;
@@ -90,6 +89,7 @@ extern const Info<std::string> GFX_ENHANCE_POST_SHADER;
 extern const Info<bool> GFX_ENHANCE_FORCE_TRUE_COLOR;
 extern const Info<bool> GFX_ENHANCE_DISABLE_COPY_FILTER;
 extern const Info<bool> GFX_ENHANCE_ARBITRARY_MIPMAP_DETECTION;
+extern const Info<bool> GFX_ENHANCE_SKIP_APPROXIMATE_LOGIC_OP;
 extern const Info<float> GFX_ENHANCE_ARBITRARY_MIPMAP_DETECTION_THRESHOLD;
 
 // Graphics.Stereoscopy
