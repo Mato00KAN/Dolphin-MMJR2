@@ -6,6 +6,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion 30
+    ndkVersion "23.0.7599858"
 
     compileOptions {
         // Flag to enable support for the new language APIs
@@ -67,7 +68,7 @@ android {
     externalNativeBuild {
         cmake {
             path "../../../CMakeLists.txt"
-            version "3.10.2"
+            version "3.18.1"
         }
     }
 
@@ -122,7 +123,7 @@ def getVersion() {
         logger.error(e + ': Cannot find git, defaulting to dummy version number')
     }
 
-    return '2.0-15443'
+    return '2.0-15486'
 }
 
 
