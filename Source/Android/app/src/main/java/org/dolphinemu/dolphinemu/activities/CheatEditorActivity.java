@@ -37,7 +37,7 @@ import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.model.AppTheme;
 import org.dolphinemu.dolphinemu.model.GameFile;
-import org.dolphinemu.dolphinemu.services.GameFileCacheService;
+import org.dolphinemu.dolphinemu.services.GameFileCacheManager;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 
 import java.io.BufferedReader;
@@ -441,7 +441,7 @@ public class CheatEditorActivity extends AppCompatActivity
     setSupportActionBar(toolbar);
 
     final String gamePath = getIntent().getStringExtra(ARG_GAME_PATH);
-    final GameFile gameFile = GameFileCacheService.addOrGet(gamePath);
+    final GameFile gameFile = GameFileCacheManager.addOrGet(gamePath);
     final String gameId = gameFile.getGameId();
     setTitle(gameId);
 

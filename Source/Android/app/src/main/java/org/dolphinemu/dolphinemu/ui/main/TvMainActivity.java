@@ -29,7 +29,7 @@ import org.dolphinemu.dolphinemu.features.settings.ui.SettingsActivity;
 import org.dolphinemu.dolphinemu.model.AppTheme;
 import org.dolphinemu.dolphinemu.model.GameFile;
 import org.dolphinemu.dolphinemu.model.TvSettingsItem;
-import org.dolphinemu.dolphinemu.services.GameFileCacheService;
+import org.dolphinemu.dolphinemu.services.GameFileCacheManager;
 import org.dolphinemu.dolphinemu.ui.platform.Platform;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
@@ -79,7 +79,7 @@ public final class TvMainActivity extends FragmentActivity
     if (DirectoryInitialization.shouldStart(this))
     {
       DirectoryInitialization.start(this);
-      GameFileCacheService.startLoad(this);
+      GameFileCacheManager.startLoad(this);
     }
 
     mPresenter.onResume();
@@ -126,7 +126,7 @@ public final class TvMainActivity extends FragmentActivity
 
     mSwipeRefresh.setOnRefreshListener(this);
 
-    setRefreshing(GameFileCacheService.isLoading());
+    setRefreshing(GameFileCacheManager.isLoading());
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
     mBrowseFragment = new BrowseSupportFragment();
@@ -154,7 +154,7 @@ public final class TvMainActivity extends FragmentActivity
                 TvGameViewHolder holder = (TvGameViewHolder) itemViewHolder;
 
                 // Start the emulation activity and send the path of the clicked ISO to it.
-                String[] paths = GameFileCacheService.findSecondDiscAndGetPaths(holder.gameFile);
+                String[] paths = GameFileCacheManager.findSecondDiscAndGetPaths(holder.gameFile);
                 EmulationActivity.launch(TvMainActivity.this, paths, false);
               }
             });
@@ -299,7 +299,7 @@ public final class TvMainActivity extends FragmentActivity
       if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
       {
         DirectoryInitialization.start(this);
-        GameFileCacheService.startLoad(this);
+        GameFileCacheManager.startLoad(this);
       }
       else
       {
@@ -315,7 +315,7 @@ public final class TvMainActivity extends FragmentActivity
   public void onRefresh()
   {
     setRefreshing(true);
-    GameFileCacheService.startRescan(this);
+    GameFileCacheManager.startRescan(this);
   }
 
   private void buildRowsAdapter()
@@ -325,12 +325,12 @@ public final class TvMainActivity extends FragmentActivity
 
     if (PermissionsHandler.hasWriteAccess(this))
     {
-      GameFileCacheService.startLoad(this);
+      GameFileCacheManager.startLoad(this);
     }
 
     for (Platform platform : Platform.values())
     {
-      ListRow row = buildGamesRow(platform, GameFileCacheService.getGameFilesForPlatform(platform));
+      ListRow row = buildGamesRow(platform, GameFileCacheManager.getGameFilesForPlatform(platform));
 
       // Add row to the adapter only if it is not empty.
       if (row != null)
