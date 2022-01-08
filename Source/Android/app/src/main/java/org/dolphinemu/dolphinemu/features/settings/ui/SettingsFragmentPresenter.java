@@ -95,6 +95,12 @@ public final class SettingsFragmentPresenter
   public void onViewCreated(MenuTag menuTag, Settings settings)
   {
     this.mMenuTag = menuTag;
+
+    if (!TextUtils.isEmpty(mGameID))
+    {
+      mView.getActivity().setTitle(mContext.getString(R.string.game_settings, mGameID));
+    }
+
     setSettings(settings);
   }
 
@@ -124,10 +130,6 @@ public final class SettingsFragmentPresenter
 
   private void loadSettingsList()
   {
-    if (!TextUtils.isEmpty(mGameID))
-    {
-      mView.getActivity().setTitle(mContext.getString(R.string.game_settings, mGameID));
-    }
     ArrayList<SettingsItem> sl = new ArrayList<>();
 
     switch (mMenuTag)
