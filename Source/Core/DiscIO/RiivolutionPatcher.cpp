@@ -375,7 +375,7 @@ static void FindFilenameNodesInFST(std::vector<DiscIO::FSTBuilderNode*>* nodes_o
       FindFilenameNodesInFST(nodes_out, filename,
                              &std::get<std::vector<FSTBuilderNode>>(node.m_content));
     }
-    else if (node.m_filename == filename)
+    else if (CaseInsensitiveEquals(node.m_filename, filename))
     {
       nodes_out->push_back(&node);
     }
