@@ -686,6 +686,8 @@ public final class SettingsFragmentPresenter
             R.string.wide_screen_hack, R.string.wide_screen_hack_description));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_BACKEND_MULTITHREADING,
             R.string.backend_multithreading, R.string.backend_multithreading_description));
+    sl.add(new InvertedCheckBoxSetting(mContext, BooleanSetting.GFX_HACK_FAST_TEXTURE_SAMPLING,
+            R.string.manual_texture_sampling, R.string.manual_texture_sampling_description));
 
      /*
      Check if we support stereo
