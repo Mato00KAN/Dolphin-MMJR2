@@ -77,7 +77,7 @@ public final class MainActivity extends AppCompatActivity
     if (PermissionsHandler.hasWriteAccess(this))
     {
       new AfterDirectoryInitializationRunner()
-              .run(this, false, this::setPlatformTabsAndStartGameFileCacheService);
+              .runWithLifecycle(this, false, this::setPlatformTabsAndStartGameFileCacheService);
     }
   }
 
@@ -90,7 +90,7 @@ public final class MainActivity extends AppCompatActivity
     {
       DirectoryInitialization.start(this);
       new AfterDirectoryInitializationRunner()
-              .run(this, false, this::setPlatformTabsAndStartGameFileCacheService);
+              .runWithLifecycle(this, false, this::setPlatformTabsAndStartGameFileCacheService);
     }
 
     mPresenter.onResume();
@@ -261,7 +261,7 @@ public final class MainActivity extends AppCompatActivity
       {
         DirectoryInitialization.start(this);
         new AfterDirectoryInitializationRunner()
-                .run(this, false, this::setPlatformTabsAndStartGameFileCacheService);
+                .runWithLifecycle(this, false, this::setPlatformTabsAndStartGameFileCacheService);
       }
       else
       {

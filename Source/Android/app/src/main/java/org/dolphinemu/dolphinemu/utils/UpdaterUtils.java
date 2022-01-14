@@ -36,7 +36,7 @@ public class UpdaterUtils
 
   public static void checkUpdatesInit(Context context)
   {
-    new AfterDirectoryInitializationRunner().run(context, false, () ->
+    new AfterDirectoryInitializationRunner().runWithoutLifecycle(context, false, () ->
     {
       cleanDownloadFolder(context);
 
