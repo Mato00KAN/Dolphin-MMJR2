@@ -202,6 +202,15 @@ std::string GetRTCDisplay()
   return format_time.str();
 }
 
+// NOTE: GPU Thread
+std::string GetRerecords()
+{
+  if (IsMovieActive())
+    return fmt::format("Rerecords: {}", s_rerecords);
+
+  return "Rerecords: N/A";
+}
+
 void FrameUpdate()
 {
   s_currentFrame++;
@@ -560,7 +569,7 @@ bool BeginRecordingInput(const ControllerTypeArray& controllers,
     // Wiimotes cause desync issues if they're not reset before launching the game
     if (!Core::IsRunningAndStarted())
     {
-      // This will also reset the wiimotes for gamecube games, but that shouldn't do anything
+      // This will also reset the Wiimotes for GameCube games, but that shouldn't do anything
       Wiimote::ResetAllWiimotes();
     }
 

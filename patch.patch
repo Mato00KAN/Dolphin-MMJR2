@@ -1,0 +1,100 @@
+From e4fed7cce8e6d70fe4bfbbae15305c664fcbf8ec Mon Sep 17 00:00:00 2001
+From: sowens99 <seanowens@comcast.net>
+Date: Mon, 29 Nov 2021 23:03:36 -0500
+Subject: [PATCH] Add Rerecord Count display
+
+Simply shows Movie::s_rerecords in the ImGui Movie window
+---
+ Source/Core/Core/ConfigManager.h       | 1 +
+ Source/Core/Core/Movie.cpp             | 9 +++++++++
+ Source/Core/Core/Movie.h               | 1 +
+ Source/Core/DolphinQt/MenuBar.cpp      | 6 ++++++
+ Source/Core/VideoCommon/RenderBase.cpp | 7 +++++--
+ 6 files changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/Source/Core/Core/ConfigManager.h b/Source/Core/Core/ConfigManager.h
+index 33440345284c..64f44430da6e 100644
+--- a/Source/Core/Core/ConfigManager.h
++++ b/Source/Core/Core/ConfigManager.h
+@@ -268,6 +268,7 @@ struct SConfig
+ 
+   std::string m_WirelessMac;
+   bool m_PauseMovie;
++  bool m_ShowRerecord;
+   bool m_ShowLag;
+   bool m_ShowFrameCount;
+   bool m_ShowRTC;
+diff --git a/Source/Core/Core/Movie.cpp b/Source/Core/Core/Movie.cpp
+index a5199f38f0d7..ac1df71bbf8a 100644
+--- a/Source/Core/Core/Movie.cpp
++++ b/Source/Core/Core/Movie.cpp
+@@ -202,6 +202,15 @@ std::string GetRTCDisplay()
+   return format_time.str();
+ }
+ 
++// NOTE: GPU Thread
++std::string GetRerecords()
++{
++  if (IsMovieActive())
++    return fmt::format("Rerecords: {}", s_rerecords);
++
++  return "Rerecords: N/A";
++}
++
+ void FrameUpdate()
+ {
+   s_currentFrame++;
+diff --git a/Source/Core/Core/Movie.h b/Source/Core/Core/Movie.h
+index 0a7857c0e369..be95ebca692e 100644
+--- a/Source/Core/Core/Movie.h
++++ b/Source/Core/Core/Movie.h
+@@ -200,6 +200,7 @@ void CheckWiimoteStatus(int wiimote, const WiimoteCommon::DataReportBuilder& rpt
+ 
+ std::string GetInputDisplay();
+ std::string GetRTCDisplay();
++std::string GetRerecords();
+ 
+ // Done this way to avoid mixing of core and gui code
+ using GCManipFunction = std::function<void(GCPadStatus*, int)>;
+diff --git a/Source/Core/DolphinQt/MenuBar.cpp b/Source/Core/DolphinQt/MenuBar.cpp
+index 48a18dbbb078..363dccc907eb 100644
+--- a/Source/Core/DolphinQt/MenuBar.cpp
++++ b/Source/Core/DolphinQt/MenuBar.cpp
+@@ -756,6 +756,12 @@ void MenuBar::AddMovieMenu()
+   connect(pause_at_end, &QAction::toggled,
+           [](bool value) { SConfig::GetInstance().m_PauseMovie = value; });
+ 
++  auto* rerecord_counter = movie_menu->addAction(tr("Show Rerecord Counter"));
++  rerecord_counter->setCheckable(true);
++  rerecord_counter->setChecked(SConfig::GetInstance().m_ShowRerecord);
++  connect(rerecord_counter, &QAction::toggled,
++          [](bool value) { SConfig::GetInstance().m_ShowRerecord = value; });
++
+   auto* lag_counter = movie_menu->addAction(tr("Show Lag Counter"));
+   lag_counter->setCheckable(true);
+   lag_counter->setChecked(SConfig::GetInstance().m_ShowLag);
+diff --git a/Source/Core/VideoCommon/RenderBase.cpp b/Source/Core/VideoCommon/RenderBase.cpp
+index f293977623f8..e606a464e616 100644
+--- a/Source/Core/VideoCommon/RenderBase.cpp
++++ b/Source/Core/VideoCommon/RenderBase.cpp
+@@ -575,8 +575,9 @@ void Renderer::DrawDebugText()
+     ImGui::End();
+   }
+ 
+-  const bool show_movie_window =
+-      config.m_ShowFrameCount | config.m_ShowLag | config.m_ShowInputDisplay | config.m_ShowRTC;
++  const bool show_movie_window = config.m_ShowFrameCount | config.m_ShowLag |
++                                 config.m_ShowInputDisplay | config.m_ShowRTC |
++                                 config.m_ShowRerecord;
+   if (show_movie_window)
+   {
+     // Position under the FPS display.
+@@ -606,6 +607,8 @@ void Renderer::DrawDebugText()
+         ImGui::TextUnformatted(Movie::GetInputDisplay().c_str());
+       if (SConfig::GetInstance().m_ShowRTC)
+         ImGui::TextUnformatted(Movie::GetRTCDisplay().c_str());
++      if (SConfig::GetInstance().m_ShowRerecord)
++        ImGui::TextUnformatted(Movie::GetRerecords().c_str());
+     }
+     ImGui::End();
+   }
