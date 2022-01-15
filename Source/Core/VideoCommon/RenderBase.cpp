@@ -38,6 +38,7 @@
 #include "Common/Thread.h"
 #include "Common/Timer.h"
 
+#include "Core/Config/GraphicsSettings.h"
 #include "Core/Config/NetplaySettings.h"
 #include "Core/Config/SYSCONFSettings.h"
 #include "Core/ConfigManager.h"
@@ -95,7 +96,8 @@ static float AspectToWidescreen(float aspect)
 static bool DumpFrameToPNG(const FrameDump::FrameData& frame, const std::string& file_name)
 {
   return Common::ConvertRGBAToRGBAndSavePNG(file_name, frame.data, frame.width, frame.height,
-                                            frame.stride);
+                                            frame.stride,
+                                            Config::Get(Config::GFX_PNG_COMPRESSION_LEVEL));
 }
 
 Renderer::Renderer(int backbuffer_width, int backbuffer_height, float backbuffer_scale,
@@ -590,8 +592,9 @@ void Renderer::DrawDebugText()
     ImGui::End();
   }
 
-  const bool show_movie_window =
-      config.m_ShowFrameCount | config.m_ShowLag | config.m_ShowInputDisplay | config.m_ShowRTC;
+  const bool show_movie_window = config.m_ShowFrameCount | config.m_ShowLag |
+                                 config.m_ShowInputDisplay | config.m_ShowRTC |
+                                 config.m_ShowRerecord;
   if (show_movie_window)
   {
     // Position under the FPS display.
@@ -620,6 +623,8 @@ void Renderer::DrawDebugText()
         ImGui::TextUnformatted(Movie::GetInputDisplay().c_str());
       if (SConfig::GetInstance().m_ShowRTC)
         ImGui::TextUnformatted(Movie::GetRTCDisplay().c_str());
+      if (SConfig::GetInstance().m_ShowRerecord)
+        ImGui::TextUnformatted(Movie::GetRerecords().c_str());
     }
     ImGui::End();
   }
