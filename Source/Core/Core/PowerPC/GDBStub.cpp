@@ -28,6 +28,7 @@ typedef SSIZE_T ssize_t;
 #include "Common/Event.h"
 #include "Common/Logging/Log.h"
 #include "Common/SocketContext.h"
+#include "Common/StringUtil.h"
 #include "Core/Core.h"
 #include "Core/HW/CPU.h"
 #include "Core/HW/Memmap.h"
@@ -53,14 +54,20 @@ enum class BreakpointType
 {
   ExecuteSoft = 0,
   ExecuteHard,
-  Read,
   Write,
+  Read,
   Access,
 };
+
+constexpr u32 NUM_BREAKPOINT_TYPES = 4;
+
+constexpr int MACH_O_POWERPC = 18;
+constexpr int MACH_O_POWERPC_750 = 9;
 
 const s64 GDB_UPDATE_CYCLES = 100000;
 
 static bool s_has_control = false;
+static bool s_just_connected = false;
 
 static int s_tmpsock = -1;
 static int s_sock = -1;
@@ -305,6 +312,14 @@ static void SendReply(const char* reply)
   }
 }
 
+static void WriteHostInfo()
+{
+  return SendReply(
+      fmt::format("cputype:{};cpusubtype:{};ostype:unknown;vendor:unknown;endian:big;ptrsize:4",
+                  MACH_O_POWERPC, MACH_O_POWERPC_750)
+          .c_str());
+}
+
 static void HandleQuery()
 {
   DEBUG_LOG_FMT(GDB_STUB, "gdb: query '{}'", CommandBufferAsString());
@@ -319,6 +334,8 @@ static void HandleQuery()
     return SendReply("l");
   else if (!strncmp((const char*)(s_cmd_bfr), "qThreadExtraInfo", strlen("qThreadExtraInfo")))
     return SendReply("00");
+  else if (!strncmp((const char*)(s_cmd_bfr), "qHostInfo", strlen("qHostInfo")))
+    return WriteHostInfo();
   else if (!strncmp((const char*)(s_cmd_bfr), "qSupported", strlen("qSupported")))
     return SendReply("swbreak+;hwbreak+");
 
@@ -327,16 +344,16 @@ static void HandleQuery()
 
 static void HandleSetThread()
 {
-  if (memcmp(s_cmd_bfr, "Hg0", 3) == 0 || memcmp(s_cmd_bfr, "Hc-1", 4) == 0 ||
-      memcmp(s_cmd_bfr, "Hc0", 3) == 0 || memcmp(s_cmd_bfr, "Hc1", 3) == 0)
+  if (memcmp(s_cmd_bfr, "Hg-1", 4) == 0 || memcmp(s_cmd_bfr, "Hc-1", 4) == 0 ||
+      memcmp(s_cmd_bfr, "Hg0", 3) == 0 || memcmp(s_cmd_bfr, "Hc0", 3) == 0 ||
+      memcmp(s_cmd_bfr, "Hg1", 3) == 0 || memcmp(s_cmd_bfr, "Hc1", 3) == 0)
     return SendReply("OK");
   SendReply("E01");
 }
 
 static void HandleIsThreadAlive()
 {
-  if (memcmp(s_cmd_bfr, "T0", 2) == 0 || memcmp(s_cmd_bfr, "T1", 4) == 0 ||
-      memcmp(s_cmd_bfr, "T-1", 3) == 0)
+  if (memcmp(s_cmd_bfr, "T1", 2) == 0 || memcmp(s_cmd_bfr, "T-1", 3) == 0)
     return SendReply("OK");
   SendReply("E01");
 }
@@ -788,9 +805,10 @@ static void ReadMemory()
 
   if (len * 2 > sizeof reply)
     SendReply("E01");
+
+  if (!PowerPC::HostIsRAMAddress(addr))
+    return SendReply("E00");
   u8* data = Memory::GetPointer(addr);
-  if (!data)
-    return SendReply("E0");
   Mem2hex(reply, data, len);
   reply[len * 2] = '\0';
   SendReply((char*)reply);
@@ -812,9 +830,9 @@ static void WriteMemory()
     len = (len << 4) | Hex2char(s_cmd_bfr[i++]);
   INFO_LOG_FMT(GDB_STUB, "gdb: write memory: {:08x} bytes to {:08x}", len, addr);
 
-  u8* dst = Memory::GetPointer(addr);
-  if (!dst)
+  if (!PowerPC::HostIsRAMAddress(addr))
     return SendReply("E00");
+  u8* dst = Memory::GetPointer(addr);
   Hex2mem(dst, s_cmd_bfr + i + 1, len);
   SendReply("OK");
 }
@@ -857,7 +875,7 @@ static void HandleAddBreakpoint()
   u32 i, addr = 0, len = 0;
 
   type = Hex2char(s_cmd_bfr[1]);
-  if (type > 4)
+  if (type > NUM_BREAKPOINT_TYPES)
     return SendReply("E01");
 
   i = 3;
@@ -878,7 +896,7 @@ static void HandleRemoveBreakpoint()
   u32 type, addr, len, i;
 
   type = Hex2char(s_cmd_bfr[1]);
-  if (type >= 4)
+  if (type > NUM_BREAKPOINT_TYPES)
     return SendReply("E01");
 
   addr = 0;
@@ -898,6 +916,7 @@ static void HandleRemoveBreakpoint()
 
 void ProcessCommands(bool loop_until_continue)
 {
+  s_just_connected = false;
   while (IsActive())
   {
     if (CPU::GetState() == CPU::State::PowerDown)
@@ -1038,6 +1057,7 @@ static void InitGeneric(int domain, const sockaddr* server_addr, socklen_t serve
   if (s_sock < 0)
     ERROR_LOG_FMT(GDB_STUB, "Failed to accept gdb client");
   INFO_LOG_FMT(GDB_STUB, "Client connected.");
+  s_just_connected = true;
 
 #ifdef _WIN32
   closesocket(s_tmpsock);
@@ -1081,6 +1101,11 @@ bool HasControl()
 void TakeControl()
 {
   s_has_control = true;
+}
+
+bool JustConnected()
+{
+  return s_just_connected;
 }
 
 void SendSignal(Signal signal)
