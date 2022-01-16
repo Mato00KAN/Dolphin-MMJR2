@@ -367,22 +367,28 @@ static void CpuThread(const std::optional<std::string>& savestate_path, bool del
   }
 
   s_is_started = true;
+  {
 #ifndef _WIN32
-  if (!_CoreParameter.gdb_socket.empty())
-  {
-    GDBStub::InitLocal(_CoreParameter.gdb_socket.data());
-    CPUSetInitialExecutionState(true);
-  }
-  else
+    std::string gdb_socket = Config::Get(Config::MAIN_GDB_SOCKET);
+    if (!gdb_socket.empty())
+    {
+      GDBStub::InitLocal(gdb_socket.data());
+      CPUSetInitialExecutionState(true);
+    }
+    else
 #endif
-      if (_CoreParameter.iGDBPort > 0)
-  {
-    GDBStub::Init(_CoreParameter.iGDBPort);
-    CPUSetInitialExecutionState(true);
-  }
-  else
-  {
-    CPUSetInitialExecutionState();
+    {
+      int gdb_port = Config::Get(Config::MAIN_GDB_PORT);
+      if (gdb_port > 0)
+      {
+        GDBStub::Init(gdb_port);
+        CPUSetInitialExecutionState(true);
+      }
+      else
+      {
+        CPUSetInitialExecutionState();
+      }
+    }
   }
 
   // Enter CPU run loop. When we leave it - we are done.
@@ -490,7 +496,7 @@ static void EmuThread(std::unique_ptr<BootParameters> boot, WindowSystemInfo wsi
 
   // Load and Init Wiimotes - only if we are booting in Wii mode
   bool init_wiimotes = false;
-  if (core_parameter.bWii && !SConfig::GetInstance().m_bt_passthrough_enabled)
+  if (core_parameter.bWii && !Config::Get(Config::MAIN_BLUETOOTH_PASSTHROUGH_ENABLED))
   {
     if (init_controllers)
     {
@@ -634,7 +640,7 @@ static void EmuThread(std::unique_ptr<BootParameters> boot, WindowSystemInfo wsi
   Fifo::Prepare();
 
   // Setup our core, but can't use dynarec if we are compare server
-  if (core_parameter.cpu_core != PowerPC::CPUCore::Interpreter &&
+  if (Config::Get(Config::MAIN_CPU_CORE) != PowerPC::CPUCore::Interpreter &&
       (!core_parameter.bRunCompareServer || core_parameter.bRunCompareClient))
   {
     PowerPC::SetMode(PowerPC::CoreMode::JIT);
@@ -968,7 +974,7 @@ void UpdateTitle(u32 ElapseTime)
   else
   {
     SFPS = fmt::format("FPS: {:.0f} - VPS: {:.0f} - {:.0f}%", perf_stats.FPS, perf_stats.VPS, perf_stats.Speed);
-    if (SConfig::GetInstance().m_InterfaceExtendedFPSInfo)
+    if (Config::Get(Config::MAIN_EXTENDED_FPS_INFO))
     {
       // Use extended or summary information. The summary information does not print the ticks data,
       // that's more of a debugging interest, it can always be optional of course if someone is
@@ -994,7 +1000,7 @@ void UpdateTitle(u32 ElapseTime)
   }
 
   std::string message = fmt::format("{} | {} | {}", Common::scm_rev_str, SSettings, SFPS);
-  if (SConfig::GetInstance().m_show_active_title)
+  if (Config::Get(Config::MAIN_SHOW_ACTIVE_TITLE))
   {
     const std::string& title = SConfig::GetInstance().GetTitleDescription();
     if (!title.empty())

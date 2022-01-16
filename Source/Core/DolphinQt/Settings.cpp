@@ -106,7 +106,7 @@ QSettings& Settings::GetQSettings()
 
 void Settings::SetThemeName(const QString& theme_name)
 {
-  SConfig::GetInstance().theme_name = theme_name.toStdString();
+  Config::SetBaseOrCurrent(Config::MAIN_THEME_NAME, theme_name.toStdString());
   emit ThemeChanged();
 }
 
@@ -216,7 +216,7 @@ void Settings::GetToolTipStyle(QColor& window_color, QColor& text_color,
 QStringList Settings::GetPaths() const
 {
   QStringList list;
-  for (const auto& path : SConfig::GetInstance().m_ISOFolder)
+  for (const auto& path : Config::GetIsoPaths())
     list << QString::fromStdString(path);
   return list;
 }
@@ -224,25 +224,27 @@ QStringList Settings::GetPaths() const
 void Settings::AddPath(const QString& qpath)
 {
   std::string path = qpath.toStdString();
+  std::vector<std::string> paths = Config::GetIsoPaths();
 
-  std::vector<std::string>& paths = SConfig::GetInstance().m_ISOFolder;
   if (std::find(paths.begin(), paths.end(), path) != paths.end())
     return;
 
   paths.emplace_back(path);
+  Config::SetIsoPaths(paths);
   emit PathAdded(qpath);
 }
 
 void Settings::RemovePath(const QString& qpath)
 {
   std::string path = qpath.toStdString();
-  std::vector<std::string>& paths = SConfig::GetInstance().m_ISOFolder;
+  std::vector<std::string> paths = Config::GetIsoPaths();
 
   auto new_end = std::remove(paths.begin(), paths.end(), path);
   if (new_end == paths.end())
     return;
 
   paths.erase(new_end, paths.end());
+  Config::SetIsoPaths(paths);
   emit PathRemoved(qpath);
 }
 
@@ -325,27 +327,26 @@ void Settings::SetStateSlot(int slot)
   GetQSettings().setValue(QStringLiteral("Emulation/StateSlot"), slot);
 }
 
-void Settings::SetCursorVisibility(SConfig::ShowCursor hideCursor)
+void Settings::SetCursorVisibility(Config::ShowCursor hideCursor)
 {
-  SConfig::GetInstance().m_show_cursor = hideCursor;
-
+  Config::SetBaseOrCurrent(Config::MAIN_SHOW_CURSOR, hideCursor);
   emit CursorVisibilityChanged();
 }
 
-SConfig::ShowCursor Settings::GetCursorVisibility() const
+Config::ShowCursor Settings::GetCursorVisibility() const
 {
-  return SConfig::GetInstance().m_show_cursor;
+  return Config::Get(Config::MAIN_SHOW_CURSOR);
 }
 
 void Settings::SetLockCursor(bool lock_cursor)
 {
-  SConfig::GetInstance().bLockCursor = lock_cursor;
+  Config::SetBaseOrCurrent(Config::MAIN_LOCK_CURSOR, lock_cursor);
   emit LockCursorChanged();
 }
 
 bool Settings::GetLockCursor() const
 {
-  return SConfig::GetInstance().bLockCursor;
+  return Config::Get(Config::MAIN_LOCK_CURSOR);
 }
 
 void Settings::SetKeepWindowOnTop(bool top)
@@ -457,7 +458,7 @@ void Settings::SetDebugModeEnabled(bool enabled)
 {
   if (IsDebugModeEnabled() != enabled)
   {
-    SConfig::GetInstance().bEnableDebugging = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_ENABLE_DEBUGGING, enabled);
     emit DebugModeToggled(enabled);
   }
   if (enabled)
@@ -466,7 +467,7 @@ void Settings::SetDebugModeEnabled(bool enabled)
 
 bool Settings::IsDebugModeEnabled() const
 {
-  return SConfig::GetInstance().bEnableDebugging;
+  return Config::Get(Config::MAIN_ENABLE_DEBUGGING);
 }
 
 void Settings::SetRegistersVisible(bool enabled)
@@ -614,14 +615,14 @@ void Settings::SetAutoUpdateTrack(const QString& mode)
   if (mode == GetAutoUpdateTrack())
     return;
 
-  SConfig::GetInstance().m_auto_update_track = mode.toStdString();
+  Config::SetBase(Config::MAIN_AUTOUPDATE_UPDATE_TRACK, mode.toStdString());
 
   emit AutoUpdateTrackChanged(mode);
 }
 
 QString Settings::GetAutoUpdateTrack() const
 {
-  return QString::fromStdString(SConfig::GetInstance().m_auto_update_track);
+  return QString::fromStdString(Config::Get(Config::MAIN_AUTOUPDATE_UPDATE_TRACK));
 }
 
 void Settings::SetFallbackRegion(const DiscIO::Region& region)
