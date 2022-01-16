@@ -556,12 +556,8 @@ void MenuBar::AddOptionsMenu()
 
 void MenuBar::InstallUpdateManually()
 {
-  auto& track = SConfig::GetInstance().m_auto_update_track;
-  auto previous_value = track;
-
-  track = "dev";
-
-  auto* updater = new Updater(this->parentWidget());
+  auto* updater =
+      new Updater(this->parentWidget(), "dev", Config::Get(Config::MAIN_AUTOUPDATE_HASH_OVERRIDE));
 
   if (!updater->CheckForUpdate())
   {
@@ -569,8 +565,6 @@ void MenuBar::InstallUpdateManually()
         this, tr("Update"),
         tr("You are running the latest version available on this update track."));
   }
-
-  track = previous_value;
 }
 
 void MenuBar::AddHelpMenu()
@@ -760,15 +754,15 @@ void MenuBar::AddMovieMenu()
 
   auto* pause_at_end = movie_menu->addAction(tr("Pause at End of Movie"));
   pause_at_end->setCheckable(true);
-  pause_at_end->setChecked(SConfig::GetInstance().m_PauseMovie);
+  pause_at_end->setChecked(Config::Get(Config::MAIN_MOVIE_PAUSE_MOVIE));
   connect(pause_at_end, &QAction::toggled,
-          [](bool value) { SConfig::GetInstance().m_PauseMovie = value; });
+          [](bool value) { Config::SetBaseOrCurrent(Config::MAIN_MOVIE_PAUSE_MOVIE, value); });
 
   auto* rerecord_counter = movie_menu->addAction(tr("Show Rerecord Counter"));
   rerecord_counter->setCheckable(true);
-  rerecord_counter->setChecked(SConfig::GetInstance().m_ShowRerecord);
+  rerecord_counter->setChecked(Config::Get(Config::MAIN_MOVIE_SHOW_RERECORD));
   connect(rerecord_counter, &QAction::toggled,
-          [](bool value) { SConfig::GetInstance().m_ShowRerecord = value; });
+          [](bool value) { Config::SetBaseOrCurrent(Config::MAIN_MOVIE_SHOW_RERECORD, value); });
 
   auto* lag_counter = movie_menu->addAction(tr("Show Lag Counter"));
   lag_counter->setCheckable(true);
@@ -784,23 +778,24 @@ void MenuBar::AddMovieMenu()
 
   auto* input_display = movie_menu->addAction(tr("Show Input Display"));
   input_display->setCheckable(true);
-  input_display->setChecked(SConfig::GetInstance().m_ShowInputDisplay);
-  connect(input_display, &QAction::toggled,
-          [](bool value) { SConfig::GetInstance().m_ShowInputDisplay = value; });
+  input_display->setChecked(Config::Get(Config::MAIN_MOVIE_SHOW_INPUT_DISPLAY));
+  connect(input_display, &QAction::toggled, [](bool value) {
+    Config::SetBaseOrCurrent(Config::MAIN_MOVIE_SHOW_INPUT_DISPLAY, value);
+  });
 
   auto* system_clock = movie_menu->addAction(tr("Show System Clock"));
   system_clock->setCheckable(true);
-  system_clock->setChecked(SConfig::GetInstance().m_ShowRTC);
+  system_clock->setChecked(Config::Get(Config::MAIN_MOVIE_SHOW_RTC));
   connect(system_clock, &QAction::toggled,
-          [](bool value) { SConfig::GetInstance().m_ShowRTC = value; });
+          [](bool value) { Config::SetBaseOrCurrent(Config::MAIN_MOVIE_SHOW_RTC, value); });
 
   movie_menu->addSeparator();
 
   auto* dump_frames = movie_menu->addAction(tr("Dump Frames"));
   dump_frames->setCheckable(true);
-  dump_frames->setChecked(SConfig::GetInstance().m_DumpFrames);
+  dump_frames->setChecked(Config::Get(Config::MAIN_MOVIE_DUMP_FRAMES));
   connect(dump_frames, &QAction::toggled,
-          [](bool value) { SConfig::GetInstance().m_DumpFrames = value; });
+          [](bool value) { Config::SetBaseOrCurrent(Config::MAIN_MOVIE_DUMP_FRAMES, value); });
 
   auto* dump_audio = movie_menu->addAction(tr("Dump Audio"));
   dump_audio->setCheckable(true);
@@ -861,105 +856,106 @@ void MenuBar::AddJITMenu()
 
   m_jit_off = m_jit->addAction(tr("JIT Off (JIT Core)"));
   m_jit_off->setCheckable(true);
-  m_jit_off->setChecked(SConfig::GetInstance().bJITOff);
+  m_jit_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_OFF));
   connect(m_jit_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_OFF, enabled);
     ClearCache();
   });
 
   m_jit_loadstore_off = m_jit->addAction(tr("JIT LoadStore Off"));
   m_jit_loadstore_off->setCheckable(true);
-  m_jit_loadstore_off->setChecked(SConfig::GetInstance().bJITLoadStoreOff);
+  m_jit_loadstore_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_LOAD_STORE_OFF));
   connect(m_jit_loadstore_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITLoadStoreOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_LOAD_STORE_OFF, enabled);
     ClearCache();
   });
 
   m_jit_loadstore_lbzx_off = m_jit->addAction(tr("JIT LoadStore lbzx Off"));
   m_jit_loadstore_lbzx_off->setCheckable(true);
-  m_jit_loadstore_lbzx_off->setChecked(SConfig::GetInstance().bJITLoadStorelbzxOff);
+  m_jit_loadstore_lbzx_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_LOAD_STORE_LBZX_OFF));
   connect(m_jit_loadstore_lbzx_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITLoadStorelbzxOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_LOAD_STORE_LBZX_OFF, enabled);
     ClearCache();
   });
 
   m_jit_loadstore_lxz_off = m_jit->addAction(tr("JIT LoadStore lXz Off"));
   m_jit_loadstore_lxz_off->setCheckable(true);
-  m_jit_loadstore_lxz_off->setChecked(SConfig::GetInstance().bJITLoadStorelXzOff);
+  m_jit_loadstore_lxz_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_LOAD_STORE_LXZ_OFF));
   connect(m_jit_loadstore_lxz_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITLoadStorelXzOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_LOAD_STORE_LXZ_OFF, enabled);
     ClearCache();
   });
 
   m_jit_loadstore_lwz_off = m_jit->addAction(tr("JIT LoadStore lwz Off"));
   m_jit_loadstore_lwz_off->setCheckable(true);
-  m_jit_loadstore_lwz_off->setChecked(SConfig::GetInstance().bJITLoadStorelwzOff);
+  m_jit_loadstore_lwz_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_LOAD_STORE_LWZ_OFF));
   connect(m_jit_loadstore_lwz_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITLoadStorelwzOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_LOAD_STORE_LWZ_OFF, enabled);
     ClearCache();
   });
 
   m_jit_loadstore_floating_off = m_jit->addAction(tr("JIT LoadStore Floating Off"));
   m_jit_loadstore_floating_off->setCheckable(true);
-  m_jit_loadstore_floating_off->setChecked(SConfig::GetInstance().bJITLoadStoreFloatingOff);
+  m_jit_loadstore_floating_off->setChecked(
+      Config::Get(Config::MAIN_DEBUG_JIT_LOAD_STORE_FLOATING_OFF));
   connect(m_jit_loadstore_floating_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITLoadStoreFloatingOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_LOAD_STORE_FLOATING_OFF, enabled);
     ClearCache();
   });
 
   m_jit_loadstore_paired_off = m_jit->addAction(tr("JIT LoadStore Paired Off"));
   m_jit_loadstore_paired_off->setCheckable(true);
-  m_jit_loadstore_paired_off->setChecked(SConfig::GetInstance().bJITLoadStorePairedOff);
+  m_jit_loadstore_paired_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_LOAD_STORE_PAIRED_OFF));
   connect(m_jit_loadstore_paired_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITLoadStorePairedOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_LOAD_STORE_PAIRED_OFF, enabled);
     ClearCache();
   });
 
   m_jit_floatingpoint_off = m_jit->addAction(tr("JIT FloatingPoint Off"));
   m_jit_floatingpoint_off->setCheckable(true);
-  m_jit_floatingpoint_off->setChecked(SConfig::GetInstance().bJITFloatingPointOff);
+  m_jit_floatingpoint_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_FLOATING_POINT_OFF));
   connect(m_jit_floatingpoint_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITFloatingPointOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_FLOATING_POINT_OFF, enabled);
     ClearCache();
   });
 
   m_jit_integer_off = m_jit->addAction(tr("JIT Integer Off"));
   m_jit_integer_off->setCheckable(true);
-  m_jit_integer_off->setChecked(SConfig::GetInstance().bJITIntegerOff);
+  m_jit_integer_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_INTEGER_OFF));
   connect(m_jit_integer_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITIntegerOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_INTEGER_OFF, enabled);
     ClearCache();
   });
 
   m_jit_paired_off = m_jit->addAction(tr("JIT Paired Off"));
   m_jit_paired_off->setCheckable(true);
-  m_jit_paired_off->setChecked(SConfig::GetInstance().bJITPairedOff);
+  m_jit_paired_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_PAIRED_OFF));
   connect(m_jit_paired_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITPairedOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_PAIRED_OFF, enabled);
     ClearCache();
   });
 
   m_jit_systemregisters_off = m_jit->addAction(tr("JIT SystemRegisters Off"));
   m_jit_systemregisters_off->setCheckable(true);
-  m_jit_systemregisters_off->setChecked(SConfig::GetInstance().bJITSystemRegistersOff);
+  m_jit_systemregisters_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_SYSTEM_REGISTERS_OFF));
   connect(m_jit_systemregisters_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITSystemRegistersOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_SYSTEM_REGISTERS_OFF, enabled);
     ClearCache();
   });
 
   m_jit_branch_off = m_jit->addAction(tr("JIT Branch Off"));
   m_jit_branch_off->setCheckable(true);
-  m_jit_branch_off->setChecked(SConfig::GetInstance().bJITBranchOff);
+  m_jit_branch_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_BRANCH_OFF));
   connect(m_jit_branch_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITBranchOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_BRANCH_OFF, enabled);
     ClearCache();
   });
 
   m_jit_register_cache_off = m_jit->addAction(tr("JIT Register Cache Off"));
   m_jit_register_cache_off->setCheckable(true);
-  m_jit_register_cache_off->setChecked(SConfig::GetInstance().bJITRegisterCacheOff);
+  m_jit_register_cache_off->setChecked(Config::Get(Config::MAIN_DEBUG_JIT_REGISTER_CACHE_OFF));
   connect(m_jit_register_cache_off, &QAction::toggled, [this](bool enabled) {
-    SConfig::GetInstance().bJITRegisterCacheOff = enabled;
+    Config::SetBaseOrCurrent(Config::MAIN_DEBUG_JIT_REGISTER_CACHE_OFF, enabled);
     ClearCache();
   });
 }

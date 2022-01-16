@@ -89,14 +89,7 @@ void SConfig::SaveSettings()
   ini.Load(File::GetUserPath(F_DOLPHINCONFIG_IDX));  // load first to not kill unknown stuff
 
   SaveGeneralSettings(ini);
-  SaveInterfaceSettings(ini);
   SaveCoreSettings(ini);
-  SaveMovieSettings(ini);
-  SaveInputSettings(ini);
-  SaveBluetoothPassthroughSettings(ini);
-  SaveUSBPassthroughSettings(ini);
-  SaveAutoUpdateSettings(ini);
-  SaveJitDebugSettings(ini);
 
   ini.Save(File::GetUserPath(F_DOLPHINCONFIG_IDX));
 
@@ -133,22 +126,6 @@ void SConfig::SaveGeneralSettings(IniFile& ini)
   general->Set("GDBSocket", gdb_socket);
 #endif
   general->Set("GDBPort", iGDBPort);
-}
-
-void SConfig::SaveInterfaceSettings(IniFile& ini)
-{
-  IniFile::Section* interface = ini.GetOrCreateSection("Interface");
-
-  interface->Set("ConfirmStop", bConfirmStop);
-  interface->Set("CursorVisibility", m_show_cursor);
-  interface->Set("LockCursor", bLockCursor);
-  interface->Set("LanguageCode", m_InterfaceLanguage);
-  interface->Set("ExtendedFPSInfo", m_InterfaceExtendedFPSInfo);
-  interface->Set("ShowActiveTitle", m_show_active_title);
-  interface->Set("UseBuiltinTitleDatabase", m_use_builtin_title_database);
-  interface->Set("ThemeName", theme_name);
-  interface->Set("PauseOnFocusLost", m_PauseOnFocusLost);
-  interface->Set("DebugModeEnabled", bEnableDebugging);
 }
 
 void SConfig::SaveCoreSettings(IniFile& ini)
@@ -200,74 +177,6 @@ void SConfig::SaveCoreSettings(IniFile& ini)
   core->Set("CustomRTCValue", m_customRTCValue);
 }
 
-void SConfig::SaveMovieSettings(IniFile& ini)
-{
-  IniFile::Section* movie = ini.GetOrCreateSection("Movie");
-
-  movie->Set("PauseMovie", m_PauseMovie);
-  movie->Set("Author", m_strMovieAuthor);
-  movie->Set("DumpFrames", m_DumpFrames);
-  movie->Set("DumpFramesSilent", m_DumpFramesSilent);
-  movie->Set("ShowInputDisplay", m_ShowInputDisplay);
-  movie->Set("ShowRTC", m_ShowRTC);
-  movie->Set("ShowRerecord", m_ShowRerecord);
-}
-
-void SConfig::SaveInputSettings(IniFile& ini)
-{
-  IniFile::Section* input = ini.GetOrCreateSection("Input");
-
-  input->Set("BackgroundInput", m_BackgroundInput);
-}
-
-void SConfig::SaveBluetoothPassthroughSettings(IniFile& ini)
-{
-  IniFile::Section* section = ini.GetOrCreateSection("BluetoothPassthrough");
-
-  section->Set("Enabled", m_bt_passthrough_enabled);
-  section->Set("VID", m_bt_passthrough_vid);
-  section->Set("PID", m_bt_passthrough_pid);
-  section->Set("LinkKeys", m_bt_passthrough_link_keys);
-}
-
-void SConfig::SaveUSBPassthroughSettings(IniFile& ini)
-{
-  IniFile::Section* section = ini.GetOrCreateSection("USBPassthrough");
-
-  std::ostringstream oss;
-  for (const auto& device : m_usb_passthrough_devices)
-    oss << fmt::format("{:04x}:{:04x}", device.first, device.second) << ',';
-  std::string devices_string = oss.str();
-  if (!devices_string.empty())
-    devices_string.pop_back();
-
-  section->Set("Devices", devices_string);
-}
-
-void SConfig::SaveAutoUpdateSettings(IniFile& ini)
-{
-  IniFile::Section* section = ini.GetOrCreateSection("AutoUpdate");
-
-  section->Set("UpdateTrack", m_auto_update_track);
-  section->Set("HashOverride", m_auto_update_hash_override);
-}
-
-void SConfig::SaveJitDebugSettings(IniFile& ini)
-{
-  IniFile::Section* section = ini.GetOrCreateSection("Debug");
-
-  section->Set("JitOff", bJITOff);
-  section->Set("JitLoadStoreOff", bJITLoadStoreOff);
-  section->Set("JitLoadStoreFloatingOff", bJITLoadStoreFloatingOff);
-  section->Set("JitLoadStorePairedOff", bJITLoadStorePairedOff);
-  section->Set("JitFloatingPointOff", bJITFloatingPointOff);
-  section->Set("JitIntegerOff", bJITIntegerOff);
-  section->Set("JitPairedOff", bJITPairedOff);
-  section->Set("JitSystemRegistersOff", bJITSystemRegistersOff);
-  section->Set("JitBranchOff", bJITBranchOff);
-  section->Set("JitRegisterCacheOff", bJITRegisterCacheOff);
-}
-
 void SConfig::LoadSettings()
 {
   Config::Load();
@@ -277,14 +186,7 @@ void SConfig::LoadSettings()
   ini.Load(File::GetUserPath(F_DOLPHINCONFIG_IDX));
 
   LoadGeneralSettings(ini);
-  LoadInterfaceSettings(ini);
   LoadCoreSettings(ini);
-  LoadMovieSettings(ini);
-  LoadInputSettings(ini);
-  LoadBluetoothPassthroughSettings(ini);
-  LoadUSBPassthroughSettings(ini);
-  LoadAutoUpdateSettings(ini);
-  LoadJitDebugSettings(ini);
 }
 
 void SConfig::LoadGeneralSettings(IniFile& ini)
@@ -312,22 +214,6 @@ void SConfig::LoadGeneralSettings(IniFile& ini)
   }
 
   general->Get("WirelessMac", &m_WirelessMac);
-}
-
-void SConfig::LoadInterfaceSettings(IniFile& ini)
-{
-  IniFile::Section* interface = ini.GetOrCreateSection("Interface");
-
-  interface->Get("ConfirmStop", &bConfirmStop, true);
-  interface->Get("CursorVisibility", &m_show_cursor, ShowCursor::OnMovement);
-  interface->Get("LockCursor", &bLockCursor, false);
-  interface->Get("LanguageCode", &m_InterfaceLanguage, "");
-  interface->Get("ExtendedFPSInfo", &m_InterfaceExtendedFPSInfo, false);
-  interface->Get("ShowActiveTitle", &m_show_active_title, true);
-  interface->Get("UseBuiltinTitleDatabase", &m_use_builtin_title_database, true);
-  interface->Get("ThemeName", &theme_name, DEFAULT_THEME_DIR);
-  interface->Get("PauseOnFocusLost", &m_PauseOnFocusLost, false);
-  interface->Get("DebugModeEnabled", &bEnableDebugging, false);
 }
 
 void SConfig::LoadCoreSettings(IniFile& ini)
@@ -391,78 +277,6 @@ void SConfig::LoadCoreSettings(IniFile& ini)
   core->Get("EnableCustomRTC", &bEnableCustomRTC, false);
   // Default to seconds between 1.1.1970 and 1.1.2000
   core->Get("CustomRTCValue", &m_customRTCValue, 946684800);
-}
-
-void SConfig::LoadMovieSettings(IniFile& ini)
-{
-  IniFile::Section* movie = ini.GetOrCreateSection("Movie");
-
-  movie->Get("PauseMovie", &m_PauseMovie, false);
-  movie->Get("Author", &m_strMovieAuthor, "");
-  movie->Get("DumpFrames", &m_DumpFrames, false);
-  movie->Get("DumpFramesSilent", &m_DumpFramesSilent, false);
-  movie->Get("ShowInputDisplay", &m_ShowInputDisplay, false);
-  movie->Get("ShowRTC", &m_ShowRTC, false);
-  movie->Get("ShowRerecord", &m_ShowRerecord, false);
-}
-
-void SConfig::LoadInputSettings(IniFile& ini)
-{
-  IniFile::Section* input = ini.GetOrCreateSection("Input");
-
-  input->Get("BackgroundInput", &m_BackgroundInput, false);
-}
-
-void SConfig::LoadBluetoothPassthroughSettings(IniFile& ini)
-{
-  IniFile::Section* section = ini.GetOrCreateSection("BluetoothPassthrough");
-
-  section->Get("Enabled", &m_bt_passthrough_enabled, false);
-  section->Get("VID", &m_bt_passthrough_vid, -1);
-  section->Get("PID", &m_bt_passthrough_pid, -1);
-  section->Get("LinkKeys", &m_bt_passthrough_link_keys, "");
-}
-
-void SConfig::LoadUSBPassthroughSettings(IniFile& ini)
-{
-  IniFile::Section* section = ini.GetOrCreateSection("USBPassthrough");
-  m_usb_passthrough_devices.clear();
-  std::string devices_string;
-  section->Get("Devices", &devices_string, "");
-  for (const auto& pair : SplitString(devices_string, ','))
-  {
-    const auto index = pair.find(':');
-    if (index == std::string::npos)
-      continue;
-
-    const u16 vid = static_cast<u16>(strtol(pair.substr(0, index).c_str(), nullptr, 16));
-    const u16 pid = static_cast<u16>(strtol(pair.substr(index + 1).c_str(), nullptr, 16));
-    if (vid && pid)
-      m_usb_passthrough_devices.emplace(vid, pid);
-  }
-}
-
-void SConfig::LoadAutoUpdateSettings(IniFile& ini)
-{
-  IniFile::Section* section = ini.GetOrCreateSection("AutoUpdate");
-
-  section->Get("UpdateTrack", &m_auto_update_track, Common::scm_update_track_str);
-  section->Get("HashOverride", &m_auto_update_hash_override, "");
-}
-
-void SConfig::LoadJitDebugSettings(IniFile& ini)
-{
-  IniFile::Section* section = ini.GetOrCreateSection("Debug");
-  section->Get("JitOff", &bJITOff, false);
-  section->Get("JitLoadStoreOff", &bJITLoadStoreOff, false);
-  section->Get("JitLoadStoreFloatingOff", &bJITLoadStoreFloatingOff, false);
-  section->Get("JitLoadStorePairedOff", &bJITLoadStorePairedOff, false);
-  section->Get("JitFloatingPointOff", &bJITFloatingPointOff, false);
-  section->Get("JitIntegerOff", &bJITIntegerOff, false);
-  section->Get("JitPairedOff", &bJITPairedOff, false);
-  section->Get("JitSystemRegistersOff", &bJITSystemRegistersOff, false);
-  section->Get("JitBranchOff", &bJITBranchOff, false);
-  section->Get("JitRegisterCacheOff", &bJITRegisterCacheOff, false);
 }
 
 void SConfig::ResetRunningGameMetadata()
@@ -575,7 +389,6 @@ void SConfig::OnNewTitleLoad()
 
 void SConfig::LoadDefaults()
 {
-  bEnableDebugging = false;
   bAutomaticStart = false;
   bBootToPause = false;
 
@@ -604,23 +417,7 @@ void SConfig::LoadDefaults()
   bOverrideRegionSettings = false;
   bWii = false;
 
-  bJITOff = false;  // debugger only settings
-  bJITLoadStoreOff = false;
-  bJITLoadStoreFloatingOff = false;
-  bJITLoadStorePairedOff = false;
-  bJITFloatingPointOff = false;
-  bJITIntegerOff = false;
-  bJITPairedOff = false;
-  bJITSystemRegistersOff = false;
-  bJITBranchOff = false;
-  bJITRegisterCacheOff = false;
-
   ResetRunningGameMetadata();
-}
-
-bool SConfig::IsUSBDeviceWhitelisted(const std::pair<u16, u16> vid_pid) const
-{
-  return m_usb_passthrough_devices.find(vid_pid) != m_usb_passthrough_devices.end();
 }
 
 // Static method to make a simple game ID for elf/dol files
