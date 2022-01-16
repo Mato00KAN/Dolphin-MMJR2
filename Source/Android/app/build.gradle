@@ -129,7 +129,7 @@ def getVersion() {
         logger.error(e + ': Cannot find git, defaulting to dummy version number')
     }
 
-    return '2.0-15749'
+    return '2.0-15767'
 }
 
 
