@@ -25,8 +25,9 @@ bool IsSettingSaveable(const Config::Location& config_location)
 
   if (config_location.system == Config::System::Main)
   {
-    for (const std::string_view section : {"NetPlay", "General", "GBA", "Display", "Network",
-                                           "Analytics", "AndroidOverlayButtons", "DSP"})
+    for (const std::string_view section :
+         {"NetPlay", "General", "GBA", "Display", "Network", "Analytics", "AndroidOverlayButtons",
+          "DSP", "GameList", "FifoPlayer"})
     {
       if (config_location.section == section)
         return true;
@@ -60,6 +61,8 @@ bool IsSettingSaveable(const Config::Location& config_location)
       &Config::MAIN_AUDIO_LATENCY.GetLocation(),
       &Config::MAIN_AUDIO_STRETCH.GetLocation(),
       &Config::MAIN_AUDIO_STRETCH_LATENCY.GetLocation(),
+      &Config::MAIN_OVERCLOCK.GetLocation(),
+      &Config::MAIN_OVERCLOCK_ENABLE.GetLocation(),
       &Config::MAIN_RAM_OVERRIDE_ENABLE.GetLocation(),
       &Config::MAIN_MEM1_SIZE.GetLocation(),
       &Config::MAIN_MEM2_SIZE.GetLocation(),
