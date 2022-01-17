@@ -99,32 +99,14 @@ void SConfig::SaveCoreSettings(IniFile& ini)
 {
   IniFile::Section* core = ini.GetOrCreateSection("Core");
 
-  core->Set("TimingVariance", iTimingVariance);
-  core->Set("Fastmem", bFastmem);
   core->Set("CPUThread", bCPUThread);
-  core->Set("SyncOnSkipIdle", bSyncGPUOnSkipIdleHack);
   core->Set("SyncGPU", bSyncGPU);
   core->Set("SyncGpuMaxDistance", iSyncGpuMaxDistance);
   core->Set("SyncGpuMinDistance", iSyncGpuMinDistance);
   core->Set("SyncGpuOverclock", fSyncGpuOverclock);
-  core->Set("SlotA", m_EXIDevice[0]);
-  core->Set("SlotB", m_EXIDevice[1]);
-  core->Set("SerialPort1", m_EXIDevice[2]);
-  for (int i = 0; i < SerialInterface::MAX_SI_CHANNELS; ++i)
-  {
-    core->Set(fmt::format("SIDevice{}", i), m_SIDevice[i]);
-  }
-  core->Set("WiiSDCard", m_WiiSDCard);
-  core->Set("WiiKeyboard", m_WiiKeyboard);
-  core->Set("WiimoteContinuousScanning", m_WiimoteContinuousScanning);
-  core->Set("WiimoteEnableSpeaker", m_WiimoteEnableSpeaker);
-  core->Set("WiimoteControllerInterface", connect_wiimotes_for_ciface);
   core->Set("RunCompareServer", bRunCompareServer);
   core->Set("RunCompareClient", bRunCompareClient);
   core->Set("MMU", bMMU);
-  core->Set("EmulationSpeed", m_EmulationSpeed);
-  core->Set("GPUDeterminismMode", m_strGPUDeterminismMode);
-  core->Set("PerfMapDir", m_perfDir);
 }
 
 void SConfig::LoadSettings()
@@ -142,23 +124,7 @@ void SConfig::LoadCoreSettings(IniFile& ini)
 {
   IniFile::Section* core = ini.GetOrCreateSection("Core");
 
-  core->Get("Fastmem", &bFastmem, true);
-  core->Get("TimingVariance", &iTimingVariance, 40);
   core->Get("CPUThread", &bCPUThread, true);
-  core->Get("SyncOnSkipIdle", &bSyncGPUOnSkipIdleHack, true);
-  core->Get("SlotA", (int*)&m_EXIDevice[0], ExpansionInterface::EXIDEVICE_MEMORYCARDFOLDER);
-  core->Get("SlotB", (int*)&m_EXIDevice[1], ExpansionInterface::EXIDEVICE_NONE);
-  core->Get("SerialPort1", (int*)&m_EXIDevice[2], ExpansionInterface::EXIDEVICE_NONE);
-  for (size_t i = 0; i < std::size(m_SIDevice); ++i)
-  {
-    core->Get(fmt::format("SIDevice{}", i), &m_SIDevice[i],
-              (i == 0) ? SerialInterface::SIDEVICE_GC_CONTROLLER : SerialInterface::SIDEVICE_NONE);
-  }
-  core->Get("WiiSDCard", &m_WiiSDCard, true);
-  core->Get("WiiKeyboard", &m_WiiKeyboard, false);
-  core->Get("WiimoteContinuousScanning", &m_WiimoteContinuousScanning, false);
-  core->Get("WiimoteEnableSpeaker", &m_WiimoteEnableSpeaker, false);
-  core->Get("WiimoteControllerInterface", &connect_wiimotes_for_ciface, false);
   core->Get("RunCompareServer", &bRunCompareServer, false);
   core->Get("RunCompareClient", &bRunCompareClient, false);
   core->Get("MMU", &bMMU, bMMU);
@@ -167,11 +133,6 @@ void SConfig::LoadCoreSettings(IniFile& ini)
   core->Get("SyncGpuMaxDistance", &iSyncGpuMaxDistance, 200000);
   core->Get("SyncGpuMinDistance", &iSyncGpuMinDistance, -200000);
   core->Get("SyncGpuOverclock", &fSyncGpuOverclock, 1.0f);
-  core->Get("FastDiscSpeed", &bFastDiscSpeed, false);
-  core->Get("DisableICache", &bDisableICache, false);
-  core->Get("EmulationSpeed", &m_EmulationSpeed, 1.0f);
-  core->Get("GPUDeterminismMode", &m_strGPUDeterminismMode, "auto");
-  core->Get("PerfMapDir", &m_perfDir, "");
 }
 
 void SConfig::ResetRunningGameMetadata()
@@ -287,16 +248,11 @@ void SConfig::LoadDefaults()
   bAutomaticStart = false;
   bBootToPause = false;
 
-  iTimingVariance = 40;
   bCPUThread = false;
-  bSyncGPUOnSkipIdleHack = true;
   bRunCompareServer = false;
-  bFastmem = true;
-  bDisableICache = false;
   bMMU = false;
   iBBDumpPort = -1;
   bSyncGPU = false;
-  bFastDiscSpeed = false;
   bWii = false;
 
   ResetRunningGameMetadata();

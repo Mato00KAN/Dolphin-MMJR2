@@ -1835,11 +1835,13 @@ void NetPlayClient::UpdateDevices()
     else if (player_id == m_local_player->pid)
     {
       // Use local controller types for local controllers if they are compatible
-      if (SerialInterface::SIDevice_IsGCController(SConfig::GetInstance().m_SIDevice[local_pad]))
+      const SerialInterface::SIDevices si_device =
+          Config::Get(Config::GetInfoForSIDevice(local_pad));
+      if (SerialInterface::SIDevice_IsGCController(si_device))
       {
-        SerialInterface::ChangeDevice(SConfig::GetInstance().m_SIDevice[local_pad], pad);
+        SerialInterface::ChangeDevice(si_device, pad);
 
-        if (SConfig::GetInstance().m_SIDevice[local_pad] == SerialInterface::SIDEVICE_WIIU_ADAPTER)
+        if (si_device == SerialInterface::SIDEVICE_WIIU_ADAPTER)
         {
           GCAdapter::ResetDeviceType(local_pad);
         }
@@ -2030,13 +2032,13 @@ bool NetPlayClient::GetNetPads(const int pad_nb, const bool batching, GCPadStatu
       if (time_diff.count() >= 1.0 || !buffer_over_target)
       {
         // run fast if the buffer is overfilled, otherwise run normal speed
-        SConfig::GetInstance().m_EmulationSpeed = buffer_over_target ? 0.0f : 1.0f;
+        Config::SetCurrent(Config::MAIN_EMULATION_SPEED, buffer_over_target ? 0.0f : 1.0f);
       }
     }
     else
     {
       // Set normal speed when we're the host, otherwise it can get stuck at unlimited
-      SConfig::GetInstance().m_EmulationSpeed = 1.0f;
+      Config::SetCurrent(Config::MAIN_EMULATION_SPEED, 1.0f);
     }
   }
 
@@ -2158,7 +2160,8 @@ bool NetPlayClient::PollLocalPad(const int local_pad, sf::Packet& packet)
   {
     pad_status = Pad::GetGBAStatus(local_pad);
   }
-  else if (SConfig::GetInstance().m_SIDevice[local_pad] == SerialInterface::SIDEVICE_WIIU_ADAPTER)
+  else if (Config::Get(Config::GetInfoForSIDevice(local_pad)) ==
+           SerialInterface::SIDEVICE_WIIU_ADAPTER)
   {
     pad_status = GCAdapter::Input(local_pad);
   }

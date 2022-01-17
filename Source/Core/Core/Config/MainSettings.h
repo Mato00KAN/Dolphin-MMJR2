@@ -31,6 +31,16 @@ namespace AudioCommon
 enum class DPL2Quality;
 }
 
+namespace ExpansionInterface
+{
+enum TEXIDevices : int;
+}
+
+namespace SerialInterface
+{
+enum SIDevices : int;
+}
+
 namespace Config
 {
 // Main.Core
@@ -41,6 +51,7 @@ extern const Info<bool> MAIN_JIT_FOLLOW_BRANCH;
 extern const Info<bool> MAIN_FASTMEM;
 // Should really be in the DSP section, but we're kind of stuck with bad decisions made in the past.
 extern const Info<bool> MAIN_DSP_HLE;
+extern const Info<int> MAIN_TIMING_VARIANCE;
 extern const Info<bool> MAIN_CPU_THREAD;
 extern const Info<bool> MAIN_SYNC_ON_SKIP_IDLE;
 extern const Info<std::string> MAIN_DEFAULT_ISO;
@@ -58,19 +69,21 @@ extern const Info<std::string> MAIN_AGP_CART_A_PATH;
 extern const Info<std::string> MAIN_AGP_CART_B_PATH;
 extern const Info<std::string> MAIN_GCI_FOLDER_A_PATH_OVERRIDE;
 extern const Info<std::string> MAIN_GCI_FOLDER_B_PATH_OVERRIDE;
-extern const Info<int> MAIN_SLOT_A;
-extern const Info<int> MAIN_SLOT_B;
-extern const Info<int> MAIN_SERIAL_PORT_1;
+extern const Info<ExpansionInterface::TEXIDevices> MAIN_SLOT_A;
+extern const Info<ExpansionInterface::TEXIDevices> MAIN_SLOT_B;
+extern const Info<ExpansionInterface::TEXIDevices> MAIN_SERIAL_PORT_1;
+const Info<ExpansionInterface::TEXIDevices>& GetInfoForEXIDevice(int channel);
 extern const Info<std::string> MAIN_BBA_MAC;
 extern const Info<std::string> MAIN_BBA_XLINK_IP;
 extern const Info<bool> MAIN_BBA_XLINK_CHAT_OSD;
-Info<u32> GetInfoForSIDevice(u32 channel);
+const Info<SerialInterface::SIDevices>& GetInfoForSIDevice(int channel);
 const Info<bool>& GetInfoForAdapterRumble(int channel);
 const Info<bool>& GetInfoForSimulateKonga(int channel);
 extern const Info<bool> MAIN_WII_SD_CARD;
 extern const Info<bool> MAIN_WII_KEYBOARD;
 extern const Info<bool> MAIN_WIIMOTE_CONTINUOUS_SCANNING;
 extern const Info<bool> MAIN_WIIMOTE_ENABLE_SPEAKER;
+extern const Info<bool> MAIN_CONNECT_WIIMOTES_FOR_CONTROLLER_INTERFACE;
 extern const Info<bool> MAIN_RUN_COMPARE_SERVER;
 extern const Info<bool> MAIN_RUN_COMPARE_CLIENT;
 extern const Info<bool> MAIN_MMU;
@@ -94,7 +107,18 @@ extern const Info<u32> MAIN_MEM1_SIZE;
 extern const Info<u32> MAIN_MEM2_SIZE;
 // Should really be part of System::GFX, but again, we're stuck with past mistakes.
 extern const Info<std::string> MAIN_GFX_BACKEND;
+
+enum class GPUDeterminismMode
+{
+  Auto,
+  Disabled,
+  // This is currently the only mode.  There will probably be at least
+  // one more at some point.
+  FakeCompletion,
+};
 extern const Info<std::string> MAIN_GPU_DETERMINISM_MODE;
+GPUDeterminismMode GetGPUDeterminismMode();
+
 extern const Info<std::string> MAIN_PERF_MAP_DIR;
 extern const Info<bool> MAIN_CUSTOM_RTC_ENABLE;
 extern const Info<u32> MAIN_CUSTOM_RTC_VALUE;

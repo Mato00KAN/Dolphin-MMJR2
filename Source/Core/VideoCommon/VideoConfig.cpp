@@ -9,7 +9,7 @@
 #include "Common/CommonTypes.h"
 #include "Common/StringUtil.h"
 #include "Core/Config/GraphicsSettings.h"
-#include "Core/ConfigManager.h"
+#include "Core/Config/MainSettings.h"
 #include "Core/Core.h"
 #include "Core/Movie.h"
 #include "VideoCommon/DriverDetails.h"
@@ -24,7 +24,7 @@ static bool IsVSyncActive(bool enabled)
 {
   // Vsync is disabled when the throttler is disabled by the tab key.
   return enabled && !Core::GetIsThrottlerTempDisabled() &&
-         SConfig::GetInstance().m_EmulationSpeed == 1.0;
+         Config::Get(Config::MAIN_EMULATION_SPEED) == 1.0;
 }
 
 void UpdateActiveConfig()
@@ -193,16 +193,9 @@ u32 VideoConfig::GetShaderCompilerThreads() const
   if (!backend_info.bSupportsBackgroundCompiling)
     return 0;
 
-  const bool bugDatabaseSupported =
-      backend_info.api_type == APIType::OpenGL || backend_info.api_type == APIType::Vulkan;
-  // DirectX has always worked in our tests in PR#9414
-  const bool multiThreadingWorking =
-      !bugDatabaseSupported ||
-      !DriverDetails::HasBug(DriverDetails::BUG_BROKEN_MULTITHREADED_SHADER_PRECOMPILATION);
-
   if (iShaderCompilerThreads >= 0)
     return static_cast<u32>(iShaderCompilerThreads);
-  else if (multiThreadingWorking)
+  else if (!DriverDetails::HasBug(DriverDetails::BUG_BROKEN_MULTITHREADED_SHADER_PRECOMPILATION))
     return GetNumAutoShaderPreCompilerThreads();
   else
     return 1;
