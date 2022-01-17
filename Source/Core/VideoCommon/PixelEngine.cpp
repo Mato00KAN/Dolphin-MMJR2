@@ -15,6 +15,8 @@
 #include "Core/CoreTiming.h"
 #include "Core/HW/MMIO.h"
 #include "Core/HW/ProcessorInterface.h"
+#include "Core/System.h"
+
 #include "VideoCommon/BoundingBox.h"
 #include "VideoCommon/Fifo.h"
 #include "VideoCommon/PerfQueryBase.h"
@@ -285,7 +287,7 @@ static void RaiseEvent()
   s_event_raised = true;
 
   CoreTiming::FromThread from = CoreTiming::FromThread::NON_CPU;
-  if (!SConfig::GetInstance().bCPUThread || Fifo::UseDeterministicGPUThread())
+  if (!Core::System::GetInstance().IsDualCoreMode() || Fifo::UseDeterministicGPUThread())
     from = CoreTiming::FromThread::CPU;
   CoreTiming::ScheduleEvent(0, et_SetTokenFinishOnMainThread, 0, from);
 }
