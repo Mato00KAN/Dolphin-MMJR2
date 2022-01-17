@@ -781,24 +781,25 @@ public final class SettingsFragmentPresenter
             R.string.debug_fastmem, 0));
 
     sl.add(new HeaderSetting(mContext, R.string.debug_jit_header, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_OFF, R.string.debug_jitoff, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_LOAD_STORE_OFF,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_DEBUG_JIT_OFF, R.string.debug_jitoff,
+            0));
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_DEBUG_JIT_LOAD_STORE_OFF,
             R.string.debug_jitloadstoreoff, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_LOAD_STORE_FLOATING_OFF,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_DEBUG_JIT_LOAD_STORE_FLOATING_OFF,
             R.string.debug_jitloadstorefloatingoff, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_LOAD_STORE_PAIRED_OFF,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_DEBUG_JIT_LOAD_STORE_PAIRED_OFF,
             R.string.debug_jitloadstorepairedoff, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_FLOATING_POINT_OFF,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_DEBUG_JIT_FLOATING_POINT_OFF,
             R.string.debug_jitfloatingpointoff, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_INTEGER_OFF,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_DEBUG_JIT_INTEGER_OFF,
             R.string.debug_jitintegeroff, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_PAIRED_OFF,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_DEBUG_JIT_PAIRED_OFF,
             R.string.debug_jitpairedoff, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_SYSTEM_REGISTERS_OFF,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_DEBUG_JIT_SYSTEM_REGISTERS_OFF,
             R.string.debug_jitsystemregistersoff, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_BRANCH_OFF,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_DEBUG_JIT_BRANCH_OFF,
             R.string.debug_jitbranchoff, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_JIT_REGISTER_CACHE_OFF,
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_DEBUG_JIT_REGISTER_CACHE_OFF,
             R.string.debug_jitregistercacheoff, 0));
   }
 
@@ -817,7 +818,7 @@ public final class SettingsFragmentPresenter
 
   private void addGcPadSubSettings(ArrayList<SettingsItem> sl, int gcPadNumber, int gcPadType)
   {
-    if (gcPadType == 1) // Emulated
+    if (gcPadType == 6) // Emulated
     {
       sl.add(new HeaderSetting(mContext, R.string.generic_buttons, 0));
       sl.add(new InputBindingSetting(mContext, Settings.FILE_DOLPHIN, Settings.SECTION_BINDINGS,
@@ -880,7 +881,7 @@ public final class SettingsFragmentPresenter
               SettingsFile.KEY_EMU_RUMBLE + gcPadNumber, R.string.emulation_control_rumble,
               mGameID));
     }
-    else // Adapter
+    else if (gcPadType == 12) // Adapter
     {
       LegacyBooleanSetting rumble = new LegacyBooleanSetting(Settings.FILE_DOLPHIN,
               Settings.SECTION_INI_CORE, SettingsFile.KEY_GCADAPTER_RUMBLE + gcPadNumber, false);

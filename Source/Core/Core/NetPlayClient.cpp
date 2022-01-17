@@ -39,6 +39,7 @@
 #include "Core/Config/SessionSettings.h"
 #include "Core/ConfigManager.h"
 #include "Core/GeckoCode.h"
+#include "Core/HW/EXI/EXI.h"
 #include "Core/HW/EXI/EXI_DeviceIPL.h"
 #ifdef HAS_LIBMGBA
 #include "Core/HW/GBACore.h"
@@ -226,8 +227,8 @@ bool NetPlayClient::Connect()
 {
   // send connect message
   sf::Packet packet;
-  packet << Common::scm_rev_git_str;
-  packet << Common::netplay_dolphin_ver;
+  packet << Common::GetScmRevGitStr();
+  packet << Common::GetNetplayDolphinVer();
   packet << m_player_name;
   Send(packet);
   enet_host_flush(m_client);
@@ -280,7 +281,7 @@ bool NetPlayClient::Connect()
     Player player;
     player.name = m_player_name;
     player.pid = m_pid;
-    player.revision = Common::netplay_dolphin_ver;
+    player.revision = Common::GetNetplayDolphinVer();
 
     // add self to player list
     m_players[m_pid] = player;
@@ -815,8 +816,8 @@ void NetPlayClient::OnStartGame(sf::Packet& packet)
     packet >> m_net_settings.m_OCEnable;
     packet >> m_net_settings.m_OCFactor;
 
-    for (auto& device : m_net_settings.m_EXIDevice)
-      packet >> device;
+    for (auto slot : ExpansionInterface::SLOTS)
+      packet >> m_net_settings.m_EXIDevice[slot];
 
     for (u32& value : m_net_settings.m_SYSCONFSettings)
       packet >> value;
