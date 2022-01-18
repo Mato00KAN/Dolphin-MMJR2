@@ -1,6 +1,6 @@
 # Dolphin MMJR2 Fork
-This fork is just so I can update MMJR2 to my liking. Mostly wanting to avoid scoped storage & have Riivolution Patches working.
-I have achieved updating this source to Dolphin official Source 5.0-15520 for Riivolution Patch support without scoped storage, but I will attempt to keep updating its source.
+This fork is for updating MMJR2 to Dolphins Official Dev Source code without scoped storage changes.
+Eventually I will upload an apk with my own custom settings included. My current Dolphin Configs do not work on this latest build. If you want to use my tweaked settings RIGHT now, then use 2.0-15108 [here](https://github.com/Lumince/Dolphin-MMJR2/releases/tag/2.0-15108)
 
 An Android-only performance-focused dolphin fork, rebased on top of latest dolphin development builds and reimplementing MMJ UX and performance improvements, plus adding our own.
 
@@ -37,6 +37,11 @@ Dolphin can only be installed on devices that satisfy the above requirements. At
 
 These instructions assume familiarity with Android development. If you do not have an
 Android dev environment set up, see [AndroidSetup.md](AndroidSetup.md).
+
+Make sure to pull submodules before building:
+```sh
+git submodule update --init
+```
 
 If using Android Studio, import the Gradle project located in `./Source/Android`.
 
@@ -110,6 +115,21 @@ These folders are installed read-only and should not be changed:
 * `Themes`: icon themes for GUI
 * `Resources`: icons that are theme-agnostic
 * `Wii`: default Wii NAND contents
+
+## User Folder Structure
+
+List of user folders:
+
+* `Cache`: used to cache the ISO list
+* `Config`: configuration files
+* `Dump`: anything dumped from Dolphin
+* `GameConfig`: additional settings to be applied per-game
+* `GC`: memory cards and system BIOS
+* `Load`: custom textures
+* `Logs`: logs, if enabled
+* `ScreenShots`: screenshots taken via Dolphin
+* `StateSaves`: save states
+* `Wii`: Wii NAND contents
 
 ## Custom Textures
 
