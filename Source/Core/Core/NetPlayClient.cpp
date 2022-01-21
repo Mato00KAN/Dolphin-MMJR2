@@ -317,7 +317,7 @@ void NetPlayClient::OnData(sf::Packet& packet)
   MessageID mid;
   packet >> mid;
 
-  INFO_LOG_FMT(NETPLAY, "Got server message: {:x}", mid);
+  INFO_LOG_FMT(NETPLAY, "Got server message: {:x}", static_cast<u8>(mid));
 
   switch (mid)
   {
@@ -455,7 +455,7 @@ void NetPlayClient::OnData(sf::Packet& packet)
     break;
 
   default:
-    PanicAlertFmtT("Unknown message received with id : {0}", mid);
+    PanicAlertFmtT("Unknown message received with id : {0}", static_cast<u8>(mid));
     break;
   }
 }
@@ -993,7 +993,7 @@ void NetPlayClient::OnSyncSaveData(sf::Packet& packet)
     break;
 
   default:
-    PanicAlertFmtT("Unknown SYNC_SAVE_DATA message received with id: {0}", sub_id);
+    PanicAlertFmtT("Unknown SYNC_SAVE_DATA message received with id: {0}", static_cast<u8>(sub_id));
     break;
   }
 }
@@ -1264,7 +1264,7 @@ void NetPlayClient::OnSyncCodes(sf::Packet& packet)
     break;
 
   default:
-    PanicAlertFmtT("Unknown SYNC_CODES message received with id: {0}", sub_id);
+    PanicAlertFmtT("Unknown SYNC_CODES message received with id: {0}", static_cast<u8>(sub_id));
     break;
   }
 }
@@ -1926,7 +1926,7 @@ void NetPlayClient::OnConnectFailed(TraversalConnectFailedReason reason)
     PanicAlertFmtT("Invalid host");
     break;
   default:
-    PanicAlertFmtT("Unknown error {0:x}", reason);
+    PanicAlertFmtT("Unknown error {0:x}", static_cast<int>(reason));
     break;
   }
 }
