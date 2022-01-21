@@ -1,6 +1,6 @@
 # Dolphin MMJR2 Fork
-This fork is for updating MMJR2 to Dolphins Official Dev Source code without scoped storage changes.
-Eventually I will upload an apk with my own custom settings included. My current Dolphin Configs do not work on this latest build. If you want to use my tweaked settings RIGHT now, then use 2.0-15108 [here](https://github.com/Lumince/Dolphin-MMJR2/releases/tag/2.0-15108)
+Mainly, this fork is meant for personal use. This repo's only function at the current time is to update MMJR2 to the latest Dolphin Offical Dev Source code without scoped storage changes merged.
+If you want scoped storage, go use Dolphin Official Builds. I have no use for scoped storage, nor any changes related to it. I wont be merging these changes. Have a nice day!
 
 An Android-only performance-focused dolphin fork, rebased on top of latest dolphin development builds and reimplementing MMJ UX and performance improvements, plus adding our own.
 
