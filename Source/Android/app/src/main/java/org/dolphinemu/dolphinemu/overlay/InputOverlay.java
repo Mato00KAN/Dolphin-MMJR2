@@ -168,8 +168,8 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     }
 
     overlayPointer = new InputOverlayPointer(mSurfacePosition, doubleTapButton,
-            mPreferences.getInt("irMode", InputOverlayPointer.MODE_FOLLOW),
-            mPreferences.getBoolean("irRecenter", false));
+            IntSetting.MAIN_IR_MODE.getIntGlobal(),
+            BooleanSetting.MAIN_IR_ALWAYS_RECENTER.getBooleanGlobal());
   }
 
   @Override
@@ -905,12 +905,11 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     invalidate();
   }
 
-  public void refreshOverlayPointer()
+  public void refreshOverlayPointer(Settings settings)
   {
     if (overlayPointer != null)
     {
-      overlayPointer.setMode(mPreferences.getInt("irMode", InputOverlayPointer.MODE_FOLLOW));
-      overlayPointer.setRecenter(mPreferences.getBoolean("irRecenter", false));
+      overlayPointer.setRecenter(BooleanSetting.MAIN_IR_ALWAYS_RECENTER.getBoolean(settings));
     }
   }
 

@@ -168,7 +168,7 @@ public final class EmulationActivity extends AppCompatActivity
     buttonsActionsMap
             .append(R.id.menu_emulation_reset_overlay, EmulationActivity.MENU_ACTION_RESET_OVERLAY);
     buttonsActionsMap.append(R.id.menu_emulation_ir_recenter,
-      EmulationActivity.MENU_SET_IR_RECENTER);
+            EmulationActivity.MENU_SET_IR_RECENTER);
     buttonsActionsMap.append(R.id.menu_emulation_set_ir_mode,
       EmulationActivity.MENU_SET_IR_MODE);
     buttonsActionsMap.append(R.id.menu_emulation_set_ir_sensitivity,
@@ -529,7 +529,7 @@ public final class EmulationActivity extends AppCompatActivity
     if (wii)
     {
       menu.findItem(R.id.menu_emulation_ir_recenter)
-        .setChecked(mPreferences.getBoolean("irRecenter", false));
+              .setChecked(BooleanSetting.MAIN_IR_ALWAYS_RECENTER.getBoolean(mSettings));
     }
 
     popup.setOnMenuItemClickListener(this::onOptionsItemSelected);
@@ -761,10 +761,8 @@ public final class EmulationActivity extends AppCompatActivity
 
   private void toggleRecenter(boolean state)
   {
-    final SharedPreferences.Editor editor = mPreferences.edit();
-    editor.putBoolean("irRecenter", state);
-    editor.apply();
-    mEmulationFragment.refreshOverlayPointer();
+    BooleanSetting.MAIN_IR_ALWAYS_RECENTER.setBoolean(mSettings, state);
+    mEmulationFragment.refreshOverlayPointer(mSettings);
   }
 
   private void editControlsPlacement()
@@ -1068,7 +1066,6 @@ public final class EmulationActivity extends AppCompatActivity
     builder.setPositiveButton(R.string.ok, (dialogInterface, i) ->
       {
         editor.apply();
-        mEmulationFragment.refreshOverlayPointer();
       });
 
     builder.show();
