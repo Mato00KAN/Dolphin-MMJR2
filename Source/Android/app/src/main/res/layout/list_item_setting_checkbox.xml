@@ -45,6 +45,8 @@
         android:layout_marginEnd="@dimen/spacing_large"
 		android:clickable="false"
         android:focusable="false"
-        android:buttonTint="?attr/colorAccent" />
+        android:buttonTint="?attr/colorAccent"
+        android:minHeight="0dp"
+        android:minWidth="0dp" />
 
 </RelativeLayout>
