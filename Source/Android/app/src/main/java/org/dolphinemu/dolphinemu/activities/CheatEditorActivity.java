@@ -153,7 +153,7 @@ public class CheatEditorActivity extends AppCompatActivity
           }
           else if (sectionStart != -1 && sectionEnd != -1)
           {
-            s.setSpan(new ForegroundColorSpan(colorPrimary), offset + sectionStart,
+            s.setSpan(new ForegroundColorSpan(colorTextAccent), offset + sectionStart,
               offset + sectionEnd + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
           }
 
