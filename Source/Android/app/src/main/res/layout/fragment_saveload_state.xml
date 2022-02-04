@@ -13,45 +13,46 @@
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
         android:backgroundTint="#000000"
-        android:textColor="?attr/colorPrimary" />
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/loadsave_state_button_2"
         android:layout_width="128dp"
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
-        android:backgroundTint="#AF000000"
-        android:textColor="?attr/colorPrimary" />
+        android:backgroundTint="#000000"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/loadsave_state_button_3"
         android:layout_width="128dp"
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
-        android:backgroundTint="#AF000000"
-        android:textColor="?attr/colorPrimary" />
+        android:backgroundTint="#000000"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/loadsave_state_button_4"
         android:layout_width="128dp"
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
-        android:backgroundTint="#AF000000"
-        android:textColor="?attr/colorPrimary" />
+        android:backgroundTint="#000000"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/loadsave_state_button_5"
         android:layout_width="128dp"
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
-        android:backgroundTint="#AF000000"
-        android:textColor="?attr/colorPrimary" />
+        android:backgroundTint="#000000"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/loadsave_state_button_6"
         android:layout_width="128dp"
         android:layout_height="96dp"
         style="@style/OverlayInGameMenuOption"
-        android:textColor="?attr/colorPrimary" />
+		android:backgroundTint="#000000"
+        android:textColor="@android:color/white" />
 
 </GridLayout>
