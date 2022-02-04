@@ -269,14 +269,15 @@ public final class SettingsFragmentPresenter
     sl.add(new HeaderSetting(mContext, R.string.advanced_submenu2, 0));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_CPU_THREAD, R.string.dual_core,
             R.string.dual_core_description));
+			
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_OVERRIDE_REGION_SETTINGS,
             R.string.override_region_settings, 0));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_AUTO_DISC_CHANGE,
             R.string.auto_disc_change, 0));
     sl.add(new PercentSliderSetting(mContext, FloatSetting.MAIN_EMULATION_SPEED,
             R.string.speed_limit, 0, 0, 200, "%"));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_ENABLE_CHEATS,
-            R.string.enable_cheats, R.string.enable_cheats_description));
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_ENABLE_CHEATS, R.string.enable_cheats,
+            0));
     sl.add(new SingleChoiceSetting(mContext, IntSetting.MAIN_FALLBACK_REGION,
             R.string.fallback_region, 0, R.array.regionEntries, R.array.regionValues));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_ENABLE_SAVESTATES,

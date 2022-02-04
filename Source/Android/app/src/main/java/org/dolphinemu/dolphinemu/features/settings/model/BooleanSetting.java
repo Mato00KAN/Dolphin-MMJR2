@@ -220,6 +220,7 @@ public enum BooleanSetting implements AbstractBooleanSetting
   private static final BooleanSetting[] NOT_RUNTIME_EDITABLE_ARRAY = new BooleanSetting[]{
           MAIN_DSP_HLE,
           MAIN_CPU_THREAD,
+		  MAIN_ENABLE_CHEATS,
           MAIN_OVERRIDE_REGION_SETTINGS,
           MAIN_WII_SD_CARD,  // Can actually be changed, but specific code is required
           MAIN_DSP_JIT

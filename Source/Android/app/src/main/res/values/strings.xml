@@ -137,6 +137,7 @@
     <string name="general_submenu">General</string>
     <string name="dual_core">Dual Core</string>
     <string name="dual_core_description">Split workload to two CPU cores instead of one. Increases speed.</string>
+    <string name="enable_cheats">Enable Cheats</string>
     <string name="speed_limit">Speed Limit (0% = Unlimited)</string>
     <string name="skip_on_skip_idle">Sync GPU on Skip Idle Hack</string>
     <string name="skip_on_skip_idle_description">Sync the emulated CPU with the GPU when skipping idle cycles. Disabling this is mostly safe, but might cause weird bugs or crash since CPU and GPU are not always synchronized. To avoid audio crackling, be sure to disable Audio Stretching.</string>
@@ -421,6 +422,7 @@
     <string name="properties_set_default_iso">Set as Default ISO</string>
 	<string name="properties_convert">Convert File</string>
     <string name="properties_edit_game_settings">Custom Game Settings</string>
+	<string name="properties_edit_cheats">Edit Cheats</string>
     <string name="properties_controller">Controller Settings</string>
     <string name="properties_gc_controller">GameCube Controller Settings</string>
     <string name="properties_wii_controller">Wii Controller Settings</string>
@@ -435,7 +437,9 @@
     <string name="preferences_extensions">Extension Bindings</string>
     <string name="game_ini_junk_title">Junk Data Found</string>
     <string name="game_ini_junk_question">The settings file for this game contains extraneous data added by an old version of Dolphin. This will likely prevent global settings from working as intended.\n\nWould you like to fix this by deleting the settings file for this game? All game-specific settings and cheats that you have added will be removed. This cannot be undone.</string>
-    <string name="game_details_country">Country</string>
+
+    <!-- Game Details Screen -->
+	<string name="game_details_country">Country</string>
     <string name="game_details_company">Company</string>
     <string name="game_details_game_id">Game ID</string>
     <string name="game_details_revision">Revision</string>
@@ -582,16 +586,34 @@ It can efficiently compress both junk data and encrypted Wii data.
     <string name="not_now">Not now</string>
     <string name="skip_version">Skip this version</string>
 
-    <!-- Cheat Window -->
-    <string name="enable_cheats">Enable Cheats</string>
-    <string name="cheat_code">Cheat Codes</string>
-    <string name="toast_save_code_ok">Code Saved!</string>
-    <string name="save">Save</string>
-    <string name="load">Load</string>
-    <string name="cheat_load">Cheat Load</string>
-    <string name="toast_save_code_no">Save Failed!</string>
-    <string name="toggle_list">Cheat Editor</string>
-    <string name="enable_cheats_description">Put AR &amp; Gecko Codes in game setting file.</string>
-    <string name="make_sure_continuous_scan_enabled">Please make sure Continuous Scanning is enabled in Core Settings.</string>
+    <!-- Cheats Screen -->
+    <string name="cheats">Cheat Codes</string>
+    <string name="cheats_with_game_id">Cheats: %1$s</string>
+    <string name="cheats_header_ar">AR Codes</string>
+    <string name="cheats_header_gecko">Gecko Codes</string>
+    <string name="cheats_header_patch">Patches</string>
+    <string name="cheats_add_ar">Add New AR Code</string>
+    <string name="cheats_add_gecko">Add New Gecko Code</string>
+    <string name="cheats_add_patch">Add New Patch</string>
+    <string name="cheats_download_gecko">Download Gecko Codes</string>
+    <string name="cheats_name">Name</string>
+    <string name="cheats_creator">Creator</string>
+    <string name="cheats_notes">Notes</string>
+    <string name="cheats_code">Code</string>
+    <string name="cheats_edit">Edit</string>
+    <string name="cheats_delete">Delete</string>
+    <string name="cheats_delete_confirmation">Are you sure you want to delete "%1$s"?</string>
+    <string name="cheats_error_no_name">Name can\'t be empty</string>
+    <string name="cheats_error_no_code_lines">Code can\'t be empty</string>
+    <string name="cheats_error_on_line">Error on line %1$d</string>
+    <string name="cheats_error_mixed_encryption">Lines must either be all encrypted or all decrypted</string>
+    <string name="cheats_downloading">Downloading...</string>
+    <string name="cheats_download_failed">Failed to download codes.</string>
+    <string name="cheats_download_empty">File contained no codes.</string>
+    <string name="cheats_download_succeeded">Downloaded %1$d codes. (added %2$d)</string>
+    <string name="cheats_disabled_warning">Dolphin\'s cheat system is currently disabled.</string>
+    <string name="cheats_open_settings">Settings</string>
+	<string name="make_sure_continuous_scan_enabled">Please make sure Continuous Scanning is enabled in Core Settings.</string>
+
 
 </resources>

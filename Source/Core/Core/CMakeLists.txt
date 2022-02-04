@@ -15,6 +15,10 @@ add_library(core
   BootManager.cpp
   BootManager.h
   CheatCodes.h
+  CheatGeneration.cpp
+  CheatGeneration.h
+  CheatSearch.cpp
+  CheatSearch.h
   CommonTitles.h
   Config/DefaultLocale.cpp
   Config/DefaultLocale.h
@@ -111,8 +115,6 @@ add_library(core
   FreeLookManager.h
   GeckoCode.cpp
   GeckoCode.h
-  Gecko2AR.cpp
-  Gecko2AR.h
   GeckoCodeConfig.cpp
   GeckoCodeConfig.h
   HLE/HLE_Misc.cpp

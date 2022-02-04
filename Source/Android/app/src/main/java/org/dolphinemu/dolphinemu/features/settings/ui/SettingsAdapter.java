@@ -18,9 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.dialogs.MotionAlertDialog;
-import org.dolphinemu.dolphinemu.features.settings.model.AdHocBooleanSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
-import org.dolphinemu.dolphinemu.features.settings.model.StringSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.view.CheckBoxSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.view.FilePicker;
 import org.dolphinemu.dolphinemu.features.settings.model.view.FloatSliderSetting;
@@ -44,7 +42,6 @@ import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SingleChoiceVie
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SliderSelectorViewHolder;
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SliderViewHolder;
 import org.dolphinemu.dolphinemu.features.settings.ui.viewholder.SubmenuViewHolder;
-import org.dolphinemu.dolphinemu.ui.main.MainPresenter;
 import org.dolphinemu.dolphinemu.model.AppTheme;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
@@ -53,10 +50,7 @@ import org.dolphinemu.dolphinemu.utils.Log;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
 
 public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolder>
         implements DialogInterface.OnClickListener, SeekBar.OnSeekBarChangeListener
@@ -94,7 +88,7 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
     switch (viewType)
     {
       case SettingsItem.TYPE_HEADER:
-        view = inflater.inflate(R.layout.list_item_settings_header, parent, false);
+        view = inflater.inflate(R.layout.list_item_header, parent, false);
         return new HeaderViewHolder(view, this);
 
       case SettingsItem.TYPE_CHECKBOX:
@@ -116,7 +110,7 @@ public final class SettingsAdapter extends RecyclerView.Adapter<SettingViewHolde
         return new SliderSelectorViewHolder(view, this);
 
       case SettingsItem.TYPE_SUBMENU:
-        view = inflater.inflate(R.layout.list_item_setting_submenu, parent, false);
+        view = inflater.inflate(R.layout.list_item_submenu, parent, false);
         return new SubmenuViewHolder(view, this);
 
       case SettingsItem.TYPE_INPUT_BINDING:

@@ -18,7 +18,7 @@ import androidx.fragment.app.DialogFragment;
 import org.dolphinemu.dolphinemu.DolphinApplication;
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.activities.ConvertActivity;
-import org.dolphinemu.dolphinemu.activities.CheatEditorActivity;
+import org.dolphinemu.dolphinemu.features.cheats.ui.CheatsActivity;
 import org.dolphinemu.dolphinemu.features.riivolution.ui.RiivolutionBootActivity;
 import org.dolphinemu.dolphinemu.features.settings.model.Settings;
 import org.dolphinemu.dolphinemu.features.settings.model.StringSetting;
@@ -36,7 +36,8 @@ public class GamePropertiesDialog extends DialogFragment
 {
   public static final String TAG = "GamePropertiesDialog";
   private static final String ARG_PATH = "path";
-  private static final String ARG_GAMEID = "game_id";
+  private static final String ARG_GAME_ID = "game_id";
+  private static final String ARG_GAMETDB_ID = "gametdb_id";
   public static final String ARG_REVISION = "revision";
   public static final String ARG_DISC_NUMBER = "disc_number";
   private static final String ARG_PLATFORM = "platform";
@@ -48,7 +49,8 @@ public class GamePropertiesDialog extends DialogFragment
 
     Bundle arguments = new Bundle();
     arguments.putString(ARG_PATH, gameFile.getPath());
-    arguments.putString(ARG_GAMEID, gameFile.getGameId());
+    arguments.putString(ARG_GAME_ID, gameFile.getGameId());
+    arguments.putString(ARG_GAMETDB_ID, gameFile.getGameTdbId());
     arguments.putInt(ARG_REVISION, gameFile.getRevision());
     arguments.putInt(ARG_DISC_NUMBER, gameFile.getDiscNumber());
     arguments.putInt(ARG_PLATFORM, gameFile.getPlatform());
@@ -63,7 +65,8 @@ public class GamePropertiesDialog extends DialogFragment
   public Dialog onCreateDialog(Bundle savedInstanceState)
   {
     final String path = requireArguments().getString(ARG_PATH);
-    final String gameId = requireArguments().getString(ARG_GAMEID);
+    final String gameId = requireArguments().getString(ARG_GAME_ID);
+    final String gameTdbId = requireArguments().getString(ARG_GAMETDB_ID);
     final int revision = requireArguments().getInt(ARG_REVISION);
     final int discNumber = requireArguments().getInt(ARG_DISC_NUMBER);
     final int platform = requireArguments().getInt(ARG_PLATFORM);
@@ -91,9 +94,9 @@ public class GamePropertiesDialog extends DialogFragment
     buttonCustomSettings.setOnClickListener(view ->
             SettingsActivity.launch(getContext(), MenuTag.CONFIG, gameId, revision, isWii));
 
-    Button buttonCheats = contents.findViewById(R.id.button_cheat_code);
+    Button buttonCheats = contents.findViewById(R.id.properties_edit_cheats);
     buttonCheats.setOnClickListener(view ->
-            CheatEditorActivity.launch(getContext(), path));
+            CheatsActivity.launch(getContext(), gameId, gameTdbId, revision, isWii));
 
     Button buttonConvert = contents.findViewById(R.id.properties_convert);
     buttonConvert.setEnabled(false);
