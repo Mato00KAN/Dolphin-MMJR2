@@ -6,8 +6,8 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.activity.ComponentActivity;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;

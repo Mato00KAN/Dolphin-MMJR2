@@ -6,11 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.model.AppTheme;
 import org.dolphinemu.dolphinemu.fragments.ConvertFragment;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 public class ConvertActivity extends AppCompatActivity
 {

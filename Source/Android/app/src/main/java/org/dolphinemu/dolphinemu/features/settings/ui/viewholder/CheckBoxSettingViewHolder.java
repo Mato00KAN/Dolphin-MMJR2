@@ -11,10 +11,8 @@ import androidx.annotation.Nullable;
 
 import org.dolphinemu.dolphinemu.R;
 import org.dolphinemu.dolphinemu.features.settings.model.view.CheckBoxSetting;
-import org.dolphinemu.dolphinemu.features.settings.model.view.LogCheckBoxSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.view.SettingsItem;
 import org.dolphinemu.dolphinemu.features.settings.ui.SettingsAdapter;
-import org.dolphinemu.dolphinemu.features.settings.ui.SettingsFragmentPresenter;
 
 public final class CheckBoxSettingViewHolder extends SettingViewHolder
 {
@@ -46,7 +44,7 @@ public final class CheckBoxSettingViewHolder extends SettingViewHolder
     mTextSettingName.setText(item.getName());
     CharSequence description = item.getDescription();
     mTextSettingDescription.setText(description);
-    
+
     if (TextUtils.isEmpty(description))
       mTextSettingDescription.setVisibility(View.GONE);
     else
