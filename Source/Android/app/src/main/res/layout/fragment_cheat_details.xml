@@ -148,43 +148,47 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_large"
+        android:backgroundTint="?attr/colorAccent"
         android:text="@string/cheats_delete"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_edit"
-        app:layout_constraintTop_toBottomOf="@id/barrier"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
 
     <Button
         android:id="@+id/button_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_large"
+        android:backgroundTint="?attr/colorAccent"
         android:text="@string/cheats_edit"
-        app:layout_constraintStart_toEndOf="@id/button_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_cancel"
-        app:layout_constraintTop_toBottomOf="@id/barrier"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/button_delete"
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
 
     <Button
         android:id="@+id/button_cancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_large"
+        android:backgroundTint="?attr/colorAccent"
         android:text="@string/cancel"
-        app:layout_constraintStart_toEndOf="@id/button_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/button_ok"
-        app:layout_constraintTop_toBottomOf="@id/barrier"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/button_edit"
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
 
     <Button
         android:id="@+id/button_ok"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_large"
+        android:backgroundTint="?attr/colorAccent"
         android:text="@string/ok"
-        app:layout_constraintStart_toEndOf="@id/button_cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/button_cancel"
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
