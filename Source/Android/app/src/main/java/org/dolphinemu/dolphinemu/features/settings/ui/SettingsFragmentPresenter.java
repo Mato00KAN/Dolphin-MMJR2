@@ -767,12 +767,12 @@ public final class SettingsFragmentPresenter
             R.string.internal_resolution_dumps, R.string.internal_resolution_dumps_description));
 
     sl.add(new HeaderSetting(mContext, R.string.debugging, 0));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_ENABLE_WIREFRAME,
-            R.string.wireframe, R.string.leave_this_unchecked));
+//    sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_ENABLE_WIREFRAME,
+//            R.string.wireframe, R.string.leave_this_unchecked));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_OVERLAY_STATS,
             R.string.show_stats, R.string.leave_this_unchecked));
-    sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_TEXFMT_OVERLAY_ENABLE,
-            R.string.texture_format, R.string.leave_this_unchecked));
+//    sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_TEXFMT_OVERLAY_ENABLE,
+//            R.string.texture_format, R.string.leave_this_unchecked));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_ENABLE_VALIDATION_LAYER,
             R.string.validation_layer, R.string.leave_this_unchecked));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_DUMP_EFB_TARGET,
