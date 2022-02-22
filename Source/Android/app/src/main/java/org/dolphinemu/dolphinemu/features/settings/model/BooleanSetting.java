@@ -78,9 +78,9 @@ public enum BooleanSetting implements AbstractBooleanSetting
           "IRAlwaysRecenter", false),
 
   UPDATER_CHECK_AT_STARTUP(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID,
-          "UpdaterCheckAtStartup", false),
+          "UpdaterCheckAtStartup", true),
   UPDATER_PERMISSION_ASKED(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID,
-          "UpdaterPermissionAsked", false),
+          "UpdaterPermissionAsked", true),
 
   MAIN_BUTTON_TOGGLE_GC_0(Settings.FILE_DOLPHIN, Settings.SECTION_INI_ANDROID_OVERLAY_BUTTONS,
           "ButtonToggleGCButtonA", true),
