@@ -31,7 +31,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
 
-        versionCode getBuildVersionCode()
+        versionCode(getBuildVersionCode())
 
         versionName "${getVersion()}"
     }
@@ -118,6 +118,7 @@ dependencies {
 
     // For loading huge screenshots from the disk.
     implementation 'com.squareup.picasso:picasso:2.71828'
+
     implementation 'com.nononsenseapps:filepicker:4.2.1'
 }
 
@@ -127,11 +128,12 @@ def getVersion() {
     try {
         versionNumber = 'git describe --always --tags --abbrev=0'.execute([], project.rootDir).text
                 .trim()
+                .replaceAll(/(-0)?-[^-]+$/, "")
     } catch (Exception e) {
         logger.error(e + ': Cannot find git, defaulting to dummy version number')
     }
 
-    return '2.0-16076'
+    return '2.0-16087'
 }
 
 
@@ -145,4 +147,4 @@ def getBuildVersionCode() {
     }
 
     return 1
-}
+}
