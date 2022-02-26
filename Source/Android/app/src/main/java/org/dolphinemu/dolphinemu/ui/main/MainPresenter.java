@@ -28,6 +28,7 @@ import org.dolphinemu.dolphinemu.utils.BooleanSupplier;
 import org.dolphinemu.dolphinemu.utils.CompletableFuture;
 import org.dolphinemu.dolphinemu.utils.ContentHandler;
 import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
+import org.dolphinemu.dolphinemu.utils.ThreadUtil;
 import org.dolphinemu.dolphinemu.utils.WiiUtils;
 
 import java.util.Arrays;
@@ -195,7 +196,7 @@ public final class MainPresenter
 
   public void installWAD(String path)
   {
-    runOnThreadAndShowResult(R.string.import_in_progress, 0, () ->
+    ThreadUtil.runOnThreadAndShowResult(mActivity, R.string.import_in_progress, 0, () ->
     {
       boolean success = WiiUtils.installWAD(path);
       int message = success ? R.string.wad_install_success : R.string.wad_install_failure;
@@ -207,7 +208,7 @@ public final class MainPresenter
   {
     CompletableFuture<Boolean> canOverwriteFuture = new CompletableFuture<>();
 
-    runOnThreadAndShowResult(R.string.import_in_progress, 0, () ->
+    ThreadUtil.runOnThreadAndShowResult(mActivity, R.string.import_in_progress, 0, () ->
     {
       BooleanSupplier canOverwrite = () ->
       {
@@ -268,13 +269,14 @@ public final class MainPresenter
     {
       dialog.dismiss();
 
-      runOnThreadAndShowResult(R.string.import_in_progress, R.string.do_not_close_app, () ->
+      ThreadUtil.runOnThreadAndShowResult(mActivity, R.string.import_in_progress,
+              R.string.do_not_close_app, () ->
       {
-        // ImportNANDBin doesn't provide any result value, unfortunately...
-        // It does however show a panic alert if something goes wrong.
-        WiiUtils.importNANDBin(path);
-        return null;
-      });
+                // ImportNANDBin unfortunately doesn't provide any result value...
+                // It does however show a panic alert if something goes wrong.
+                WiiUtils.importNANDBin(path);
+                return null;
+              });
     });
 
     builder.show();

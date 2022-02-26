@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import org.dolphinemu.dolphinemu.NativeLibrary;
 import org.dolphinemu.dolphinemu.R;
+import org.dolphinemu.dolphinemu.activities.UserDataActivity;					 
 import org.dolphinemu.dolphinemu.features.settings.model.AbstractIntSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.AbstractStringSetting;
 import org.dolphinemu.dolphinemu.features.settings.model.AdHocBooleanSetting;
@@ -258,6 +259,8 @@ public final class SettingsFragmentPresenter
     sl.add(new SubmenuSetting(mContext, R.string.wii_submenu, MenuTag.CONFIG_WII));
     sl.add(new SubmenuSetting(mContext, R.string.log_submenu, MenuTag.CONFIG_LOG));
     sl.add(new SubmenuSetting(mContext, R.string.debug_submenu, MenuTag.DEBUG));
+//    sl.add(new RunRunnable(mContext, R.string.user_data_submenu, 0, 0, 0,
+//            () -> UserDataActivity.launch(mContext)));
     sl.add(new HeaderSetting(mContext, R.string.gametdb_thanks,0));
     sl.add(new HeaderSetting(mContext, R.string.dev_thanks,0));
   }
@@ -575,7 +578,7 @@ public final class SettingsFragmentPresenter
             R.array.gcpadTypeEntries, R.array.gcpadTypeValues, MenuTag.getGCPadMenuTag(2)));
     sl.add(new SingleChoiceSetting(mContext, IntSetting.MAIN_SI_DEVICE_3, R.string.controller_3, 0,
             R.array.gcpadTypeEntries, R.array.gcpadTypeValues, MenuTag.getGCPadMenuTag(3)));
-  }
+   }
 
   private void addWiimoteSettings(ArrayList<SettingsItem> sl)
   {
@@ -736,6 +739,8 @@ public final class SettingsFragmentPresenter
             R.string.backend_multithreading, R.string.backend_multithreading_description));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_HACK_EFB_DEFER_INVALIDATION,
             R.string.defer_efb_invalidation, R.string.defer_efb_invalidation_description));
+//    sl.add(new InvertedCheckBoxSetting(mContext, BooleanSetting.GFX_HACK_FAST_TEXTURE_SAMPLING,
+//            R.string.manual_texture_sampling, R.string.manual_texture_sampling_description));
     sl.add(new CheckBoxSetting(mContext, BooleanSetting.GFX_INTERNAL_RESOLUTION_FRAME_DUMPS,
             R.string.internal_resolution_dumps, R.string.internal_resolution_dumps_description));
 

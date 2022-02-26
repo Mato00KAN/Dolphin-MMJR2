@@ -37,10 +37,14 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@style/DolphinBase"
         android:requestLegacyExternalStorage="true"
-        android:allowBackup="false"
+		android:preserveLegacyExternalStorage="true"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/backup_rules_api_31"
         android:supportsRtl="true"
         android:isGame="true"
-        android:banner="@drawable/banner_tv">
+        android:banner="@drawable/banner_tv"
+        android:hasFragileUserData="true">  
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1"/>
@@ -79,6 +83,12 @@
             android:label="@string/settings"/>
 
         <activity
+            android:name=".features.cheats.ui.CheatsActivity"
+            android:exported="false"
+            android:theme="@style/DolphinSettingsBase"
+            android:label="@string/cheats"/>
+
+        <activity
             android:name=".activities.EmulationActivity"
             android:exported="false"
             android:theme="@style/DolphinEmulationBase"
@@ -115,10 +125,10 @@
             android:theme="@style/DolphinBase" />
 
         <activity
-            android:name=".features.cheats.ui.CheatsActivity"
+            android:name=".activities.UserDataActivity"
             android:exported="false"
-            android:theme="@style/DolphinSettingsBase"
-            android:label="@string/cheats"/>
+            android:label="@string/user_data_submenu"
+            android:theme="@style/DolphinSettingsBase" />
 
         <activity
             android:name=".features.riivolution.ui.RiivolutionBootActivity"

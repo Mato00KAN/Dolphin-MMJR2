@@ -296,16 +296,14 @@ public final class TvMainActivity extends FragmentActivity
 
     if (requestCode == PermissionsHandler.REQUEST_CODE_WRITE_PERMISSION)
     {
-      if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+      if (grantResults[0] == PackageManager.PERMISSION_DENIED)
       {
+        PermissionsHandler.setWritePermissionDenied();
+      }
+
         DirectoryInitialization.start(this);
         GameFileCacheManager.startLoad(this);
       }
-      else
-      {
-        Toast.makeText(this, R.string.write_permission_needed, Toast.LENGTH_LONG).show();
-      }
-    }
   }
 
   /**
@@ -323,7 +321,7 @@ public final class TvMainActivity extends FragmentActivity
     ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     mGameRows.clear();
 
-    if (PermissionsHandler.hasWriteAccess(this))
+    if (!DirectoryInitialization.isWaitingForWriteAccess(this))
     {
       GameFileCacheManager.startLoad(this);
     }
