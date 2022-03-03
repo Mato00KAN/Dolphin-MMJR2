@@ -44,8 +44,9 @@
 
             <Button
                 android:id="@+id/menu_unpause_emulation"
-                android:text="@string/unpause_emulation"
                 style="@style/InGameMenuOption"
+                android:letterSpacing="0"
+                android:text="@string/unpause_emulation"
                 android:visibility="gone"/>
 
             <Button
