@@ -427,6 +427,8 @@ public final class SettingsFragmentPresenter
   {
     sl.add(new SingleChoiceSetting(mContext, IntSetting.MAIN_GC_LANGUAGE, R.string.system_language,
             0, R.array.gameCubeSystemLanguageEntries, R.array.gameCubeSystemLanguageValues));
+    sl.add(new CheckBoxSetting(mContext, BooleanSetting.MAIN_SKIP_IPL, R.string.skip_ipl,
+            R.string.skip_ipl_description));
     sl.add(new SingleChoiceSetting(mContext, IntSetting.MAIN_SLOT_A, R.string.slot_a_device, 0,
             R.array.slotDeviceEntries, R.array.slotDeviceValues));
     sl.add(new SingleChoiceSetting(mContext, IntSetting.MAIN_SLOT_B, R.string.slot_b_device, 0,

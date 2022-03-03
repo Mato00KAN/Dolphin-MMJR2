@@ -14,6 +14,7 @@ public enum BooleanSetting implements AbstractBooleanSetting
   MAIN_FASTMEM(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "Fastmem", true),
   MAIN_CPU_THREAD(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "CPUThread", true),
   MAIN_SYNC_ON_SKIP_IDLE(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "SyncOnSkipIdle", true),
+  MAIN_SKIP_IPL(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "SkipIPL", true),
   MAIN_OVERRIDE_REGION_SETTINGS(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE,
           "OverrideRegionSettings", false),
   MAIN_AUDIO_STRETCH(Settings.FILE_DOLPHIN, Settings.SECTION_INI_CORE, "AudioStretch", false),
