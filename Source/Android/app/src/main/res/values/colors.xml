@@ -12,7 +12,7 @@
     <color name="purple_onprimary">#e91c63</color>
     <color name="purple_text_accent">@color/purple_onprimary</color>
 	
-    <color name="amoled_primary">#101010</color>
+    <color name="amoled_primary">#808080</color>
     <color name="amoled_primary_dark">#000000</color>
     <color name="amoled_accent">#808080</color>
     <color name="amoled_onprimary">@android:color/white</color>
