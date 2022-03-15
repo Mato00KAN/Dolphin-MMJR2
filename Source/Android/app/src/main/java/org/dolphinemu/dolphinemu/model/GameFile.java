@@ -2,7 +2,7 @@
 
 package org.dolphinemu.dolphinemu.model;
 
-import android.content.Context;
+import android.os.Environment;
 
 import androidx.annotation.Keep;
 
@@ -70,9 +70,10 @@ public class GameFile
 
   public native int getBannerHeight();
 
-  public String getCoverPath(Context context)
+  public String getCoverPath()
   {
-    return context.getExternalCacheDir().getPath() + "/GameCovers/" + getGameTdbId() + ".png";
+    return Environment.getExternalStorageDirectory().getPath() +
+            "/mmjr-revamp/Cache/GameCovers/" + getGameTdbId() + ".png";
   }
 
   public String getCustomCoverPath()

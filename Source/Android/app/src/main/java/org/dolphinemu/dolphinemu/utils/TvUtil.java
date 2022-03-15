@@ -168,7 +168,7 @@ public class TvUtil
       {
         contentUri = getUriForFile(context, getFileProvider(context), cover);
       }
-      else if ((cover = new File(game.getCoverPath(context))).exists())
+      else if ((cover = new File(game.getCoverPath())).exists())
       {
         contentUri = getUriForFile(context, getFileProvider(context), cover);
       }
