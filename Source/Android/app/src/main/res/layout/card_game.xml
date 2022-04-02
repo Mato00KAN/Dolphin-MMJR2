@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:layout_width="160dp"
     android:layout_height="170dp"
     android:layout_margin="3dp"
     android:layout_marginTop="10dp"
-    android:clickable="true"
+    android:transitionName="card_game"
     android:focusable="true"
+    android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:padding="0dp"
-    android:transitionName="card_game"
-    app:cardCornerRadius="3dp"
-    tools:layout_width="160dp">
+    app:cardCornerRadius="3dp">
 
 
     <ImageView
