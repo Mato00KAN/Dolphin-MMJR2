@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/amoled_primary_dark"
     android:clickable="false">
 
     <Button
@@ -10,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_small"
-        android:backgroundTint="?attr/colorAccent"
+        android:backgroundTint="?attr/colorPrimaryDark"
         android:text="@string/cheats_open_settings"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"

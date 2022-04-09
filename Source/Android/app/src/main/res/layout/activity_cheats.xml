@@ -3,14 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sliding_pane_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/amoled_primary_dark">
 
     <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/cheat_list"
+        android:name="org.dolphinemu.dolphinemu.features.cheats.ui.CheatListFragment"
         android:layout_width="320dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:id="@+id/cheat_list"
-        android:name="org.dolphinemu.dolphinemu.features.cheats.ui.CheatListFragment" />
+        android:animationCache="false"
+        android:background="@color/amoled_primary_dark" />
 
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="320dp"

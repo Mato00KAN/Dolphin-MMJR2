@@ -206,7 +206,10 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
       return onTouchWhileEditing(event);
     }
 
-    int pointerIndex = event.getActionIndex();
+    int action = event.getActionMasked();
+    boolean firstPointer = action != MotionEvent.ACTION_POINTER_DOWN &&
+            action != MotionEvent.ACTION_POINTER_UP;
+    int pointerIndex = firstPointer ? 0 : event.getActionIndex();
     // Tracks if any button/joystick is pressed down
     boolean buttonPressed = false;
     boolean joystickPressed = false;
@@ -214,7 +217,7 @@ public final class InputOverlay extends SurfaceView implements OnTouchListener
     for (InputOverlayDrawableButton button : overlayButtons)
     {
       // Determine the button state to apply based on the MotionEvent action flag.
-      switch (event.getAction() & MotionEvent.ACTION_MASK)
+      switch (action)
       {
         case MotionEvent.ACTION_DOWN:
         case MotionEvent.ACTION_POINTER_DOWN:

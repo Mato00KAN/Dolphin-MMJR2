@@ -25,7 +25,9 @@ import org.dolphinemu.dolphinemu.features.settings.model.StringSetting;
 import org.dolphinemu.dolphinemu.features.settings.ui.MenuTag;
 import org.dolphinemu.dolphinemu.features.settings.ui.SettingsActivity;
 import org.dolphinemu.dolphinemu.model.GameFile;
+import org.dolphinemu.dolphinemu.ui.main.MainPresenter;
 import org.dolphinemu.dolphinemu.ui.platform.Platform;
+import org.dolphinemu.dolphinemu.utils.AlertDialogItemsBuilder;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.Log;
 import org.dolphinemu.dolphinemu.utils.PicassoUtils;
@@ -81,7 +83,6 @@ public class GamePropertiesDialog extends DialogFragment
     ViewGroup contents = (ViewGroup) getActivity().getLayoutInflater()
             .inflate(R.layout.dialog_game_properties, null);
 
-
     ImageView banner = contents.findViewById(R.id.banner);
 
 
@@ -111,6 +112,20 @@ public class GamePropertiesDialog extends DialogFragment
       buttonConvert.setOnClickListener(view ->
               ConvertActivity.launch(getContext(), path));
     }
+
+    if (isDisc && isWii)
+    {
+    Button buttonSystemUpdate = contents.findViewById(R.id.properties_system_update);
+      buttonSystemUpdate.setOnClickListener(view ->
+            MainPresenter.launchDiscUpdate(path, requireActivity()));
+    }
+
+/*    if (isDisc && isWii)
+    {
+    Button buttonSystemUpdate = contents.findViewById(R.string.properties_system_update);
+    buttonSystemUpdate.setOnClickListener(view ->
+            MainPresenter.launchDiscUpdate(path, requireActivity()));
+    }*/
 
     Button buttonGCControls = contents.findViewById(R.id.button_gcpad_settings);
     buttonGCControls.setOnClickListener(view ->
