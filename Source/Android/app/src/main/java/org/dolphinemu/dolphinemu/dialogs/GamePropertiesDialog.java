@@ -5,6 +5,7 @@ package org.dolphinemu.dolphinemu.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -230,8 +231,9 @@ public class GamePropertiesDialog extends DialogFragment
   }
   private void clearGameData(String gameId)
   {
+	File externalPath = Environment.getExternalStorageDirectory();
     int count = 0;
-    String cachePath = String.valueOf(getContext().getExternalCacheDir());
+	String cachePath = externalPath.getAbsolutePath() + "/mmjr-revamp/cache";	
     File dir = new File(cachePath);
     if (dir.exists())
     {
