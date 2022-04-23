@@ -27,6 +27,7 @@ import org.dolphinemu.dolphinemu.utils.AfterDirectoryInitializationRunner;
 import org.dolphinemu.dolphinemu.utils.BooleanSupplier;
 import org.dolphinemu.dolphinemu.utils.CompletableFuture;
 import org.dolphinemu.dolphinemu.utils.ContentHandler;
+import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.FileBrowserHelper;
 import org.dolphinemu.dolphinemu.utils.WiiUtils;
 
@@ -101,7 +102,8 @@ public final class MainPresenter
         return true;
 
       case R.id.button_add_directory:
-        mView.launchFileListActivity();
+        new AfterDirectoryInitializationRunner().runWithLifecycle(activity, true,
+                mView::launchFileListActivity);
         return true;
 
       case R.id.menu_open_file:
@@ -113,7 +115,8 @@ public final class MainPresenter
         return true;
 
       case R.id.menu_online_system_update:
-        launchOnlineUpdate();
+        new AfterDirectoryInitializationRunner().runWithLifecycle(activity, true,
+                this::launchOnlineUpdate);
         return true;
 
       case R.id.menu_install_wad:
@@ -351,18 +354,20 @@ public final class MainPresenter
 
   private void launchWiiSystemMenu()
   {
-    WiiUtils.isSystemMenuInstalled();
-
     if (WiiUtils.isSystemMenuInstalled())
     {
       EmulationActivity.launchSystemMenu(mActivity);
     }
     else
     {
-      SystemMenuNotInstalledDialogFragment dialogFragment =
-              new SystemMenuNotInstalledDialogFragment();
-      dialogFragment
-              .show(mActivity.getSupportFragmentManager(), "SystemMenuNotInstalledDialogFragment");
+      new AfterDirectoryInitializationRunner().runWithLifecycle(mActivity, true, () ->
+      {
+        SystemMenuNotInstalledDialogFragment dialogFragment =
+                new SystemMenuNotInstalledDialogFragment();
+        dialogFragment
+                .show(mActivity.getSupportFragmentManager(),
+                        "SystemMenuNotInstalledDialogFragment");
+      });
     }
   }
 }
