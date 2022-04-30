@@ -371,7 +371,7 @@ public final class TvMainActivity extends FragmentActivity
     ArrayObjectAdapter rowItems = new ArrayObjectAdapter(new SettingsRowPresenter());
 
     rowItems.add(new TvSettingsItem(R.id.menu_settings,
-            R.drawable.ic_settings_tv,
+            R.drawable.ic_settings,
             R.string.grid_menu_settings));
 
     rowItems.add(new TvSettingsItem(R.id.button_add_directory,
@@ -383,7 +383,7 @@ public final class TvMainActivity extends FragmentActivity
       R.string.grid_menu_open_updater));
 
     rowItems.add(new TvSettingsItem(R.id.menu_refresh,
-            R.drawable.ic_refresh_tv,
+            R.drawable.ic_refresh,
             R.string.grid_menu_refresh));
 
     rowItems.add(new TvSettingsItem(R.id.menu_open_file,
