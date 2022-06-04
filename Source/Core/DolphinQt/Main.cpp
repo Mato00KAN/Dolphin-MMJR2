@@ -41,21 +41,26 @@ static bool QtMsgAlertHandler(const char* caption, const char* text, bool yes_no
                               Common::MsgType style)
 {
   const bool called_from_cpu_thread = Core::IsCPUThread();
+  const bool called_from_gpu_thread = Core::IsGPUThread();
 
   std::optional<bool> r = RunOnObject(QApplication::instance(), [&] {
-    Common::ScopeGuard scope_guard(&Core::UndeclareAsCPUThread);
+    // If we were called from the CPU/GPU thread, set us as the CPU/GPU thread.
+    // This information is used in order to avoid deadlocks when calling e.g.
+    // Host::SetRenderFocus or Core::RunAsCPUThread. (Host::SetRenderFocus
+    // can get called automatically when a dialog steals the focus.)
+
+    Common::ScopeGuard cpu_scope_guard(&Core::UndeclareAsCPUThread);
+    Common::ScopeGuard gpu_scope_guard(&Core::UndeclareAsGPUThread);
+
+    if (!called_from_cpu_thread)
+      cpu_scope_guard.Dismiss();
+    if (!called_from_gpu_thread)
+      gpu_scope_guard.Dismiss();
+
     if (called_from_cpu_thread)
-    {
-      // Temporarily declare this as the CPU thread to avoid getting a deadlock if any DolphinQt
-      // code calls RunAsCPUThread while the CPU thread is blocked on this function returning.
-      // Notably, if the panic alert steals focus from RenderWidget, Host::SetRenderFocus gets
-      // called, which can attempt to use RunAsCPUThread to get us out of exclusive fullscreen.
       Core::DeclareAsCPUThread();
-    }
-    else
-    {
-      scope_guard.Dismiss();
-    }
+    if (called_from_gpu_thread)
+      Core::DeclareAsGPUThread();
 
     ModalMessageBox message_box(QApplication::activeWindow(), Qt::ApplicationModal);
     message_box.setWindowTitle(QString::fromUtf8(caption));
@@ -149,15 +154,6 @@ int main(int argc, char* argv[])
   QApplication app(__argc, __argv);
 #else
   QApplication app(argc, argv);
-#endif
-
-#if defined(_WIN32) && (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
-  // On Windows, Qt 5's default system font (MS Shell Dlg 2) is outdated.
-  // Interestingly, the QMenu font is correct and comes from lfMenuFont
-  // (Segoe UI on English computers).
-  // So use it for the entire application.
-  // This code will become unnecessary and obsolete once we switch to Qt 6.
-  QApplication::setFont(QApplication::font("QMenu"));
 #endif
 
 #ifdef _WIN32
