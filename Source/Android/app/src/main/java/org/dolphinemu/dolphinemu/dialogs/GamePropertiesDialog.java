@@ -31,7 +31,7 @@ import org.dolphinemu.dolphinemu.ui.platform.Platform;
 import org.dolphinemu.dolphinemu.utils.AlertDialogItemsBuilder;
 import org.dolphinemu.dolphinemu.utils.DirectoryInitialization;
 import org.dolphinemu.dolphinemu.utils.Log;
-import org.dolphinemu.dolphinemu.utils.PicassoUtils;
+import org.dolphinemu.dolphinemu.utils.GlideUtils;
 
 import java.io.File;
 
@@ -153,7 +153,7 @@ public class GamePropertiesDialog extends DialogFragment
       clearGameData(gameId));
 
 
-    PicassoUtils.loadGameBanner(banner, GameFile.parse(path));
+    GlideUtils.loadGameBanner(banner, GameFile.parse(path));
 
     builder.setView(contents);
 
@@ -233,7 +233,7 @@ public class GamePropertiesDialog extends DialogFragment
   {
 	File externalPath = Environment.getExternalStorageDirectory();
     int count = 0;
-	String cachePath = externalPath.getAbsolutePath() + "/mmjr-revamp/cache";	
+	String cachePath = externalPath.getAbsolutePath() + "/mmjr-revamp/cache";
     File dir = new File(cachePath);
     if (dir.exists())
     {

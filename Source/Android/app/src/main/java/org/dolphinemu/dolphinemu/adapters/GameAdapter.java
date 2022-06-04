@@ -18,7 +18,7 @@ import org.dolphinemu.dolphinemu.activities.EmulationActivity;
 import org.dolphinemu.dolphinemu.dialogs.GamePropertiesDialog;
 import org.dolphinemu.dolphinemu.model.GameFile;
 import org.dolphinemu.dolphinemu.services.GameFileCacheManager;
-import org.dolphinemu.dolphinemu.utils.PicassoUtils;
+import org.dolphinemu.dolphinemu.utils.GlideUtils;
 import org.dolphinemu.dolphinemu.viewholders.GameViewHolder;
 
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public final class GameAdapter extends RecyclerView.Adapter<GameViewHolder> impl
   {
     Context context = holder.itemView.getContext();
     GameFile gameFile = mGameFiles.get(position);
-    PicassoUtils.loadGameCover(holder.imageScreenshot, gameFile);
+    GlideUtils.loadGameCover(holder.imageScreenshot, gameFile);
 
     String country = context.getResources().getStringArray(R.array.countryNames)[gameFile.getCountry()];
     holder.textGameTitle.setText(gameFile.getTitle());
