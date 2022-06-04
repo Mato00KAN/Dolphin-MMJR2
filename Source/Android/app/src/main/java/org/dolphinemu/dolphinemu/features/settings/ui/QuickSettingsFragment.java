@@ -132,6 +132,9 @@ public class QuickSettingsFragment extends Fragment implements SettingsFragmentV
   }
 
   @Override
+  public void onSerialPort1SettingChanged(MenuTag menuTag, int value) {}
+
+  @Override
   public void onGcPadSettingChanged(MenuTag menuTag, int value) {}
 
   @Override
